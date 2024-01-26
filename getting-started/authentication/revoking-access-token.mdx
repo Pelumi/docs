@@ -1,0 +1,42 @@
+---
+title: "Revoking access token"
+description: "Revoke your access_token from gaining access to the API Resources"
+---
+
+<Card title="Revoke access token" icon="ban"
+href="/nomba-api-reference/authenticate/revoke-an-access_token">
+  Access this resource in the playground
+</Card>
+
+#### `POST /auth/issue/revoke`
+
+#### Request
+
+<ParamField body="clientId" type="string" required>
+  The client's id as obtained from your Nomba dashboard
+</ParamField>
+
+<ParamField body="access_token" type="string" required>
+  The JWT (Json Web Token) token to be revoked
+</ParamField>
+
+<RequestExample>
+```bash Request
+curl --request POST \
+  --url https://api.nomba.com/v1/auth/token/revoke \
+  --header 'Content-Type: application/json' \
+  --data '{
+  "clientId": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
+  "access_token": "eyJhbGciOiJIUzI1NiJ9.eyJHOjhmYWM4M2FjLTc2YjAtNDM1Zi1hYTM1LThkOTU3ZGQ5MjdkZCI6Ikc6OGZhYzgzYWMtNzZiMC00MzVmLWFhMzUtOGQ5NTdkZDkyN2RkIiwiUjpURUFNU19PV05FUiI6IlI6VEVBTVNfT1dORVIiLCJFbWFpbDp2aWN0b3JzaG9hZ2FAZ21haWwuY29tIjoiRW1haWw6dmljdG9yc2hvYWdhQGdtYWlsLmNvbSIsImlhdCI6MTY4MTkxODU3OSwic3ViIjoiNWUyNmNmYjAtNTI5Zi00MTdiLWI4ZDItYWJjNDcxZjRjOWRiIiwiZXhwIjoxNjgxOTIyMTc5fQ.lQOsyhR1gajKdzE9IHQEtxhQyUrArctEDZiP9pWVTFY"
+}'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success response
+{
+  "code": "00",
+  "description": "Token revoked successfully"
+}
+```
+</ResponseExample>

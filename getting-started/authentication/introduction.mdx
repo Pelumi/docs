@@ -1,15 +1,38 @@
 ---
-title: 'Authentication'
+title: 'Introduction'
 description: 'Learn how to ensure secure access to Nomba API Resources.'
-icon: shield-halved
 ---
 
 ## Overview
 
-#### Oauth 2.0
-OAuth 2.0 stands as a pivotal mechanism for merchants to obtain valid `access_token` from the Nomba API Server, providing a framework for secure and efficient interactions with our platform. Within this protocol, two distinct processes, namely the [Client-Credentials flow](https://www.rfc-editor.org/rfc/rfc6749) and the [PKCE flow](https://www.rfc-editor.org/rfc/rfc7636) flow, offer versatile approaches to acquiring the `access_token`
+OAuth 2.0 stands as a pivotal mechanism for merchants to obtain valid `access_token` from the Nomba API Server, providing a framework for secure and efficient interactions with our platform. Within this protocol, two distinct processes, namely the [Client-credentials flow](https://www.rfc-editor.org/rfc/rfc6749) and the [PKCE flow](https://www.rfc-editor.org/rfc/rfc7636) flow, offer versatile approaches to acquiring the `access_token`
 
-## Client-Credentials flow
+## Quick Action
+<CardGroup cols={3}>
+  <Card
+    title="Obtain access token"
+    icon="shield"
+    href="/getting-started/authentication/obtaining-access-token"
+  >
+    Generate access_token required to access resources
+  </Card>
+  <Card
+    title="Refresh access token"
+    icon="arrows-rotate"
+    href="/getting-started/authentication/refreshing-access-token"
+  >
+    Refresh access_token when they get expired
+  </Card>
+  <Card
+    title="Revoke access token"
+    icon="ban"
+    href="/getting-started/authentication/revoking-access-token"
+  >
+    Revoke access_token from accessing resources
+  </Card>
+</CardGroup>
+
+## Client-credentials flow
 
 This flow is specifically tailored for execution on the merchant's server or backend infrastructure. The process unfolds as follows:
 
@@ -37,9 +60,9 @@ This flow is specifically tailored for execution on the merchant's server or bac
   The PKCE flow also known as the Proof Key for Code Exchange, is not yet available for public use
 </Note>
 
-This flow is strategically designed for execution on the merchant's client or frontend infrastructure. The emphasis here is on securing the handling of credentials, particularly avoiding the use of the Client-Credentials flow on the client side due to the potential exposure of the client secret. The PKCE flow addresses this concern and ensures secure authentication and authorization of a merchant's client.
+This flow is strategically designed for execution on the merchant's client or frontend infrastructure. The emphasis here is on securing the handling of credentials, particularly avoiding the use of the Client-credentials flow on the client side due to the potential exposure of the client secret. The PKCE flow addresses this concern and ensures secure authentication and authorization of a merchant's client.
 
-Implementing the OAuth 2.0 PKCE flow involves additional steps compared to the Client-Credentials flow, making it a suitable choice for frontend environments where the handling of sensitive information requires heightened security measures.
+Implementing the OAuth 2.0 PKCE flow involves additional steps compared to the Client-credentials flow, making it a suitable choice for frontend environments where the handling of sensitive information requires heightened security measures.
 
 Merchants are encouraged to exercise best practices in selecting the appropriate flow based on their specific infrastructure needs. By leveraging OAuth 2.0, merchants establish a robust and secure connection between their systems and the Nomba API Server, promoting a seamless and trustworthy integration that aligns with modern security standards and practices.
 
@@ -98,6 +121,6 @@ Integral to Nomba's security framework is its Identity and Access Management (IA
 
 In scenarios where security concerns arise or changes in access requirements transpire, the suspension or revocation of an API Key becomes a pivotal control measure. By suspending or revoking an API Key, organizations promptly nullify its ability to perform functions or access resources. This responsive approach fortifies the organization against potential security threats or unauthorized access, contributing to a proactive security stance.
 
-Nomba's API Key authentication process is a comprehensive and layered system, balancing flexibility, security, and control. From API Key creation and authentication requirements to token retrieval, permission management, and IAM enforcement, each facet is meticulously designed to provide organizations with a secure, customizable, and efficient means of managing access to their valuable resources.
+## Conclusion
 
-## Obtaining access_token
+Nomba's API Key authentication process is a comprehensive and layered system, balancing flexibility, security, and control. From API Key creation and authentication requirements to token retrieval, permission management, and IAM enforcement, each facet is meticulously designed to provide organizations with a secure, customizable, and efficient means of managing access to their valuable resources.

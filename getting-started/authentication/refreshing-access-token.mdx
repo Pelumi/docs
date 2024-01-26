@@ -1,0 +1,70 @@
+---
+title: "Refreshing access token"
+description: "Refresh your access_token to maintain access to the API Resources"
+---
+
+<Card title="Refresh access token" icon="arrows-rotate"
+href="/nomba-api-reference/authenticate/refresh-an-expired-token">
+  Access this resource in the playground
+</Card>
+
+#### `POST /auth/issue/refresh`
+
+#### Request
+
+<ParamField body="grant_type" type="string" required>
+  The grant type of the authentication
+</ParamField>
+
+<ParamField body="refresh_token" type="string" required>
+  A Base64 Encoded String used to refresh an expired access_token
+</ParamField>
+
+
+#### Response
+
+<ResponseField name="businessId" type="string" required>
+  The accountId of the merchant/business that is connecting to the Nomba system via API
+</ResponseField>
+
+<ResponseField name="access_token" type="string" required>
+  A JWT (Json Web Token) token used to grant access to resources on the Nomba API
+</ResponseField>
+
+<ResponseField name="refresh_token" type="string" required>
+  A Base64 Encoded String used to refresh an expired access_token
+</ResponseField>
+
+<ResponseField name="expiresAt" type="string" required>
+  The date and time this entity was created. This value uses Coordinated Universal Time (UTC) and ISO 8601 format – `YYYY-MM-DDThh:mm:ssZ`
+</ResponseField>
+
+
+<RequestExample>
+```bash Request
+curl --request POST \
+  --url https://api.nomba.com/v1/auth/token/refresh \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountid>' \
+  --data '{
+  "grant_type": "refresh_token",
+  "refresh_token": "01h4gdx2tctxfjgacbdwrcvs5d1688473602892"
+}'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success response
+{
+  "code": "00",
+  "description": "Success",
+  "data": {
+    "businessId": "01a10aeb-d989-460a-bbde-9842f2b4320f",
+    "access_token": "eyJhbGciOiJIUzI1NiJ9.eyJHOjhmYWM4M2FjLTc2YjAtNDM1Zi1hYTM1LThkOTU3ZGQ5MjdkZCI6Ikc6OGZhYzgzYWMtNzZiMC00MzVmLWFhMzUtOGQ5NTdkZDkyN2RkIiwiUjpURUFNU19PV05FUiI6IlI6VEVBTVNfT1dORVIiLCJFbWFpbDp2aWN0b3JzaG9hZ2FAZ21haWwuY29tIjoiRW1haWw6dmljdG9yc2hvYWdhQGdtYWlsLmNvbSIsImlhdCI6MTY4MTkxODU3OSwic3ViIjoiNWUyNmNmYjAtNTI5Zi00MTdiLWI4ZDItYWJjNDcxZjRjOWRiIiwiZXhwIjoxNjgxOTIyMTc5fQ.lQOsyhR1gajKdzE9IHQEtxhQyUrArctEDZiP9pWVTFY",
+    "refresh_token": "01h4gdx2tctxfjgacbdwrcvs5d1688473602892",
+    "expiresAt": "2022-07-08T14:33:00Z"
+  }
+}
+```
+</ResponseExample>

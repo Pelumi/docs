@@ -1,87 +1,91 @@
 ---
 title: 'Pagination'
-description: 'Start building awesome documentation in under 5 minutes'
+description: 'Learn how pagination is implemented in the Nomba API'
 icon: angles-right
 ---
 
-## Setup your development
+## Overview
 
-Learn how to update your docs locally and and deploy them to the public.
+Pagination in the Nomba API is a crucial feature designed to efficiently manage and retrieve large sets of data. The system employs two main pagination mechanisms: limit and cursor pagination. This approach ensures flexibility and ease of use for the API caller while optimizing the retrieval of data.
 
-### Edit and preview
+When retrieving a list of data using the Nomba API, you can define a `limit` indicating the amount of data you want the endpoint to provide at a time. After a successful response, the endpoint furnishes the requested data along with a `cursor`. This `cursor` is essential for navigating to the subsequent page, which contains the next batch of items.
 
-<AccordionGroup>
-  <Accordion icon="github" title="Clone your docs locally">
-    During the onboarding process, we created a repository on your Github with
-    your docs content. You can find this repository on our
-    [dashboard](https://dashboard.mintlify.com). To clone the repository
-    locally, follow these
-    [instructions](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository)
-    in your terminal.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Preview changes">
-    Previewing helps you make sure your changes look as intended. We built a
-    command line interface to render these changes locally. 1. Install the
-    [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the
-    documentation changes locally with this command: ``` npm i -g mintlify ```
-    2. Run the following command at the root of your documentation (where
-    `mint.json` is): ``` mintlify dev ```
-  </Accordion>
-</AccordionGroup>
+<Info>
+  The limit has a maximum value of 50. You cannot get more than 50 items per time.
+</Info>
 
-### Deploy your changes
+<CodeGroup>
+```bash Request (with limit = 2)
+curl --request GET \
+  --url 'https://api.nomba.com/v1/accounts/terminals?limit=2' \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountid>'
+```
 
-<AccordionGroup>
+```json Response (with cursor)
+{
+  "code": "00",
+  "description": "Success",
+  "data": {
+    "results": [
+      {
+        "terminalId": "201124LM",
+        "serialNumber": "55555555",
+        "accountId": "01a10aeb-d989-460a-bbde-9842f2b4320f",
+        "parentAccountId": "<string>",
+        "merchantName": "trident and rees",
+        "terminalLabel": "Testing",
+        "createdAt": "2020-09-23T10:21:48.789Z",
+        "updatedAt": "2023-09-04T15:23:55.173Z"
+      }
+    ],
+    "cursor": "xchbaVFsjdsbaADddd"
+  }
+}
+```
+</CodeGroup>
 
-<Accordion icon="message-bot" title="Install our Github app">
-  Our Github app automatically deploys your changes to your docs site, so you
-  don't need to manage deployments yourself. You can find the link to install on
-  your [dashboard](https://dashboard.mintlify.com). Once the bot has been
-  successfully installed, there should be a check mark next to the commit hash
-  of the repo.
-</Accordion>
-<Accordion icon="rocket" title="Push your changes">
-  [Commit and push your changes to
-  Git](https://docs.github.com/en/get-started/using-git/pushing-commits-to-a-remote-repository#about-git-push)
-  for your changes to update in your docs site. If you push and don't see that
-  the Github app successfully deployed your changes, you can also manually
-  update your docs through our [dashboard](https://dashboard.mintlify.com).
-</Accordion>
+Utilize the cursor acquired from the response to retrieve the next batch of data. Continue this process until the endpoint responds without a cursor, indicating that all the data has been fully retrieved.
 
-</AccordionGroup>
+<CodeGroup>
+```bash Request (with limit = 2 and cursor = "xchbaVFsjdsbaADddd")
+curl --request GET \
+  --url 'https://api.nomba.com/v1/accounts/terminals?limit=2&cursor=xchbaVFsjdsbaADddd' \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountid>'
+```
 
-## Update your docs
+```json Response (last page - no cursor)
+{
+  "code": "00",
+  "description": "Success",
+  "data": {
+    "results": [
+      {
+        "terminalId": "201124LM",
+        "serialNumber": "55555555",
+        "accountId": "01a10aeb-d989-460a-bbde-9842f2b4320f",
+        "parentAccountId": "<string>",
+        "merchantName": "trident and rees",
+        "terminalLabel": "Testing",
+        "createdAt": "2020-09-23T10:21:48.789Z",
+        "updatedAt": "2023-09-04T15:23:55.173Z"
+      }
+    ],
+    "cursor": ""
+  }
+}
+```
+</CodeGroup>
 
-Add content directly in your files with MDX syntax and React components. You can use any of our components, or even build your own.
+## Limit Pagination
 
-<CardGroup>
+The limit pagination mechanism allows the caller to specify the number of items or records they want to receive in each API response. This parameter, known as the "limit," enables fine-grained control over the amount of data returned. By setting an appropriate limit, the caller can manage the size of the response to align with their application's requirements, optimizing performance and reducing unnecessary data transfer.
 
-<Card title="Style Your Docs" icon="paintbrush" href="/settings/global">
-  Add flair to your docs with personalized branding.
-</Card>
+## Cursor Pagination
 
-<Card
-  title="Add API Endpoints"
-  icon="square-code"
-  href="/api-playground/configuration"
->
-  Implement your OpenAPI spec and enable API user interaction.
-</Card>
+In conjunction with the limit pagination, the Nomba API utilizes cursor pagination to support seamless navigation through result sets. When making an API call with the specified limit, the response includes a cursor, a unique identifier pointing to the end of the current data page. The caller can use this cursor to request the next page of data. This approach is highly efficient for scenarios where the dataset is extensive, and retrieving all data in a single request is impractical.
 
-<Card
-  title="Integrate Analytics"
-  icon="chart-mixed"
-  href="/analytics/supported-integrations"
->
-  Draw insights from user interactions with your documentation.
-</Card>
+## Conclusion
 
-<Card
-  title="Host on a Custom Domain"
-  icon="browser"
-  href="/settings/custom-domain/subdomain"
->
-  Keep your docs on your own website's subdomain.
-</Card>
-
-</CardGroup>
+Nomba API's pagination system offers a well-balanced solution that combines limit and cursor pagination mechanisms. This approach empowers API callers to manage the size of API responses efficiently, navigate through extensive datasets seamlessly, and determine the completeness of data retrieval with precision. It reflects a commitment to providing a robust and user-friendly API experience for developers integrating with the Nomba platform.

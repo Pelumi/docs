@@ -55,8 +55,17 @@
     {
       "group": "Getting Started",
       "pages": [
-        "getting-started/dashboard-setup", 
-        "getting-started/authentication", 
+        "getting-started/dashboard-setup",
+        {
+          "group": "Authentication",
+          "icon": "shield-keyhole",
+          "pages": [
+            "getting-started/authentication/introduction",
+            "getting-started/authentication/obtaining-access-token",
+            "getting-started/authentication/refreshing-access-token",
+            "getting-started/authentication/revoking-access-token"
+          ]
+        }, 
         "getting-started/pagination",
         "getting-started/rate_limit", 
         "getting-started/idempotency",
