@@ -39,7 +39,7 @@
     {
       "name": "Get API Keys",
       "icon": "key",
-      "url": "https://dashboard.nomba.com/signup"
+      "url": "getting-started"
     },
     {
       "name": "API Playground",

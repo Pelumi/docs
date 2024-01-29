@@ -1,5 +1,24 @@
 ---
 title: 'Environment'
-description: 'Learn how to setup your dashboard'
+description: 'Learn about the production and sandbox environment'
 icon: seedling
 ---
+
+
+The Nomba API operates within two distinct environments: the production environment, also known as the LIVE environment, and the sandbox environment. These environments serve different purposes and require specific credentials for interaction.
+
+<Frame caption="Production/Sandbox Keys">
+    <img src="/images/environment-1.png" style={{ borderRadius: '0.5rem' }} />
+</Frame>
+
+When engaging with the production environment, your interactions directly affect the live system. It is the operational environment where real transactions and data manipulation take place.
+
+On the other hand, accessing the sandbox environment necessitates the use of test or sandbox credentials. The Nomba Sandbox environment is designed as an isolated server environment, separate from the live production system. Upon creating an API Key on your dashboard, both production and sandbox credentials are generated. The sandbox environment serves as a controlled space for testing and experimentation. 
+
+<Note> 
+Transactions conducted in the sandbox environment do not impact the production environment.
+</Note>
+
+By utilizing the appropriate sandbox credentials, you can perform the same functions as in the production environment, receiving responses that simulate real-world scenarios.
+
+It is crucial to recognize that the data returned from the sandbox environment consists of test values. These values are isolated and do not affect your actual production account. Therefore, any information exposed in the sandbox should be regarded as simulated and is not expected to reflect on your live dashboard. This segregation ensures that testing activities within the sandbox environment remain distinct from actual live operations.
