@@ -1,4 +1,130 @@
 ---
 title: 'Creating virtual accounts'
-description: 'Host documentation at a /docs subdirectory'
+description: 'Learn about creating virtual accounts'
 ---
+
+<Card title="Create a virtual account" icon="shield"
+href="/nomba-api-reference/accounts/create-virtual-account">
+  Accept payments with virtual accounts
+</Card>
+
+# `POST /v1/accounts/virtual`
+
+#### Request
+
+<ParamField body="accountRef" type="string" required>
+  Account reference
+</ParamField>
+
+<ParamField body="accountName" type="string" required>
+  Account holder's name
+</ParamField>
+
+<ParamField body="currency" type="string" required>
+  Currency code
+</ParamField>
+
+#### Response
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="object"  defaultOpen="true">
+    <ResponseField name="createdAt" type="string" required>
+      Creation timestamp.
+    </ResponseField>
+    <ResponseField name="accountId" type="string" required>
+      Account ID.
+    </ResponseField>
+    <ResponseField name="accountHolderId" type="string" required>
+      Account holder ID.
+    </ResponseField>
+    <ResponseField name="accountRef" type="string" required>
+      Account reference.
+    </ResponseField>
+    <ResponseField name="phoneNumber" type="string" required>
+      Phone number.
+    </ResponseField>
+    <ResponseField name="email" type="string" required>
+      Email address.
+    </ResponseField>
+    <ResponseField name="bvn" type="string" required>
+      Bank Verification Number (BVN).
+    </ResponseField>
+    <ResponseField name="status" type="enum<string>" required>
+      Account status.
+    </ResponseField>
+    <ResponseField name="type" type="enum<string>" required>
+      Account type.
+    </ResponseField>
+    <ResponseField name="accountName" type="string" required>
+      Account holder's name.
+    </ResponseField>
+    <ResponseField name="banks" type="object[]" required>
+      List of associated bank accounts.
+      <Expandable title="object"  defaultOpen="true">
+        <ResponseField name="bankAccountNumber" type="string" required>
+            Bank account number.
+        </ResponseField>
+        <ResponseField name="bankName" type="string" required>
+            Bank name.
+        </ResponseField>
+        <ResponseField name="bankAccountName" type="string" required>
+            Bank account holder name.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="currency" type="string" required>
+      Currency code.
+    </ResponseField>
+    
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash Request
+curl --request POST \
+  --url https://api.nomba.com/v1/accounts/virtual \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountid>' \
+  --data '{
+  "accountRef": "1oWbJQQHLyQqqf1SwxjSpudeA21",
+  "accountName": "Daniel Scorsese",
+  "currency": "NGN"
+}'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success response
+{
+  "code": "00",
+  "description": "Success",
+  "data": {
+    "createdAt": "2023-09-04T07:09:06.900Z",
+    "accountId": "fc81b80e-e607-4b86-8591-840925191733",
+    "accountHolderId": "01a10aeb-d989-460a-bbde-9842f2b4320f",
+    "accountRef": "1oWbJQQHLyQqqf1SwxjSpudeA21",
+    "bvn": "12234412345",
+    "status": "ACTIVE",
+    "type": "virtual",
+    "accountName": "Daniel Scorsese",
+    "banks": [
+      {
+        "bankAccountNumber": "93910",
+        "bankName": "Sterling Bank",
+        "bankAccountName": "Nomba/Ifeoluwa Adeboye"
+      }
+    ],
+    "currency": "NGN"
+  }
+}
+```
+</ResponseExample>
