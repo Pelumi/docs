@@ -1,0 +1,76 @@
+---
+title: 'Introduction'
+description: "Understand Nomba Checkout - Nomba's Online Payment Gateway"
+---
+
+## Overview
+
+Nomba Checkout serves as a versatile payment gateway, empowering businesses to seamlessly accept payments from customers. This platform facilitates transactions through bank transfers or the use of local and international debit cards. Notably, it offers support for major card networks, including Mastercard, Visa, and Verve. Businesses can leverage Nomba Checkout to enhance their payment processing capabilities, providing customers with a convenient and secure way to make transactions.
+
+## Quick Action
+<CardGroup cols={3}>
+  <Card
+    title="Create a checkout order"
+    icon="money-bill"
+    href="/core-concepts/checkout/create-checkout-order"
+  >
+    Accept card and bank transfer payments.
+  </Card>
+  <Card
+    title="Charge tokenized cards"
+    icon="credit-card"
+    href="/core-concepts/checkout/charge-tokenized-cards"
+  >
+    Learn how to charge already tokenized cards
+  </Card>
+  <Card
+    title="Manage disputes"
+    icon="comment-dollar"
+    href="/core-concepts/checkout/dispute-management"
+  >
+    Learn how to automate dispute resolution.
+  </Card>
+</CardGroup>
+
+## How Nomba Checkout Works
+In addition to its core functionality as a payment gateway, Nomba Checkout distinguishes itself by offering a robust API. This API empowers customers to build customized checkout payment links tailored to their specific needs. Businesses can leverage this feature to create a seamless and integrated payment experience for their customers. By utilizing the Nomba Checkout API, businesses gain the flexibility to adapt payment processes to their unique requirements, enhancing efficiency and providing a tailored payment solution for their customer base.
+
+The provided diagram illustrates the sequence of events in a payment processing flow involving your customer, your application, and Nomba. This sequence ensures a secure and streamlined payment processing flow, demonstrating the interactions between the customer, app, and Nomba at various stages.
+
+<Frame caption="Nomba Checkout flow">
+    <img src="/images/checkout-1.png" style={{ borderRadius: '0.5rem' }} />
+</Frame>
+
+The process begins with authentication, followed by the generation of a checkout link, and concludes with payment acceptance and transaction verification. 
+
+#### Authentication
+The process kicks off with your app communicating with Nomba to generate an access token by making a `POST` call to `/auth/token/issue` ([Authentication](/nomba-api-reference/authenticate/obtain-access-token)). Upon successful authentication, the Nomba API will respond with a success message containing the access token.
+
+#### Checkout Link Generation
+Your app proceeds to generate a checkout link by making a `POST` call to `/checkout/order` ([Create checkout order](/nomba-api-reference/online-checkout/create-an-online-checkout-order)). The Nomba API responds with a success message containing the checkout link, which your app will display to the customer for them to make payment.
+
+#### Payment Acceptance
+The customer, using the checkout link, initiates the payment process, choosing to pay with a card or bank transfer.
+Nomba sends a webhook notification to your app, signaling the completion of the payment.
+
+<Steps titleSize="p">
+  <Step title="Pay with Card">
+
+    <Frame caption="Pay with card">
+      <img src="/images/pay-with-card-1.png" style={{ borderRadius: '0.5rem' }} />
+    </Frame>
+
+  </Step>
+  <Step title="Pay with Bank Transfer">
+
+    <Frame caption="Pay with bank transfer">
+      <img src="/images/pay-with-bank-transfer-1.png" style={{ borderRadius: '0.5rem' }} />
+    </Frame>
+  </Step>
+</Steps>
+
+#### Transaction Verification:
+Your app processes the webhook notification and proceeds to verify the transaction by making a `POST` call to `/transactions/accounts` ([Filter Transactions](/nomba-api-reference/transactions/filter-account-transactions)) on Nomba, using the transaction reference. The Nomba API responds with a success message containing transaction details.
+
+#### Payment Receipt
+Your app sends a payment receipt to the customer, completing the payment process.

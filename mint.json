@@ -94,11 +94,9 @@
           "icon": "money-bill",
           "pages": [
             "core-concepts/checkout/introduction",
-            "core-concepts/checkout/how-checkout-payment-works",
-            "core-concepts/checkout/accepting-payments",
-            "core-concepts/checkout/implementing-checkout-in-sub-accounts",
-            "core-concepts/checkout/manage-recurring-payments",
-            "core-concepts/checkout/verify-checkout-transactions",
+            "core-concepts/checkout/create-checkout-order",
+            "core-concepts/checkout/charge-tokenized-cards",
+            "core-concepts/checkout/verify-transactions",
             "core-concepts/checkout/dispute-management"
           ]
         },

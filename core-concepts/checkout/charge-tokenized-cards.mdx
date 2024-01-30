@@ -1,0 +1,102 @@
+---
+title: 'Charge tokenized cards'
+description: 'Learn how to charge tokenized cards with the Nomba API'
+---
+
+<Card title="Charge a tokenized card" icon="credit-card"
+href="/nomba-api-reference/online-checkout/charge-customer-using-tokenized-card-data">
+  Process payments with a unique tokens instead of exposing sensitive card details
+</Card>
+
+# `POST /v1/checkout/tokenized-card-payment`
+
+<Note>
+Kindly be aware that the optional boolean value tokenizedCard should be included or set to true only if you intend to tokenize your customer's card for the purpose of attempting other card payments at a later time.
+</Note>
+
+#### Request
+
+<ParamField body="order" type="object" required>
+    Account reference
+    <Expandable title="object"  defaultOpen="true">
+        <ParamField body="orderReference" type="string">
+            Reference of the online checkout order to be created
+        </ParamField>
+        <ParamField body="customerId" type="string">
+            ID of the customer that would be paying for the checkout order
+        </ParamField>
+        <ParamField body="callbackUrl" type="string" required>
+            Merchant callback url for redirect after payment
+        </ParamField>
+        <ParamField body="customerEmail" type="string" required>
+            Customer email
+        </ParamField>
+        <ParamField body="amount" type="number" required>
+            The amount to be paid by the customer
+        </ParamField>
+        <ParamField body="currency" type="string" required>
+            The currency of the money to be paid by the customer
+        </ParamField>
+    </Expandable>
+</ParamField>
+
+<ParamField body="tokenkey" type="string">
+  The token key returned in the webhook
+</ParamField>
+
+
+#### Response
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="object"  defaultOpen="true">
+    <ResponseField name="status" type="boolean" required>
+      Status of the transaction.
+    </ResponseField>
+    <ResponseField name="message" type="string" required>
+      Some details of the transaction response.
+    </ResponseField>
+    
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash Request
+curl --request POST \
+  --url https://api.nomba.com/v1/checkout/tokenized-card-payment \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountid>' \
+  --data '{
+  "order": {
+    "orderReference": "fd3002af-d48b-40a0-adba-0b1c93635bd2",
+    "customerId": "762878332454",
+    "callbackUrl": "https://ip:port/merchant.com/callback",
+    "customerEmail": "abcde@gmail.com",
+    "amount": "10000.00",
+    "currency": "NGN"
+  },
+  "tokenKey": "7628788443"
+}'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success response
+{
+  "code": "00",
+  "description": "Success",
+  "data": {
+    "status": true,
+    "message": "success"
+  }
+}
+```
+</ResponseExample>

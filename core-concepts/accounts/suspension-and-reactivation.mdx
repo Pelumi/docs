@@ -6,13 +6,13 @@ description: 'Learn about suspending and reactivating accounts'
 <CardGroup cols={2}>
   <Card
     title="Suspend an account"
-    icon="shield"
+    icon="ban"
     href="/nomba-api-reference/accounts/suspend-an-account"
   >
   </Card>
   <Card
     title="Reactivate an account"
-    icon="arrows-rotate"
+    icon="wave-pulse"
     href="/nomba-api-reference/accounts/reactivate-an-account"
   >
   </Card>
@@ -26,7 +26,7 @@ You can neither suspend nor reactivate the parent account. The parent account is
 
 ## Suspending Accounts
 
-#### Request
+#### Path parameters
 
 <ParamField path="accountId" type="string">
   Account ID of the account to be suspended.
@@ -42,7 +42,7 @@ You can neither suspend nor reactivate the parent account. The parent account is
   Response description
 </ResponseField>
 
-<ResponseField name="data" type="boolean">
+<ResponseField name="data" type="boolean" required>
   Is account suspended?
 </ResponseField>
 
@@ -86,7 +86,15 @@ curl --request PUT \
 </RequestExample>
 
 <ResponseExample>
-```json Success response
+```json Suspend Account Response
+{
+  "code": "00",
+  "description": "Success",
+  "data": true
+}
+```
+
+```json Reactivate Account Response
 {
   "code": "00",
   "description": "Success",
