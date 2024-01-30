@@ -96,8 +96,8 @@
             "core-concepts/checkout/introduction",
             "core-concepts/checkout/create-checkout-order",
             "core-concepts/checkout/charge-tokenized-cards",
-            "core-concepts/checkout/verify-transactions",
-            "core-concepts/checkout/dispute-management"
+            "core-concepts/checkout/dispute-management",
+            "core-concepts/checkout/verify-transactions"
           ]
         },
         {
@@ -143,7 +143,6 @@
           "icon": "webhook",
           "pages": [
             "core-concepts/webhooks/introduction",
-            "core-concepts/webhooks/getting-started",
             "core-concepts/webhooks/signature-verification",
             "core-concepts/webhooks/retries-backoff-policy"
           ]
