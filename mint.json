@@ -1,91 +1,254 @@
 {
   "$schema": "https://mintlify.com/schema.json",
-  "name": "Starter Kit",
+  "name": "Nomba Developers",
   "logo": {
-    "dark": "/logo/dark.svg",
-    "light": "/logo/light.svg"
+    "dark": "/logo/nomba-dark.svg",
+    "light": "/logo/nomba-light.svg",
+    "href": "https://nomba.com"
   },
   "favicon": "/favicon.svg",
   "colors": {
-    "primary": "#0D9373",
-    "light": "#07C983",
-    "dark": "#0D9373",
+    "primary": "#CCA300",
+    "light": "#FFEB99",
+    "dark": "#CCA300",
     "anchors": {
-      "from": "#0D9373",
-      "to": "#07C983"
+      "from": "#CCA300",
+      "to": "#FFEB99"
     }
   },
   "topbarLinks": [
     {
-      "name": "Support",
-      "url": "mailto:hi@mintlify.com"
+      "name": "Guides",
+      "url": "support/guides/introduction"
     }
   ],
   "topbarCtaButton": {
     "name": "Dashboard",
-    "url": "https://dashboard.mintlify.com"
+    "url": "https://dashboard.nomba.com"
+  },
+  "primaryTab": {
+      "name": "Documentation"
   },
   "tabs": [
     {
       "name": "API Reference",
-      "url": "api-reference"
+      "url": "nomba-api-reference"
     }
   ],
   "anchors": [
     {
-      "name": "Documentation",
-      "icon": "book-open-cover",
-      "url": "https://mintlify.com/docs"
+      "name": "Get API Keys",
+      "icon": "key",
+      "url": "getting-started"
     },
     {
-      "name": "Community",
-      "icon": "slack",
-      "url": "https://mintlify.com/community"
-    },
-    {
-      "name": "Blog",
-      "icon": "newspaper",
-      "url": "https://mintlify.com/blog"
+      "name": "API Playground",
+      "icon": "play",
+      "url": "https://docs.nomba.com/api#"
     }
   ],
   "navigation": [
     {
-      "group": "Get Started",
+      "group": "Introduction",
+      "pages": ["introduction/welcome-to-nomba"]
+    },
+    {
+      "group": "Getting Started",
       "pages": [
-        "introduction",
-        "quickstart",
-        "development"
+        "getting-started/dashboard-setup",
+        {
+          "group": "Authentication",
+          "icon": "shield-keyhole",
+          "pages": [
+            "getting-started/authentication/introduction",
+            "getting-started/authentication/obtaining-access-token",
+            "getting-started/authentication/refreshing-access-token",
+            "getting-started/authentication/revoking-access-token"
+          ]
+        }, 
+        "getting-started/pagination",
+        "getting-started/rate_limit", 
+        "getting-started/idempotency",
+        "getting-started/environment", 
+        "getting-started/definitions"
       ]
     },
     {
-      "group": "Essentials",
+      "group": "Core concepts",
       "pages": [
-        "essentials/markdown",
-        "essentials/code",
-        "essentials/images",
-        "essentials/settings",
-        "essentials/navigation",
-        "essentials/reusable-snippets"
+        {
+          "group": "Accounts",
+          "icon": "building-columns",
+          "pages": [
+            "core-concepts/accounts/introduction",
+            "core-concepts/accounts/creating-a-sub-account",
+            "core-concepts/accounts/creating-a-virtual-account",
+            "core-concepts/accounts/fetching-account-balance",
+            "core-concepts/accounts/terminal-assignment",
+            "core-concepts/accounts/suspension-and-reactivation",
+            "core-concepts/accounts/granting-permissions"
+          ]
+        },
+        {
+          "group": "Checkout",
+          "icon": "money-bill",
+          "pages": [
+            "core-concepts/checkout/introduction",
+            "core-concepts/checkout/create-checkout-order",
+            "core-concepts/checkout/charge-tokenized-cards",
+            "core-concepts/checkout/dispute-management",
+            "core-concepts/checkout/verify-transactions"
+          ]
+        },
+        {
+          "group": "Transfers",
+          "icon": "shuffle",
+          "pages": [
+            "core-concepts/transfers/introduction",
+            "core-concepts/transfers/bank-account-lookup",
+            "core-concepts/transfers/fetch-bank-codes-and-names",
+            "core-concepts/transfers/transfer-to-banks",
+            "core-concepts/transfers/transfer-between-accounts"
+          ]
+        },
+        {
+          "group": "Terminals",
+          "icon": "mobile-retro",
+          "pages": [
+            "core-concepts/terminals/introduction",
+            "core-concepts/terminals/assigning-and-unassigning-terminals",
+            {
+              "group": "Custom Apps",
+              "pages": [
+                "core-concepts/terminals/custom-apps/introduction",
+                "core-concepts/terminals/custom-apps/trigger-card-payments",
+                "core-concepts/terminals/custom-apps/trigger-bank-transfer-payments",
+                "core-concepts/terminals/custom-apps/trigger-receipt-printing"
+              ]
+            },
+            {
+              "group": "Connect to Nomba PTSP",
+              "pages": [
+                "core-concepts/terminals/connect-to-nomba-ptsp/introduction",
+                "core-concepts/terminals/connect-to-nomba-ptsp/parameter-download",
+                "core-concepts/terminals/connect-to-nomba-ptsp/key-exchange",
+                "core-concepts/terminals/connect-to-nomba-ptsp/card-initiation-transaction"
+              ]
+            }
+          ]
+        },
+        {
+          "group": "Webhooks",
+          "icon": "webhook",
+          "pages": [
+            "core-concepts/webhooks/introduction",
+            "core-concepts/webhooks/signature-verification",
+            "core-concepts/webhooks/retries-backoff-policy"
+          ]
+        },
+        {
+          "group": "Transactions",
+          "icon": "receipt",
+          "pages": [
+            "core-concepts/transactions/fetch-account-transactions",
+            "core-concepts/transactions/fetch-bank-transactions",
+            "core-concepts/transactions/filtering-through-transactions"
+          ]
+        }
+      ]
+    },
+    {
+      "group": "Support",
+      "pages": [
+        "support/security",
+        "support/reach-out",
+        "support/faqs",
+        {
+          "group": "Guides",
+          "icon": "thumbs-up",
+          "pages": [
+            "support/guides/introduction",
+            "support/guides/accepting-payments-with-checkout",
+            "support/guides/authentication-best-practises",
+            "support/guides/setting-up-webhooks"
+          ]
+        }
       ]
     },
     {
       "group": "API Documentation",
+      "pages": ["nomba-api-reference/introduction"]
+    },
+    {
+      "group": "Authenticate",
       "pages": [
-        "api-reference/introduction"
+        "nomba-api-reference/authenticate/obtain-access-token",
+        "nomba-api-reference/authenticate/refresh-an-expired-token",
+        "nomba-api-reference/authenticate/revoke-an-access_token"
       ]
     },
     {
-      "group": "Endpoint Examples",
+      "group": "Accounts",
       "pages": [
-        "api-reference/endpoint/get",
-        "api-reference/endpoint/create",
-        "api-reference/endpoint/delete"
+        "nomba-api-reference/accounts/list-all-accounts",
+        "nomba-api-reference/accounts/create-an-account",
+        "nomba-api-reference/accounts/create-virtual-account",
+        "nomba-api-reference/accounts/fetch-account-details",
+        "nomba-api-reference/accounts/fetch-parent-account-details",
+        "nomba-api-reference/accounts/fetch-account-balance",
+        "nomba-api-reference/accounts/fetch-parent-account-balance",
+        "nomba-api-reference/accounts/suspend-an-account",
+        "nomba-api-reference/accounts/reactivate-an-account",
+        "nomba-api-reference/accounts/fetch-terminals-assigned-to-an-account",
+        "nomba-api-reference/accounts/fetch-terminals-assigned-to-the-parent-account"
+      ]
+    },
+    {
+      "group": "Terminals",
+      "pages": [
+        "nomba-api-reference/terminals/assign-a-terminal-to-an-account",
+        "nomba-api-reference/terminals/assign-a-terminal-to-the-parent-account",
+        "nomba-api-reference/terminals/un-assign-terminal-from-an-account",
+        "nomba-api-reference/terminals/un-assign-a-terminal-from-the-parent-account"
+      ]
+    },
+    {
+      "group": "Transfers",
+      "pages": [
+        "nomba-api-reference/transfers/fetch-bank-codes-and-names",
+        "nomba-api-reference/transfers/perform-bank-account-lookup",
+        "nomba-api-reference/transfers/perform-bank-account-transfer-from-the-parent-account",
+        "nomba-api-reference/transfers/perform-bank-account-transfer-from-account",
+        "nomba-api-reference/transfers/perform-wallet-transfer-from-the-parent-account",
+        "nomba-api-reference/transfers/perform-wallet-transfer-from-account"
+      ]
+    },
+    {
+      "group": "Transactions",
+      "pages": [
+        "nomba-api-reference/transactions/fetch-creditdebit-transactions-on-an-account",
+        "nomba-api-reference/transactions/fetch-creditdebit-transactions-on-the-parent-account",
+        "nomba-api-reference/transactions/fetch-transactions-on-an-account",
+        "nomba-api-reference/transactions/filter-account-transactions",
+        "nomba-api-reference/transactions/fetch-transactions-on-the-parent-account",
+        "nomba-api-reference/transactions/filter-parent-account-transactions"
+      ]
+    },
+    {
+      "group": "Online Checkout",
+      "pages": [
+        "nomba-api-reference/online-checkout/create-an-online-checkout-order",
+        "nomba-api-reference/online-checkout/charge-a-customer-using-tokenized-card-data",
+        "nomba-api-reference/online-checkout/list-tokenized-cards",
+        "nomba-api-reference/online-checkout/update-tokenzied-card-data",
+        "nomba-api-reference/online-checkout/update-tokenzied-card-data-1"
       ]
     }
   ],
   "footerSocials": {
-    "twitter": "https://twitter.com/mintlify",
-    "github": "https://github.com/mintlify",
-    "linkedin": "https://www.linkedin.com/company/mintsearch"
-  }
+    "twitter": "https://twitter.com/nombahq",
+    "github": "https://github.com/kudi-inc",
+    "linkedin": "https://www.linkedin.com/company/nombahq"
+  },
+  "openapi": "https://raw.githubusercontent.com/kudi-inc/vendor-openapi-spec/main/openapi3_0_v_1_0_0.json"
 }

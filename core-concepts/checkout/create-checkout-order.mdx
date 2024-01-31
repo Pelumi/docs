@@ -1,0 +1,102 @@
+---
+title: 'Create a checkout order'
+description: 'Learn how to create a checkout order to accept payments'
+---
+
+<Card title="Create a checkout order" icon="money-bill"
+href="/nomba-api-reference/online-checkout/create-an-online-checkout-order">
+  Create an online checkout order to accept payments from your customers
+</Card>
+
+# `POST /v1/checkout/order`
+
+<Note>
+Kindly be aware that the optional boolean value tokenizedCard should be included or set to true only if you intend to tokenize your customer's card for the purpose of attempting other card payments at a later time.
+</Note>
+
+#### Request body
+
+<ParamField body="order" type="object" required>
+    Account reference
+    <Expandable title="object"  defaultOpen="true">
+        <ParamField body="orderReference" type="string">
+            Reference of the online checkout order to be created
+        </ParamField>
+        <ParamField body="customerId" type="string">
+            ID of the customer that would be paying for the checkout order
+        </ParamField>
+        <ParamField body="callbackUrl" type="string" required>
+            Merchant callback url for redirect after payment
+        </ParamField>
+        <ParamField body="customerEmail" type="string" required>
+            Customer email
+        </ParamField>
+        <ParamField body="amount" type="number" required>
+            The amount to be paid by the customer
+        </ParamField>
+        <ParamField body="currency" type="string" required>
+            The currency of the money to be paid by the customer
+        </ParamField>
+    </Expandable>
+</ParamField>
+
+<ParamField body="tokenizedCard" type="boolean">
+  Determines if the card used for payment is to be tokenized
+</ParamField>
+
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="object"  defaultOpen="true">
+    <ResponseField name="checkoutLink" type="string" required>
+      Payment checkout link.
+    </ResponseField>
+    <ResponseField name="orderReference" type="string" required>
+      Account ID.
+    </ResponseField>
+    
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash Request
+curl --request POST \
+  --url https://api.nomba.com/v1/checkout/order \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountid>' \
+  --data '{
+  "order": {
+    "orderReference": "fd3002af-d48b-40a0-adba-0b1c93635bd2",
+    "customerId": "762878332454",
+    "callbackUrl": "https://ip:port/merchant.com/callback",
+    "customerEmail": "abcde@gmail.com",
+    "amount": "10000.00",
+    "currency": "NGN"
+  },
+  "tokenizeCard": "true"
+}'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success response
+{
+  "code": "00",
+  "description": "Success",
+  "data": {
+    "checkoutLink": "https://ip:port/checkout/78388899938",
+    "orderReference": "fd3002af-d48b-40a0-adba-0b1c93635bd2"
+  }
+}
+```
+</ResponseExample>

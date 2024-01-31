@@ -1,0 +1,91 @@
+---
+title: 'Pagination'
+description: 'Learn how pagination is implemented in the Nomba API'
+icon: angles-right
+---
+
+## Overview
+
+Pagination in the Nomba API is a crucial feature designed to efficiently manage and retrieve large sets of data. The system employs two main pagination mechanisms: limit and cursor pagination. This approach ensures flexibility and ease of use for the API caller while optimizing the retrieval of data.
+
+When retrieving a list of data using the Nomba API, you can define a `limit` indicating the amount of data you want the endpoint to provide at a time. After a successful response, the endpoint furnishes the requested data along with a `cursor`. This `cursor` is essential for navigating to the subsequent page, which contains the next batch of items.
+
+<Info>
+  The limit has a maximum value of 50. You cannot get more than 50 items per time.
+</Info>
+
+<CodeGroup>
+```bash Request (with limit = 2)
+curl --request GET \
+  --url 'https://api.nomba.com/v1/accounts/terminals?limit=2' \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountid>'
+```
+
+```json Response (with cursor)
+{
+  "code": "00",
+  "description": "Success",
+  "data": {
+    "results": [
+      {
+        "terminalId": "201124LM",
+        "serialNumber": "55555555",
+        "accountId": "01a10aeb-d989-460a-bbde-9842f2b4320f",
+        "parentAccountId": "<string>",
+        "merchantName": "trident and rees",
+        "terminalLabel": "Testing",
+        "createdAt": "2020-09-23T10:21:48.789Z",
+        "updatedAt": "2023-09-04T15:23:55.173Z"
+      }
+    ],
+    "cursor": "xchbaVFsjdsbaADddd"
+  }
+}
+```
+</CodeGroup>
+
+Utilize the cursor acquired from the response to retrieve the next batch of data. Continue this process until the endpoint responds without a cursor, indicating that all the data has been fully retrieved.
+
+<CodeGroup>
+```bash Request (with limit = 2 and cursor = "xchbaVFsjdsbaADddd")
+curl --request GET \
+  --url 'https://api.nomba.com/v1/accounts/terminals?limit=2&cursor=xchbaVFsjdsbaADddd' \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountid>'
+```
+
+```json Response (last page - no cursor)
+{
+  "code": "00",
+  "description": "Success",
+  "data": {
+    "results": [
+      {
+        "terminalId": "201124LM",
+        "serialNumber": "55555555",
+        "accountId": "01a10aeb-d989-460a-bbde-9842f2b4320f",
+        "parentAccountId": "<string>",
+        "merchantName": "trident and rees",
+        "terminalLabel": "Testing",
+        "createdAt": "2020-09-23T10:21:48.789Z",
+        "updatedAt": "2023-09-04T15:23:55.173Z"
+      }
+    ],
+    "cursor": ""
+  }
+}
+```
+</CodeGroup>
+
+## Limit Pagination
+
+The limit pagination mechanism allows the caller to specify the number of items or records they want to receive in each API response. This parameter, known as the "limit," enables fine-grained control over the amount of data returned. By setting an appropriate limit, the caller can manage the size of the response to align with their application's requirements, optimizing performance and reducing unnecessary data transfer.
+
+## Cursor Pagination
+
+In conjunction with the limit pagination, the Nomba API utilizes cursor pagination to support seamless navigation through result sets. When making an API call with the specified limit, the response includes a cursor, a unique identifier pointing to the end of the current data page. The caller can use this cursor to request the next page of data. This approach is highly efficient for scenarios where the dataset is extensive, and retrieving all data in a single request is impractical.
+
+## Conclusion
+
+Nomba API's pagination system offers a well-balanced solution that combines limit and cursor pagination mechanisms. This approach empowers API callers to manage the size of API responses efficiently, navigate through extensive datasets seamlessly, and determine the completeness of data retrieval with precision. It reflects a commitment to providing a robust and user-friendly API experience for developers integrating with the Nomba platform.

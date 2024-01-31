@@ -1,0 +1,104 @@
+---
+title: 'Suspending and reactivating accounts'
+description: 'Learn about suspending and reactivating accounts'
+---
+
+<CardGroup cols={2}>
+  <Card
+    title="Suspend an account"
+    icon="ban"
+    href="/nomba-api-reference/accounts/suspend-an-account"
+  >
+  </Card>
+  <Card
+    title="Reactivate an account"
+    icon="wave-pulse"
+    href="/nomba-api-reference/accounts/reactivate-an-account"
+  >
+  </Card>
+</CardGroup>
+
+<Note>
+You can neither suspend nor reactivate the parent account. The parent account is the account directly tied to your business. You can only suspend accounts that you created via the API or your Nomba dashboard
+</Note>
+
+# `PUT /v1/accounts/suspend/{accountId}`
+
+## Suspending Accounts
+
+#### Path parameters
+
+<ParamField path="accountId" type="string">
+  Account ID of the account to be suspended.
+</ParamField>
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="data" type="boolean" required>
+  Is account suspended?
+</ResponseField>
+
+# `PUT /v1/accounts/reactivate/{accountId}`
+
+## Reactivating Accounts
+
+#### Request body
+
+<ParamField path="accountId" type="string">
+  Account ID of the account to be reactivated.
+</ParamField>
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="data" type="boolean">
+  Is account reactivated?
+</ResponseField>
+
+<RequestExample>
+```bash Suspend Account Request
+curl --request PUT \
+  --url https://api.nomba.com/v1/accounts/suspend/{accountId} \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountid>'
+```
+```bash Reactivate Account Request
+curl --request PUT \
+  --url https://api.nomba.com/v1/accounts/reactivate/{accountId} \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountid>'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Suspend Account Response
+{
+  "code": "00",
+  "description": "Success",
+  "data": true
+}
+```
+
+```json Reactivate Account Response
+{
+  "code": "00",
+  "description": "Success",
+  "data": true
+}
+```
+</ResponseExample>

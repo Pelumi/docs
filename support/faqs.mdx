@@ -1,0 +1,50 @@
+---
+title: 'FAQs'
+description: 'Stuck? Please see some frequently asked questions'
+icon: circle-question
+---
+
+Explore our FAQs for quick answers to common queries, ensuring a seamless experience. Equip yourself with valuable insights and effective solutions, maximizing your experience and interactions with our platform.
+
+Should you have reviewed the FAQs and find yourself in need of further clarification, don't hesitate to [Reach out](/support/reach-out)
+
+<AccordionGroup>
+
+  <Accordion title="Troubleshooting 401 responses" defaultOpen="true">
+    Common causes of `401` responses include the following;
+    - Absense of `accountId` in request headers
+    - Invalid `accountId` passed in request headers
+    - Invalid or expired `access_token` passed in request headers
+
+    It's crucial to verify that your application is properly configured to handle the `access_token` obtained during authentication
+
+    <Warning>
+        It is of utmost importance to always pass your `accountId` in request headers. Failure to do so might lead to some potential errors.
+    </Warning>
+    
+    For applications operating in a multi-instance environment, implementing a robust caching and locking mechanism is necessary. This ensures that only one instance authenticates with our system, and the same instance can efficiently update the `access_token` value in your cache.
+  </Accordion>
+
+  <Accordion title="Troubleshooting 403 responses">
+    `403` responses consistently pertain to permission issues, indicating that the actor lacks the necessary permissions to access the desired resource. While it might not initially appear as a severe error, it can significantly impede your interaction with the Nomba API.
+
+    In the Nomba ecosystem, accounts represent a collection of resources, requiring proper permissions for access. For instance, without adequate permissions within an account, accessing transaction data for that account is restricted.
+
+    As outlined in the [authentication documentation](/getting-started/authentication/introduction#api-key-management-and-permission-privileges), your API Keys are endowed with default Admin privileges, granting access to all accounts affiliated with your business or organization. However, you have the flexibility to manage resource access through the grant permissions to account document.
+
+    If you encounter persistent 403 errors, kindly contact us via the [designated support page](/support/reach-out) for assistance.
+  </Accordion>
+
+  <Accordion title="Interactions with the Sandbox environment">
+    Various factors may lead to challenges when interacting with the sandbox environment. We've noted instances where customers attempt to access the Sandbox with their Production keys, which is not a viable approach.
+    
+    It's essential to engage with the Sandbox environment exclusively using Sandbox credentials. This necessitates obtaining a sandbox token before interacting with any sandbox resources.
+    
+    <Note>
+        Upon creating your API key on the Nomba dashboard, two keys are generated: Production keys and Sandbox keys. Ensure not to use Production keys in the sandbox environment and vice versa.
+    </Note>
+
+    Additionally, it's crucial to recognize that responses in the Sandbox are stubbed and should not carry significant weight. As they are designed for testing purposes, they help developers quickly grasp system functionalities without the complexities of real operations using production keys.
+  </Accordion>
+
+</AccordionGroup>
