@@ -108,8 +108,7 @@
             "core-concepts/transfers/bank-account-lookup",
             "core-concepts/transfers/fetch-bank-codes-and-names",
             "core-concepts/transfers/transfer-to-banks",
-            "core-concepts/transfers/transfer-between-accounts",
-            "core-concepts/transfers/verify-transfer-transactions"
+            "core-concepts/transfers/transfer-between-accounts"
           ]
         },
         {
@@ -159,14 +158,6 @@
       ]
     },
     {
-      "group": "SDK",
-      "pages": [
-        "sdk/pager-sdk",
-        "sdk/terminal-sdk",
-        "sdk/webhooks-sdk"
-      ]
-    },
-    {
       "group": "Support",
       "pages": [
         "support/security",
@@ -179,11 +170,7 @@
             "support/guides/introduction",
             "support/guides/accepting-payments-with-checkout",
             "support/guides/authentication-best-practises",
-            "support/guides/configuring-autosettlements-on-dashboard",
-            "support/guides/creating-subaccounts-on-dashboard",
-            "support/guides/initiating-transfers-from-accounts-via-api",
-            "support/guides/setting-up-webhooks",
-            "support/guides/terminal-assignment-on-dashboard"
+            "support/guides/setting-up-webhooks"
           ]
         }
       ]

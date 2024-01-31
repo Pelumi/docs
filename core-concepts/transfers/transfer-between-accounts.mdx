@@ -1,0 +1,138 @@
+---
+title: 'Transfer between accounts'
+description: 'Learn how to use the Nomba API to move money between accounts'
+---
+
+<CardGroup cols={2}>
+  <Card
+    title="Perform wallet transfers from the parent account"
+    icon="network-wired"
+    href="/nomba-api-reference/transfers/perform-wallet-transfer-from-the-parent-account"
+  >
+  </Card>
+  <Card
+    title="Perform wallet transfers from sub accounts"
+    icon="network-wired"
+    href="/nomba-api-reference/transfers/perform-wallet-transfer-from-account"
+  >
+  </Card>
+</CardGroup>
+
+<Tip>
+The movement of funds between accounts, commonly known as P2P, refers to the internal transfer of funds within the network. This direct transfer bypasses external processors, ensuring rapid and efficient handling solely by Nomba.
+</Tip>
+
+# `POST /v1/transfers/bank`
+
+#### Request
+
+<ParamField body="amount" type="number" required>
+  The amount to be transferred.
+</ParamField>
+
+<ParamField body="receiverAccountId" type="string" required>
+  The receiver's accountId.
+</ParamField>
+
+<ParamField body="merchantTxRef" type="string" required>
+  Unique reference used to track a transaction from an external process.
+</ParamField>
+
+<ParamField body="senderName" type="string" required>
+  The sender's name.
+</ParamField>
+
+<ParamField body="senderName" type="string" required>
+  PIN.
+</ParamField>
+
+#### Response
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  The transfer data.
+  <Expandable title="object"  defaultOpen="true">
+    <ResponseField name="amount" type="number" required>
+      The transfer amount.
+    </ResponseField>
+    <ResponseField name="meta" type="string" required>
+      The transaction meta data.
+      <Expandable title="object"  defaultOpen="true">
+        <ResponseField name="merchantTxRef" type="string">
+            Merchant transaction reference.
+        </ResponseField>
+        <ResponseField name="api_client_id" type="string">
+            API client ID.
+        </ResponseField>
+        <ResponseField name="api_account_id" type="string">
+            API account ID.
+        </ResponseField>
+        <ResponseField name="rrn" type="string">
+            RRN (Retrieval Reference Number).
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="fee" type="number" required>
+      The transfer fee.
+    </ResponseField>
+    <ResponseField name="timeCreated" type="string" required>
+      The creation timestamp.
+    </ResponseField>
+    <ResponseField name="id" type="string" required>
+      The transfer ID.
+    </ResponseField>
+    <ResponseField name="type" type="string" required>
+      The transaction type.
+    </ResponseField>
+    <ResponseField name="status" type="string" required>
+      The transaction status.
+    </ResponseField>
+    
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash Request
+curl --request POST \
+  --url https://api.nomba.com/v1/transfers/wallet \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountid>' \
+  --data '{
+  "amount": 3500,
+  "receiverAccountId": "890022ce-bae0-45c1-9b9d-ee7872e6ca27",
+  "merchantTxRef": "UNQ_123abGGhh5546",
+  "pin": "2222"
+}'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success response
+{
+  "code": "00",
+  "description": "Success",
+  "data": {
+    "amount": 5502,
+    "meta": {
+      "merchantTxRef": "3JVW2xJCjj443oannREBuTaXDdji",
+      "api_client_id": "6a7bed88-7c93-4a1c-a445-f88edbca6489",
+      "api_account_id": "01a10aeb-d989-460a-bbde-9842f2b4320f",
+      "rrn": "230908151711"
+    },
+    "fee": 50,
+    "timeCreated": "2023-09-08T14:17:13.634Z",
+    "id": "API-P2P-C24AD-a6443bf0-011c-4bc2-b739-4a2e33e2a27b",
+    "type": "p2p",
+    "status": "SUCCESS"
+  }
+}
+```
+</ResponseExample>
