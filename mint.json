@@ -35,22 +35,13 @@
       "url": "nomba-api-reference"
     }
   ],
-  "anchors": [
-    {
-      "name": "Get API Keys",
-      "icon": "key",
-      "url": "getting-started"
-    },
-    {
-      "name": "API Playground",
-      "icon": "play",
-      "url": "https://docs.nomba.com/api#"
-    }
-  ],
   "navigation": [
     {
       "group": "Introduction",
-      "pages": ["introduction/welcome-to-nomba"]
+      "pages": [
+        "introduction/welcome-to-nomba",
+        "introduction/get-api-keys"
+      ]
     },
     {
       "group": "Getting Started",
@@ -65,16 +56,12 @@
             "getting-started/authentication/refreshing-access-token",
             "getting-started/authentication/revoking-access-token"
           ]
-        }, 
-        "getting-started/pagination",
-        "getting-started/rate_limit", 
-        "getting-started/idempotency",
-        "getting-started/environment", 
+        },
         "getting-started/definitions"
       ]
     },
     {
-      "group": "Core concepts",
+      "group": "Products",
       "pages": [
         {
           "group": "Accounts",
@@ -158,6 +145,15 @@
       ]
     },
     {
+      "group": "API Patterns",
+      "pages": [
+        "getting-started/pagination",
+        "getting-started/rate_limit", 
+        "getting-started/idempotency",
+        "getting-started/environment"
+      ]
+    },
+    {
       "group": "Support",
       "pages": [
         "support/security",
@@ -177,7 +173,9 @@
     },
     {
       "group": "API Documentation",
-      "pages": ["nomba-api-reference/introduction"]
+      "pages": [
+        "nomba-api-reference/introduction"
+      ]
     },
     {
       "group": "Authenticate",
