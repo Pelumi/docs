@@ -1,6 +1,10 @@
 {
   "$schema": "https://mintlify.com/schema.json",
   "name": "Nomba Developers",
+  "modeToggle": {
+    "default": "dark",
+    "isHidden": false
+  },
   "logo": {
     "dark": "/logo/nomba-dark.svg",
     "light": "/logo/nomba-light.svg",
@@ -67,59 +71,59 @@
           "group": "Accounts",
           "icon": "building-columns",
           "pages": [
-            "core-concepts/accounts/introduction",
-            "core-concepts/accounts/creating-a-sub-account",
-            "core-concepts/accounts/creating-a-virtual-account",
-            "core-concepts/accounts/fetching-account-balance",
-            "core-concepts/accounts/terminal-assignment",
-            "core-concepts/accounts/suspension-and-reactivation",
-            "core-concepts/accounts/granting-permissions"
+            "products/accounts/introduction",
+            "products/accounts/creating-a-sub-account",
+            "products/accounts/creating-a-virtual-account",
+            "products/accounts/fetching-account-balance",
+            "products/accounts/terminal-assignment",
+            "products/accounts/suspension-and-reactivation",
+            "products/accounts/granting-permissions"
           ]
         },
         {
           "group": "Checkout",
           "icon": "money-bill",
           "pages": [
-            "core-concepts/checkout/introduction",
-            "core-concepts/checkout/create-checkout-order",
-            "core-concepts/checkout/charge-tokenized-cards",
-            "core-concepts/checkout/dispute-management",
-            "core-concepts/checkout/verify-transactions"
+            "products/checkout/introduction",
+            "products/checkout/create-checkout-order",
+            "products/checkout/charge-tokenized-cards",
+            "products/checkout/dispute-management",
+            "products/checkout/verify-transactions"
           ]
         },
         {
           "group": "Transfers",
           "icon": "shuffle",
           "pages": [
-            "core-concepts/transfers/introduction",
-            "core-concepts/transfers/bank-account-lookup",
-            "core-concepts/transfers/fetch-bank-codes-and-names",
-            "core-concepts/transfers/transfer-to-banks",
-            "core-concepts/transfers/transfer-between-accounts"
+            "products/transfers/introduction",
+            "products/transfers/bank-account-lookup",
+            "products/transfers/fetch-bank-codes-and-names",
+            "products/transfers/transfer-to-banks",
+            "products/transfers/transfer-between-accounts"
           ]
         },
         {
           "group": "Terminals",
           "icon": "mobile-retro",
           "pages": [
-            "core-concepts/terminals/introduction",
-            "core-concepts/terminals/assigning-and-unassigning-terminals",
+            "products/terminals/introduction",
+            "products/terminals/assigning-and-unassigning-terminals",
             {
               "group": "Custom Apps",
               "pages": [
-                "core-concepts/terminals/custom-apps/introduction",
-                "core-concepts/terminals/custom-apps/trigger-card-payments",
-                "core-concepts/terminals/custom-apps/trigger-bank-transfer-payments",
-                "core-concepts/terminals/custom-apps/trigger-receipt-printing"
+                "products/terminals/custom-apps/introduction",
+                "products/terminals/custom-apps/trigger-card-payments",
+                "products/terminals/custom-apps/trigger-bank-transfer-payments",
+                "products/terminals/custom-apps/trigger-receipt-printing"
               ]
             },
             {
               "group": "Connect to Nomba PTSP",
               "pages": [
-                "core-concepts/terminals/connect-to-nomba-ptsp/introduction",
-                "core-concepts/terminals/connect-to-nomba-ptsp/parameter-download",
-                "core-concepts/terminals/connect-to-nomba-ptsp/key-exchange",
-                "core-concepts/terminals/connect-to-nomba-ptsp/card-initiation-transaction"
+                "products/terminals/connect-to-nomba-ptsp/introduction",
+                "products/terminals/connect-to-nomba-ptsp/parameter-download",
+                "products/terminals/connect-to-nomba-ptsp/key-exchange",
+                "products/terminals/connect-to-nomba-ptsp/card-initiation-transaction"
               ]
             }
           ]
@@ -128,18 +132,18 @@
           "group": "Webhooks",
           "icon": "webhook",
           "pages": [
-            "core-concepts/webhooks/introduction",
-            "core-concepts/webhooks/signature-verification",
-            "core-concepts/webhooks/retries-backoff-policy"
+            "products/webhooks/introduction",
+            "products/webhooks/signature-verification",
+            "products/webhooks/retries-backoff-policy"
           ]
         },
         {
           "group": "Transactions",
           "icon": "receipt",
           "pages": [
-            "core-concepts/transactions/fetch-account-transactions",
-            "core-concepts/transactions/fetch-bank-transactions",
-            "core-concepts/transactions/filtering-through-transactions"
+            "products/transactions/fetch-account-transactions",
+            "products/transactions/fetch-bank-transactions",
+            "products/transactions/filtering-through-transactions"
           ]
         }
       ]
