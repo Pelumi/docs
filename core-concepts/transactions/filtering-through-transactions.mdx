@@ -1,26 +1,22 @@
 ---
-title: 'Verify Transactions'
-description: 'Learn how to appropraitely filter through your transactions with the Nomba API'
+title: 'Filtering through transactions'
+description: 'Learn how to filter through transactions on an account.'
 ---
 
 <CardGroup cols={2}>
   <Card
-    title="Filter transactions on the parent account"
-    icon="filter-circle-dollar"
-    href="/nomba-api-reference/transactions/filter-transactions-on-the-parent-account"
+    title="Filter parent account transactions"
+    icon="receipt"
+    href="/nomba-api-reference/transactions/filter-parent-account-transactions"
   >
   </Card>
   <Card
-    title="Filter transactions on a subaccount"
-    icon="filter-circle-dollar"
-    href="/nomba-api-reference/transactions/filter-transactions-on-an-account"
+    title="Filter sub account transactions"
+    icon="receipt"
+    href="/nomba-api-reference/transactions/filter-account-transactions"
   >
   </Card>
 </CardGroup>
-
-<Note>
-You can easily filter transctions using the `merchantTxRef` which is the reference you pass in upon creating transactions via the Nomba API. This is a quick way to reconcile on your encodeURI.
-</Note>
 
 # `POST /v1/transactions/accounts`
 
@@ -158,25 +154,15 @@ You can easily filter transctions using the `merchantTxRef` which is the referen
 
 <RequestExample>
 ```bash Request
-curl --request POST \
+curl --request GET \
   --url https://api.nomba.com/v1/transactions/accounts \
   --header 'Authorization: Bearer <token>' \
-  --header 'Content-Type: application/json' \
-  --header 'accountId: <accountid>' \
-  --data '{
-  "transactionRef": "POS-WITHDRAW-DFC05-693cd007-cd1e-4ea6-8b79-5f5c4d7a83ea",
-  "status": "SUCCESS",
-  "source": "pos",
-  "type": "withdrawal",
-  "terminalId": "2KUD4AKB",
-  "rrn": "230908202632",
-  "merchantTxRef": "c90d-4b25-ad0f"
-}'
+  --header 'accountId: <accountid>'
 ```
 </RequestExample>
 
 <ResponseExample>
-```json Sample response
+```json Success response
 {
   "code": "00",
   "description": "Success",

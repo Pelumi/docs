@@ -43,7 +43,7 @@ It is good to note that, you must subscribe for the event type you want to get n
 | Payout Failed       | `payout_failed`     | Event triggered when an attempted payout transaction fails to be processed successfully and is not completed.                         |
 | Payout Refund       | `payout_refund`     | Event triggered when a payment is refunded back to the merchant’s nomba account                                                       |
 
-#### Request Headers
+#### Request body Headers
 
 The payload sent on a webhook notification contains Nomba-specific headers.
 
@@ -75,7 +75,7 @@ We recommend configuring the signature key while creating a webhook URL. While t
 HTTP header names are case insensitive. Your client should convert all header names to a standardized lowercase or uppercase format before trying to determine the value of a header.
 </Tip>
 
-#### Request payload
+#### Request body payload
 
 The content of the payload is a JSON object and it gives details about the event that has been triggered.
 

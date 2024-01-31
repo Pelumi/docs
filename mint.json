@@ -102,7 +102,7 @@
         },
         {
           "group": "Transfers",
-          "icon": "right-left",
+          "icon": "shuffle",
           "pages": [
             "core-concepts/transfers/introduction",
             "core-concepts/transfers/bank-account-lookup",
@@ -113,7 +113,7 @@
         },
         {
           "group": "Terminals",
-          "icon": "money-simple-from-bracket",
+          "icon": "mobile-retro",
           "pages": [
             "core-concepts/terminals/introduction",
             "core-concepts/terminals/assigning-and-unassigning-terminals",
@@ -150,9 +150,9 @@
           "group": "Transactions",
           "icon": "receipt",
           "pages": [
-            "core-concepts/transactions/introduction",
-            "core-concepts/transactions/credit-debit-type-transactions",
-            "core-concepts/transactions/searching-filtering-transactions"
+            "core-concepts/transactions/fetch-account-transactions",
+            "core-concepts/transactions/fetch-bank-transactions",
+            "core-concepts/transactions/filtering-through-transactions"
           ]
         }
       ]

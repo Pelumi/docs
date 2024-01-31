@@ -1,0 +1,173 @@
+---
+title: 'Fetch bank transactions'
+description: 'Learn how to fetch bank transactions associated with an account.'
+---
+
+<CardGroup cols={2}>
+  <Card
+    title="Fetch bank transactions on the parent account"
+    icon="receipt"
+    href="/nomba-api-reference/transactions/fetch-creditdebit-transactions-on-the-parent-account"
+  >
+  </Card>
+  <Card
+    title="Fetch bank transactions on sub accounts"
+    icon="receipt"
+    href="/nomba-api-reference/transactions/fetch-creditdebit-transactions-on-an-account"
+  >
+  </Card>
+</CardGroup>
+
+<Tip>
+Use this resource to fetch credit/debit type transactions associated with accounts.
+</Tip>
+
+# `GET /v1/transactions/bank`
+
+#### Query parameters
+
+<ParamField query="limit" type="integer">
+  This endpoint is paginated. `limit` describes the size of the page you are querying.
+</ParamField>
+
+<ParamField query="cursor" type="string">
+  The `cursor` is used to scroll to the next page. When making the first call to list all accounts, there is no need to pass in any cursor since the API has not returned any cursor back to you. Only use cursor when the API provides it. For more information, please see [Pagination](/getting-started/pagination)
+</ParamField>
+
+<ParamField query="dateFrom" type="string">
+  This starting date. (in `UTC`)
+</ParamField>
+
+<ParamField query="dateTo" type="string">
+  This ending date. (in `UTC`)
+</ParamField>
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="data" type="object" required>
+  <Expandable title="object"  defaultOpen="true">
+    <ResponseField name="cursor" type="string">
+      Cursor for pagination. It will be empty if there is no more page to scroll to.
+    </ResponseField>
+    <ResponseField name="results" type="object[]">
+        <Expandable title="object"  defaultOpen="true">
+            <ResponseField name="amount" type="number" required>
+                The transaction amount.
+            </ResponseField>
+            <ResponseField name="currency" type="string" required>
+                The transaction currency.
+            </ResponseField>
+            <ResponseField name="status" type="string" required>
+                The transaction status.
+            </ResponseField>
+            <ResponseField name="timeUpdated" type="string" required>
+                The updated timestamp.
+            </ResponseField>
+            <ResponseField name="transactionType" type="string" required>
+                The transaction type.
+            </ResponseField>
+            <ResponseField name="walletBalance" type="number" required>
+                The account balance.
+            </ResponseField>
+            <ResponseField name="meta" type="object" required>
+                <Expandable title="object"  defaultOpen="true">
+                  <ResponseField name="mCollectionsId" type="string" required>
+                      The merchant collections ID.
+                  </ResponseField>
+                  <ResponseField name="type" type="string" required>
+                      The transaction type.
+                  </ResponseField>
+                  <ResponseField name="transactionAmount" type="number" required>
+                      The transaction amount.
+                  </ResponseField>
+                  <ResponseField name="billerId" type="string">
+                      The biller ID.
+                  </ResponseField>
+                  <ResponseField name="accountId" type="string">
+                      The account ID.
+                  </ResponseField>
+                  <ResponseField name="parentAccountId" type="string">
+                      The parent account ID.
+                  </ResponseField>
+                  <ResponseField name="rrn" type="string">
+                      The RRN (Retrieval Reference Number).
+                  </ResponseField>
+                  <ResponseField name="transactionId" type="string">
+                      The transaction ID.
+                  </ResponseField>
+                  <ResponseField name="posTerminalLabel" type="string">
+                      The POS terminal label.
+                  </ResponseField>
+                  <ResponseField name="fee" type="string">
+                      The transaction fee.
+                  </ResponseField>
+                  <ResponseField name="productId" type="string">
+                      The product ID.
+                  </ResponseField>
+                  <ResponseField name="terminalActionId" type="string">
+                      The terminal action ID.
+                  </ResponseField>
+                  <ResponseField name="merchantTxRef" type="string">
+                      The merchant transaction reference.
+                  </ResponseField>
+                </Expandable>
+            </ResponseField>
+
+        </Expandable>
+    </ResponseField>
+    
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash Request
+curl --request GET \
+  --url https://api.nomba.com/v1/transactions/accounts \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountid>'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success response
+{
+  "code": "00",
+  "description": "Success",
+  "data": {
+    "results": [
+      {
+        "id": "POS-WITHDRAW-DFC05-693cd007-cd1e-4ea6-8b79-5f5c4d7a83ea",
+        "status": "PAYMENT_FAILED",
+        "amount": 4000,
+        "fixedCharge": 123,
+        "source": "pos",
+        "type": "withdrawal",
+        "gatewayMessage": "Insufficient funds",
+        "customerBillerId": "539983 **** **** 5118",
+        "timeCreated": "2023-09-08T19:26:34.657000Z",
+        "posTid": "2KUD4AKB",
+        "terminalId": "2KUD4AKB",
+        "providerTerminalId": "2KUD4AKB",
+        "rrn": "230908202632",
+        "posSerialNumber": "91230309116826",
+        "posTerminalLabel": "KEB MUSA ABUBAKAR",
+        "stan": "556734",
+        "paymentVendorReference": "2KUD4AKB230908202632",
+        "userId": "dfc05ca1-4e75-41dd-8e41-2d362d565893",
+        "posRrn": "230908202632",
+        "merchantTxRef": "c90d-4b25-ad0f"
+      }
+    ],
+    "cursor": "xchbaVFsjdsbaADddd"
+  }
+}
+```
+</ResponseExample>

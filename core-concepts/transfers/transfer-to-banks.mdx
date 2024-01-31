@@ -6,13 +6,13 @@ description: 'Learn how to perform bank transfers using the Nomba API'
 <CardGroup cols={2}>
   <Card
     title="Perform bank transfers from the parent account"
-    icon="right-left"
+    icon="shuffle"
     href="/nomba-api-reference/transfers/perform-bank-account-transfer-from-the-parent-account"
   >
   </Card>
   <Card
     title="Perform bank transfers from sub accounts"
-    icon="right-left"
+    icon="shuffle"
     href="/nomba-api-reference/transfers/perform-bank-account-transfer-from-account"
   >
   </Card>
@@ -20,7 +20,7 @@ description: 'Learn how to perform bank transfers using the Nomba API'
 
 # `POST /v1/transfers/bank`
 
-#### Request
+#### Request body
 
 <ParamField body="amount" type="number" required>
   The amount to be transferred.
@@ -50,7 +50,7 @@ description: 'Learn how to perform bank transfers using the Nomba API'
   PIN.
 </ParamField>
 
-#### Response
+#### Response body
 
 <ResponseField name="code" type="string" required>
   Response code
