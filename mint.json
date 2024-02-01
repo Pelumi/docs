@@ -210,12 +210,14 @@
       ]
     },
     {
-      "group": "Terminals",
+      "group": "Online Checkout",
       "pages": [
-        "nomba-api-reference/terminals/assign-a-terminal-to-an-account",
-        "nomba-api-reference/terminals/assign-a-terminal-to-the-parent-account",
-        "nomba-api-reference/terminals/un-assign-terminal-from-an-account",
-        "nomba-api-reference/terminals/un-assign-a-terminal-from-the-parent-account"
+        "nomba-api-reference/online-checkout/create-an-online-checkout-order",
+        "nomba-api-reference/online-checkout/charge-a-customer-using-tokenized-card-data",
+        "nomba-api-reference/online-checkout/list-tokenized-cards",
+        "nomba-api-reference/online-checkout/update-tokenzied-card-data",
+        "nomba-api-reference/online-checkout/update-tokenzied-card-data-1",
+        "nomba-api-reference/online-checkout/list-tokenized-cards-1"
       ]
     },
     {
@@ -230,6 +232,15 @@
       ]
     },
     {
+      "group": "Terminals",
+      "pages": [
+        "nomba-api-reference/terminals/assign-a-terminal-to-an-account",
+        "nomba-api-reference/terminals/assign-a-terminal-to-the-parent-account",
+        "nomba-api-reference/terminals/un-assign-terminal-from-an-account",
+        "nomba-api-reference/terminals/un-assign-a-terminal-from-the-parent-account"
+      ]
+    },
+    {
       "group": "Transactions",
       "pages": [
         "nomba-api-reference/transactions/fetch-creditdebit-transactions-on-an-account",
@@ -238,16 +249,6 @@
         "nomba-api-reference/transactions/filter-account-transactions",
         "nomba-api-reference/transactions/fetch-transactions-on-the-parent-account",
         "nomba-api-reference/transactions/filter-parent-account-transactions"
-      ]
-    },
-    {
-      "group": "Online Checkout",
-      "pages": [
-        "nomba-api-reference/online-checkout/create-an-online-checkout-order",
-        "nomba-api-reference/online-checkout/charge-a-customer-using-tokenized-card-data",
-        "nomba-api-reference/online-checkout/list-tokenized-cards",
-        "nomba-api-reference/online-checkout/update-tokenzied-card-data",
-        "nomba-api-reference/online-checkout/update-tokenzied-card-data-1"
       ]
     }
   ],
