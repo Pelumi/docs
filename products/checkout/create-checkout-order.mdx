@@ -14,6 +14,10 @@ href="/nomba-api-reference/online-checkout/create-an-online-checkout-order">
 Kindly be aware that the optional boolean value tokenizedCard should be included or set to true only if you intend to tokenize your customer's card for the purpose of attempting other card payments at a later time.
 </Note>
 
+<Tip>
+Please pass the `accountId` inside the order request object if you wish to generate a checkout link for a subaccount.
+</Tip>
+
 #### Request body
 
 <ParamField body="order" type="object" required>
@@ -36,6 +40,9 @@ Kindly be aware that the optional boolean value tokenizedCard should be included
         </ParamField>
         <ParamField body="currency" type="string" required>
             The currency of the money to be paid by the customer
+        </ParamField>
+        <ParamField body="accountId" type="string">
+            Pass the accountId if you are generating this for a subaccount.
         </ParamField>
     </Expandable>
 </ParamField>

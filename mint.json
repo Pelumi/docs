@@ -74,6 +74,7 @@
             "products/accounts/introduction",
             "products/accounts/creating-a-sub-account",
             "products/accounts/creating-a-virtual-account",
+            "products/accounts/fetch-all-accounts",
             "products/accounts/fetching-account-balance",
             "products/accounts/terminal-assignment",
             "products/accounts/suspension-and-reactivation",
@@ -168,9 +169,11 @@
           "icon": "thumbs-up",
           "pages": [
             "support/guides/introduction",
-            "support/guides/accepting-payments-with-checkout",
+            "support/guides/accept-online-payments",
             "support/guides/authentication-best-practises",
-            "support/guides/setting-up-webhooks"
+            "support/guides/setting-up-webhooks",
+            "support/guides/processing-recurring-payments",
+            "support/guides/online-payments-with-subaccounts"
           ]
         }
       ]
@@ -178,7 +181,8 @@
     {
       "group": "API Documentation",
       "pages": [
-        "nomba-api-reference/introduction"
+        "nomba-api-reference/introduction",
+        "nomba-api-reference/get-api-keys"
       ]
     },
     {

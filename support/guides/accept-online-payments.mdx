@@ -1,0 +1,277 @@
+---
+title: 'Accept online payments'
+description: "Instructions on integrating Nomba's payment gateway for processing online payments."
+---
+
+#### Introduction
+
+Nomba Checkout serves as a payment gateway enabling your business to receive payments from customers through bank transfers or local/international debit cards, supporting Mastercard, Visa, and Verve.
+
+<Frame caption="Accept online payments">
+    <img src="/images/accept-online-payment-guide-1.png" style={{ borderRadius: '0.5rem' }} />
+</Frame>
+
+#### Get Started
+
+Embark on a 6-step journey to initiate payment acceptance
+
+<Steps titleSize="p">
+  <Step title="Acquire your API key">
+
+    Prior to engaging with the Nomba API, it is imperative to [acquire an access token](/getting-started/authentication/obtaining-access-token) to ensure access to the available resources. Before obtaining an access_token, it is essential to complete the following steps:
+    
+    - [Initialize your dashboard](/getting-started/dashboard-setup): Set up and configure your dashboard to establish a centralized control point.
+    
+    - [Retrieve your API Keys](/introduction/get-api-keys): Obtain the necessary API keys to authenticate and authorize your access to the API.
+
+  </Step>
+
+  <Step title="Configure your webhook">
+    Webhooks are a way to send real-time notifications or events from one application to another. Nomba can send notifications to your application via a webhook interface after which you can carry out a business process inside your application such as updating the status of a payment or sending an email.
+
+    Please follow the [set up your webhook](/products/webhooks/introduction) guide to properly configure your webhooks
+  </Step>
+
+  <Step title="Obtain an access token via the API">
+    As mentioned earlier, access to our APIs necessitates the use of an access token. Refer to the [guide on obtaining an access token](/getting-started/authentication/obtaining-access-token) for detailed instructions.
+
+    `Sample request`
+    ```bash
+    curl --request POST \
+        --url https://api.nomba.com/v1/auth/token/issue \
+        --header 'Content-Type: application/json' \
+        --header 'accountId: <accountid>' \
+        --data '{
+        "grant_type": "client_credentials",
+        "client_id": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
+        "client_secret": "JFJ8yq3G4+DvjivJMsji0YkZBkkKdSdjifR+TgT9RLM="
+    }'
+    ```
+
+    `Sample response`
+    ```json
+    {
+        "code": "00",
+        "description": "Success",
+        "data": {
+            "businessId": "01a10aeb-d989-460a-bbde-9842f2b4320f",
+            "access_token": "eyJhbGciOiJIUzI1NiJ9.eyJHOjhmYWM4M2FjLTc2YjAtNDM1Zi1hYTM1LThkOTU3ZGQ5MjdkZCI6Ikc6OGZhYzgzYWMtNzZiMC00MzVmLWFhMzUtOGQ5NTdkZDkyN2RkIiwiUjpURUFNU19PV05FUiI6IlI6VEVBTVNfT1dORVIiLCJFbWFpbDp2aWN0b3JzaG9hZ2FAZ21haWwuY29tIjoiRW1haWw6dmljdG9yc2hvYWdhQGdtYWlsLmNvbSIsImlhdCI6MTY4MTkxODU3OSwic3ViIjoiNWUyNmNmYjAtNTI5Zi00MTdiLWI4ZDItYWJjNDcxZjRjOWRiIiwiZXhwIjoxNjgxOTIyMTc5fQ.lQOsyhR1gajKdzE9IHQEtxhQyUrArctEDZiP9pWVTFY",
+            "refresh_token": "01h4gdx2tctxfjgacbdwrcvs5d1688473602892",
+            "expiresAt": "2022-07-08T14:33:00Z"
+        }
+    }
+    ```
+  </Step>
+
+  <Step title="Retrieve a Nomba Checkout link using the API">
+    Once this link is loaded on a browser, your customer will be able to pay you via bank transfer or debit card. Please refer to the [guide on creating a checkout order](/products/checkout/create-checkout-order)
+
+
+    `Sample request`
+    ```bash
+    curl --request POST \
+        --url https://api.nomba.com/v1/checkout/order \
+        --header 'Authorization: Bearer <token>' \
+        --header 'Content-Type: application/json' \
+        --header 'accountId: <accountid>' \
+        --data '{
+        "order": {
+            "orderReference": "fd3002af-d48b-40a0-adba-0b1c93635bd2",
+            "customerId": "762878332454",
+            "callbackUrl": "https://ip:port/merchant.com/callback",
+            "customerEmail": "abcde@gmail.com",
+            "amount": "10000.00",
+            "currency": "NGN"
+        },
+        "tokenizeCard": "true"
+    }'
+    ```
+
+    `Sample response`
+    ```json
+    {
+        "code": "00",
+        "description": "Success",
+        "data": {
+            "checkoutLink": "https://ip:port/checkout/78388899938",
+            "orderReference": "fd3002af-d48b-40a0-adba-0b1c93635bd2"
+        }
+    }
+    ```
+
+    <Tip>
+    Pick the `checkoutLink` from the response and load in a browser or an iframe to allow your customer pay you.
+    </Tip>
+
+  </Step>
+
+  <Step title="Handle our webhook requests">
+
+    Once you are subscribed to a webhook event e.g. `payment_success`, we will send a webhook request to you upon a successful payment from your customer. For a successful bank transfer payment, the request body is slightly different from that of a successful card payment. The `customer.billerId` and `customer.productId` differ as shown below
+
+    `Successful card payment`
+
+    ```json
+    {
+        "event_type": "payment_success",
+        "requestId": "ddfadc29-d1c0-41d6-904d-a71a6740f1c4",
+        "data": {
+            "merchant": {
+                "userId": "cb6778b6-207c-41ac-a7fd-c2d1969b6aa6",
+                "walletId": "6553834573357772379e03d1",
+                "walletBalance": 1000000000
+            },
+            "terminal": {
+                "terminalId": "",
+                "terminalLabel": ""
+            },
+            "tokenizedCardData": {
+                "tokenKey": "N/A",
+                "cardType": "N/A",
+                "tokenExpiryDate": "N/A",
+                "cardPan": "N/A"
+            },
+            "transaction": {
+                "transactionId": "WEB-ONLINE_C-CB677-27b33599-9359-4aa3-b4d0-9c60f3b4a978",
+                "type": "online_checkout",
+                "originatingFrom": "web",
+                "rrn": "",
+                "transactionAmount": 2400.0,
+                "fee": 93.6,
+                "time": "2024-01-11T16:33:04Z",
+                "terminalActionId": "",
+                "mcollectionsId": "",
+                "merchantTxRef": ""
+            },
+            "customer": {
+                "billerId": "465922 **** **** 8038",
+                "productId": "465922"
+            },
+            "order": {
+                "accountId": "cb6778b6-207c-41ac-a7fd-c2d1969b6aa6",
+                "orderReference": "testingref185",
+                "callbackUrl": "https://www.nomba.com",
+                "customerEmail": "",
+                "amount": 2400.0,
+                "currency": "NGN",
+                "cardCurrency": "GBP",
+                "customerId": "identify123",
+                "isTokenizedCardPayment": "false"
+            }
+        }
+    }
+    ```
+
+    `Successful bank transfer`
+
+    ```json
+    {
+        "event_type": "payment_success",
+        "requestId": "ddfadc29-d1c0-41d6-904d-a71a6740f1c4",
+        "data": {
+            "merchant": {
+                "userId": "cb6778b6-207c-41ac-a7fd-c2d1969b6aa6",
+                "walletId": "6553834573357772379e03d1",
+                "walletBalance": 1000000000
+            },
+            "terminal": {
+                "terminalId": "",
+                "terminalLabel": ""
+            },
+            "tokenizedCardData": {
+                "tokenKey": "N/A",
+                "cardType": "N/A",
+                "tokenExpiryDate": "N/A",
+                "cardPan": "N/A"
+            },
+            "transaction": {
+                "transactionId": "WEB-ONLINE_C-CB677-27b33599-9359-4aa3-b4d0-9c60f3b4a978",
+                "type": "online_checkout",
+                "originatingFrom": "web",
+                "rrn": "",
+                "transactionAmount": 2400.0,
+                "fee": 93.6,
+                "time": "2024-01-11T16:33:04Z",
+                "terminalActionId": "",
+                "mcollectionsId": "",
+                "merchantTxRef": ""
+            },
+            "customer": {
+                "billerId": "465922 **** **** 8038",
+                "productId": "465922"
+            },
+            "order": {
+                "accountId": "cb6778b6-207c-41ac-a7fd-c2d1969b6aa6",
+                "orderReference": "testingref185",
+                "callbackUrl": "https://www.nomba.com",
+                "customerEmail": "",
+                "amount": 2400.0,
+                "currency": "NGN",
+                "cardCurrency": "GBP",
+                "customerId": "identify123",
+                "isTokenizedCardPayment": "false"
+            }
+        }
+    }
+    ```
+    
+    Please refer to [our webhooks documentation](/products/webhooks/introduction) to further understand how to work with them.
+  </Step>
+
+  <Step title="Conduct transaction verification">
+
+  After you receive our webhook notification, we recommend you to verify the status of the transaction before performing your business process. Please refer to the [guide on verifying checkout transactions](/products/checkout/verify-transactions) to see how to perform transaction verification.
+
+  <Tip>
+  Use the transaction reference Id (`data.transaction.transactionId`) in the webhook request body to perform the transaction verification.
+  </Tip>
+
+    `Sample request`
+    ```bash
+    curl --request POST \
+        --url https://api.nomba.com/v1/transactions/accounts \
+        --header 'Authorization: Bearer <token>' \
+        --header 'Content-Type: application/json' \
+        --header 'accountId: <accountid>' \
+        --data '{
+        "transactionRef": "POS-WITHDRAW-DFC05-693cd007-cd1e-4ea6-8b79-5f5c4d7a83ea"
+    }'
+    ```
+
+    `Sample response`
+    ```json
+    {
+        "code": "00",
+        "description": "Success",
+        "data": {
+            "results": [
+            {
+                "id": "POS-WITHDRAW-DFC05-693cd007-cd1e-4ea6-8b79-5f5c4d7a83ea",
+                "status": "PAYMENT_FAILED",
+                "amount": 4000,
+                "fixedCharge": 123,
+                "source": "pos",
+                "type": "withdrawal",
+                "gatewayMessage": "Insufficient funds",
+                "customerBillerId": "539983 **** **** 5118",
+                "timeCreated": "2023-09-08T19:26:34.657000Z",
+                "posTid": "2KUD4AKB",
+                "terminalId": "2KUD4AKB",
+                "providerTerminalId": "2KUD4AKB",
+                "rrn": "230908202632",
+                "posSerialNumber": "91230309116826",
+                "posTerminalLabel": "KEB MUSA ABUBAKAR",
+                "stan": "556734",
+                "paymentVendorReference": "2KUD4AKB230908202632",
+                "userId": "dfc05ca1-4e75-41dd-8e41-2d362d565893",
+                "posRrn": "230908202632",
+                "merchantTxRef": "c90d-4b25-ad0f"
+            }
+            ],
+            "cursor": "xchbaVFsjdsbaADddd"
+        }
+    }
+    ```
+
+  </Step>
+</Steps>

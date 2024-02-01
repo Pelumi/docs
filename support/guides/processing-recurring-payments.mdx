@@ -1,0 +1,123 @@
+---
+title: 'Processing recurring payments'
+description: "Instructions on processing subscription based payments with Nomba's payment gateway."
+---
+
+## Overview
+
+Leverage our tokenization APIs to set up a subscription service, facilitating the recurrent collection of payments from your customers on a predefined schedule, be it monthly, weekly, or yearly.
+
+During the payment process through Nomba Checkout, you can simply request us to tokenize your customer's card. Subsequently, we will furnish you with the token details through our webhook, enabling you to effortlessly charge your customer at scheduled intervals. Moreover, we offer an API to update or delete a tokenized card, providing flexibility in case your customer decides to terminate their recurring payments. Please read through the following section to gain insight on how to proceed with processing recurring payments.
+
+#### Request for a card to be tokenised
+
+Requesting a card to be tokenized is as simple as setting the `tokenizedCard` property in the request body for [creating a checkout order](/products/checkout/create-checkout-order). Setting this property to `true` would mean that you want us to tokenize the customer's card on your behalf.
+
+`Sample request`
+```bash
+curl --request POST \
+  --url https://api.nomba.com/v1/checkout/order \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountid>' \
+  --data '{
+  "order": {
+    "orderReference": "fd3002af-d48b-40a0-adba-0b1c93635bd2",
+    "customerId": "762878332454",
+    "callbackUrl": "https://ip:port/merchant.com/callback",
+    "customerEmail": "abcde@gmail.com",
+    "amount": "10000.00",
+    "currency": "NGN"
+  },
+  "tokenizeCard": "true"
+}'
+```
+
+`Sample response`
+```json
+{
+  "code": "00",
+  "description": "Success",
+  "data": {
+    "checkoutLink": "https://ip:port/checkout/78388899938",
+    "orderReference": "fd3002af-d48b-40a0-adba-0b1c93635bd2"
+  }
+}
+```
+
+#### Handle the token details in the webhook sent
+
+Upon successfully processing a customer's payment, a webhook notification will be dispatched with the event type `payment_success`. Ensure you are subscribed to this event, as detailed [in this documentation](/products/webhooks/introduction). Following your request to tokenize the card, the webhook notification's request body will include a property called `tokenizedCardData`. The value of this property is essential for subsequent tokenized card payments.
+
+#### Pay with a tokenised card
+
+Upon obtaining the tokenizedCardData as outlined in the preceding section, you can commence charging the customer using the tokenized card. Simply incorporate the value of `tokenizedCardData` into a new property named `tokenKey` when interacting with the the tokenized card payment endpoint, as specified [in this documentation](/products/checkout/charge-tokenized-cards).
+
+`Sample request`
+```bash
+curl --request POST \
+  --url https://api.nomba.com/v1/checkout/tokenized-card-payment \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountid>' \
+  --data '{
+  "order": {
+    "orderReference": "fd3002af-d48b-40a0-adba-0b1c93635bd2",
+    "customerId": "762878332454",
+    "callbackUrl": "https://ip:port/merchant.com/callback",
+    "customerEmail": "abcde@gmail.com",
+    "amount": "10000.00",
+    "currency": "NGN"
+  },
+  "tokenKey": "7628788443"
+}'
+```
+
+`Sample response`
+```json
+{
+    "code": "00",
+    "description": "Success",
+    "data": {
+        "status": true,
+        "message": "Approved by Financial Insitution"
+    }
+}
+```
+
+#### Update the email of a tokenised card
+
+Should there arise a necessity to modify the email address associated with a tokenized card, such a need may arise due to our verification process. We scrutinize the email address linked to a tokenized card, and a tokenized payment may be declined if the email address does not match the one used for tokenization. Please see the information detailed below to update the email address of a tokenized card.
+
+`Sample request`
+```bash
+curl --request POST \
+  --url https://api.nomba.com/v1/checkout/tokenized-card-data \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountid>' \
+  --data '{
+  "tokenKey": "xxxxxxxxxx",
+  "currentEmailAddress": "ttt@gmail.com",
+  "newEmailAddress": "xxxx@email.com"
+}'
+```
+
+`Sample response`
+```json
+{
+    "code": "00",
+    "description": "success",
+    "data": {
+        "status": true,
+        "message": "Email address updated successfully",
+        "tokenizedCardData": {
+            "tokenKey": "xxxxxxxxx",
+            "cardType": "Verve",
+            "tokenExpiryDate": "2412",
+            "cardPan": "506109**** ****9229",
+            "customerEmail": "xxxx@email.com"
+        }
+    }
+}
+```

@@ -1,0 +1,40 @@
+---
+title: 'Authentication best practises'
+description: 'Strategies for optimizing the authentication workflow with the Nomba API.'
+---
+
+#### Secure Credentials Storage
+
+<Tip>
+Safeguard your credentials by storing client_id and client_secret securely in your server application rather than exposing them in client applications.
+</Tip>
+
+Ensure a robust security posture by refraining from connecting to our services directly from client applications unless utilizing the PKCE flow. Never store sensitive credentials, such as `client_id` and `client_secret`, in client applications where they could be susceptible to exposure. Instead, securely store these credentials in your server application, providing an added layer of protection.
+
+#### Single-Instance Authentication
+
+<Tip>
+Streamline your authentication process by utilizing the refresh token approach for obtaining new access tokens, ensuring seamless access to resources with minimal disruptions.
+</Tip>
+
+In a single-instance environment, the primary workflow involves the instance obtaining an `access_token` through the [Obtain access token](/getting-started/authentication/obtaining-access-token) endpoint. Subsequently, use this `access_token` to interact with the Nomba API. If a 401 Unauthenticated response is received, it indicates a potential expiration of the `access_token`, prompting the need for renewal.
+
+While the [Obtain access token](/getting-started/authentication/obtaining-access-token) endpoint can be utilized for obtaining a new `access_token`, we recommend employing the refresh token approach. Use the [Refreshing access token](/getting-started/authentication/refreshing-access-token) endpoint with the `refresh_token` obtained during the initial `access_token` retrieval. This method streamlines the process, ensuring a seamless token refresh and providing both `access_token` and `refresh_token` upon success. Repeatedly refresh the token using this approach whenever the `access_token` expires.
+
+<Frame caption="Single-instance authentication">
+    <img src="/images/auth-best-practise-1.png" style={{ borderRadius: '0.5rem' }} />
+</Frame>
+
+#### Multi-Instance Authentication
+
+<Tip>
+Architect your system to support a single instance authenticating at a time, implementing a lock mechanism to ensure secure and synchronized authentication across multiple instances.
+</Tip>
+
+In a multi-instance environment, where multiple instances may authenticate simultaneously, careful consideration is required to avoid potential issues. Authentication from multiple instances within an application is not recommended, as it can lead to 401 errors due to security measures maintaining a single session.
+
+To address this, architect your system to support a single instance authenticating with our services at a given time. Implement a robust locking mechanism to enforce this constraint, allowing only one instance to authenticate. After successful authentication, store the `access_token` and `refresh_token` in a cache within the same instance. Subsequent instances can then retrieve the tokens from the cache, ensuring a secure and synchronized authentication process across multiple instances.
+
+<Frame caption="Multi-instance authentication">
+    <img src="/images/auth-best-practise-2.png" style={{ borderRadius: '0.5rem' }} />
+</Frame>

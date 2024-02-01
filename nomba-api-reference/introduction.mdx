@@ -1,33 +1,63 @@
 ---
 title: 'Introduction'
-description: 'Example section for showcasing API endpoints'
+description: 'Interact with all our available API endpoints'
+icon: play
 ---
 
-<Note>
-  If you're not looking to build API reference documentation, you can delete
-  this section by removing the nomba-api-reference folder.
-</Note>
+<Tip>
+  Feel free to conduct direct testing on this website. We strongly encourage and recommend utilizing this feature as an efficient means to promptly test functionalities and configurations on your end.
+</Tip>
 
 ## Welcome
 
-There are two ways to build API documentation: [OpenAPI](https://mintlify.com/docs/api-playground/openapi/setup) and [MDX components](https://mintlify.com/docs/api-playground/mdx/configuration). For the starter kit, we are using the following OpenAPI specification.
+While we advocate for leveraging the testing capability offered on this website, we recognize that you may also wish to create client SDKs tailored to your use case. We recommend utilizing [Nomba's OpenAPI Spec](https://github.com/kudi-inc/vendor-openapi-spec/blob/main/openapi3_0_v_1_0_0.json) along with the [well-known Swagger tool](https://swagger.io/tools/swagger-codegen/) for generating client SDKs.
+
+This method ensures a seamless and convenient validation process, providing you with the flexibility to refine and optimize your implementations with ease. Incorporating client SDKs into your workflow enhances the overall development experience and promotes efficiency in handling various aspects of API integration for your specific needs.
+
+## Quick Action
+
+<CardGroup cols={3}>
+  <Card
+    title="Authenticate"
+    icon="shield-check"
+    href="/nomba-api-reference/authenticate/obtain-access-token"
+  >
+    Authenticate with the Nomba API.
+  </Card>
+  <Card
+    title="Accept payments"
+    icon="globe"
+    href="/nomba-api-reference/online-checkout/create-an-online-checkout-order"
+  >
+    Create a checkout payment link.
+  </Card>
+  <Card
+    title="Send money"
+    icon="shuffle"
+    href="/nomba-api-reference/transfers/perform-bank-account-transfer-from-the-parent-account"
+  >
+    Initiate money transfer transactions.
+  </Card>
+</CardGroup>
+
+## OpenAPI Spec
 
 <Card
-  title="Plant Store Endpoints"
-  icon="leaf"
-  href="https://github.com/mintlify/starter/blob/main/api-reference/openapi.json"
+  title="Nomba API Endpoints"
+  icon="rocket-launch"
+  href="https://github.com/kudi-inc/vendor-openapi-spec/blob/main/openapi3_0_v_1_0_0.json"
 >
   View the OpenAPI specification file
 </Card>
 
 ## Authentication
 
-All API endpoints are authenticated using Bearer tokens and picked up from the specification file.
+Nomba streamlines the authentication of API calls through the utilization of [OAuth2 HTTP bearer tokens](http://tools.ietf.org/html/rfc6750). The authentication process encompasses two distinct methods, namely the [Client-credentials method](https://www.rfc-editor.org/rfc/rfc6749) and the [PKCE (Proof key for code exchange)](https://www.rfc-editor.org/rfc/rfc7636) method. In each method, an access_token is generated, serving as the key to authenticate your API requests seamlessly.
 
-```json
-"security": [
-  {
-    "bearerAuth": []
-  }
-]
-```
+To furnish your API requests with the requisite access_token, employ the `"Authorization"` HTTP header, as illustrated: `Authorization: {access_token}`. This robust and secure authentication mechanism ensures the integrity of your interactions with Nomba's API.
+
+For an in-depth comprehension of Nomba's authentication flow, explore further insights and details [available here](/getting-started/authentication/introduction). These resources offer a comprehensive guide to navigating the intricacies of our authentication processes, empowering you to harness the full potential of Nomba's capabilities for your API calls.
+
+## Cross-Origin Resource Sharing
+
+The API incorporates Cross-Origin Resource Sharing (CORS) in accordance with the [W3C](https://w3.org/TR/cors) specifications. CORS support is essential, facilitating calls from the request maker embedded within the API documentation. This adherence to CORS standards enhances the versatility of the API, ensuring seamless and secure communication with the API docs request maker, thereby contributing to an optimal developer experience.

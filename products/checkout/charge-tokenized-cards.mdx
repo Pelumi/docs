@@ -4,7 +4,7 @@ description: 'Learn how to charge tokenized cards with the Nomba API'
 ---
 
 <Card title="Charge a tokenized card" icon="credit-card"
-href="/nomba-api-reference/online-checkout/charge-customer-using-tokenized-card-data">
+href="/nomba-api-reference/online-checkout/charge-a-customer-using-tokenized-card-data">
   Process payments with a unique tokens instead of exposing sensitive card details
 </Card>
 
@@ -91,12 +91,12 @@ curl --request POST \
 <ResponseExample>
 ```json Success response
 {
-  "code": "00",
-  "description": "Success",
-  "data": {
-    "status": true,
-    "message": "success"
-  }
+    "code": "00",
+    "description": "Success",
+    "data": {
+        "status": true,
+        "message": "Approved by Financial Insitution"
+    }
 }
 ```
 </ResponseExample>

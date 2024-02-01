@@ -12,7 +12,7 @@ Within the Nomba API, idempotency stands as a crucial shield against unintended 
 
 In the API landscape, an operation is termed idempotent if its results remain consistent, regardless of how frequently the operation is executed. Essentially, idempotency acts as a protective barrier against unintentional duplicate calls that could lead to unforeseen consequences.
 
-For instance, consider a scenario where idempotency is not enforced for the [Bank Transfer](../nomba-api-reference/transfers/perform-bank-account-transfer-from-the-parent-account) endpoint in Nomba. A successful "Bank Transfer" request is made, but a connection failure prevents confirmation. Uncertainty looms regarding the fate of the initial request, and if resent, it may inadvertently result in a duplicate disbursement.
+For instance, consider a scenario where idempotency is not enforced for the [Bank Transfer](../nomba-api-reference/transfers/perform-bank-account-transfer-from-the-parent-account) endpoint in Nomba. A successful `Bank Transfer` request is made, but a connection failure prevents confirmation. Uncertainty looms regarding the fate of the initial request, and if resent, it may inadvertently result in a duplicate disbursement.
 
 To mitigate this risk, Nomba incorporates idempotency support by allowing API operations to include an idempotency key which is a unique string that guards against accidental duplicate calls.
 
@@ -22,10 +22,10 @@ Nomba's API provides a tangible illustration of idempotency in action, where ope
 Lets consider the earlier `Bank Transfer` example
 
 #### Scenario 1
-Repeating the same "Bank Transfer" request with the same idempotency key prompts the endpoint to recognize it as a duplicate. Instead of processing the request again, the endpoint retrieves the response from the initial successful "Bank Transfer" operation.
+Repeating the same `Bank Transfer` request with the same idempotency key prompts the endpoint to recognize it as a duplicate. Instead of processing the request again, the endpoint retrieves the response from the initial successful `Bank Transfer` operation.
 
 #### Scenario 2
-Using the same idempotency key but altering the "Bank Transfer" request (e.g., specifying a different amount) results in an error, indicating previous usage of the idempotency key.
+Using the same idempotency key but altering the `Bank Transfer` request (e.g., specifying a different amount) results in an error, indicating previous usage of the idempotency key.
 
 ## Best Practices
 
