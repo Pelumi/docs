@@ -107,7 +107,6 @@
           "group": "Terminals",
           "icon": "mobile-retro",
           "pages": [
-            "products/terminals/introduction",
             "products/terminals/assigning-terminals",
             "products/terminals/unassigning-terminals",
             {
