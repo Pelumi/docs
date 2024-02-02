@@ -1,24 +1,24 @@
 ---
-title: 'Terminal assignment'
-description: 'Learn how to assign terminals to accounts.'
+title: 'Unassigning terminals'
+description: 'Learn how to unassign terminals from accounts'
 ---
 
 <CardGroup cols={2}>
   <Card
-    title="Assign terminals to the parent account"
-    icon="link-simple"
-    href="/nomba-api-reference/terminals/assign-a-terminal-to-the-parent-account"
+    title="Unassign terminals from the parent account"
+    icon="link-simple-slash"
+    href="/nomba-api-reference/terminals/un-assign-a-terminal-from-the-parent-account"
   >
   </Card>
   <Card
-    title="Assign terminals to sub accounts"
-    icon="link-simple"
-    href="/nomba-api-reference/terminals/assign-a-terminal-to-an-account"
+    title="Unassign terminals from a subaccount"
+    icon="link-simple-slash"
+    href="/nomba-api-reference/terminals/un-assign-terminal-from-an-account"
   >
   </Card>
 </CardGroup>
 
-# `POST /v1/terminals/assign`
+# `POST /v1/terminals/unassign`
 
 #### Request body
 
@@ -73,7 +73,7 @@ description: 'Learn how to assign terminals to accounts.'
 <RequestExample>
 ```bash Request
 curl --request POST \
-  --url https://api.nomba.com/v1/terminals/assign \
+  --url https://api.nomba.com/v1/terminals/unassign \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
   --header 'accountId: <accountid>' \

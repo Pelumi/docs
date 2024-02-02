@@ -10,9 +10,9 @@ Pagination in the Nomba API is a crucial feature designed to efficiently manage 
 
 When retrieving a list of data using the Nomba API, you can define a `limit` indicating the amount of data you want the endpoint to provide at a time. After a successful response, the endpoint furnishes the requested data along with a `cursor`. This `cursor` is essential for navigating to the subsequent page, which contains the next batch of items.
 
-<Info>
+<Note>
   The limit has a maximum value of 50. You cannot get more than 50 items per time.
-</Info>
+</Note>
 
 <CodeGroup>
 ```bash Request (with limit = 2)

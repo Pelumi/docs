@@ -108,13 +108,16 @@
           "icon": "mobile-retro",
           "pages": [
             "products/terminals/introduction",
-            "products/terminals/assigning-and-unassigning-terminals",
+            "products/terminals/assigning-terminals",
+            "products/terminals/unassigning-terminals",
             {
               "group": "Custom Apps",
               "pages": [
                 "products/terminals/custom-apps/introduction",
                 "products/terminals/custom-apps/trigger-card-payments",
                 "products/terminals/custom-apps/trigger-bank-transfer-payments",
+                "products/terminals/custom-apps/trigger-payments",
+                "products/terminals/custom-apps/retrieve-device-info",
                 "products/terminals/custom-apps/trigger-receipt-printing"
               ]
             },
@@ -124,7 +127,7 @@
                 "products/terminals/connect-to-nomba-ptsp/introduction",
                 "products/terminals/connect-to-nomba-ptsp/parameter-download",
                 "products/terminals/connect-to-nomba-ptsp/key-exchange",
-                "products/terminals/connect-to-nomba-ptsp/card-initiation-transaction"
+                "products/terminals/connect-to-nomba-ptsp/initiate-card-transactions"
               ]
             }
           ]

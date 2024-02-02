@@ -1,31 +1,36 @@
 ---
-title: 'Trigger bank transfer payments'
-description: 'Learn how to receive bank transfer payments from your customers'
+title: 'Trigger payments'
+description: 'Learn how to receive either card or bank transfer payments from your customers'
 ---
 
 <Note>
-The aim of this document is to assist you in initiating bank transfer payment from your custom application running on the Nomba Android terminal. If you encounter any difficulties with this process, feel free to [reach out for support.](/support/reach-out) 
+The aim of this document is to assist you in initiating payment acceptance from your custom application running on the Nomba Android terminal. If you encounter any difficulties with this process, feel free to [reach out for support.](/support/reach-out) 
 </Note>
 
 <Tip>
-Trigger bank transfer payments - available since NombaX Application `v1.6.2`
+Trigger payments - available since NombaX Application `v1.6.2`
 </Tip>
 
-This following code snippet serves as a foundation for triggering bank transfer payment events on the Nomba terminal. Adjustments to the amount, transaction reference, and other parameters can be easily made based on specific application requirements.
+This following code snippet serves as a foundation for triggering payment events on the Nomba terminal. Adjustments to the amount, transaction reference, and other parameters can be easily made based on specific application requirements.
 
 <CodeGroup>
 
-```kotlin trigger_bank transfer_payment.kt
-const val PAY_BY_TRANSFER_INTENT = "com.nomba.pro.feature.pay_by_transfer.ACTION_VIEW"
+```kotlin trigger_payment.kt
+const val PAYMENT_OPTION_INTENT = "com.nomba.pro.feature.payment_option.ACTION_VIEW"
 const val AMOUNT_DATA = "amount"
+const val MERCHANT_TX_REF = "merchantTxRef"
 const val TXN_RESULT = "txnResultData"
 const val RECEIPT_OPTIONS = "receiptOptions"
+const val ARGS_PAYMENT_OPTION_STATE = "ARGS_PAYMENT_OPTION_STATE"
+const val SDK_PAYMENT_OPTIONS = "SDK_PAYMENT_OPTIONS"
 
 val resultString = mutableStateOf("")
 
 //setup a launcher that would help launch the intent
-var payByTransferLauncher =
-registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+var paymentOptionLauncher = registerForActivityResult(
+    ActivityResultContracts
+        .StartActivityForResult()
+) { result ->
     val data: Intent? = result.data
     if (result.resultCode == Activity.RESULT_OK) {
         resultString.value = data?.getStringExtra(TXN_RESULT) ?: "null"
@@ -33,10 +38,13 @@ registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { re
 }
 
 //setup an intent to be triggered
-val intent = Intent(PAY_BY_TRANSFER_INTENT)
+val intent = Intent(PAYMENT_OPTION_INTENT)
 
 //put the amount to be charged
 intent.putExtra(AMOUNT_DATA, "300")
+
+//tie a reference to the payment
+intent.putExtra(MERCHANT_TX_REF, "1234567890")
 
 //handle receipt medium
 val receiptOptionsMap = hashMapOf(
@@ -47,21 +55,27 @@ val receiptOptionsMap = hashMapOf(
 val receiptOptionsString = Json.encodeToString(serializer<HashMap<String, Boolean>>(), receiptOptionsMap)
 intent.putExtra(RECEIPT_OPTIONS, receiptOptionsString)
 
+//add extras
+intent.putExtra(ARGS_PAYMENT_OPTION_STATE, SDK_PAYMENT_OPTIONS)
+
 //launch the intent
-payByTransferLauncher.launch(intent)
+paymentOptionLauncher.launch(intent)
 ```
 
-```java trigger_bank_transfer_payment.java
-public static final String PAY_BY_TRANSFER_INTENT = "com.nomba.pro.feature.pay_by_transfer.ACTION_VIEW";
+```java trigger_payment.java
+public static final String PAYMENT_OPTION_INTENT = "com.nomba.pro.feature.payment_option.ACTION_VIEW";
 public static final String AMOUNT_DATA = "amount";
+public static final String MERCHANT_TX_REF = "merchantTxRef";
 public static final String TXN_RESULT = "txnResultData";
 public static final String RECEIPT_OPTIONS = "receiptOptions";
+public static final String ARGS_PAYMENT_OPTION_STATE = "ARGS_PAYMENT_OPTION_STATE";
+public static final String SDK_PAYMENT_OPTIONS = "SDK_PAYMENT_OPTIONS";
 
 // Assuming you have a mutable state variable similar to mutableStateOf in Java
 private MutableLiveData<String> resultString = new MutableLiveData<>();
 
 // Setup a launcher that would help launch the intent
-ActivityResultLauncher<Intent> payByTransferLauncher = registerForActivityResult(
+ActivityResultLauncher<Intent> paymentOptionLauncher = registerForActivityResult(
         new ActivityResultContracts.StartActivityForResult(),
         result -> {
             Intent data = result.getData();
@@ -72,10 +86,13 @@ ActivityResultLauncher<Intent> payByTransferLauncher = registerForActivityResult
 );
 
 // Setup an intent to be triggered
-Intent intent = new Intent(PAY_BY_TRANSFER_INTENT);
+Intent intent = new Intent(PAYMENT_OPTION_INTENT);
 
 // Put the amount to be charged
 intent.putExtra(AMOUNT_DATA, "300");
+
+// Tie a reference to the payment
+intent.putExtra(MERCHANT_TX_REF, "1234567890");
 
 //handle receipt medium
 HashMap<String, Boolean> receiptOptionsMap = new HashMap<>();
@@ -86,10 +103,27 @@ receiptOptionsMap.put("email", false);
 String receiptOptionsString = Json.encodeToString(serializer(HashMap.class, Boolean.class), receiptOptionsMap);
 intent.putExtra(RECEIPT_OPTIONS, receiptOptionsString);
 
+//add extras
+intent.putExtra(ARGS_PAYMENT_OPTION_STATE, SDK_PAYMENT_OPTIONS);
+
 // Launch the intent
-payByTransferLauncher.launch(intent);
+paymentOptionLauncher.launch(intent);
 ```
 </CodeGroup>
+
+<Check>
+Please ensure to pass the amount as `kobo` i.e. `200` will charge your customer `NGN 2.00`
+</Check>
+
+Your resultString should look like;
+```
+{
+    responseCode=00, responseCodeMeaning="Completed successfully", terminalId="2KUD2XFU", 
+    rrn="240117080003", formattedAmountString="₦3.00", txnType="PURCHASE", dateTime="2024-01-17 8:00:03", 
+    cardPan="559441******5882", stan="575780", expiryDate="2606", cardName="00002220", 
+    merchantName="Etrack Systems", providerTid="2KUD2XFU", cardScheme="Debit Mastercard"
+}
+```
 
 <Tip>
 Please note that the following details will make reference to the kotlin code snippet
@@ -99,8 +133,9 @@ Please note that the following details will make reference to the kotlin code sn
 
 |                         | Description                                                                                     |
 |-------------------------|-------------------------------------------------------------------------------------------------|
-| `PAY_BY_TRANSFER_INTENT` | Defines the action string for the intent, indicating the type of action to be performed. |
+| `PAYMENT_OPTION_INTENT` | Defines the action string for the intent, indicating the type of action to be performed. |
 | `AMOUNT_DATA`           | Represents the key for passing the amount to be charged during the payment process.               |
+| `MERCHANT_TX_REF`       | Represents the key for tying a reference to the payment, often used for tracking and record-keeping. |
 | `TXN_RESULT`            | Represents the key for extracting transaction result data from the intent.                         |
 
 
@@ -115,14 +150,14 @@ Please note that the following details will make reference to the kotlin code sn
 
 |                                              | Description                                                                                     |
 |----------------------------------------------|-------------------------------------------------------------------------------------------------|
-| `val intent = Intent(PAY_BY_TRANSFER_INTENT)` | Creates an instance of Intent with the specified action `PAY_BY_TRANSFER_INTENT`. |
-| `intent.putExtra(AMOUNT_DATA, "300")`        | Adds extra data to the intent, including the amount to be charged `AMOUNT_DATA`. |
+| `val intent = Intent(PAYMENT_OPTION_INTENT)` | Creates an instance of Intent with the specified action `PAYMENT_OPTION_INTENT`. |
+| `intent.putExtra(AMOUNT_DATA, "300")`        | Adds extra data to the intent, including the amount to be charged `AMOUNT_DATA` and a reference to the payment `MERCHANT_TX_REF`. |
 
 #### Launching the intent
 
 |                                              | Description                                                                                     |
 |----------------------------------------------|-------------------------------------------------------------------------------------------------|
-| `payByTransferLauncher.launch(intent)`        | Initiates the intent, triggering the Android system to display the payment options to the user. |
+| `paymentOptionLauncher.launch(intent)`        | Initiates the intent, triggering the Android system to display the payment options to the user. |
 
 
 #### Result Handling

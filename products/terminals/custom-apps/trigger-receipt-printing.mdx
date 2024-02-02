@@ -1,0 +1,497 @@
+---
+title: 'Trigger receipt printing'
+description: 'Learn how to trigger receipt printing from your custom application'
+---
+
+<Note>
+The aim of this document is to assist you in triggering receipt printing from your custom application running on the Nomba Android terminal. If you encounter any difficulties with this process, feel free to [reach out for support.](/support/reach-out) 
+</Note>
+
+<Tip>
+Trigger receipt printing - available since NombaX Application `v1.6.2`
+</Tip>
+
+Please note the the Nomba Pro terminals do not come with a built-in printer, but they can be connected to any Bluetooth printer. To establish a Bluetooth connection, you need to grant the permissions `ACCESS_FINE_LOCATION_PERMISSION` and `ACCESS_COARSE_LOCATION_PERMISSION`. Please make sure to grant
+these permissions before testing on the Nomba Pro.
+
+Currently, the NombaX application parses an Arraylist of HashMaps to print receipts. The HashMap is to be structured as follows
+
+<AccordionGroup>
+  <Accordion title="Structure your data" defaultOpen="true">
+    Currently, the NombaX application parses an Arraylist of HashMaps to print receipts. The HashMap is to be structured as follows
+
+    <CodeGroup>
+        ```kotlin snippet.kt
+        import android.content.Context
+        import android.graphics.Bitmap
+        import android.os.Bundle
+        import android.util.Log
+        import androidx.annotation.DrawableRes
+        import androidx.core.content.ContextCompat
+        import androidx.core.graphics.drawable.toBitmap
+
+        // Constants
+        const val ARGS_PRINT_DATA = "args_print_data"
+        const val ARGS_PRINT_BITMAP_DATA = "args_print_bitmap_data"
+
+        fun main() {
+            // For Image/Icon (i.e, Logo)
+            val logoMap: HashMap<String, Any> = hashMapOf()
+            logoMap["content"] = "imageBitmap"
+            logoMap["contentType"] = "IMAGE"
+            logoMap["alignment"] = "CENTER | LEFT | RIGHT"
+
+            val textMap: HashMap<String, Any> = hashMapOf()
+            // For Text
+            textMap["content"] = "text"
+            textMap["contentType"] = "TEXT"
+            textMap["alignment"] = "CENTER | LEFT | RIGHT"
+            textMap["fontSize"] = "NORMAL | LARGE | SMALL | BIG | BIG2 | BIG3 | BIG4 | BIG5 | BIG6 | TALL | WIDE"
+            textMap["isBold"] = true // or false
+
+            // Create an ArrayList of the above maps
+            val dataList = ArrayList<HashMap<*, *>>()
+
+            // Add the maps to the ArrayList
+            dataList.add(logoMap)
+            dataList.add(textMap)
+
+            // Create a bundle to be packaged with the intent
+            val bundle = Bundle()
+
+            // Pass the ArrayList to the intent
+            bundle.putSerializable(ARGS_PRINT_DATA, dataList)
+
+            // Convert drawable of your logo to bitmap
+            val bitmap = convertDrawableResToBitmap(context, R.drawable.nombalogo)
+
+            // Pass the bitmap to the intent
+            bundle.putParcelable(ARGS_PRINT_BITMAP_DATA, bitmap)
+        }
+
+        // Convert drawable resource to bitmap
+        fun convertDrawableResToBitmap(context: Context, @DrawableRes drawableRes: Int): Bitmap? {
+            return ContextCompat.getDrawable(context, drawableRes)?.toBitmap()
+        }
+        ```
+
+        ```java snippet.java
+        import android.content.Context;
+        import android.graphics.Bitmap;
+        import android.os.Bundle;
+        import androidx.annotation.DrawableRes;
+        import androidx.core.content.ContextCompat;
+        import androidx.core.graphics.drawable.BitmapDrawableCompat;
+
+        import java.util.ArrayList;
+        import java.util.HashMap;
+
+        // Constants
+        public class YourClass {
+            public static final String ARGS_PRINT_DATA = "args_print_data";
+            public static final String ARGS_PRINT_BITMAP_DATA = "args_print_bitmap_data";
+
+            public static void main(String[] args) {
+                // For Image/Icon (i.e, Logo)
+                HashMap<String, Object> logoMap = new HashMap<>();
+                logoMap.put("content", "imageBitmap");
+                logoMap.put("contentType", "IMAGE");
+                logoMap.put("alignment", "CENTER | LEFT | RIGHT");
+
+                HashMap<String, Object> textMap = new HashMap<>();
+                // For Text
+                textMap.put("content", "text");
+                textMap.put("contentType", "TEXT");
+                textMap.put("alignment", "CENTER | LEFT | RIGHT");
+                textMap.put("fontSize", "NORMAL | LARGE | SMALL | BIG | BIG2 | BIG3 | BIG4 | BIG5 | BIG6 | TALL | WIDE");
+                textMap.put("isBold", true); // or false
+
+                // Create an ArrayList of the above maps
+                ArrayList<HashMap<?, ?>> dataList = new ArrayList<>();
+
+                // Add the maps to the ArrayList
+                dataList.add(logoMap);
+                dataList.add(textMap);
+
+                // Create a bundle to be packaged with the intent
+                Bundle bundle = new Bundle();
+
+                // Pass the ArrayList to the intent
+                bundle.putSerializable(ARGS_PRINT_DATA, dataList);
+
+                // Convert drawable of your logo to bitmap
+                Bitmap bitmap = convertDrawableResToBitmap(context, R.drawable.nombalogo);
+
+                // Pass the bitmap to the intent
+                bundle.putParcelable(ARGS_PRINT_BITMAP_DATA, bitmap);
+            }
+
+            // Convert drawable resource to bitmap
+            private static Bitmap convertDrawableResToBitmap(Context context, @DrawableRes int drawableRes) {
+                return BitmapDrawableCompat.create(context.getResources(), context.getDrawable(drawableRes), null).getBitmap();
+            }
+        }
+        ```
+    </CodeGroup>
+  </Accordion>
+
+  <Accordion title="Customize the receipt">
+    Please follow the code below to see how to customise the receipt before you release them to be printed out.
+
+    <CodeGroup>
+        ```kotlin snippet.kt
+        import android.content.Context
+        import android.content.Intent
+        import android.graphics.Bitmap
+        import android.os.Bundle
+        import androidx.activity.result.contract.ActivityResultContracts
+        import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
+        import androidx.activity.result.ActivityResultLauncher
+        import androidx.compose.runtime.mutableStateOf
+        import androidx.core.content.ContextCompat
+        import androidx.core.graphics.drawable.toBitmap
+
+        const val PRINT_REQUEST_CODE = 100
+        const val ARGS_PRINT_DATA = "ARGS_PRINT_DATA"
+        const val ARGS_PRINT_BITMAP_DATA = "ARGS_PRINT_BITMAP_DATA"
+        const val PRINT_RESULT = "PRINT_RESULT"
+        const val ARGS_PRINT_RECEIPT_EVENT = 1944
+        const val PRINT_RECEIPT_INTENT = "com.nomba.pro.core.print_receipt.ACTION_VIEW"
+
+        val resultString = mutableStateOf("")
+
+        //setup a launcher that would help launch the intent
+        var printReceiptLauncher = registerForActivityResult(
+            ActivityResultContracts
+                .StartActivityForResult()
+        ) { result ->
+            val data: Intent? = result.data
+            if (result.resultCode == ARGS_PRINT_RECEIPT_EVENT) {
+                resultString.value = data?.getStringExtra(PRINT_RESULT)
+            }
+        }
+
+        fun sampleReceipt(): ArrayList<HashMap<*, *>> {
+            val dataList = ArrayList<HashMap<*, *>>()
+
+            val imageData: HashMap<String, Any> = hashMapOf()
+
+            imageData["content"] = "imageBitmap"
+            imageData["contentType"] = "IMAGE"
+            imageData["alignment"] = "CENTER"
+
+            dataList.add(imageData)
+
+            //-----------------------------------------------------------
+
+            val reprintText: HashMap<String, Any> = hashMapOf()
+
+            reprintText["content"] = "REPRINT"
+            reprintText["contentType"] = "TEXT"
+            reprintText["alignment"] = "CENTER"
+            reprintText["fontSize"] = "NORMAL"
+
+            dataList.add(reprintText)
+
+            //-----------------------------------------------------------
+
+            val merchantCopy: HashMap<String, Any> = hashMapOf()
+
+            merchantCopy["content"] = "MERCHANT COPY"
+            merchantCopy["contentType"] = "TEXT"
+            merchantCopy["alignment"] = "CENTER"
+            merchantCopy["fontSize"] = "NORMAL"
+
+            dataList.add(merchantCopy)
+
+            //-----------------------------------------------------------
+
+            val merchantName: HashMap<String, Any> = hashMapOf()
+
+            merchantName["content"] = "MERCHANT NAME: The Horseman"
+            merchantName["contentType"] = "TEXT"
+            merchantName["alignment"] = "LEFT"
+            merchantName["fontSize"] = "NORMAL"
+
+            dataList.add(merchantName)
+
+            //-----------------------------------------------------------
+
+            val terminalId: HashMap<String, Any> = hashMapOf()
+
+            terminalId["content"] = "TERMINAL ID: 2044RMCY"
+            terminalId["contentType"] = "TEXT"
+            terminalId["alignment"] = "LEFT"
+            terminalId["fontSize"] = "NORMAL"
+
+            dataList.add(terminalId)
+
+            //-----------------------------------------------------------
+
+            val txnType: HashMap<String, Any> = hashMapOf()
+
+            txnType["content"] = "CARD PAYMENT"
+            txnType["contentType"] = "TEXT"
+            txnType["alignment"] = "CENTER"
+            txnType["fontSize"] = "LARGE"
+            txnType["isBold"] = true
+
+            dataList.add(txnType)
+
+            //-----------------------------------------------------------
+
+            val amount: HashMap<String, Any> = hashMapOf()
+
+            amount["content"] = "AMOUNT: NGN 5000"
+            amount["contentType"] = "TEXT"
+            amount["alignment"] = "LEFT"
+            amount["fontSize"] = "NORMAL"
+
+            dataList.add(amount)
+
+            //-----------------------------------------------------------
+
+            val dateTime: HashMap<String, Any> = hashMapOf()
+
+            dateTime["content"] = "DATE/TIME: 2021-09-09 12:00:00"
+            dateTime["contentType"] = "TEXT"
+            dateTime["alignment"] = "LEFT"
+            dateTime["fontSize"] = "NORMAL"
+
+            dataList.add(dateTime)
+
+            //-----------------------------------------------------------
+
+            val RRN: HashMap<String, Any> = hashMapOf()
+
+            RRN["content"] = "RRN: 1234567890"
+            RRN["contentType"] = "TEXT"
+            RRN["alignment"] = "LEFT"
+            RRN["fontSize"] = "NORMAL"
+
+            dataList.add(RRN)
+
+            //-----------------------------------------------------------
+
+            val stan: HashMap<String, Any> = hashMapOf()
+
+            stan["content"] = "STAN: 423257"
+            stan["contentType"] = "TEXT"
+            stan["alignment"] = "LEFT"
+            stan["fontSize"] = "NORMAL"
+
+            dataList.add(stan)
+
+            //-----------------------------------------------------------
+
+            val cardScheme: HashMap<String, Any> = hashMapOf()
+
+            cardScheme["content"] = "CARD SCHEME: VISA"
+            cardScheme["contentType"] = "TEXT"
+            cardScheme["alignment"] = "LEFT"
+            cardScheme["fontSize"] = "NORMAL"
+
+            dataList.add(cardScheme)
+
+            //-----------------------------------------------------------
+
+            val status: HashMap<String, Any> = hashMapOf()
+
+            status["content"] = "APPROVED"
+            status["contentType"] = "TEXT"
+            status["alignment"] = "CENTER"
+            status["fontSize"] = "LARGE"
+            status["isBold"] = true
+
+            dataList.add(status)
+
+            //-----------------------------------------------------------
+
+            val responseCode: HashMap<String, Any> = hashMapOf()
+
+            responseCode["content"] = "RESPONSE CODE: 00"
+            responseCode["contentType"] = "TEXT"
+            responseCode["alignment"] = "LEFT"
+            responseCode["fontSize"] = "NORMAL"
+
+            dataList.add(responseCode)
+
+            //-----------------------------------------------------------
+
+            val meaning: HashMap<String, Any> = hashMapOf()
+
+            meaning["content"] = "MEANING: Approved or successfully completed"
+            meaning["contentType"] = "TEXT"
+            meaning["alignment"] = "LEFT"
+            meaning["fontSize"] = "NORMAL"
+
+            dataList.add(meaning)
+
+            //-----------------------------------------------------------
+
+            val deviceID: HashMap<String, Any> = hashMapOf()
+
+            deviceID["content"] = "DEVICE ID: 2KUD2XFU"
+            deviceID["contentType"] = "TEXT"
+            deviceID["alignment"] = "LEFT"
+            deviceID["fontSize"] = "NORMAL"
+
+            dataList.add(deviceID)
+
+            //-----------------------------------------------------------
+
+            val mobileNumber: HashMap<String, Any> = hashMapOf()
+
+            mobileNumber["content"] = "MOBILE NUMBER: 08012345678"
+            mobileNumber["contentType"] = "TEXT"
+            mobileNumber["alignment"] = "LEFT"
+            mobileNumber["fontSize"] = "NORMAL"
+
+            dataList.add(mobileNumber)
+
+            //-----------------------------------------------------------
+
+            val appVersion: HashMap<String, Any> = hashMapOf()
+
+            appVersion["content"] = "APP VERSION: 1.6.2"
+            appVersion["contentType"] = "TEXT"
+            appVersion["alignment"] = "LEFT"
+            appVersion["fontSize"] = "NORMAL"
+
+            dataList.add(appVersion)
+
+            //-----------------------------------------------------------
+
+            val decoration = HashMap<String, Any>()
+            decoration["content"] = "*".repeat(32)
+            decoration["contentType"] = "TEXT"
+            decoration["alignment"] = "CENTER"
+
+            dataList.add(decoration)
+
+            //-----------------------------------------------------------
+
+            val nombaWebsite = HashMap<String, Any>()
+            nombaWebsite["content"] = "www.nomba.com"
+            nombaWebsite["contentType"] = "TEXT"
+            nombaWebsite["alignment"] = "CENTER"
+
+            dataList.add(nombaWebsite)
+
+            //-----------------------------------------------------------
+
+            dataList.add(decoration)
+
+            //-----------------------------------------------------------
+
+            val whiteSpace = HashMap<String, Any>()
+            whiteSpace["content"] = ""
+            whiteSpace["contentType"] = "TEXT"
+            whiteSpace["alignment"] = "CENTER"
+
+            dataList.add(whiteSpace)
+
+            return dataList
+        }
+
+        fun convertDrawableResToBitmap(context: Context, @DrawableRes drawableRes: Int): Bitmap? {
+            return ContextCompat.getDrawable(context, drawableRes)?.toBitmap()
+        }
+
+        val bitmap = convertDrawableResToBitmap(context, R.drawable.nombalogo)
+
+        //setup an intent to be triggered
+        val intent = Intent(PRINT_RECEIPT_INTENT)
+
+        //setup a bundle to be packaged with the intent
+        val bundle = Bundle()
+
+        //pass necessary details to bundle
+        bundle.putSerializable(ARGS_PRINT_DATA, sampleReceipt())
+        bundle.putParcelable(ARGS_PRINT_BITMAP_DATA, bitmap)
+
+        //pass the data bundle to the intent
+        intent.putExtras(bundle)
+
+        //launch the intent
+        printReceiptLauncher.launch(intent)
+        ```
+
+        ```java snippet.java
+        import android.content.Context;
+        import android.content.Intent;
+        import android.graphics.Bitmap;
+        import android.os.Bundle;
+        import androidx.activity.result.ActivityResultLauncher;
+        import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult;
+        import androidx.core.content.ContextCompat;
+        import androidx.core.graphics.drawable.BitmapDrawableCompat;
+
+        import java.util.ArrayList;
+        import java.util.HashMap;
+
+        // Constants
+        public static final int PRINT_REQUEST_CODE = 100;
+        public static final String ARGS_PRINT_DATA = "ARGS_PRINT_DATA";
+        public static final String ARGS_PRINT_BITMAP_DATA = "ARGS_PRINT_BITMAP_DATA";
+        public static final String PRINT_RESULT = "PRINT_RESULT";
+        public static final int ARGS_PRINT_RECEIPT_EVENT = 1944;
+        public static final String PRINT_RECEIPT_INTENT = "com.nomba.pro.core.print_receipt.ACTION_VIEW";
+
+        // State
+        private String resultString = "";
+
+        // Setup a launcher that would help launch the intent
+        private ActivityResultLauncher<Intent> printReceiptLauncher = registerForActivityResult(
+            new StartActivityForResult(),
+            result -> {
+                Intent data = result.getData();
+                if (result.getResultCode() == ARGS_PRINT_RECEIPT_EVENT) {
+                    resultString = data.getStringExtra(PRINT_RESULT);
+                }
+            }
+        );
+
+        public static void main(String[] args) {
+            YourClass yourClass = new YourClass();
+            yourClass.launchPrintReceiptIntent();
+        }
+
+        public void launchPrintReceiptIntent() {
+            ArrayList<HashMap<?, ?>> dataList = sampleReceipt();
+
+            // Convert drawable of your logo to bitmap
+            Bitmap bitmap = convertDrawableResToBitmap(context, R.drawable.nombalogo);
+
+            // Setup an intent to be triggered
+            Intent intent = new Intent(PRINT_RECEIPT_INTENT);
+
+            // Setup a bundle to be packaged with the intent
+            Bundle bundle = new Bundle();
+
+            // Pass necessary details to bundle
+            bundle.putSerializable(ARGS_PRINT_DATA, dataList);
+            bundle.putParcelable(ARGS_PRINT_BITMAP_DATA, bitmap);
+
+            // Pass the data bundle to the intent
+            intent.putExtras(bundle);
+
+            // Launch the intent
+            printReceiptLauncher.launch(intent);
+        }
+
+        public ArrayList<HashMap<?, ?>> sampleReceipt() {
+            // Implement sampleReceipt() as in the Kotlin code
+            // ...
+
+            return dataList;
+        }
+
+        public Bitmap convertDrawableResToBitmap(Context context, int drawableRes) {
+            return BitmapDrawableCompat.create(context.getResources(), context.getDrawable(drawableRes), null).getBitmap();
+        }
+        ```
+    </CodeGroup>
+
+  </Accordion>
+</AccordionGroup>
