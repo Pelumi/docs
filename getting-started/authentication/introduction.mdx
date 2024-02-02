@@ -41,7 +41,7 @@ This flow is specifically tailored for execution on the merchant's server or bac
     The merchant's server, residing in the backend, initiates the token request by invoking the IssueToken endpoint on the Nomba API. This request includes the client_id and client_secret, credentials obtained from the merchant's Nomba dashboard.
 
     <Frame caption="Token request initiation">
-      <img src="/images/auth-1.png" style={{ borderRadius: '0.5rem' }} />
+      <img src="/images/auth-1.png" style={{ borderRadius: '0.5rem' }} loading="lazy" />
     </Frame>
 
   </Step>
@@ -49,7 +49,7 @@ This flow is specifically tailored for execution on the merchant's server or bac
     Nomba diligently validates the provided client_id and client_secret against its records. Upon successful validation, Nomba issues an `access_token` accompanied by a refresh_token. These tokens empower the merchant's server to make authorized API calls on behalf of the client.
 
     <Frame caption="Refreshing your access_token">
-      <img src="/images/auth-2.png" style={{ borderRadius: '0.5rem' }} />
+      <img src="/images/auth-2.png" style={{ borderRadius: '0.5rem' }} loading="lazy" />
     </Frame>
   </Step>
 </Steps>
@@ -94,7 +94,7 @@ The PKCE (Proof Key for Code Exchange) flow is a security enhancement for OAuth 
 This PKCE flow enhances security by ensuring that the authorization code obtained by the client cannot be easily intercepted and misused, as the original `code_verifier` is required during the token exchange.
 
 <Frame caption="PKCE flow">
-  <img src="/images/auth-pkce-1.png" style={{ borderRadius: '0.5rem' }} />
+  <img src="/images/auth-pkce-1.png" style={{ borderRadius: '0.5rem' }} loading="lazy" />
 </Frame>
 
 ## How Authentication Works

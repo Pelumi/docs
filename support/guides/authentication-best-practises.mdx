@@ -22,7 +22,7 @@ In a single-instance environment, the primary workflow involves the instance obt
 While the [Obtain access token](/getting-started/authentication/obtaining-access-token) endpoint can be utilized for obtaining a new `access_token`, we recommend employing the refresh token approach. Use the [Refreshing access token](/getting-started/authentication/refreshing-access-token) endpoint with the `refresh_token` obtained during the initial `access_token` retrieval. This method streamlines the process, ensuring a seamless token refresh and providing both `access_token` and `refresh_token` upon success. Repeatedly refresh the token using this approach whenever the `access_token` expires.
 
 <Frame caption="Single-instance authentication">
-    <img src="/images/auth-best-practise-1.png" style={{ borderRadius: '0.5rem' }} />
+    <img src="/images/auth-best-practise-1.png" style={{ borderRadius: '0.5rem' }} loading="lazy" />
 </Frame>
 
 #### Multi-Instance Authentication
@@ -36,5 +36,5 @@ In a multi-instance environment, where multiple instances may authenticate simul
 To address this, architect your system to support a single instance authenticating with our services at a given time. Implement a robust locking mechanism to enforce this constraint, allowing only one instance to authenticate. After successful authentication, store the `access_token` and `refresh_token` in a cache within the same instance. Subsequent instances can then retrieve the tokens from the cache, ensuring a secure and synchronized authentication process across multiple instances.
 
 <Frame caption="Multi-instance authentication">
-    <img src="/images/auth-best-practise-2.png" style={{ borderRadius: '0.5rem' }} />
+    <img src="/images/auth-best-practise-2.png" style={{ borderRadius: '0.5rem' }} loading="lazy" />
 </Frame>
