@@ -605,6 +605,9 @@
                           "currency": {
                             "type": "string",
                             "description": "Primary currency on the account (Only supported at the moment is “NGN”).",
+                            "enum": [
+                              "NGN"
+                            ],
                             "example": "NGN",
                             "maxLength": 3,
                             "minLength": 3
@@ -2363,6 +2366,171 @@
         ]
       }
     },
+    "/v1/accounts/{accountId}/access": {
+      "put": {
+        "description": "You can use this endpoint to update the access of an api client within an account.",
+        "operationId": "Update access to account",
+        "parameters": [
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          },
+          {
+            "description": "The account, where access is to be updated.",
+            "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
+            "in": "path",
+            "name": "accountId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AccountAccessRequest"
+              }
+            }
+          },
+          "description": "The request payload required to update access to account",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00",
+                      "description": "Response Code"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Success",
+                      "description": "Response description"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/GenericObjectResult"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
+                }
+              }
+            },
+            "description": "OK - your request was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Update access to account",
+        "tags": [
+          "Accounts"
+        ]
+      }
+    },
     "/v1/checkout/order": {
       "post": {
         "description": "You can use this endpoint to create an online checkout order. Load the URL returned in 'checkoutLink' property in a browser to allow your customer initiate payment.",
@@ -3316,7 +3484,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "List tokenized cards",
+        "summary": "Fetch checkout transaction",
         "tags": [
           "Online Checkout"
         ]
@@ -3459,7 +3627,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Fetch bank codes and names.",
+        "summary": "Fetch bank codes and names",
         "tags": [
           "Transfers"
         ]
@@ -3754,7 +3922,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Perform bank account transfer from the parent account.",
+        "summary": "Perform bank account transfer from the parent account",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -3908,7 +4076,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Perform bank account transfer from account.",
+        "summary": "Perform bank account transfer from account",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -4072,7 +4240,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Perform wallet transfer from the parent account.",
+        "summary": "Perform wallet transfer from the parent account",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -4226,7 +4394,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Perform wallet transfer from account.",
+        "summary": "Perform wallet transfer from account",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -5079,7 +5247,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Fetch credit/debit transactions on an account.",
+        "summary": "Fetch credit/debit transactions on an account",
         "tags": [
           "Transactions"
         ]
@@ -5263,7 +5431,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Fetch credit/debit transactions on the parent account.",
+        "summary": "Fetch credit/debit transactions on the parent account",
         "tags": [
           "Transactions"
         ]
@@ -5457,7 +5625,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Fetch transactions on an account.",
+        "summary": "Fetch transactions on an account",
         "tags": [
           "Transactions"
         ]
@@ -5596,7 +5764,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Filter account transactions.",
+        "summary": "Filter account transactions",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -5844,7 +6012,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Fetch transactions on the parent account.",
+        "summary": "Fetch transactions on the parent account",
         "tags": [
           "Transactions"
         ]
@@ -6042,6 +6210,362 @@
           "Transactions"
         ]
       }
+    },
+    "/v1/transactions/accounts/{accountId}/single": {
+      "get": {
+        "description": "You can use this endpoint to fetch a single transaction on an account.",
+        "operationId": "Fetch a single transaction on an account",
+        "parameters": [
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          },
+          {
+            "description": "The accountId whose transactions are to be fetched.",
+            "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
+            "in": "path",
+            "name": "accountId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Transaction ID/Reference",
+            "example": "POS-WITHDRAW-DFC05-693cd007-cd1e-4ea6-8b79-5f5c4d7a83ea",
+            "in": "query",
+            "name": "transactionRef",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Merchant transaction reference",
+            "example": "c90d-4b25-ad0f",
+            "in": "query",
+            "name": "merchantTxRef",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Online checkout order reference",
+            "example": "693cd007-cd1e-4ea6-8b79-5f5c4d7a83ea",
+            "in": "query",
+            "name": "orderReference",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00",
+                      "description": "Response Code"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Success",
+                      "description": "Response description"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/TransactionResult"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
+                }
+              }
+            },
+            "description": "OK - your request was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Fetch a single transaction on an account",
+        "tags": [
+          "Transactions"
+        ]
+      }
+    },
+    "/v1/transactions/accounts/single": {
+      "get": {
+        "description": "You can use this endpoint to fetch a single transaction on the parent account.",
+        "operationId": "Fetch a single transaction on the parent account",
+        "parameters": [
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          },
+          {
+            "description": "Transaction ID/Reference",
+            "example": "POS-WITHDRAW-DFC05-693cd007-cd1e-4ea6-8b79-5f5c4d7a83ea",
+            "in": "query",
+            "name": "transactionRef",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Merchant transaction reference",
+            "example": "c90d-4b25-ad0f",
+            "in": "query",
+            "name": "merchantTxRef",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "Online checkout order reference",
+            "example": "693cd007-cd1e-4ea6-8b79-5f5c4d7a83ea",
+            "in": "query",
+            "name": "orderReference",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00",
+                      "description": "Response Code"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Success",
+                      "description": "Response description"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/TransactionResult"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
+                }
+              }
+            },
+            "description": "OK - your request was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Fetch a single transaction on the parent account",
+        "tags": [
+          "Transactions"
+        ]
+      }
     }
   },
   "components": {
@@ -6117,6 +6641,9 @@
           "currency": {
             "type": "string",
             "description": "currency of the money",
+            "enum": [
+              "NGN"
+            ],
             "example": "NGN"
           }
         }
@@ -6346,6 +6873,9 @@
           "currency": {
             "type": "string",
             "description": "currency of the money",
+            "enum": [
+              "NGN"
+            ],
             "example": "NGN"
           }
         },
@@ -6546,11 +7076,29 @@
           "type": {
             "type": "string",
             "description": "Transaction type",
+            "enum": [
+              "withdrawal",
+              "purchase",
+              "transfer",
+              "p2p",
+              "online_checkout",
+              "qrt_credit",
+              "qrt_debit"
+            ],
             "example": "transfer"
           },
           "status": {
             "type": "string",
             "description": "Transaction status",
+            "enum": [
+              "NEW",
+              "PENDING_PAYMENT",
+              "PAYMENT_SUCCESSFUL",
+              "PAYMENT_FAILED",
+              "PENDING_BILLING",
+              "SUCCESS",
+              "REFUND"
+            ],
             "example": "SUCCESS"
           }
         },
@@ -6684,6 +7232,9 @@
             "description": "Currency code",
             "minLength": 3,
             "maxLength": 3,
+            "enum": [
+              "NGN"
+            ],
             "example": "NGN"
           },
           "callbackUrl": {
@@ -6792,6 +7343,9 @@
             "description": "Currency code",
             "minLength": 3,
             "maxLength": 3,
+            "enum": [
+              "NGN"
+            ],
             "example": "NGN"
           },
           "callbackUrl": {
@@ -6843,6 +7397,9 @@
             "description": "Currency code",
             "minLength": 3,
             "maxLength": 3,
+            "enum": [
+              "NGN"
+            ],
             "example": "NGN"
           }
         },
@@ -6951,6 +7508,9 @@
             "description": "Currency code",
             "minLength": 3,
             "maxLength": 3,
+            "enum": [
+              "NGN"
+            ],
             "example": "NGN"
           }
         },
@@ -7269,6 +7829,9 @@
             "description": "Currency code",
             "minLength": 3,
             "maxLength": 3,
+            "enum": [
+              "NGN"
+            ],
             "example": "NGN"
           },
           "banks": {
@@ -7327,6 +7890,9 @@
             "minLength": 3,
             "maxLength": 3,
             "description": "Currency code",
+            "enum": [
+              "NGN"
+            ],
             "example": "NGN"
           },
           "timeCreated": {
@@ -7526,11 +8092,29 @@
           "type": {
             "type": "string",
             "description": "Transaction type",
+            "enum": [
+              "withdrawal",
+              "purchase",
+              "transfer",
+              "p2p",
+              "online_checkout",
+              "qrt_credit",
+              "qrt_debit"
+            ],
             "example": "p2p"
           },
           "status": {
             "type": "string",
             "description": "Transaction status",
+            "enum": [
+              "NEW",
+              "PENDING_PAYMENT",
+              "PAYMENT_SUCCESSFUL",
+              "PAYMENT_FAILED",
+              "PENDING_BILLING",
+              "SUCCESS",
+              "REFUND"
+            ],
             "example": "SUCCESS"
           }
         },
@@ -7629,6 +8213,9 @@
           "currency": {
             "type": "string",
             "description": "Currency",
+            "enum": [
+              "NGN"
+            ],
             "example": "NGN"
           },
           "meta": {
@@ -7637,6 +8224,15 @@
           "status": {
             "type": "string",
             "description": "Status",
+            "enum": [
+              "NEW",
+              "PENDING_PAYMENT",
+              "PAYMENT_SUCCESSFUL",
+              "PAYMENT_FAILED",
+              "PENDING_BILLING",
+              "SUCCESS",
+              "REFUND"
+            ],
             "example": "SUCCESS"
           },
           "timeUpdated": {
@@ -7654,6 +8250,10 @@
           "transactionType": {
             "type": "string",
             "description": "Transaction type",
+            "enum": [
+              "CREDIT",
+              "DEBIT"
+            ],
             "example": "DEBIT"
           }
         },
@@ -7695,16 +8295,41 @@
           "status": {
             "type": "string",
             "description": "Transaction status",
+            "enum": [
+              "NEW",
+              "PENDING_PAYMENT",
+              "PAYMENT_SUCCESSFUL",
+              "PAYMENT_FAILED",
+              "PENDING_BILLING",
+              "SUCCESS",
+              "REFUND"
+            ],
             "example": "SUCCESS"
           },
           "source": {
             "type": "string",
             "description": "Transaction source",
+            "enum": [
+              "api",
+              "pos",
+              "web",
+              "android_app",
+              "ios_app"
+            ],
             "example": "pos"
           },
           "type": {
             "type": "string",
             "description": "Transaction type",
+            "enum": [
+              "withdrawal",
+              "purchase",
+              "transfer",
+              "p2p",
+              "online_checkout",
+              "qrt_credit",
+              "qrt_debit"
+            ],
             "example": "withdrawal"
           },
           "terminalId": {
@@ -7721,6 +8346,11 @@
             "type": "string",
             "description": "Merchant transaction reference",
             "example": "c90d-4b25-ad0f"
+          },
+          "orderReference": {
+            "type": "string",
+            "description": "Online checkout order reference",
+            "example": "693cd007-cd1e-4ea6-8b79-5f5c4d7a83ea"
           }
         }
       },
@@ -7752,11 +8382,27 @@
           "source": {
             "type": "string",
             "description": "Transaction source",
+            "enum": [
+              "api",
+              "pos",
+              "web",
+              "android_app",
+              "ios_app"
+            ],
             "example": "pos"
           },
           "type": {
             "type": "string",
             "description": "Transaction type",
+            "enum": [
+              "withdrawal",
+              "purchase",
+              "transfer",
+              "p2p",
+              "online_checkout",
+              "qrt_credit",
+              "qrt_debit"
+            ],
             "example": "withdrawal"
           },
           "gatewayMessage": {
@@ -7857,6 +8503,59 @@
             "example": "xchbaVFsjdsbaADddd"
           }
         }
+      },
+      "AccountAccessRequest": {
+        "type": "object",
+        "description": "A structure representing an account access request",
+        "properties": {
+          "grantType": {
+            "type": "string",
+            "description": "The action to perform on the access",
+            "enum": [
+              "allow",
+              "deny"
+            ],
+            "example": "allow"
+          },
+          "clientId": {
+            "type": "string",
+            "description": "The client to grant/deny access to the account",
+            "example": "09132aea-367f-447d-9d9b-46af5a319318"
+          },
+          "role": {
+            "type": "string",
+            "description": "The role to assume within the account",
+            "enum": [
+              "ACCOUNT_WRITER",
+              "ACCOUNT_READER"
+            ],
+            "default": "ACCOUNT_WRITER",
+            "example": "ACCOUNT_WRITER"
+          }
+        },
+        "required": [
+          "grantType",
+          "clientId",
+          "role"
+        ]
+      },
+      "GenericObjectResult": {
+        "type": "object",
+        "description": "A structure representing a bank account lookup result",
+        "properties": {
+          "message": {
+            "type": "string",
+            "description": "Action has been performed successfully"
+          },
+          "data": {
+            "type": "object",
+            "description": "The data object attributed to the action that has been performed",
+            "example": "{\"name\": \"M.A Animashaun\", \"age\": 30, \"city\": \"Example City\"}"
+          }
+        },
+        "required": [
+          "message"
+        ]
       }
     },
     "securitySchemes": {
