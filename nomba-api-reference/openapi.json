@@ -6151,7 +6151,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Filter parent account transactions.",
+        "summary": "Filter parent account transactions",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
