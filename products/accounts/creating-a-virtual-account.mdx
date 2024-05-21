@@ -24,6 +24,11 @@ href="/nomba-api-reference/accounts/create-virtual-account">
   Currency code
 </ParamField>
 
+<ParamField body="expiryDate" type="string" optional>
+  Expiry Date 
+  (This field allows you to customize the expiry period for this account. The default time however is 5 minutes)
+</ParamField>
+
 #### Response body
 
 <ResponseField name="code" type="string" required>
