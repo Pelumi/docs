@@ -88,7 +88,9 @@ href="/nomba-api-reference/accounts/create-virtual-account">
     <ResponseField name="currency" type="string" required>
       Currency code.
     </ResponseField>
-    
+    <ResponseField name="expiryDate" type="string" optional>
+      Expiry date of the account created.
+    </ResponseField>
   </Expandable>
 </ResponseField>
 
@@ -102,7 +104,8 @@ curl --request POST \
   --data '{
   "accountRef": "1oWbJQQHLyQqqf1SwxjSpudeA21",
   "accountName": "Daniel Scorsese",
-  "currency": "NGN"
+  "currency": "NGN",
+  "expiryDate": "2024-06-17 04:55:00"
 }'
 ```
 </RequestExample>
@@ -121,6 +124,7 @@ curl --request POST \
     "status": "ACTIVE",
     "type": "virtual",
     "accountName": "Daniel Scorsese",
+    "expiryDate": "2024-06-17T04:55:00",
     "banks": [
       {
         "bankAccountNumber": "93910",
