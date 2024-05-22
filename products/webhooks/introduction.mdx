@@ -148,21 +148,22 @@ The content of the payload is a JSON object and it gives details about the event
 #### Transaction Object 
 `data.transaction`
 
-| Field                | Type       | Description                                                                 |
-| -------------------- | ---------- | --------------------------------------------------------------------------  |
-| `transactionId`      | String     | The unique identifier for the transaction                                   |
-| `type`               | String     | The type of the transaction (e.g., purchase, transfer, etc.)                |
-| `originatingFrom`    | String     | The source of the transaction (e.g., pos, web, app, etc.)                   |
-| `rrn`                | String     | Retrieval reference number of the transaction                               |
-| `transactionAmount`  | Double     | The original amount of the transaction                                      |
-| `fee`                | Double     | The fees associated with processing the transaction                         |
-| `time`               | DateTime   | An RFC-3339 timestamp indicating when the transaction was initiated         |
-| `terminalActionId`   | String     | Terminal action identifier, linking a terminal action object                |
-| `mcollectionsId`     | String     | Merchant collections identifier, linking a merchant collections object      |
-| `merchantTxRef`      | String     | Merchant transaction reference, linking an externally initiated transaction |
-| `aliasAccountNumber` | String     | The account number that received the value                                  |
-| `aliasAccountName`   | String     | The corresponding name of the recipient account number                      |
-| `aliasAccountType`   | String     | The Type of the recipient account                                           |
+| Field                     | Type       | Description                                                                 |
+| --------------------      | ---------- | --------------------------------------------------------------------------  |
+| `transactionId`           | String     | The unique identifier for the transaction                                   |
+| `type`                    | String     | The type of the transaction (e.g., purchase, transfer, etc.)                |
+| `originatingFrom`         | String     | The source of the transaction (e.g., pos, web, app, etc.)                   |
+| `rrn`                     | String     | Retrieval reference number of the transaction                               |
+| `transactionAmount`       | Double     | The original amount of the transaction                                      |
+| `fee`                     | Double     | The fees associated with processing the transaction                         |
+| `time`                    | DateTime   | An RFC-3339 timestamp indicating when the transaction was initiated         |
+| `terminalActionId`        | String     | Terminal action identifier, linking a terminal action object                |
+| `mcollectionsId`          | String     | Merchant collections identifier, linking a merchant collections object      |
+| `merchantTxRef`           | String     | Merchant transaction reference, linking an externally initiated transaction |
+| `aliasAccountNumber`      | String     | The account number that received the value                                  |
+| `aliasAccountName`        | String     | The corresponding name of the recipient account number                      |
+| `aliasAccountType`        | String     | The type of the recipient account                                           |
+| `terminalSerialNumber`    | String     | The serial number of the terminal associated with the recipient account     |
 
 #### Terminal Object 
 `data.terminal`
