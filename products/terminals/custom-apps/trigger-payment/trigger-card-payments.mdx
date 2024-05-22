@@ -1,28 +1,26 @@
 ---
-title: 'Introduction'
-description: 'Learn how to receive either card or bank transfer payments from your customers'
+title: 'Trigger card payments'
+description: 'Learn how to receive card payments from your customers'
 ---
 
 <Note>
-The aim of this document is to assist you in initiating payment acceptance from your custom application running on the Nomba Android terminal. If you encounter any difficulties with this process, feel free to [reach out for support.](/support/reach-out) 
+The aim of this document is to assist you in initiating card payment acceptance from your custom application running on the Nomba Android terminal. If you encounter any difficulties with this process, feel free to [reach out for support.](/support/reach-out) 
 </Note>
 
 <Tip>
-Trigger payments - available since NombaX Application `v1.6.2`
+Trigger card payments - available since NombaX Application `v1.6.0`
 </Tip>
 
-This following code snippet serves as a foundation for triggering payment events on the Nomba terminal. Adjustments to the amount, transaction reference, and other parameters can be easily made based on specific application requirements.
+This following code snippet serves as a foundation for triggering card payment events on the Nomba terminal. Adjustments to the amount, transaction reference, and other parameters can be easily made based on specific application requirements.
 
 <CodeGroup>
 
-```kotlin trigger_payment.kt
+```kotlin trigger_card_payment.kt
 const val PAYMENT_OPTION_INTENT = "com.nomba.pro.feature.payment_option.ACTION_VIEW"
 const val AMOUNT_DATA = "amount"
 const val MERCHANT_TX_REF = "merchantTxRef"
 const val TXN_RESULT = "txnResultData"
 const val RECEIPT_OPTIONS = "receiptOptions"
-const val ARGS_PAYMENT_OPTION_STATE = "ARGS_PAYMENT_OPTION_STATE"
-const val SDK_PAYMENT_OPTIONS = "SDK_PAYMENT_OPTIONS"
 
 val resultString = mutableStateOf("")
 
@@ -55,21 +53,16 @@ val receiptOptionsMap = hashMapOf(
 val receiptOptionsString = Json.encodeToString(serializer<HashMap<String, Boolean>>(), receiptOptionsMap)
 intent.putExtra(RECEIPT_OPTIONS, receiptOptionsString)
 
-//add extras
-intent.putExtra(ARGS_PAYMENT_OPTION_STATE, SDK_PAYMENT_OPTIONS)
-
 //launch the intent
 paymentOptionLauncher.launch(intent)
 ```
 
-```java trigger_payment.java
+```java trigger_card_payment.java
 public static final String PAYMENT_OPTION_INTENT = "com.nomba.pro.feature.payment_option.ACTION_VIEW";
 public static final String AMOUNT_DATA = "amount";
 public static final String MERCHANT_TX_REF = "merchantTxRef";
 public static final String TXN_RESULT = "txnResultData";
 public static final String RECEIPT_OPTIONS = "receiptOptions";
-public static final String ARGS_PAYMENT_OPTION_STATE = "ARGS_PAYMENT_OPTION_STATE";
-public static final String SDK_PAYMENT_OPTIONS = "SDK_PAYMENT_OPTIONS";
 
 // Assuming you have a mutable state variable similar to mutableStateOf in Java
 private MutableLiveData<String> resultString = new MutableLiveData<>();
@@ -102,9 +95,6 @@ receiptOptionsMap.put("email", false);
 
 String receiptOptionsString = Json.encodeToString(serializer(HashMap.class, Boolean.class), receiptOptionsMap);
 intent.putExtra(RECEIPT_OPTIONS, receiptOptionsString);
-
-//add extras
-intent.putExtra(ARGS_PAYMENT_OPTION_STATE, SDK_PAYMENT_OPTIONS);
 
 // Launch the intent
 paymentOptionLauncher.launch(intent);
