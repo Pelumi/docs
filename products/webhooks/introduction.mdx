@@ -121,7 +121,12 @@ The content of the payload is a JSON object and it gives details about the event
       "merchantTxRef": "e95f251c-5067-11ee-be56-0242ac120002",
       "aliasAccountNumber": "2097113058",
       "aliasAccountType": "VIRTUAL",
-      "aliasAccountName": "Yan Ai"
+      "aliasAccountName": "Yan Ai",
+      "terminalSerialNumber": "ABC192001XYXX",
+      "cardBank": "Amucha (Nomba) MFB",
+      "cardIssuer": "MASTERCARD",
+      "responseCode": "00",
+      "responseCodeMessage": "Approved",
     },
     "customer": {
       "billerId": "519911 **** **** 4823",
@@ -155,6 +160,9 @@ The content of the payload is a JSON object and it gives details about the event
 | `terminalActionId`   | String     | Terminal action identifier, linking a terminal action object                |
 | `mcollectionsId`     | String     | Merchant collections identifier, linking a merchant collections object      |
 | `merchantTxRef`      | String     | Merchant transaction reference, linking an externally initiated transaction |
+| `aliasAccountNumber` | String     | The account number that received the value                                  |
+| `aliasAccountName`   | String     | The corresponding name of the recipient account number                      |
+| `aliasAccountType`   | String     | The Type of the recipient account                                           |
 
 #### Terminal Object 
 `data.terminal`
