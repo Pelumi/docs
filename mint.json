@@ -113,9 +113,14 @@
               "group": "Custom Apps",
               "pages": [
                 "products/terminals/custom-apps/introduction",
-                "products/terminals/custom-apps/trigger-card-payments",
-                "products/terminals/custom-apps/trigger-bank-transfer-payments",
-                "products/terminals/custom-apps/trigger-payments",
+               {
+                "group": "Trigger Payment",
+                "pages":[
+                  "products/terminals/custom-apps/trigger-payment/introduction",
+                  "products/terminals/custom-apps/trigger-payment/trigger-card-payments",
+                  "products/terminals/custom-apps/trigger-payment/trigger-bank-transfer-payments"
+                ]
+               },
                 "products/terminals/custom-apps/retrieve-device-info",
                 "products/terminals/custom-apps/trigger-receipt-printing"
               ]
