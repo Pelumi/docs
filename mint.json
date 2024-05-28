@@ -157,6 +157,17 @@
       ]
     },
     {
+          "group": "Guides",
+          "pages": [
+            "support/guides/introduction",
+            "support/guides/accept-online-payments",
+            "support/guides/authentication-best-practises",
+            "support/guides/setting-up-webhooks",
+            "support/guides/processing-recurring-payments",
+            "support/guides/online-payments-with-subaccounts"
+          ]
+    },
+    {
       "group": "API Patterns",
       "pages": [
         "getting-started/pagination",
@@ -170,19 +181,7 @@
       "pages": [
         "support/security",
         "support/reach-out",
-        "support/faqs",
-        {
-          "group": "Guides",
-          "icon": "thumbs-up",
-          "pages": [
-            "support/guides/introduction",
-            "support/guides/accept-online-payments",
-            "support/guides/authentication-best-practises",
-            "support/guides/setting-up-webhooks",
-            "support/guides/processing-recurring-payments",
-            "support/guides/online-payments-with-subaccounts"
-          ]
-        }
+        "support/faqs"
       ]
     },
     {
