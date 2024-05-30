@@ -13,7 +13,7 @@ href="/nomba-api-reference/accounts/create-an-account">
 #### Request body
 
 <ParamField body="accountRef" type="string" required>
-  Account reference
+  Account reference (a reference on your system that uniquely identifies the account number within your own ecosystem)
 </ParamField>
 
 <ParamField body="phoneNumber" type="string" required>
@@ -40,12 +40,8 @@ href="/nomba-api-reference/accounts/create-an-account">
   Currency code
 </ParamField>
 
-<ParamField body="callbackUrl" type="string" required>
+<ParamField body="callbackUrl" type="string" optional>
   Callback url
-</ParamField>
-
-<ParamField body="expiryDate" type="string" required>
-  Expiry date
 </ParamField>
 
 #### Response body
@@ -118,8 +114,7 @@ curl --request POST \
   "pin": "1234",
   "accountName": "Daniel Scorsese",
   "currency": "NGN",
-  "callbackUrl": "https://webhook.site/98ef100f-5adc-4434-800a-0808h60bd8d7",
-  "expiryDate": "2023-12-06T15:46:43.000Z"
+  "callbackUrl": "https://webhook.site/98ef100f-5adc-4434-800a-0808h60bd8d7"
 }'
 ```
 </RequestExample>
