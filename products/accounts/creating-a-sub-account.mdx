@@ -36,7 +36,7 @@ href="/nomba-api-reference/accounts/create-an-account">
   Account holder's name
 </ParamField>
 
-<ParamField body="currency" type="string" required>
+<ParamField body="currency" type="string" optional>
   Currency code
 </ParamField>
 
@@ -126,11 +126,9 @@ curl --request POST \
     "email": "ifeol-subaccount-4@exmple.com",
     "bvn": "12234412345",
     "status": "ACTIVE",
-    "type": "virtual",
     "accountName": "Daniel Scorsese",
     "currency": "NGN",
-    "callbackUrl": "https://webhook.site/98ef100f-5adc-4434-800a-0808h60bd8d7",
-    "expiryDate": "2023-12-06T15:46:43.000Z"
+    "callbackUrl": "https://webhook.site/98ef100f-5adc-4434-800a-0808h60bd8d7"
   }
 }
 ```
