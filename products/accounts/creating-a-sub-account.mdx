@@ -41,7 +41,7 @@ href="/nomba-api-reference/accounts/create-an-account">
 </ParamField>
 
 <ParamField body="callbackUrl" type="string" optional>
-  Callback url
+  Callback url (if passed, will attach an event to this account such that for every successful payment, a notification is sent to this url)
 </ParamField>
 
 #### Response body
@@ -63,7 +63,7 @@ href="/nomba-api-reference/accounts/create-an-account">
       Account ID.
     </ResponseField>
     <ResponseField name="accountHolderId" type="string" required>
-      Account holder ID.
+      Account holder ID (this is the ID of the parent account)
     </ResponseField>
     <ResponseField name="accountRef" type="string" required>
       Account reference.
