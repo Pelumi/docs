@@ -288,10 +288,10 @@
      {
       "group": "Bills Payment",
       "pages": [
-        "nomba-api-reference/bills-payment/vend-airtime-on-parent-account",
-        "nomba-api-reference/bills-payment/vend-airtime-on-specific-account",
-        "nomba-api-reference/bills-payment/buy-data-using-parent-account",
-        "nomba-api-reference/bills-payment/buy-data-using-specific-account",
+        "nomba-api-reference/bills-payment/vend-airtime-via-parent-account",
+        "nomba-api-reference/bills-payment/vend-airtime-via-specific-account",
+        "nomba-api-reference/bills-payment/buy-data-via-parent-account",
+        "nomba-api-reference/bills-payment/buy-data-via-specific-account",
       ]
     }
   ],
