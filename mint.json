@@ -284,6 +284,15 @@
         "nomba-api-reference/transactions/fetch-a-single-transaction-on-an-account",
         "nomba-api-reference/transactions/fetch-a-single-transaction-on-the-parent-account"
       ]
+    },
+     {
+      "group": "Bills Payment",
+      "pages": [
+        "nomba-api-reference/bills-payment/vend-airtime-on-parent-account",
+        "nomba-api-reference/bills-payment/vend-airtime-on-specific-account",
+        "nomba-api-reference/bills-payment/buy-data-using-parent-account",
+        "nomba-api-reference/bills-payment/buy-data-using-specific-account",
+      ]
     }
   ],
   "footerSocials": {
