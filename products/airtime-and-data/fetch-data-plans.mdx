@@ -1,0 +1,106 @@
+---
+title: "Fetch Data Plans"
+description: "Get a list of available data bundles that can be purchased based on the network or telco"
+---
+
+# `GET /v1/bill/data-plan/<telco>`
+
+#### Path parameters
+
+<ParamField path="telco" type="string">
+  Telco i.e. newtwork provider for the data plan to be purchased. Typically mtn,
+  airtel, glo or 9mobile
+</ParamField>
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="data" type="object[]">
+List of available data plans for the telco supplied
+  <Expandable title="object" defaultOpen="true">
+    <ResponseField name="amount" type="integer" required>
+      The corresponding amount for this plan
+    </ResponseField>
+    <ResponseField name="plan" type="string" required>
+      Plan name
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash Request
+curl --location 'https://api.nomba.com/v1/bill/data-plan/<telco>' \
+--header 'accountId: <accountId>' \
+--header 'Authorization: Bearer <token>'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success response
+{
+    "data": [
+        {
+            "plan": "20MB -> 1Day (N50)",
+            "amount": 50
+        },
+        {
+            "plan": "75MB -> 1Day (N100)",
+            "amount": 100
+        },
+        {
+            "plan": "200MB -> 3Days (N200)",
+            "amount": 200
+        },
+        {
+            "plan": "350MB -> 7Days (N300)",
+            "amount": 300
+        },
+        {
+            "plan": "750MB -> 14Days (N500)",
+            "amount": 500
+        },
+        {
+            "plan": "1.5GB -> 30Days (N1,000)",
+            "amount": 1000
+        },
+        {
+            "plan": "3.5GB -> 30Days (N1,500)",
+            "amount": 1500
+        },
+        {
+            "plan": "5.5GB -> 30Days (N2,500)",
+            "amount": 2500
+        },
+        {
+            "plan": "6.5GB -> 30Days (N3,000)",
+            "amount": 3000
+        },
+        {
+            "plan": "9.5GB -> 30Days (N4,000)",
+            "amount": 4000
+        },
+        {
+            "plan": "12GB -> 30Days (N5,000)",
+            "amount": 5000
+        },
+        {
+            "plan": "25GB -> 30Days (N10,000)",
+            "amount": 10000
+        },
+        {
+            "plan": "40GB -> 30Days (N15,000)",
+            "amount": 15000
+        }
+    ],
+    "description": "Successful",
+    "code": 200
+}
+```
+</ResponseExample>

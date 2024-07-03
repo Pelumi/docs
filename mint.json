@@ -31,7 +31,7 @@
     "url": "https://dashboard.nomba.com"
   },
   "primaryTab": {
-      "name": "Documentation"
+    "name": "Documentation"
   },
   "tabs": [
     {
@@ -42,10 +42,7 @@
   "navigation": [
     {
       "group": "Introduction",
-      "pages": [
-        "introduction/welcome-to-nomba",
-        "introduction/get-api-keys"
-      ]
+      "pages": ["introduction/welcome-to-nomba", "introduction/get-api-keys"]
     },
     {
       "group": "Getting Started",
@@ -83,7 +80,7 @@
         },
         {
           "group": "Checkout",
-          "icon": "money-bill",
+          "icon": "cart-shopping",
           "pages": [
             "products/checkout/introduction",
             "products/checkout/create-checkout-order",
@@ -113,14 +110,14 @@
               "group": "Custom Apps",
               "pages": [
                 "products/terminals/custom-apps/introduction",
-               {
-                "group": "Trigger Payment",
-                "pages":[
-                  "products/terminals/custom-apps/trigger-payment/introduction",
-                  "products/terminals/custom-apps/trigger-payment/trigger-card-payments",
-                  "products/terminals/custom-apps/trigger-payment/trigger-bank-transfer-payments"
-                ]
-               },
+                {
+                  "group": "Trigger Payment",
+                  "pages": [
+                    "products/terminals/custom-apps/trigger-payment/introduction",
+                    "products/terminals/custom-apps/trigger-payment/trigger-card-payments",
+                    "products/terminals/custom-apps/trigger-payment/trigger-bank-transfer-payments"
+                  ]
+                },
                 "products/terminals/custom-apps/retrieve-device-info",
                 "products/terminals/custom-apps/trigger-receipt-printing"
               ]
@@ -153,36 +150,41 @@
             "products/transactions/fetch-bank-transactions",
             "products/transactions/filtering-through-transactions"
           ]
+        },
+        {
+          "group": "Airtime & Data Vending",
+          "icon": "money-bill",
+          "pages": [
+            "products/airtime-and-data/fetch-data-plans",
+            "products/airtime-and-data/buy-data-bundle",
+            "products/airtime-and-data/vend-airtime"
+          ]
         }
       ]
     },
     {
-          "group": "Guides",
-          "pages": [
-            "support/guides/introduction",
-            "support/guides/accept-online-payments",
-            "support/guides/authentication-best-practises",
-            "support/guides/setting-up-webhooks",
-            "support/guides/processing-recurring-payments",
-            "support/guides/online-payments-with-subaccounts"
-          ]
+      "group": "Guides",
+      "pages": [
+        "support/guides/introduction",
+        "support/guides/accept-online-payments",
+        "support/guides/authentication-best-practises",
+        "support/guides/setting-up-webhooks",
+        "support/guides/processing-recurring-payments",
+        "support/guides/online-payments-with-subaccounts"
+      ]
     },
     {
       "group": "API Patterns",
       "pages": [
         "getting-started/pagination",
-        "getting-started/rate_limit", 
+        "getting-started/rate_limit",
         "getting-started/idempotency",
         "getting-started/environment"
       ]
     },
     {
       "group": "Support",
-      "pages": [
-        "support/security",
-        "support/reach-out",
-        "support/faqs"
-      ]
+      "pages": ["support/security", "support/reach-out", "support/faqs"]
     },
     {
       "group": "API Documentation",
@@ -283,6 +285,15 @@
         "nomba-api-reference/transactions/filter-parent-account-transactions",
         "nomba-api-reference/transactions/fetch-a-single-transaction-on-an-account",
         "nomba-api-reference/transactions/fetch-a-single-transaction-on-the-parent-account"
+      ]
+    },
+    {
+      "group": "Airtime & Data Vending",
+      "pages": [
+        "nomba-api-reference/airtime-and-data/buy-data-bundle-via-parent-account",
+        "nomba-api-reference/airtime-and-data/buy-data-bundle-via-specific-account",
+        "nomba-api-reference/airtime-and-data/vend-airtime-via-parent-account",
+        "nomba-api-reference/airtime-and-data/vend-airtime-via-specific-account"
       ]
     }
   ],
