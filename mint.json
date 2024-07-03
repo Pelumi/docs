@@ -290,10 +290,11 @@
     {
       "group": "Airtime & Data Vending",
       "pages": [
-        "nomba-api-reference/airtime-and-data/buy-data-bundle-via-parent-account",
-        "nomba-api-reference/airtime-and-data/buy-data-bundle-via-specific-account",
-        "nomba-api-reference/airtime-and-data/vend-airtime-via-parent-account",
-        "nomba-api-reference/airtime-and-data/vend-airtime-via-specific-account"
+        "nomba-api-reference/airtime-and-data-vending/fetch-data-plans-available-on-a-telco-network-provider",
+        "nomba-api-reference/airtime-and-data-vending/make-airtime-purchases-via-parent-account",
+        "nomba-api-reference/airtime-and-data-vending/make-airtime-purchases-via-specific-or-sub-accounts",
+        "nomba-api-reference/airtime-and-data-vending/vend-data-bundles-via-parent-account",
+        "nomba-api-reference/airtime-and-data-vending/vend-data-bundles-via-specific-or-subaccount"
       ]
     }
   ],

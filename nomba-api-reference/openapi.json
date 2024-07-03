@@ -41,7 +41,7 @@
       "name": "Transactions"
     },
     {
-      "name": "Airtime & Data Vending"
+      "name": "Airtime and Data Vending"
     }
   ],
   "paths": {
@@ -8959,7 +8959,7 @@
         ],
         "summary": "Fetch data plans available on a telco (network provider)",
         "tags": [
-          "Data Plans"
+          "Airtime and Data Vending"
         ]
       }
     },
@@ -9123,7 +9123,7 @@
           }
         ],
         "tags": [
-          "Airtime Purchase"
+          "Airtime and Data Vending"
         ]
       }
     },
@@ -9298,7 +9298,7 @@
           }
         ],
         "tags": [
-          "Airtime Purchase"
+          "Airtime and Data Vending"
         ]
       }
     },
@@ -9462,7 +9462,7 @@
           }
         ],
         "tags": [
-          "Data Vending"
+          "Airtime and Data Vending"
         ]
       }
     },
@@ -9637,7 +9637,7 @@
           }
         ],
         "tags": [
-          "Data Vending"
+          "Airtime and Data Vending"
         ]
       }
     }
@@ -9669,8 +9669,7 @@
           "merchantTxRef": {
             "type": "string",
             "description": "Merchant Transaction Identifier reference (Unique to merchant)",
-            "example": "3bvwhibh38220dsjakTwvb",
-            "senderName": "The name of the airtime sender. Typically a generic identifier for who initiated this purchase"
+            "example": "3bvwhibh38220dsjakTwvb"
           }
         },
         "required": [
@@ -9744,8 +9743,7 @@
           "merchantTxRef": {
             "type": "string",
             "description": "Merchant Transaction Identifier reference (Unique to merchant)",
-            "example": "3bvwhibh38220dsjakTwvb",
-            "senderName": "The name of the data vender. Typically a generic identifier for who initiated this data vend"
+            "example": "3bvwhibh38220dsjakTwvb"
           }
         },
         "required": [
@@ -12347,6 +12345,19 @@
         "required": [
           "message"
         ]
+      },
+      "DataPlanList": {
+        "type": "object",
+        "properties": {
+          "amount": {
+              "type": "integer",
+              "format": "int64"
+          },
+          "plan": {
+              "type": "string",
+              "example": "40GB -> 30Days (N15,000)"
+          }
+        }
       }
     },
     "securitySchemes": {
