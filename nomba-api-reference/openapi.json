@@ -9662,9 +9662,12 @@
           },
           "network": {
             "type": "string",
-            "description": "Recipient network (telco)",
+            "description": "Recipient network (telco). It can also come as lowercased values e.g. glo, mtn etc.",
             "minLength": 3,
-            "example": "glo"
+            "enum": [
+              "GLO", "MTN", "9MOBILE", "AIRTEL"
+            ],
+            "example": "GLO"
           },
           "merchantTxRef": {
             "type": "string",
@@ -9741,9 +9744,12 @@
           },
           "network": {
             "type": "string",
-            "description": "Recipient network (telco)",
+            "description": "Recipient network (telco). It can also come as lowercased values e.g. glo, mtn etc.",
             "minLength": 3,
-            "example": "glo"
+            "enum": [
+              "GLO", "MTN", "9MOBILE", "AIRTEL"
+            ],
+            "example": "GLO"
           },
           "merchantTxRef": {
             "type": "string",
