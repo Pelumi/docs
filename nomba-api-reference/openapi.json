@@ -9468,7 +9468,7 @@
     },
     "/v1/bill/data/{subAccountId}":{
       "post": {
-        "description": "You can use this endpoint vend data via specific or sub accounts",
+        "description": "You can use this endpoint to vend data via specific or sub accounts",
         "operationId": "Vend data bundles via specific or subaccount",
         "requestBody": {
           "content": {
