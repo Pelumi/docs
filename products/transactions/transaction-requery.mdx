@@ -1,0 +1,155 @@
+---
+title: "Transaction Requery"
+description: "Fetching a transaction information particularly for cases of status confirmation."
+---
+
+# `GET /v1/transactions/requery/<sessionId>`
+
+#### Path parameters
+
+<ParamField path="sessionId" type="string">
+  Session Id of the transaction
+</ParamField>
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="data" type="object" required>
+  <Expandable title="object" defaultOpen="true">
+    <ResponseField name="id" type="string" required>
+      The transaction ID.
+    </ResponseField>
+    <ResponseField name="status" type="string" required>
+      The transaction status.
+    </ResponseField>
+    <ResponseField name="amount" type="number" required>
+      The transaction amount.
+    </ResponseField>
+    <ResponseField name="fixedCharge" type="number">
+      The transaction fixed charge.
+    </ResponseField>
+    <ResponseField name="source" type="string" required>
+      The transaction source.
+    </ResponseField>
+    <ResponseField name="type" type="string" required>
+      The transaction type.
+    </ResponseField>
+    <ResponseField name="customerBillerId" type="string">
+      The customer biller ID.
+    </ResponseField>
+    <ResponseField name="timeCreated" type="string" required>
+      The creation timestamp.
+    </ResponseField>
+    <ResponseField name="walletBalance" type="number">
+      The wallet balance.
+    </ResponseField>
+    <ResponseField name="billingVendorReference" type="string">
+      The billing vendor reference.
+    </ResponseField>
+    <ResponseField name="paymentVendorReference" type="string">
+      The payment vendor reference.
+    </ResponseField>
+    <ResponseField name="userId" type="string">
+      The User ID.
+    </ResponseField>
+    <ResponseField name="ktaSenderName" type="string">
+      The KTA sender name.
+    </ResponseField>
+    <ResponseField name="ktaSenderAccountNumber" type="string">
+      The KTA sender account number.
+    </ResponseField>
+    <ResponseField name="ktaSenderBankCode" type="string">
+      The KTA sender bank code.
+    </ResponseField>
+    <ResponseField name="recipientAccountNumber" type="string">
+      The recipient account number.
+    </ResponseField>
+    <ResponseField name="recipientAccountType" type="string">
+      The recipient account type.
+    </ResponseField>
+    <ResponseField name="senderName" type="string">
+      The sender name.
+    </ResponseField>
+    <ResponseField name="bankCode" type="string">
+      The bank code.
+    </ResponseField>
+    <ResponseField name="productId" type="string">
+      The product ID.
+    </ResponseField>
+    <ResponseField name="isAgentTransaction" type="boolean" required>
+      Indicates if it's an agent transaction.
+    </ResponseField>
+    <ResponseField name="isInternational" type="boolean" required>
+      Indicates if it's an international transaction.
+    </ResponseField>
+    <ResponseField name="customerCommission" type="number">
+      The customer commission.
+    </ResponseField>
+    <ResponseField name="recipientAccountName" type="string">
+      The recipient account name.
+    </ResponseField>
+    <ResponseField name="sessionId" type="string">
+      The session ID.
+    </ResponseField>
+    <ResponseField name="accountNumber" type="string">
+      The account number.
+    </ResponseField>
+    <ResponseField name="bankName" type="string">
+      The bank name.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash Request
+curl --request GET \
+  --url https://api.nomba.com/v1/transactions/requery/<sessionId> \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountid>'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success response
+{
+    "code": "00",
+    "description": "Requery Successful",
+    "data": {
+        "id": "API-VACT_TRA-185C7-01964b64-5c0a-4c91-81b6-zxv7a421862b",
+        "status": "SUCCESS",
+        "amount": "200.0",
+        "fixedCharge": "1.0",
+        "source": "api",
+        "type": "vact_transfer",
+        "customerBillerId": "0122408496",
+        "timeCreated": "2024-07-11T16:12:49.656Z",
+        "walletBalance": "1648.79",
+        "billingVendorReference": "029004810da38748e93ca4a9",
+        "paymentVendorReference": "000132891359184717316165338085",
+        "userId": "185c75d9-6ae0-675r-950e-425666184ed6",
+        "ktaSenderName": "Smart Hamzat",
+        "ktaSenderAccountNumber": "0122408496",
+        "ktaSenderBankCode": "Amucha MFB (Nomba)",
+        "recipientAccountNumber": "0014701211",
+        "recipientAccountType": "VIRTUAL",
+        "senderName": "Smart Hamzat",
+        "bankCode": "090645",
+        "productId": "090645",
+        "isAgentTransaction": true,
+        "isInternational": false,
+        "customerCommission": 0,
+        "recipientAccountName": "John Amazing Doe",
+        "sessionId": "000132891359184717316165338085",
+        "accountNumber": "0122408496",
+        "bankName": "Amucha (Nomba)"
+    }
+}
+```
+</ResponseExample>
