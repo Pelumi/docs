@@ -148,7 +148,8 @@
           "pages": [
             "products/transactions/fetch-account-transactions",
             "products/transactions/fetch-bank-transactions",
-            "products/transactions/filtering-through-transactions"
+            "products/transactions/filtering-through-transactions",
+            "products/transactions/transaction-requery"
           ]
         },
         {
@@ -284,7 +285,8 @@
         "nomba-api-reference/transactions/fetch-transactions-on-the-parent-account",
         "nomba-api-reference/transactions/filter-parent-account-transactions",
         "nomba-api-reference/transactions/fetch-a-single-transaction-on-an-account",
-        "nomba-api-reference/transactions/fetch-a-single-transaction-on-the-parent-account"
+        "nomba-api-reference/transactions/fetch-a-single-transaction-on-the-parent-account",
+        "nomba-api-reference/transactions/transaction-requery"
       ]
     },
     {
