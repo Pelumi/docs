@@ -466,7 +466,7 @@
     },
     "/v1/accounts": {
       "get": {
-        "description": "You can use this endpoints to fetch all the accounts tied to a business. Accounts are sorted by date, with the most recently-created account appearing first.",
+        "description": "You can use this endpoint to fetch all the accounts tied to a business. Accounts are sorted by date, with the most recently-created account appearing first.",
         "operationId": "List all accounts",
         "parameters": [
           {
@@ -8965,7 +8965,7 @@
     },
     "/v1/bill/topup":{
       "post": {
-        "description": "You can use this endpoint make airtime purchases via parent account",
+        "description": "You can use this endpoint to make airtime purchases via parent account",
         "operationId": "Make airtime purchases via parent account",
         "requestBody": {
           "content": {
@@ -9129,7 +9129,7 @@
     },
     "/v1/bill/topup/{subAccountId}":{
       "post": {
-        "description": "You can use this endpoint make airtime purchases via specific or sub accounts",
+        "description": "You can use this endpoint to make airtime purchases via specific or sub accounts",
         "operationId": "Make airtime purchases via specific or sub accounts",
         "requestBody": {
           "content": {
@@ -9304,7 +9304,7 @@
     },
     "/v1/bill/data":{
       "post": {
-        "description": "You can use this endpoint vend data via parent account",
+        "description": "You can use this endpoint to vend data via parent account",
         "operationId": "Vend data bundles via parent account",
         "requestBody": {
           "content": {
