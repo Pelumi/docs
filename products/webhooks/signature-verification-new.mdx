@@ -118,23 +118,23 @@ There are 3 essentials steps to follow to ensure a proper signature verification
             private static final String ALGORITHM = "HmacSHA256";
 
             public static String generateSignature(String payload, String timestamp) throws NoSuchAlgorithmException, InvalidKeyException {
-                String hashingPayload = String.format("%s:%s:%s:%s:%s:%s:%s:%s",
-                        payload.get("event_type"),
-                        payload.get("requestId"),
-                        payload.get("data").get("merchant").get("userId"),
-                        payload.get("data").get("merchant").get("walletId"),
-                        payload.get("data").get("transaction").get("transactionId"),
-                        payload.get("data").get("transaction").get("type"),
-                        payload.get("data").get("transaction").get("time"),
-                        payload.get("data").get("transaction").get("responseCode"));
+                final var eventType =  String.valueOf(requestPayload.getOrDefault("event_type",""));
+                final var requestId = String.valueOf(requestPayload.getOrDefault("requestId", ""));
+                final var userId =  String.valueOf(merchantHashMap.getOrDefault("userId", ""));
+                final var walletId = String.valueOf(merchantHashMap.getOrDefault("walletId", ""));
+                final var transactionId = String.valueOf(transactionHashMap.getOrDefault("transactionId", ""));
+                final var transactionType = String.valueOf(transactionHashMap.getOrDefault("type", ""));
+                final var transactionTime =   String.valueOf(transactionHashMap.getOrDefault("time", ""));
+                final var transactionResponseCode = String.valueOf(transactionHashMap.getOrDefault("responseCode", ""));
+                final var hashingPayload = String.format("%s:%s:%s:%s:%s:%s:%s:%s", eventType, requestId, userId, walletId, transactionId, transactionType, transactionTime, transactionResponseCode);
 
                 String message = String.format("%s:%s", hashingPayload, timestamp);
 
-                SecretKeySpec keySpec = new SecretKeySpec(SIGNATURE_KEY.getBytes(StandardCharsets.UTF_8), ALGORITHM);
-                Mac mac = Mac.getInstance(ALGORITHM);
-                mac.init(keySpec);
-                mac.update(message.getBytes(StandardCharsets.UTF_8));
-                return new String(mac.digest(), StandardCharsets.UTF_8).toUpperCase();
+                Mac sha256HMAC = Mac.getInstance(ALGORITHM);
+                SecretKeySpec secretKey = new SecretKeySpec(secret.getBytes(), ALGORITHM);
+                sha256HMAC.init(secretKey);
+                byte[] hash = sha256HMAC.doFinal(hashingPayload.getBytes());
+                return Base64.getEncoder().encodeToString(hash);
             }
         }
         ```
