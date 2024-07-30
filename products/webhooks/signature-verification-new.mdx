@@ -1,0 +1,294 @@
+---
+title: "Signature verification"
+description: "Learn how to validate our webhook payloads"
+---
+
+Signature verification in webhooks is a crucial security measure employed to ensure the integrity and authenticity of incoming data. Our webhook includes a signature which is a cryptographic hash derived from the payload and a shared secret. You are supposed to use this shared secret to independently compute the hash and compare it with the received signature. If the computed hash matches the received signature, it signifies that the payload has not been tampered with during transmission and originated from the expected source, thus, establishing trust and security.
+
+This verification mechanism safeguards against potential threats like data tampering and unauthorized access, enhancing the overall reliability of our webhook integration.
+
+There are 3 essentials steps to follow to ensure a proper signature verification. They are as follows;
+
+<Steps titleSize="p">
+  <Step title="Calculate HMAC Signature">
+    Generate a secure Hash-based Message Authentication Code (HMAC) signature by applying a cryptographic hash function to the payload using a shared secret, ensuring data integrity.
+
+    <CodeGroup>
+
+        ```go sample.go
+                package main
+
+        import (
+                "crypto/hmac"
+                "crypto/sha256"
+                "encoding/hex"
+                "fmt"
+        )
+
+        func main() {
+                signatureKey := "your_secret_key" // Replace with your actual signature key
+                payload := map[string]interface{}{
+                        "event_type": "some_event",
+                        "requestId": "12345",
+                        // ... other payload fields
+                }
+                timestamp := "1690646400" // Replace with actual timestamp
+
+                hashingPayload := fmt.Sprintf("%s:%s:%s:%s:%s:%s:%s:%s",
+                        payload["event_type"],
+                        payload["requestId"],
+                        payload["data"]["merchant"]["userId"],
+                        payload["data"]["merchant"]["walletId"],
+                        payload["data"]["transaction"]["transactionId"],
+                        payload["data"]["transaction"]["type"],
+                        payload["data"]["transaction"]["time"],
+                        payload["data"]["transaction"]["responseCode"])
+
+                message := fmt.Sprintf("%s:%s", hashingPayload, timestamp)
+
+                h := hmac.New(sha256.New, []byte(signatureKey))
+                h.Write([]byte(message))
+                signature := hex.EncodeToString(h.Sum(nil))
+
+                fmt.Println(signature)
+        }
+        ```
+
+        ```python sample.py
+        import hmac
+        import hashlib
+
+        signature_key = "..."  # Replace with your actual signature key
+        payload = req.body
+
+        # Extract timestamp from the header
+        timestamp = req.get("nomba-timestamp")
+
+        # Construct the new payload string
+        hashing_payload = f"{payload['event_type']}" \
+                        f":{payload['requestId']}" \
+                        f":{payload['data']['merchant']['userId']}" \
+                        f":{payload['data']['merchant']['walletId']}" \
+                        f":{payload['data']['transaction']['transactionId']}" \
+                        f":{payload['data']['transaction']['type']}" \
+                        f":{payload['data']['transaction']['time']}" \
+                        f":{payload['data']['transaction']['responseCode']}"
+
+        # Combine the new payload with the timestamp
+        message = f"{hashing_payload}:{timestamp}"
+
+        # Generate HMAC signature
+        hmac_val = hmac.new(signature_key.encode(), message.encode(), hashlib.sha256)
+        signature = hmac_val.hexdigest()
+        ```
+
+        ```javascript sample.js
+        const { createHmac } = await import("node:crypto");
+
+        const signatureKey = "..."; // Replace with your actual signature key
+        const payload = req.body; // Extract the request body
+
+        // Extract timestamp from the header
+        const timestamp = req.get("nomba-timestamp");
+
+        // Construct the new payload string
+        const hashingPayload = `${payload.event_type}:${payload.requestId}:${payload.data.merchant.userId}:${payload.data.merchant.walletId}:${payload.data.transaction.transactionId}:${payload.data.transaction.type}:${payload.data.transaction.time}:${payload.data.transaction.responseCode}`;
+
+        // Combine the new payload with the timestamp
+        const message = `${hashingPayload}:${timestamp}`;
+
+        var hmacVal = createHmac("sha256", signatureKey);
+
+        var signature = req.get("nomba-sig-value");
+        hmacVal.update(message);
+        ```
+
+        ```java sample.java
+        import java.nio.charset.StandardCharsets;
+        import java.security.InvalidKeyException;
+        import java.security.NoSuchAlgorithmException;
+        import java.util.Objects;   
+
+        import javax.crypto.Mac;
+        import javax.crypto.spec.SecretKeySpec;
+
+        public class SignatureGenerator {
+
+            private static final String SIGNATURE_KEY = "..."; // Replace with your actual signature key
+            private static final String ALGORITHM = "HmacSHA256";
+
+            public static String generateSignature(String payload, String timestamp) throws NoSuchAlgorithmException, InvalidKeyException {
+                String hashingPayload = String.format("%s:%s:%s:%s:%s:%s:%s:%s",
+                        payload.get("event_type"),
+                        payload.get("requestId"),
+                        payload.get("data").get("merchant").get("userId"),
+                        payload.get("data").get("merchant").get("walletId"),
+                        payload.get("data").get("transaction").get("transactionId"),
+                        payload.get("data").get("transaction").get("type"),
+                        payload.get("data").get("transaction").get("time"),
+                        payload.get("data").get("transaction").get("responseCode"));
+
+                String message = String.format("%s:%s", hashingPayload, timestamp);
+
+                SecretKeySpec keySpec = new SecretKeySpec(SIGNATURE_KEY.getBytes(StandardCharsets.UTF_8), ALGORITHM);
+                Mac mac = Mac.getInstance(ALGORITHM);
+                mac.init(keySpec);
+                mac.update(message.getBytes(StandardCharsets.UTF_8));
+                return new String(mac.digest(), StandardCharsets.UTF_8).toUpperCase();
+            }
+        }
+        ```
+
+        ```csharp sample.cs
+        using System;
+        using System.Security.Cryptography;
+
+        public class SignatureGenerator
+        {
+            private const string SignatureKey = "..."; // Replace with your actual signature key
+            private const string Algorithm = "HmacSHA256";
+
+            public static string GenerateSignature(string payload, string timestamp)
+            {
+                string hashingPayload = $"{payload["event_type"]}" +
+                                    $":{payload["requestId"]}" +
+                                    $":{payload["data"]["merchant"]["userId"]}" +
+                                    $":{payload["data"]["merchant"]["walletId"]}" +
+                                    $":{payload["data"]["transaction"]["transactionId"]}" +
+                                    $":{payload["data"]["transaction"]["type"]}" +
+                                    $":{payload["data"]["transaction"]["time"]}" +
+                                    $":{payload["data"]["transaction"]["responseCode"]}";
+
+                string message = $"{hashingPayload}:{timestamp}";
+
+                byte[] keyBytes = Encoding.UTF8.GetBytes(SignatureKey);
+                byte[] messageBytes = Encoding.UTF8.GetBytes(message);
+                using (var hmac = new HMACSHA256(keyBytes))
+                {
+                    hmac.ComputeHash(messageBytes);
+                    return Convert.ToHexString(hmac.Hash).ToUpper();
+                }
+            }
+        }
+        ```
+
+    </CodeGroup>
+
+  </Step>
+
+  <Step title="Base64 Conversion">
+    Convert the calculated HMAC signature into a Base64-encoded format, facilitating secure and efficient representation for transmission and validation in the webhook process.
+
+    <CodeGroup>
+
+        ```go sample.go
+        package main
+
+        import (
+            "crypto/hmac"
+            "crypto/sha256"
+            "encoding/base64"
+            "fmt"
+        )
+
+        func main() {
+            hmacValBase64 := base64.StdEncoding.EncodeToString(hmacVal)
+            fmt.Println(hmacValBase64)
+        }
+        ```
+
+        ```python sample.py
+        import base64
+
+        digest = base64.b64encode(hmac_val)
+        ```
+
+        ```javascript sample.js
+        var digest = hmacVal.digest("base64");
+        ```
+
+        ```java sample.java
+        import java.util.Base64;
+
+        String digest = Base64.getEncoder().encodeToString(hash);
+        ```
+
+        ```csharp sample.cs
+        using System;
+        using System.Text;
+
+        class Program
+        {
+            static void Main()
+            {
+                string hmacValBase64 = Convert.ToBase64String(hmacVal);
+                Console.WriteLine(hmacValBase64);
+            }
+        }
+        ```
+
+    </CodeGroup>
+
+  </Step>
+
+  <Step title="Compare signatures">
+    Verify the integrity of incoming data by comparing the computed HMAC signature with the received signature, ensuring a match to establish the authenticity of the webhook payload.
+
+    <CodeGroup>
+
+        ```go sample.go
+        package main
+
+        import (
+            "encoding/base64"
+            "fmt"
+        )
+
+        func main() {
+            digest := "..."
+            signature := headers.Get("nomba-sig-value")
+
+            isValid := digest == signature
+            fmt.Println(isValid)
+        }
+        ```
+
+        ```python sample.py
+        signature = headers.get('nomba-sig-value')
+
+        isValid = digest == signature
+        ```
+
+        ```javascript sample.js
+        var signature = req.get("nomba-sig-value");
+
+        var isValid = (digest === signature);
+        ```
+
+        ```java sample.java
+        String signature = headers.get("nomba-sig-value");
+
+        boolean isValid = digest.equals(signature);
+        ```
+
+        ```csharp sample.cs
+        using System;
+
+        class Program
+        {
+            static void Main()
+            {
+                string digest = "...";
+                string signature = headers["nomba-sig-value"];
+
+                bool isValid = digest == signature;
+                Console.WriteLine(isValid);
+            }
+        }
+        ```
+
+    </CodeGroup>
+
+  </Step>
+  
+</Steps>
