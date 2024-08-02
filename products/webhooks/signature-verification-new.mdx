@@ -58,28 +58,37 @@ There are 3 essentials steps to follow to ensure a proper signature verification
         import hmac
         import hashlib
 
-        signature_key = "..."  # Replace with your actual signature key
-        payload = req.body
+        headers = request.headers
+        signature = headers.get("nomba-sig-value") # extract signature value from nomba
+        timestamp = headers.get("nomba-timestamp") # extract timestamp
+        your_secret = "000000" # Replace with your actual secret if you have or use default secret "000000"
 
-        # Extract timestamp from the header
-        timestamp = req.get("nomba-timestamp")
+        data = request.get_json()
 
         # Construct the new payload string
-        hashing_payload = f"{payload['event_type']}" \
-                        f":{payload['requestId']}" \
-                        f":{payload['data']['merchant']['userId']}" \
-                        f":{payload['data']['merchant']['walletId']}" \
-                        f":{payload['data']['transaction']['transactionId']}" \
-                        f":{payload['data']['transaction']['type']}" \
-                        f":{payload['data']['transaction']['time']}" \
-                        f":{payload['data']['transaction']['responseCode']}"
+        event_type = data["event_type"]
+        request_id = data["requestId"]
+        user_id = data["data"]["merchant"]["userId"]
+        wallet_id = data["data"]["merchant"]["walletId"]
+        transaction_id = data["data"]["transaction"]["transactionId"]
+        transaction_type = data["data"]["transaction"]["type"]
+        transaction_time = data["data"]["transaction"]["time"]
+        transaction_response_code = data["data"]["transaction"]["responseCode"]
 
-        # Combine the new payload with the timestamp
-        message = f"{hashing_payload}:{timestamp}"
+        concatenated_hashable_fields = ":".join(str(element) for element in [
+            event_type,
+            request_id,
+            user_id,
+            wallet_id,
+            transaction_id,
+            transaction_type,
+            transaction_time,
+            transaction_response_code,
+            timestamp
+        ] if element is not None)
 
         # Generate HMAC signature
-        hmac_val = hmac.new(signature_key.encode(), message.encode(), hashlib.sha256)
-        signature = hmac_val.hexdigest()
+        hmac_generated = generate_hmac(concatenated_hashable_fields, your_secret)
         ```
 
         ```javascript sample.js
@@ -176,61 +185,6 @@ There are 3 essentials steps to follow to ensure a proper signature verification
 
   </Step>
 
-  <Step title="Base64 Conversion">
-    Convert the calculated HMAC signature into a Base64-encoded format, facilitating secure and efficient representation for transmission and validation in the webhook process.
-
-    <CodeGroup>
-
-        ```go sample.go
-        package main
-
-        import (
-            "crypto/hmac"
-            "crypto/sha256"
-            "encoding/base64"
-            "fmt"
-        )
-
-        func main() {
-            hmacValBase64 := base64.StdEncoding.EncodeToString(hmacVal)
-            fmt.Println(hmacValBase64)
-        }
-        ```
-
-        ```python sample.py
-        import base64
-
-        digest = base64.b64encode(hmac_val)
-        ```
-
-        ```javascript sample.js
-        var digest = hmacVal.digest("base64");
-        ```
-
-        ```java sample.java
-        import java.util.Base64;
-
-        String digest = Base64.getEncoder().encodeToString(hash);
-        ```
-
-        ```csharp sample.cs
-        using System;
-        using System.Text;
-
-        class Program
-        {
-            static void Main()
-            {
-                string hmacValBase64 = Convert.ToBase64String(hmacVal);
-                Console.WriteLine(hmacValBase64);
-            }
-        }
-        ```
-
-    </CodeGroup>
-
-  </Step>
-
   <Step title="Compare signatures">
     Verify the integrity of incoming data by comparing the computed HMAC signature with the received signature, ensuring a match to establish the authenticity of the webhook payload.
 
@@ -255,8 +209,7 @@ There are 3 essentials steps to follow to ensure a proper signature verification
 
         ```python sample.py
         signature = headers.get('nomba-sig-value')
-
-        isValid = digest == signature
+        is_valid = hmac_generated == signature
         ```
 
         ```javascript sample.js
