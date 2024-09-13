@@ -46,8 +46,8 @@ description: 'Learn how to perform bank transfers using the Nomba API'
   The sender's name.
 </ParamField>
 
-<ParamField body="pin" type="string" required>
-  PIN.
+<ParamField body="narration" type="string">
+  The narration for this transfer (NB: This will be appended to the normal system generated narration).
 </ParamField>
 
 #### Response body
@@ -116,7 +116,7 @@ curl --request POST \
   "bankCode": "058",
   "merchantTxRef": "UNQ_123abGGhh5546",
   "senderName": "Nightly Post",
-  "pin": "2222"
+  "narration": "Nice One"
 }'
 ```
 </RequestExample>
