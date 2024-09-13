@@ -42,8 +42,8 @@ The movement of funds between accounts, commonly known as P2P, refers to the int
   The sender's name.
 </ParamField>
 
-<ParamField body="pin" type="string">
-  PIN.
+<ParamField body="narration" type="string">
+  The narration for this transfer (NB: This will be appended to the normal system generated narration).
 </ParamField>
 
 #### Response body
@@ -109,7 +109,7 @@ curl --request POST \
   "amount": 3500,
   "receiverAccountId": "890022ce-bae0-45c1-9b9d-ee7872e6ca27",
   "merchantTxRef": "UNQ_123abGGhh5546",
-  "pin": "2222"
+  "narration": "Nice one"
 }'
 ```
 </RequestExample>

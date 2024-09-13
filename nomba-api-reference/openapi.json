@@ -42,6 +42,12 @@
     },
     {
       "name": "Airtime and Data Vending"
+    },
+    {
+      "name": "Electricity Payment"
+    },
+    {
+      "name": "CableTv Subscription"
     }
   ],
   "paths": {
@@ -452,7 +458,7 @@
     },
     "/v1/accounts": {
       "get": {
-        "description": "You can use this endpoint to fetch all the accounts tied to a business. Accounts are sorted by date, with the most recently-created account appearing first.",
+        "description": "You can use this endpoints to fetch all the accounts tied to a business. Accounts are sorted by date, with the most recently-created account appearing first.",
         "operationId": "List all accounts",
         "parameters": [
           {
@@ -866,7 +872,7 @@
         "tags": ["Accounts"]
       }
     },
-    "/v1/accounts/{accountId}": {
+    "/v1/accounts/{subAccountId}": {
       "get": {
         "description": "You can use this endpoint to get details of a single account.",
         "operationId": "Fetch account details",
@@ -883,10 +889,10 @@
             "required": true
           },
           {
-            "description": "The details of the account to be fetched.",
+            "description": "The id of the account to be fetched.",
             "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
             "in": "path",
-            "name": "accountId",
+            "name": "subAccountId",
             "required": true,
             "schema": {
               "type": "string",
@@ -1010,7 +1016,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Fetch account details",
+        "summary": "Fetch details of a subaccount",
         "tags": ["Accounts"]
       }
     },
@@ -1150,9 +1156,9 @@
         "tags": ["Accounts"]
       }
     },
-    "/v1/accounts/{accountId}/balance": {
+    "/v1/accounts/{subAccountId}/balance": {
       "get": {
-        "description": "You can use this endpoint to get the balance of a single account.",
+        "description": "You can use this endpoint to get the balance of a sub-account",
         "operationId": "Fetch account balance",
         "parameters": [
           {
@@ -1167,10 +1173,10 @@
             "required": true
           },
           {
-            "description": "The account whose balance is to be fetched.",
+            "description": "The sub-account whose balance is to be fetched.",
             "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
             "in": "path",
-            "name": "accountId",
+            "name": "subAccountId",
             "required": true,
             "schema": {
               "type": "string",
@@ -1435,9 +1441,9 @@
         "tags": ["Accounts"]
       }
     },
-    "/v1/accounts/suspend/{accountId}": {
+    "/v1/accounts/suspend/{subAccountId}": {
       "put": {
-        "description": "You can use this endpoint to suspend an account.",
+        "description": "You can use this endpoint to suspend a sub-account.",
         "operationId": "Suspend an account",
         "parameters": [
           {
@@ -1452,10 +1458,10 @@
             "required": true
           },
           {
-            "description": "The account to be suspended.",
+            "description": "The id of the account to be suspended.",
             "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
             "in": "path",
-            "name": "accountId",
+            "name": "subAccountId",
             "required": true,
             "schema": {
               "type": "string",
@@ -1581,13 +1587,13 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Suspend an account",
+        "summary": "Suspend a sub-account",
         "tags": ["Accounts"]
       }
     },
-    "/v1/accounts/reactivate/{accountId}": {
+    "/v1/accounts/reactivate/{subAccountId}": {
       "put": {
-        "description": "You can use this endpoint to reactivate an account.",
+        "description": "You can use this endpoint to reactivate a sub-account",
         "operationId": "Reactivate an account",
         "parameters": [
           {
@@ -1605,7 +1611,7 @@
             "description": "The account to be reactivated.",
             "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
             "in": "path",
-            "name": "accountId",
+            "name": "subAccountId",
             "required": true,
             "schema": {
               "type": "string",
@@ -1735,9 +1741,9 @@
         "tags": ["Accounts"]
       }
     },
-    "/v1/accounts/{accountId}/terminals": {
+    "/v1/accounts/{subAccountId}/terminals": {
       "get": {
-        "description": "You can use this endpoint to fetch terminals linked to an account.",
+        "description": "You can use this endpoint to fetch terminals linked to a sub-account",
         "operationId": "Fetch terminals assigned to an account",
         "parameters": [
           {
@@ -1752,10 +1758,10 @@
             "required": true
           },
           {
-            "description": "The accountId whose transactions are to be fetched.",
+            "description": "The id of the account whose transactions are to be fetched.",
             "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
             "in": "path",
-            "name": "accountId",
+            "name": "subAccountId",
             "required": true,
             "schema": {
               "type": "string"
@@ -1939,7 +1945,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Fetch terminals assigned to an account",
+        "summary": "Fetch terminals assigned to a sub-account",
         "tags": ["Accounts"]
       }
     },
@@ -2141,7 +2147,7 @@
         "tags": ["Accounts"]
       }
     },
-    "/v1/accounts/{accountId}/access": {
+    "/v1/accounts/{subAccountId}/access": {
       "put": {
         "description": "You can use this endpoint to update the access of an api client within an account.",
         "operationId": "Update access to account",
@@ -2158,10 +2164,10 @@
             "required": true
           },
           {
-            "description": "The account, where access is to be updated.",
+            "description": "The account, where client access is to be updated.",
             "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
             "in": "path",
-            "name": "accountId",
+            "name": "subAccountId",
             "required": true,
             "schema": {
               "type": "string",
@@ -4823,7 +4829,7 @@
               }
             }
           },
-          "description": "Request user OTP",
+          "description": "Request OTP before saving a user's card",
           "required": true
         },
         "responses": {
@@ -4942,7 +4948,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Request user OTP",
+        "summary": "Request OTP before saving a user's card",
         "tags": ["Charge"]
       }
     },
@@ -4958,7 +4964,7 @@
               }
             }
           },
-          "description": "Request user OTP",
+          "description": "Request OTP to validate a user before fetching saved cards",
           "required": true
         },
         "responses": {
@@ -5077,7 +5083,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Request user OTP",
+        "summary": "Request OTP to validate a user before fetching saved cards",
         "tags": ["Charge"]
       }
     },
@@ -5930,9 +5936,9 @@
         "tags": ["Transfers"]
       }
     },
-    "/v1/transfers/bank/{accountId}": {
+    "/v1/transfers/bank/{subAccountId}": {
       "post": {
-        "description": "You can use this endpoint to perform bank account transfer.",
+        "description": "You can use this endpoint to perform bank account transfer using a sub-account",
         "operationId": "Perform bank account transfer from account",
         "requestBody": {
           "content": {
@@ -6061,7 +6067,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Perform bank account transfer from account",
+        "summary": "Perform bank account transfer from a sub-account",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -6078,7 +6084,7 @@
             "description": "The accountId to transfer from.",
             "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
             "in": "path",
-            "name": "accountId",
+            "name": "subAccountId",
             "required": true,
             "schema": {
               "type": "string"
@@ -6236,10 +6242,10 @@
         "tags": ["Transfers"]
       }
     },
-    "/v1/transfers/wallet/{accountId}": {
+    "/v1/transfers/wallet/{subAccountId}": {
       "post": {
-        "description": "You can use this endpoint to perform a wallet transfer.",
-        "operationId": "Perform wallet transfer from account",
+        "description": "You can use this endpoint to perform a wallet transfer from a sub-account",
+        "operationId": "Perform wallet transfer from a sub-account",
         "requestBody": {
           "content": {
             "application/json": {
@@ -6367,7 +6373,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Perform wallet transfer from account",
+        "summary": "Perform wallet transfer from a sub-account",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -6384,7 +6390,7 @@
             "description": "The accountId to transfer from.",
             "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
             "in": "path",
-            "name": "accountId",
+            "name": "subAccountId",
             "required": true,
             "schema": {
               "type": "string"
@@ -6394,9 +6400,9 @@
         "tags": ["Transfers"]
       }
     },
-    "/v1/terminals/assign/{accountId}": {
+    "/v1/terminals/assign/{subAccountId}": {
       "post": {
-        "description": "You can use this endpoint to assign a terminal to an account.",
+        "description": "You can use this endpoint to assign a terminal to an sub-account.",
         "operationId": "Assign a terminal to an account",
         "requestBody": {
           "content": {
@@ -6525,7 +6531,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Assign a terminal to an account",
+        "summary": "Assign a terminal to a sub-account",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -6542,7 +6548,7 @@
             "description": "The accountId whose terminals are to be fetched.",
             "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
             "in": "path",
-            "name": "accountId",
+            "name": "subAccountId",
             "required": true,
             "schema": {
               "type": "string"
@@ -6700,9 +6706,9 @@
         "tags": ["Terminals"]
       }
     },
-    "/v1/terminals/unassign/{accountId}": {
+    "/v1/terminals/unassign/{subAccountId}": {
       "post": {
-        "description": "You can use this endpoint to un-assign a terminal from an account.",
+        "description": "You can use this endpoint to un-assign a terminal from a sub-account.",
         "operationId": "Un-assign terminal from an account",
         "requestBody": {
           "content": {
@@ -6712,7 +6718,7 @@
               }
             }
           },
-          "description": "The request payload required to un-assign a terminal from an account",
+          "description": "The request payload required to un-assign a terminal from a sub-account",
           "required": true
         },
         "responses": {
@@ -6831,7 +6837,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Un-assign terminal from an account",
+        "summary": "Un-assign terminal from a sub-account",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -6848,7 +6854,7 @@
             "description": "The accountId whose terminals are to be fetched.",
             "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
             "in": "path",
-            "name": "accountId",
+            "name": "subAccountId",
             "required": true,
             "schema": {
               "type": "string"
@@ -7006,10 +7012,10 @@
         "tags": ["Terminals"]
       }
     },
-    "/v1/transactions/bank/{accountId}": {
+    "/v1/transactions/bank/{subAccountId}": {
       "get": {
-        "description": "You can use this endpoint to fetch credit/debit transactions on an account.",
-        "operationId": "Fetch credit/debit transactions on an account",
+        "description": "You can use this endpoint to fetch credit/debit transactions on a sub-account.",
+        "operationId": "Fetch credit/debit transactions on a sub-account",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -7026,7 +7032,7 @@
             "description": "The accountId whose terminals are to be fetched.",
             "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
             "in": "path",
-            "name": "accountId",
+            "name": "subAccountId",
             "required": true,
             "schema": {
               "type": "string"
@@ -7190,7 +7196,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Fetch credit/debit transactions on an account",
+        "summary": "Fetch credit/debit transactions on a sub-account",
         "tags": ["Transactions"]
       }
     },
@@ -7372,10 +7378,10 @@
         "tags": ["Transactions"]
       }
     },
-    "/v1/transactions/accounts/{accountId}": {
+    "/v1/transactions/accounts/{subAccountId}": {
       "get": {
-        "description": "You can use this endpoint to fetch transactions on an account.",
-        "operationId": "Fetch transactions on an account",
+        "description": "You can use this endpoint to fetch transactions on a sub-account.",
+        "operationId": "Fetch transactions on a sub-account",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -7392,7 +7398,7 @@
             "description": "The accountId whose terminals are to be fetched.",
             "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
             "in": "path",
-            "name": "accountId",
+            "name": "subAccountId",
             "required": true,
             "schema": {
               "type": "string"
@@ -7556,7 +7562,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Fetch transactions on an account",
+        "summary": "Fetch transactions on a sub-account",
         "tags": ["Transactions"]
       },
       "post": {
@@ -8122,10 +8128,10 @@
         "tags": ["Transactions"]
       }
     },
-    "/v1/transactions/accounts/{accountId}/single": {
+    "/v1/transactions/accounts/{subAccountId}/single": {
       "get": {
-        "description": "You can use this endpoint to fetch a single transaction on an account.",
-        "operationId": "Fetch a single transaction on an account",
+        "description": "You can use this endpoint to fetch a single transaction on a sub-account",
+        "operationId": "Fetch a single transaction on a sub-account",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -8142,7 +8148,7 @@
             "description": "The accountId whose transactions are to be fetched.",
             "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
             "in": "path",
-            "name": "accountId",
+            "name": "subAccountId",
             "required": true,
             "schema": {
               "type": "string"
@@ -8305,7 +8311,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Fetch a single transaction on an account",
+        "summary": "Fetch a single transaction on a sub-account",
         "tags": ["Transactions"]
       }
     },
@@ -8950,8 +8956,8 @@
     },
     "/v1/bill/topup/{subAccountId}": {
       "post": {
-        "description": "You can use this endpoint to make airtime purchases via specific or sub accounts",
-        "operationId": "Make airtime purchases via specific or sub accounts",
+        "description": "You can use this endpoint to make airtime purchases via a sub-account",
+        "operationId": "Make airtime purchases via specific or sub-account",
         "requestBody": {
           "content": {
             "application/json": {
@@ -9089,7 +9095,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Make airtime purchases via specific or sub accounts",
+        "summary": "Make airtime purchases via a sub-account",
         "parameters": [
           {
             "description": "The parent accountId of the business this sub account belongs to",
@@ -9277,8 +9283,8 @@
     },
     "/v1/bill/data/{subAccountId}": {
       "post": {
-        "description": "You can use this endpoint to vend data via specific or sub accounts",
-        "operationId": "Vend data bundles via specific or subaccount",
+        "description": "You can use this endpoint to vend data via a sub-account",
+        "operationId": "Vend data bundles via specific or sub-account",
         "requestBody": {
           "content": {
             "application/json": {
@@ -9416,7 +9422,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Vend data bundles via specific or subaccount",
+        "summary": "Vend data bundles via a sub-account",
         "parameters": [
           {
             "description": "The parent accountId of the business this sub account belongs to",
@@ -9442,6 +9448,1084 @@
           }
         ],
         "tags": ["Airtime and Data Vending"]
+      }
+    },
+    "/v1/bill/cabletv/lookup": {
+      "get": {
+        "description": "This endpoint is for fetching customer information data",
+        "operationId": "CABLETV_LOOKUP",
+        "parameters": [
+          {
+            "description": "customerId",
+            "example": "dstv12233",
+            "in": "query",
+            "name": "customerId",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "cableTvType",
+            "example": "dstv",
+            "in": "query",
+            "name": "cableTvType",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00",
+                      "description": "Response Code"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Success",
+                      "description": "Response description"
+                    },
+                    "data": {
+                      "type": "string",
+                      "example": "John Doe",
+                      "description": "The name of the customer"
+                    }
+                  },
+                  "required": ["code", "description", "data"]
+                }
+              }
+            },
+            "description": "OK - your request was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Fetch customer information from a cable tv provider",
+        "tags": ["CableTV Subscription"]
+      }
+    },
+    "/v1/bill/cabletv": {
+      "post": {
+        "description": "You can use this endpoint to make cable tv subscription via parent account",
+        "operationId": "Cable Tv subscription via parent account",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CableTvSubscriptionRequest"
+              }
+            }
+          },
+          "description": "The request payload required for a cable tv subscription",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00",
+                      "description": "Response Code"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Success",
+                      "description": "Response description"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/CableTvSubscriptionResponse"
+                    }
+                  },
+                  "required": ["code", "description", "data"]
+                }
+              }
+            },
+            "description": "OK - your request was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "Resource not available"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "CableTv subscription via parent account",
+        "parameters": [
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          }
+        ],
+        "tags": ["CableTV Subscription"]
+      }
+    },
+    "/v1/bill/cabletv/{subAccountId}": {
+      "post": {
+        "description": "You can use this endpoint to make cable tv subscription via a sub-account",
+        "operationId": "Cable Tv subscription via a sub-account",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CableTvSubscriptionRequest"
+              }
+            }
+          },
+          "description": "The request payload required for a cable tv subscription",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00",
+                      "description": "Response Code"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Success",
+                      "description": "Response description"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/CableTvSubscriptionResponse"
+                    }
+                  },
+                  "required": ["code", "description", "data"]
+                }
+              }
+            },
+            "description": "OK - your request was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "Resource not available"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "CableTv subscription via a sub-account",
+        "parameters": [
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          },
+          {
+            "description": "The identifier for the account through which this transaction is to be carried out.",
+            "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
+            "in": "path",
+            "name": "subAccountId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": ["CableTV Subscription"]
+      }
+    },
+    "/v1/bill/electricity/discos": {
+      "get": {
+        "description": "You can use this endpoint to fetch electricity providers/discos",
+        "operationId": "Fetch electricity providers",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00",
+                      "description": "Response Code"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Success",
+                      "description": "Response description"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/DiscoList"
+                    }
+                  },
+                  "required": ["code", "description", "data"]
+                }
+              }
+            },
+            "description": "OK - your request was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "Resource not available"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Fetch discos/electricity providers",
+        "tags": ["Electricity Vending"]
+      }
+    },
+    "/v1/bill/electricity/lookup": {
+      "get": {
+        "description": "This endpoint is for fetching customer information data from an electricity vending provider",
+        "operationId": "ELECTRICITY_CUSTOMER_LOOKUP",
+        "parameters": [
+          {
+            "description": "disco",
+            "example": "phed",
+            "in": "query",
+            "name": "disco",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "customerId",
+            "example": "12347899",
+            "in": "query",
+            "name": "customerId",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00",
+                      "description": "Response Code"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Success",
+                      "description": "Response description"
+                    },
+                    "data": {
+                      "type": "string",
+                      "example": "John Doe",
+                      "description": "The name of the customer"
+                    }
+                  },
+                  "required": ["code", "description", "data"]
+                }
+              }
+            },
+            "description": "OK - your request was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Fetch customer information from an electricity provider",
+        "tags": ["Electricity Vending"]
+      }
+    },
+    "/v1/bill/electricity": {
+      "post": {
+        "description": "You can use this endpoint to vend electricity via parent account",
+        "operationId": "Vend electricity via parent account",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ElectricityVendingRequest"
+              }
+            }
+          },
+          "description": "The request payload required to vend electricity",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00",
+                      "description": "Response Code"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Success",
+                      "description": "Response description"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/ElectricityVendingResponse"
+                    }
+                  },
+                  "required": ["code", "description", "data"]
+                }
+              }
+            },
+            "description": "OK - your request was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "Resource not available"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Vend electricity via parent account",
+        "parameters": [
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          }
+        ],
+        "tags": ["Electricity Vending"]
+      }
+    },
+    "/v1/bill/electricity/{subAccountId}": {
+      "post": {
+        "description": "You can use this endpoint to vend electricity via a sub-account",
+        "operationId": "Vend electricity via a sub-account",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ElectricityVendingRequest"
+              }
+            }
+          },
+          "description": "The request payload required to vend electricity",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00",
+                      "description": "Response Code"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Success",
+                      "description": "Response description"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/ElectricityVendingResponse"
+                    }
+                  },
+                  "required": ["code", "description", "data"]
+                }
+              }
+            },
+            "description": "OK - your request was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "Resource not available"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Vend electricity via a specific account",
+        "parameters": [
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          },
+          {
+            "description": "The identifier for the account through which this transaction is to be carried out.",
+            "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
+            "in": "path",
+            "name": "subAccountId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": ["Electricity Vending"]
       }
     }
   },
@@ -9481,13 +10565,7 @@
             "example": "John Doe"
           }
         },
-        "required": [
-          "amount",
-          "phoneNumber",
-          "network",
-          "merchantTxRef",
-          "senderName"
-        ]
+        "required": ["amount", "phoneNumber", "network", "merchantTxRef"]
       },
       "AirtimePurchaseResponse": {
         "type": "object",
@@ -9512,7 +10590,10 @@
           "meta": {
             "type": "object",
             "description": "Extra information about this transaction",
-            "example": "{\n            \"merchantTxRef\": \"test1116\",\n            \"rrn\": \"240626232937\"\n        }"
+            "example": {
+              "merchantTxRef": "test1116",
+              "rrn": "240626232937"
+            }
           },
           "status": {
             "type": "string",
@@ -9552,17 +10633,11 @@
           },
           "senderName": {
             "type": "string",
-            "description": "A name to describe the person to whomm the transaction is for",
+            "description": "A name to describe the sender of the data",
             "example": "John Doe"
           }
         },
-        "required": [
-          "amount",
-          "phoneNumber",
-          "network",
-          "merchantTxRef",
-          "senderName"
-        ]
+        "required": ["amount", "phoneNumber", "network", "merchantTxRef"]
       },
       "DataVendingResponse": {
         "type": "object",
@@ -9587,7 +10662,10 @@
           "meta": {
             "type": "object",
             "description": "Extra information about this transaction",
-            "example": "{\n            \"merchantTxRef\": \"test1116\",\n            \"rrn\": \"240626232937\"\n        }"
+            "example": {
+              "merchantTxRef": "test1116",
+              "rrn": "240626232937"
+            }
           },
           "status": {
             "type": "string",
@@ -9787,7 +10865,13 @@
           "cardDetails": {
             "type": "string",
             "description": "Stringified card details",
-            "example": "{\"cardCVV\": 11,\"cardExpiryMonth\": 3,\"cardExpiryYear\": 2050,\"cardNumber\": \"5190752909999995\",\"cardPin\": 1111}"
+            "example": {
+              "cardCVV": 11,
+              "cardExpiryMonth": 3,
+              "cardExpiryYear": 2050,
+              "cardNumber": "5190752909999995",
+              "cardPin": 1111
+            }
           },
           "key": {
             "type": "string",
@@ -10410,6 +11494,11 @@
             "type": "string",
             "description": "Sender name",
             "example": "Nightly Post"
+          },
+          "narration": {
+            "type": "string",
+            "description": "The payment narration",
+            "example": "Testing Payment"
           }
         },
         "required": [
@@ -11495,6 +12584,11 @@
             "type": "string",
             "description": "Unique reference used to track a transaction from an external process.",
             "example": "UNQ_123abGGhh5546"
+          },
+          "narration": {
+            "type": "string",
+            "description": "The payment narration",
+            "example": "Testing Payment"
           }
         },
         "required": ["amount", "receiverAccountId", "merchantTxRef"]
@@ -11984,7 +13078,11 @@
           "data": {
             "type": "object",
             "description": "The data object attributed to the action that has been performed",
-            "example": "{\"name\": \"M.A Animashaun\", \"age\": 30, \"city\": \"Example City\"}"
+            "example": {
+              "name": "M.A Animashaun",
+              "age": 30,
+              "city": "Example City"
+            }
           }
         },
         "required": ["message"]
@@ -12001,6 +13099,169 @@
             "example": "40GB -> 30Days (N15,000)"
           }
         }
+      },
+      "DiscoList": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "jed"
+          },
+          "name": {
+            "type": "string",
+            "example": "Jos Electric (JEDC)"
+          }
+        }
+      },
+      "ElectricityVendingRequest": {
+        "type": "object",
+        "properties": {
+          "disco": {
+            "type": "string",
+            "example": "jed"
+          },
+          "merchantTxRef": {
+            "type": "string",
+            "example": "12345"
+          },
+          "payerName": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "amount": {
+            "type": "integer",
+            "example": 1000
+          },
+          "customerId": {
+            "type": "string",
+            "example": "customer123"
+          },
+          "meterType": {
+            "type": "string",
+            "example": "prepaid"
+          }
+        }
+      },
+      "ElectricityVendingResponse": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "description": "The value (in digits) of this transaction",
+            "example": 2000
+          },
+          "timeCreated": {
+            "type": "string",
+            "description": "The Date and Time of transaction creation",
+            "format": "date-time",
+            "example": "2023-09-04T07:09:06.900Z"
+          },
+          "type": {
+            "type": "string",
+            "description": "The classification for this type of transaction",
+            "example": "phcn"
+          },
+          "meta": {
+            "type": "object",
+            "description": "Extra information about this transaction",
+            "example": {
+              "merchantTxRef": "test1116",
+              "rrn": "240626232937",
+              "api_client_id": "123456-9100-4e66-93e1-7f6da894ef89",
+              "api_account_id": "0167288-d989-460a-bbde-9842f2b4320f"
+            }
+          },
+          "status": {
+            "type": "string",
+            "description": "The system status of this transction",
+            "example": "SUCCESS"
+          },
+          "id": {
+            "type": "string",
+            "description": "The transaction Id",
+            "example": "SUCCESS"
+          },
+          "fee": {
+            "type": "string",
+            "description": "The associated transaction fee",
+            "example": "0.0"
+          }
+        },
+        "required": ["amount", "timeCreated", "type", "status", "meta", "id"]
+      },
+      "CableTvSubscriptionRequest": {
+        "type": "object",
+        "properties": {
+          "cableTvType": {
+            "type": "string",
+            "example": "dstv"
+          },
+          "merchantTxRef": {
+            "type": "string",
+            "example": "12345"
+          },
+          "payerName": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "amount": {
+            "type": "integer",
+            "example": 1000
+          },
+          "customerId": {
+            "type": "string",
+            "example": "customer123"
+          }
+        }
+      },
+      "CableTvSubscriptionResponse": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "description": "The value (in digits) of this transaction",
+            "example": 2000
+          },
+          "timeCreated": {
+            "type": "string",
+            "description": "The Date and Time of transaction creation",
+            "format": "date-time",
+            "example": "2023-09-04T07:09:06.900Z"
+          },
+          "type": {
+            "type": "string",
+            "description": "The classification for this type of transaction",
+            "example": "dstv"
+          },
+          "meta": {
+            "type": "object",
+            "description": "Extra information about this transaction",
+            "example": {
+              "merchantTxRef": "test1116",
+              "rrn": "240626232937",
+              "api_client_id": "123456-9100-4e66-93e1-7f6da894ef89",
+              "api_account_id": "0167288-d989-460a-bbde-9842f2b4320f"
+            }
+          },
+          "status": {
+            "type": "string",
+            "description": "The system status of this transction",
+            "example": "SUCCESS"
+          },
+          "id": {
+            "type": "string",
+            "description": "The transaction Id",
+            "example": "SUCCESS"
+          },
+          "fee": {
+            "type": "string",
+            "description": "The associated transaction fee",
+            "example": "0.0"
+          }
+        },
+        "required": ["amount", "timeCreated", "type", "status", "meta", "id"]
       }
     },
     "securitySchemes": {
