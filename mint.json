@@ -71,7 +71,7 @@
             "products/accounts/introduction",
             "products/accounts/creating-a-sub-account",
             "products/accounts/creating-a-virtual-account",
-            "products/accounts/fetch-all-accounts",
+            "products/accounts/fetch-all-sub-accounts",
             "products/accounts/fetching-account-balance",
             "products/accounts/terminal-assignment",
             "products/accounts/suspension-and-reactivation",
@@ -217,17 +217,17 @@
     {
       "group": "Accounts",
       "pages": [
-        "nomba-api-reference/accounts/list-all-accounts",
-        "nomba-api-reference/accounts/create-an-account",
-        "nomba-api-reference/accounts/fetch-account-details",
+        "nomba-api-reference/accounts/list-all-sub-accounts",
+        "nomba-api-reference/accounts/create-a-sub-account",
+        "nomba-api-reference/accounts/fetch-sub-account-details",
         "nomba-api-reference/accounts/fetch-parent-account-details",
-        "nomba-api-reference/accounts/fetch-account-balance",
+        "nomba-api-reference/accounts/fetch-sub-account-balance",
         "nomba-api-reference/accounts/fetch-parent-account-balance",
-        "nomba-api-reference/accounts/suspend-an-account",
-        "nomba-api-reference/accounts/reactivate-an-account",
-        "nomba-api-reference/accounts/fetch-terminals-assigned-to-an-account",
+        "nomba-api-reference/accounts/suspend-a-sub-account",
+        "nomba-api-reference/accounts/reactivate-a-sub-account",
+        "nomba-api-reference/accounts/fetch-terminals-assigned-to-a-sub-account",
         "nomba-api-reference/accounts/fetch-terminals-assigned-to-the-parent-account",
-        "nomba-api-reference/accounts/update-access-to-account"
+        "nomba-api-reference/accounts/update-access-to-sub-account"
       ]
     },
     {
@@ -273,30 +273,30 @@
         "nomba-api-reference/transfers/fetch-bank-codes-and-names",
         "nomba-api-reference/transfers/perform-bank-account-lookup",
         "nomba-api-reference/transfers/perform-bank-account-transfer-from-the-parent-account",
-        "nomba-api-reference/transfers/perform-bank-account-transfer-from-account",
+        "nomba-api-reference/transfers/perform-bank-account-transfer-from-sub-account",
         "nomba-api-reference/transfers/perform-wallet-transfer-from-the-parent-account",
-        "nomba-api-reference/transfers/perform-wallet-transfer-from-account"
+        "nomba-api-reference/transfers/perform-wallet-transfer-from-sub-account"
       ]
     },
     {
       "group": "Terminals",
       "pages": [
-        "nomba-api-reference/terminals/assign-a-terminal-to-an-account",
+        "nomba-api-reference/terminals/assign-a-terminal-to-a-sub-account",
         "nomba-api-reference/terminals/assign-a-terminal-to-the-parent-account",
-        "nomba-api-reference/terminals/un-assign-terminal-from-an-account",
+        "nomba-api-reference/terminals/un-assign-terminal-from-a-sub-account",
         "nomba-api-reference/terminals/un-assign-a-terminal-from-the-parent-account"
       ]
     },
     {
       "group": "Transactions",
       "pages": [
-        "nomba-api-reference/transactions/fetch-creditdebit-transactions-on-an-account",
+        "nomba-api-reference/transactions/fetch-creditdebit-transactions-on-a-sub-account",
         "nomba-api-reference/transactions/fetch-creditdebit-transactions-on-the-parent-account",
-        "nomba-api-reference/transactions/fetch-transactions-on-an-account",
-        "nomba-api-reference/transactions/filter-account-transactions",
+        "nomba-api-reference/transactions/fetch-transactions-on-a-sub-account",
+        "nomba-api-reference/transactions/filter-sub-account-transactions",
         "nomba-api-reference/transactions/fetch-transactions-on-the-parent-account",
         "nomba-api-reference/transactions/filter-parent-account-transactions",
-        "nomba-api-reference/transactions/fetch-a-single-transaction-on-an-account",
+        "nomba-api-reference/transactions/fetch-a-single-transaction-on-a-sub-account",
         "nomba-api-reference/transactions/fetch-a-single-transaction-on-the-parent-account",
         "nomba-api-reference/transactions/transaction-requery"
       ]
