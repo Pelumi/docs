@@ -53,12 +53,6 @@ href="/nomba-api-reference/accounts/create-virtual-account">
     <ResponseField name="accountRef" type="string" required>
       Account reference.
     </ResponseField>
-    <ResponseField name="phoneNumber" type="string" required>
-      Phone number.
-    </ResponseField>
-    <ResponseField name="email" type="string" required>
-      Email address.
-    </ResponseField>
     <ResponseField name="bvn" type="string" required>
       Bank Verification Number (BVN).
     </ResponseField>
@@ -100,7 +94,7 @@ curl --request POST \
   --url https://api.nomba.com/v1/accounts/virtual \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
-  --header 'accountId: <accountid>' \
+  --header 'accountId: <parent accountId>' \
   --data '{
   "accountRef": "1oWbJQQHLyQqqf1SwxjSpudeA21",
   "accountName": "Daniel Scorsese",

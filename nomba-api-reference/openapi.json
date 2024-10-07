@@ -722,12 +722,12 @@
             "BearerAuth": []
           }
         ],
-        "summary": "List all accounts",
+        "summary": "List all sub accounts",
         "tags": ["Accounts"]
       },
       "post": {
-        "description": "You can use this endpoint to create an account that is part of your business.",
-        "operationId": "Create an account",
+        "description": "You can use this endpoint to create a sub account that is part of your business.",
+        "operationId": "Create a sub account",
         "requestBody": {
           "content": {
             "application/json": {
@@ -855,7 +855,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Create an account",
+        "summary": "Create a sub account",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -2442,7 +2442,7 @@
           {
             "description": "The parent accountId of the business.",
             "in": "header",
-            "name": "accountId",
+            "name": "Parent accountId",
             "schema": {
               "type": "string",
               "format": "uuid",
@@ -7060,7 +7060,7 @@
             "required": false
           },
           {
-            "description": "This starting date (UTC)",
+            "description": "This starting date (UTC). Sample date: `2023-01-01T00:00:00`",
             "in": "query",
             "name": "dateFrom",
             "example": "2023-09-08T00:00:00.007Z",
@@ -7070,7 +7070,7 @@
             "required": false
           },
           {
-            "description": "This ending date",
+            "description": "This ending date (UTC). Sample date: `2024-09-30T23:59:59`",
             "in": "query",
             "name": "dateTo",
             "example": "2023-08-08T23:59:59.007Z",
@@ -7238,7 +7238,7 @@
             "required": false
           },
           {
-            "description": "This starting date (UTC)",
+            "description": "This starting date (UTC). Sample date: `2023-01-01T00:00:00`",
             "in": "query",
             "name": "dateFrom",
             "example": "2023-09-08T00:00:00.007Z",
@@ -7248,7 +7248,7 @@
             "required": false
           },
           {
-            "description": "This ending date",
+            "description": "This ending date (UTC). Sample date: `2024-09-30T23:59:59`",
             "in": "query",
             "name": "dateTo",
             "example": "2023-08-08T23:59:59.007Z",
@@ -7426,7 +7426,7 @@
             "required": false
           },
           {
-            "description": "This starting date (UTC)",
+            "description": "This starting date (UTC). Sample date: `2023-01-01T00:00:00`",
             "in": "query",
             "name": "dateFrom",
             "example": "2023-09-08T00:00:00.007Z",
@@ -7436,7 +7436,7 @@
             "required": false
           },
           {
-            "description": "This ending date",
+            "description": "This ending date (UTC). Sample date: `2024-09-30T23:59:59`",
             "in": "query",
             "name": "dateTo",
             "example": "2023-08-08T23:59:59.007Z",
@@ -7740,7 +7740,7 @@
             "required": false
           },
           {
-            "description": "This starting date (UTC)",
+            "description": "This starting date (UTC). Sample date: `2023-01-01T00:00:00`",
             "in": "query",
             "name": "dateFrom",
             "example": "2023-09-08T00:00:00.007Z",
@@ -7750,7 +7750,7 @@
             "required": false
           },
           {
-            "description": "This ending date",
+            "description": "This ending date (UTC). Sample date: `2024-09-30T23:59:59`",
             "in": "query",
             "name": "dateTo",
             "example": "2023-08-08T23:59:59.007Z",
@@ -7801,7 +7801,7 @@
             "required": false
           },
           {
-            "description": "This starting date (UTC)",
+            "description": "This starting date (UTC). Sample date: `2023-01-01T00:00:00`",
             "in": "query",
             "name": "dateFrom",
             "example": "2023-09-08T00:00:00.007Z",
@@ -7811,7 +7811,7 @@
             "required": false
           },
           {
-            "description": "This ending date",
+            "description": "This ending date (UTC). Sample date: `2024-09-30T23:59:59`",
             "in": "query",
             "name": "dateTo",
             "example": "2023-08-08T23:59:59.007Z",
@@ -8105,7 +8105,7 @@
             "required": false
           },
           {
-            "description": "This starting date (UTC)",
+            "description": "This starting date (UTC). Sample date: `2023-01-01T00:00:00`",
             "in": "query",
             "name": "dateFrom",
             "example": "2023-09-08T00:00:00.007Z",
@@ -8115,7 +8115,7 @@
             "required": false
           },
           {
-            "description": "This ending date",
+            "description": "This ending date (UTC). Sample date: `2024-09-30T23:59:59`",
             "in": "query",
             "name": "dateTo",
             "example": "2023-08-08T23:59:59.007Z",
