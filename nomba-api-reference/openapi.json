@@ -872,9 +872,9 @@
         "tags": ["Accounts"]
       }
     },
-    "/v1/accounts/{subAccountId}": {
+    "/v1/accounts/sub-account-details": {
       "get": {
-        "description": "You can use this endpoint to get details of a single account.",
+        "description": "You can use this endpoint to get details of a sub account.",
         "operationId": "Fetch account details",
         "parameters": [
           {
@@ -889,11 +889,22 @@
             "required": true
           },
           {
-            "description": "The id of the account to be fetched.",
+            "description": "The id of the sub account whose details is to be fetched",
             "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
-            "in": "path",
-            "name": "subAccountId",
-            "required": true,
+            "in": "query",
+            "name": "accountId",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "description": "The unique reference you passed when creating the sub account",
+            "example": "my_unique_reference",
+            "in": "query",
+            "name": "accountRef",
+            "required": false,
             "schema": {
               "type": "string",
               "format": "uuid"
@@ -1016,7 +1027,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Fetch details of a subaccount",
+        "summary": "Fetch details of a sub account",
         "tags": ["Accounts"]
       }
     },
@@ -1158,7 +1169,7 @@
     },
     "/v1/accounts/{subAccountId}/balance": {
       "get": {
-        "description": "You can use this endpoint to get the balance of a sub-account",
+        "description": "You can use this endpoint to get the balance of a sub account",
         "operationId": "Fetch account balance",
         "parameters": [
           {
@@ -1173,7 +1184,7 @@
             "required": true
           },
           {
-            "description": "The sub-account whose balance is to be fetched.",
+            "description": "The sub account whose balance is to be fetched.",
             "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
             "in": "path",
             "name": "subAccountId",
@@ -1300,7 +1311,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Fetch account balance",
+        "summary": "Fetch sub account balance",
         "tags": ["Accounts"]
       }
     },
@@ -1443,7 +1454,7 @@
     },
     "/v1/accounts/suspend/{subAccountId}": {
       "put": {
-        "description": "You can use this endpoint to suspend a sub-account.",
+        "description": "You can use this endpoint to suspend a sub account.",
         "operationId": "Suspend an account",
         "parameters": [
           {
@@ -1587,14 +1598,14 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Suspend a sub-account",
+        "summary": "Suspend a sub account",
         "tags": ["Accounts"]
       }
     },
     "/v1/accounts/reactivate/{subAccountId}": {
       "put": {
-        "description": "You can use this endpoint to reactivate a sub-account",
-        "operationId": "Reactivate an account",
+        "description": "You can use this endpoint to reactivate a sub account",
+        "operationId": "Reactivate a sub account",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -1737,13 +1748,13 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Reactivate an account",
+        "summary": "Reactivate a sub account",
         "tags": ["Accounts"]
       }
     },
     "/v1/accounts/{subAccountId}/terminals": {
       "get": {
-        "description": "You can use this endpoint to fetch terminals linked to a sub-account",
+        "description": "You can use this endpoint to fetch terminals linked to a sub account",
         "operationId": "Fetch terminals assigned to an account",
         "parameters": [
           {
@@ -1945,7 +1956,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Fetch terminals assigned to a sub-account",
+        "summary": "Fetch terminals assigned to a sub account",
         "tags": ["Accounts"]
       }
     },
@@ -5938,7 +5949,7 @@
     },
     "/v1/transfers/bank/{subAccountId}": {
       "post": {
-        "description": "You can use this endpoint to perform bank account transfer using a sub-account",
+        "description": "You can use this endpoint to perform bank account transfer using a sub account",
         "operationId": "Perform bank account transfer from account",
         "requestBody": {
           "content": {
@@ -6067,7 +6078,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Perform bank account transfer from a sub-account",
+        "summary": "Perform bank account transfer from a sub account",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -6244,8 +6255,8 @@
     },
     "/v1/transfers/wallet/{subAccountId}": {
       "post": {
-        "description": "You can use this endpoint to perform a wallet transfer from a sub-account",
-        "operationId": "Perform wallet transfer from a sub-account",
+        "description": "You can use this endpoint to perform a wallet transfer from a sub account",
+        "operationId": "Perform wallet transfer from a sub account",
         "requestBody": {
           "content": {
             "application/json": {
@@ -6373,7 +6384,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Perform wallet transfer from a sub-account",
+        "summary": "Perform wallet transfer from a sub account",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -6402,7 +6413,7 @@
     },
     "/v1/terminals/assign/{subAccountId}": {
       "post": {
-        "description": "You can use this endpoint to assign a terminal to an sub-account.",
+        "description": "You can use this endpoint to assign a terminal to an sub account.",
         "operationId": "Assign a terminal to an account",
         "requestBody": {
           "content": {
@@ -6531,7 +6542,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Assign a terminal to a sub-account",
+        "summary": "Assign a terminal to a sub account",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -6708,7 +6719,7 @@
     },
     "/v1/terminals/unassign/{subAccountId}": {
       "post": {
-        "description": "You can use this endpoint to un-assign a terminal from a sub-account.",
+        "description": "You can use this endpoint to un-assign a terminal from a sub account.",
         "operationId": "Un-assign terminal from an account",
         "requestBody": {
           "content": {
@@ -6718,7 +6729,7 @@
               }
             }
           },
-          "description": "The request payload required to un-assign a terminal from a sub-account",
+          "description": "The request payload required to un-assign a terminal from a sub account",
           "required": true
         },
         "responses": {
@@ -6837,7 +6848,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Un-assign terminal from a sub-account",
+        "summary": "Un-assign terminal from a sub account",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -7014,8 +7025,8 @@
     },
     "/v1/transactions/bank/{subAccountId}": {
       "get": {
-        "description": "You can use this endpoint to fetch credit/debit transactions on a sub-account.",
-        "operationId": "Fetch credit/debit transactions on a sub-account",
+        "description": "You can use this endpoint to fetch credit/debit transactions on a sub account.",
+        "operationId": "Fetch credit/debit transactions on a sub account",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -7196,7 +7207,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Fetch credit/debit transactions on a sub-account",
+        "summary": "Fetch credit/debit transactions on a sub account",
         "tags": ["Transactions"]
       }
     },
@@ -7380,8 +7391,8 @@
     },
     "/v1/transactions/accounts/{subAccountId}": {
       "get": {
-        "description": "You can use this endpoint to fetch transactions on a sub-account.",
-        "operationId": "Fetch transactions on a sub-account",
+        "description": "You can use this endpoint to fetch transactions on a sub account.",
+        "operationId": "Fetch transactions on a sub account",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -7562,7 +7573,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Fetch transactions on a sub-account",
+        "summary": "Fetch transactions on a sub account",
         "tags": ["Transactions"]
       },
       "post": {
@@ -8130,8 +8141,8 @@
     },
     "/v1/transactions/accounts/{subAccountId}/single": {
       "get": {
-        "description": "You can use this endpoint to fetch a single transaction on a sub-account",
-        "operationId": "Fetch a single transaction on a sub-account",
+        "description": "You can use this endpoint to fetch a single transaction on a sub account",
+        "operationId": "Fetch a single transaction on a sub account",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -8311,7 +8322,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Fetch a single transaction on a sub-account",
+        "summary": "Fetch a single transaction on a sub account",
         "tags": ["Transactions"]
       }
     },
@@ -8956,8 +8967,8 @@
     },
     "/v1/bill/topup/{subAccountId}": {
       "post": {
-        "description": "You can use this endpoint to make airtime purchases via a sub-account",
-        "operationId": "Make airtime purchases via specific or sub-account",
+        "description": "You can use this endpoint to make airtime purchases via a sub account",
+        "operationId": "Make airtime purchases via specific or sub account",
         "requestBody": {
           "content": {
             "application/json": {
@@ -9095,7 +9106,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Make airtime purchases via a sub-account",
+        "summary": "Make airtime purchases via a sub account",
         "parameters": [
           {
             "description": "The parent accountId of the business this sub account belongs to",
@@ -9283,8 +9294,8 @@
     },
     "/v1/bill/data/{subAccountId}": {
       "post": {
-        "description": "You can use this endpoint to vend data via a sub-account",
-        "operationId": "Vend data bundles via specific or sub-account",
+        "description": "You can use this endpoint to vend data via a sub account",
+        "operationId": "Vend data bundles via specific or sub account",
         "requestBody": {
           "content": {
             "application/json": {
@@ -9422,7 +9433,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Vend data bundles via a sub-account",
+        "summary": "Vend data bundles via a sub account",
         "parameters": [
           {
             "description": "The parent accountId of the business this sub account belongs to",
@@ -9756,8 +9767,8 @@
     },
     "/v1/bill/cabletv/{subAccountId}": {
       "post": {
-        "description": "You can use this endpoint to make cable tv subscription via a sub-account",
-        "operationId": "Cable Tv subscription via a sub-account",
+        "description": "You can use this endpoint to make cable tv subscription via a sub account",
+        "operationId": "Cable Tv subscription via a sub account",
         "requestBody": {
           "content": {
             "application/json": {
@@ -9895,7 +9906,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "CableTv subscription via a sub-account",
+        "summary": "CableTv subscription via a sub account",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -10362,8 +10373,8 @@
     },
     "/v1/bill/electricity/{subAccountId}": {
       "post": {
-        "description": "You can use this endpoint to vend electricity via a sub-account",
-        "operationId": "Vend electricity via a sub-account",
+        "description": "You can use this endpoint to vend electricity via a sub account",
+        "operationId": "Vend electricity via a sub account",
         "requestBody": {
           "content": {
             "application/json": {

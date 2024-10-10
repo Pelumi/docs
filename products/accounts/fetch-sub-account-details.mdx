@@ -1,10 +1,10 @@
 ---
-title: 'Fetch all sub accounts'
-description: 'Learn how to fetch all sub accounts tied to your business.'
+title: 'Fetch sub account details'
+description: 'Learn how to fetch details of a specific sub account'
 ---
 
-<Card title="Fetch all sub accounts" icon="list"
-href="/nomba-api-reference/accounts/list-all-sub-accounts">
+<Card title="Fetch sub account details" icon="list"
+href="/nomba-api-reference/accounts/fetch-sub-account-details">
   Fetch all sub accounts tied to your business
 </Card>
 
@@ -12,12 +12,12 @@ href="/nomba-api-reference/accounts/list-all-sub-accounts">
 
 #### Query parameters
 
-<ParamField query="limit" type="integer">
-  This endpoint is paginated. `limit` describes the size of the page you are querying.
+<ParamField query="accountRef" type="string" optional>
+  The unique reference you provided when creating the account
 </ParamField>
 
-<ParamField query="cursor" type="string">
-  The `cursor` is used to scroll to the next page. When making the first call to list all accounts, there is no need to pass in any cursor since the API has not returned any cursor back to you. Only use cursor when the API provides it. For more information, please see [Pagination](/getting-started/pagination)
+<ParamField query="accountId" type="string" optional>
+  The accountId you received as part of the response when the account was created
 </ParamField>
 
 #### Response body
