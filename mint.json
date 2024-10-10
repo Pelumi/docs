@@ -72,6 +72,7 @@
             "products/accounts/creating-a-sub-account",
             "products/accounts/creating-a-virtual-account",
             "products/accounts/fetch-all-sub-accounts",
+            "products/accounts/fetch-sub-account-details",
             "products/accounts/fetching-account-balance",
             "products/accounts/terminal-assignment",
             "products/accounts/suspension-and-reactivation",
@@ -328,6 +329,5 @@
     "twitter": "https://twitter.com/nombahq",
     "github": "https://github.com/kudi-inc",
     "linkedin": "https://www.linkedin.com/company/nombahq"
-  },
-  "openapi": "https://raw.githubusercontent.com/kudi-inc/vendor-openapi-spec/main/openapi3_0_v_1_0_0.json"
+  }
 }
