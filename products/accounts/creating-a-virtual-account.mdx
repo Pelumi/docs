@@ -1,10 +1,13 @@
 ---
-title: 'Creating virtual accounts'
-description: 'Learn about creating virtual accounts'
+title: "Creating virtual accounts"
+description: "Learn about creating virtual accounts"
 ---
 
-<Card title="Create a virtual account" icon="cart-shopping"
-href="/nomba-api-reference/virtual-accounts/create-virtual-account">
+<Card
+  title="Create a virtual account"
+  icon="cart-shopping"
+  href="/nomba-api-reference/virtual-accounts/create-virtual-account"
+>
   Accept payments with virtual accounts
 </Card>
 
@@ -25,8 +28,8 @@ href="/nomba-api-reference/virtual-accounts/create-virtual-account">
 </ParamField>
 
 <ParamField body="expiryDate" type="string" optional>
-  Expiry Date 
-  (This field allows you to customize the expiry period for this account. The default time however is 5 minutes)
+  Expiry Date (This field allows you to customize the expiry period for this
+  account. The default time however is 5 minutes)
 </ParamField>
 
 #### Response body
@@ -40,12 +43,9 @@ href="/nomba-api-reference/virtual-accounts/create-virtual-account">
 </ResponseField>
 
 <ResponseField name="data" type="object">
-  <Expandable title="object"  defaultOpen="true">
+  <Expandable title="object" defaultOpen="true">
     <ResponseField name="createdAt" type="string" required>
       Creation timestamp.
-    </ResponseField>
-    <ResponseField name="accountId" type="string" required>
-      Account ID.
     </ResponseField>
     <ResponseField name="accountHolderId" type="string" required>
       Account holder ID.
@@ -56,30 +56,16 @@ href="/nomba-api-reference/virtual-accounts/create-virtual-account">
     <ResponseField name="bvn" type="string" required>
       Bank Verification Number (BVN).
     </ResponseField>
-    <ResponseField name="status" type="enum<string>" required>
-      Account status.
-    </ResponseField>
-    <ResponseField name="type" type="enum<string>" required>
-      Account type.
-    </ResponseField>
     <ResponseField name="accountName" type="string" required>
-      Account holder's name.
+      The name associated with the account (may return the parent account name if not a corporate account)
     </ResponseField>
-    <ResponseField name="banks" type="object[]" required>
-      List of associated bank accounts.
-      <Expandable title="object"  defaultOpen="true">
-        <ResponseField name="bankAccountNumber" type="string" required>
-            Bank account number.
-        </ResponseField>
-        <ResponseField name="bankName" type="string" required>
-            Bank name.
-        </ResponseField>
-        <ResponseField name="bankAccountName" type="string" required>
-            Bank account holder name.
-        </ResponseField>
-      </Expandable>
+    <ResponseField name="bankAccountNumber" type="string" required>
+      The account number
     </ResponseField>
-    <ResponseField name="currency" type="string" required>
+     <ResponseField name="bankAccountName" type="string" required>
+      The account name that will reflect when doing name lookup
+    </ResponseField>
+     <ResponseField name="currency" type="string" required>
       Currency code.
     </ResponseField>
     <ResponseField name="expiryDate" type="string" optional>
@@ -110,23 +96,17 @@ curl --request POST \
   "code": "00",
   "description": "Success",
   "data": {
-    "createdAt": "2023-09-04T07:09:06.900Z",
-    "accountId": "fc81b80e-e607-4b86-8591-840925191733",
-    "accountHolderId": "01a10aeb-d989-460a-bbde-9842f2b4320f",
-    "accountRef": "1oWbJQQHLyQqqf1SwxjSpudeA21",
-    "bvn": "12234412345",
-    "status": "ACTIVE",
-    "type": "virtual",
-    "accountName": "Daniel Scorsese",
-    "expiryDate": "2024-06-17T04:55:00",
-    "banks": [
-      {
-        "bankAccountNumber": "2815986902",
-        "bankName": "Amucha MFB",
-        "bankAccountName": "Ifeoluwa Adeboye"
-      }
-    ],
-    "currency": "NGN"
+    "createdAt": "2024-10-11T14:15:39.376Z",
+    "accountRef": "Archie Friesen",
+    "accountHolderId": "8d19d421-85b1-4b61-be90-168dc261gf45",
+    "accountName": "John Doe",
+    "currency": "NGN",
+    "bankAccountNumber": "9171424569",
+    "bankAccountName": "Ayomide Akinrotoye",
+    "bankName": "Amucha MFB",
+    "bvn": "22122204392",
+    "expiryDate": "2024-10-12T12:30:49",
+    "expired": false
   }
 }
 ```
