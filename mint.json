@@ -329,6 +329,5 @@
     "twitter": "https://twitter.com/nombahq",
     "github": "https://github.com/kudi-inc",
     "linkedin": "https://www.linkedin.com/company/nombahq"
-  },
-  "openapi": "https://raw.githubusercontent.com/kudi-inc/vendor-openapi-spec/main/openapi3_0_v_1_0_0.json"
+  }
 }
