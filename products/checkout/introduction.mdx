@@ -43,13 +43,24 @@ The provided diagram illustrates the sequence of events in a payment processing 
 
 The process begins with authentication, followed by the generation of a checkout link, and concludes with payment acceptance and transaction verification. 
 
-#### Authentication
+### Authentication
 The process kicks off with your app communicating with Nomba to generate an access token by making a `POST` call to `/auth/token/issue` ([Authentication](/nomba-api-reference/authenticate/obtain-access-token)). Upon successful authentication, the Nomba API will respond with a success message containing the access token.
 
-#### Checkout Link Generation
+### Checkout Link Generation
 Your app proceeds to generate a checkout link by making a `POST` call to `/checkout/order` ([Create checkout order](/nomba-api-reference/online-checkout/create-an-online-checkout-order)). The Nomba API responds with a success message containing the checkout link, which your app will display to the customer for them to make payment.
 
-#### Payment Acceptance
+#### Create Checkout Order to Tokenize a card
+For the purpose of recurrent or subscription payment, while creating the order set the optional parameter `tokenizeCard` to true. This will cause the
+checkout service to save the customer's payment details securely and enable you to charge the merchant in the future.
+
+
+#### Split settlement
+Checkout service allows you to receive payment into multiple accounts you specify. This allows you to specify and amount or percentage of the order value to the settled in specific amounts.
+To enable this feature, pass the optional `splitRequest` parameter when creating the checkout order. This will contain how the order amount will be split (by Percentage of the order Amount, or based on actual amount), and the various accounts where the funds will be split into.
+Note that if the transaction fee will be paid by you, the fee will be deducted from your primary account.
+
+
+### Payment Acceptance
 The customer, using the checkout link, initiates the payment process, choosing to pay with a card or bank transfer.
 Nomba sends a webhook notification to your app, signaling the completion of the payment.
 
@@ -71,8 +82,8 @@ Nomba sends a webhook notification to your app, signaling the completion of the 
   </Step>
 </Steps>
 
-#### Transaction Verification:
+### Transaction Verification:
 Your app processes the webhook notification and proceeds to verify the transaction by making a `POST` call to `/transactions/accounts` ([Filter Transactions](/nomba-api-reference/transactions/filter-account-transactions)) on Nomba, using the transaction reference. The Nomba API responds with a success message containing transaction details.
 
-#### Payment Receipt
+### Payment Receipt
 Your app sends a payment receipt to the customer, completing the payment process.

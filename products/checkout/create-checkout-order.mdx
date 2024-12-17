@@ -44,6 +44,26 @@ Please pass the `accountId` inside the order request object if you wish to gener
         <ParamField body="accountId" type="string">
             Pass the accountId if you are generating this for a subaccount.
         </ParamField>
+        <ParamField body="splitRequest" type="object">
+            To split payment to multiple accounts
+          <Expandable title="object"  defaultOpen="false">
+              <ParamField body="splitType" type="string">
+                  The Split type. Values are either PERCENTAGE or AMOUNT.
+              </ParamField>
+
+              <ParamField body="splitList" type="list">
+                  Contains list of account numbers and the split value.
+                <Expandable title="list item"  defaultOpen="false">
+                  <ParamField body="accountId" type="string">
+                      The account where funds will be deposited
+                  </ParamField>
+                  <ParamField body="value" type="string">
+                      The value that will be deposited in the account.
+                  </ParamField>
+                </Expandable>
+              </ParamField>
+          </Expandable>
+        </ParamField>
     </Expandable>
 </ParamField>
 
@@ -82,17 +102,26 @@ curl --request POST \
   --header 'Content-Type: application/json' \
   --header 'accountId: <accountid>' \
   --data '{
-  "order": {
-    "orderReference": "fd3002af-d48b-40a0-adba-0b1c93635bd2",
+"order": {
+    "orderReference": "90e81e8a-bc14-4ebf-89c0-57da752cca58",
     "customerId": "762878332454",
     "callbackUrl": "https://ip:port/merchant.com/callback",
     "customerEmail": "abcde@gmail.com",
     "amount": "10000.00",
-    "currency": "NGN"
+    "currency": "NGN",
+    "accountId": "01a10aeb-d989-460a-bbde-9842f2b4320f",
+    "splitRequest": {
+      "splitType": "PERCENTAGE",
+      "splitList": [
+        {
+          "accountId": "01a10aeb-d989-460a-bbde-9842f2b4320f",
+          "value": "65.45"
+        }
+      ]
+    }
   },
   "tokenizeCard": "true"
-}'
-```
+}'```
 </RequestExample>
 
 <ResponseExample>
@@ -100,7 +129,8 @@ curl --request POST \
 {
   "code": "00",
   "description": "Success",
-  "data": {
+  "data": 
+  {
     "checkoutLink": "https://ip:port/checkout/78388899938",
     "orderReference": "fd3002af-d48b-40a0-adba-0b1c93635bd2"
   }
