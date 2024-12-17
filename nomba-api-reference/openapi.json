@@ -11364,6 +11364,40 @@
             "description": "currency of the money",
             "enum": ["NGN"],
             "example": "NGN"
+          },
+          "accountId": {
+            "type": "string",
+            "description": "If specified, this is the account where the funds will be deposited.",
+            "example": "01a10aeb-d989-460a-bbde-9842f2b4320f"
+          },
+          "splitRequest": {
+            "type": "object",
+            "description": "Contains accounts where the inflow will be split into",
+            "properties":{
+              "splitType": {
+                "type":"string",
+                "description":"The type fo split to use, either PERCENTAGE or AMOUNT",
+                "enum":["PERCENTAGE", "AMOUNT"]
+              },
+              "splitList": {
+                "type": "array",
+                "items":{
+                  "type":"object",
+                  "properties":{
+                    "accountId":{
+                      "type":"string",
+                      "description":"The account Id whose wallet will be credited when the order is paid",
+                      "example":"01a10aeb-d989-460a-bbde-9842f2b4320f"
+                    },
+                    "value":{
+                      "type":"number",
+                      "description":"The percentage or the order amount or the actual value to credit to this account.",
+                      "example":"65.45"
+                    }
+                  }
+                }
+              }
+            }
           }
         },
         "required": ["callbackUrl", "customerEmail", "amount", "currency"]
