@@ -188,6 +188,12 @@
       ]
     },
     {
+      "group": "Plugins",
+      "pages": [
+        "plugins/plugins"
+      ]
+    },
+    {
       "group": "API Patterns",
       "pages": [
         "getting-started/pagination",
