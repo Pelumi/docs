@@ -61,7 +61,9 @@ Note this has to be one of your outlet accounts with Nomba. This will enable you
 #### Split settlement
 Checkout service allows you to receive payment into multiple accounts you specify. This allows you to specify and amount or percentage of the order value to the settled in specific amounts.
 To enable this feature, pass the optional `splitRequest` parameter when creating the checkout order. This will contain how the order amount will be split (by Percentage of the order Amount, or based on actual amount), and the various accounts where the funds will be split into.
+Set `PERCENTAGE` for percentage split or `AMOUNT` for monetary amount split in the splitType property.
 Note that if the transaction fee will be paid by you, the fee will be deducted from your primary account.
+
 
 
 ### Payment Acceptance
@@ -88,6 +90,44 @@ Nomba sends a webhook notification to your app, signaling the completion of the 
 
 ### Transaction Verification:
 Your app processes the webhook notification and proceeds to verify the transaction by making a `POST` call to `/transactions/accounts` ([Filter Transactions](/nomba-api-reference/transactions/filter-account-transactions)) on Nomba, using the transaction reference. The Nomba API responds with a success message containing transaction details.
+
+## Plugins
+<CardGroup cols={2}>
+  <Card
+    title="Wordpress woo-commerce Plugin"
+    icon="wordpress"
+    href="https://wordpress.org/plugins/wc-nomba-gateway/"
+  >
+    Integrate our gateway using our wordpress woo-commerce plugin.
+  </Card>
+  <Card
+    title="Shopify Plugin"
+    icon="shopify"
+    href="https://apps.shopify.com/nomba-gateway"
+  >
+    Integrate our gateway using our Shopify Plugin.
+  </Card>
+</CardGroup>
+
+## SDKs
+<CardGroup cols={2}>
+  <Card
+    title="iOS SDK"
+    icon="app-store-ios"
+    href="https://github.com/kudi-inc/nomba-ios-sdk"
+  >
+    Integrate our gateway using our iOS SDK.
+  </Card>
+  <Card
+    title="Android SDK"
+    icon="android"
+    href="/products/checkout/charge-tokenized-cards"
+  >
+    Integrate our gateway using our iOS SDK.
+  </Card>
+</CardGroup>
+
+
 
 ### Payment Receipt
 Your app sends a payment receipt to the customer, completing the payment process.
