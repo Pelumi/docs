@@ -62,6 +62,12 @@
       ]
     },
     {
+      "group": "Plugins and SDKs",
+      "pages": [
+        "plugins-and-sdk/overview"
+      ]
+    },
+    {
       "group": "Products",
       "pages": [
         {
@@ -86,7 +92,6 @@
             "products/checkout/introduction",
             "products/checkout/create-checkout-order",
             "products/checkout/charge-tokenized-cards",
-            "products/checkout/plugins-and-sdks",
             "products/checkout/dispute-management",
             "products/checkout/verify-transactions"
           ]
