@@ -61,7 +61,9 @@ Note this has to be one of your outlet accounts with Nomba. This will enable you
 #### Split settlement
 Checkout service allows you to receive payment into multiple accounts you specify. This allows you to specify and amount or percentage of the order value to the settled in specific amounts.
 To enable this feature, pass the optional `splitRequest` parameter when creating the checkout order. This will contain how the order amount will be split (by Percentage of the order Amount, or based on actual amount), and the various accounts where the funds will be split into.
+Set `PERCENTAGE` for percentage split or `AMOUNT` for monetary amount split in the splitType property.
 Note that if the transaction fee will be paid by you, the fee will be deducted from your primary account.
+
 
 
 ### Payment Acceptance
