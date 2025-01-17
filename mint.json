@@ -62,6 +62,12 @@
       ]
     },
     {
+      "group": "Plugins and SDKs",
+      "pages": [
+        "plugins-and-sdk/overview"
+      ]
+    },
+    {
       "group": "Products",
       "pages": [
         {
@@ -185,12 +191,6 @@
         "support/guides/setting-up-webhooks",
         "support/guides/processing-recurring-payments",
         "support/guides/online-payments-with-subaccounts"
-      ]
-    },
-    {
-      "group": "Plugins and SDKs",
-      "pages": [
-        "plugins-and-sdk/overview"
       ]
     },
     {
