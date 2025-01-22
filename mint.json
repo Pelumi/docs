@@ -331,9 +331,31 @@
       ]
     }
   ],
-  "footerSocials": {
-    "twitter": "https://twitter.com/nombahq",
+  "footer": {
+    "socials": {
+     "twitter": "https://twitter.com/nombahq",
     "github": "https://github.com/kudi-inc",
     "linkedin": "https://www.linkedin.com/company/nombahq"
+    },
+    "links": [
+      {
+        "title": "Community",
+        "links": [
+          { 
+            "label": "Join Slack Community", 
+            "url": "https://join.slack.com/t/nombadevelope-6l32082/shared_invite/zt-2yhdw0typ-LFC8ce2yBLlW9FAxJjplJQ" 
+          }
+        ]
+      },
+      {
+        "title": "Need Help?",
+        "links": [
+          { 
+            "label": "Contact Support", 
+            "url": "/#" 
+          }
+        ]
+      }
+    ]
   }
 }
