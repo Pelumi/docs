@@ -38,7 +38,7 @@ In addition to its core functionality as a payment gateway, Nomba Checkout disti
 The provided diagram illustrates the sequence of events in a payment processing flow involving your customer, your application, and Nomba. This sequence ensures a secure and streamlined payment processing flow, demonstrating the interactions between the customer, app, and Nomba at various stages.
 
 <Frame caption="Nomba Checkout flow">
-    <img src="/images/checkout-1.png" style={{ borderRadius: '0.5rem' }} loading="lazy" />
+  <img src="/images/checkout-1.png" style={{ borderRadius: '0.5rem' }} loading="lazy" />
 </Frame>
 
 The process begins with authentication, followed by the generation of a checkout link, and concludes with payment acceptance and transaction verification. 
@@ -62,8 +62,10 @@ Note this has to be one of your outlet accounts with Nomba. This will enable you
 Checkout service allows you to receive payment into multiple accounts you specify. This allows you to specify and amount or percentage of the order value to the settled in specific amounts.
 To enable this feature, pass the optional `splitRequest` parameter when creating the checkout order. This will contain how the order amount will be split (by Percentage of the order Amount, or based on actual amount), and the various accounts where the funds will be split into.
 Set `PERCENTAGE` for percentage split or `AMOUNT` for monetary amount split in the splitType property.
-Note that if the transaction fee will be paid by you, the fee will be deducted from your primary account.
 
+<Note>
+Note that if the transaction fee will be paid by you, the fee will be deducted from your primary account.
+</Note>
 
 
 ### Payment Acceptance
