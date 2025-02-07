@@ -86,14 +86,25 @@
           ]
         },
         {
-          "group": "Checkout",
+          "group": "Accept Payments",
           "icon": "cart-shopping",
           "pages": [
-            "products/checkout/introduction",
-            "products/checkout/create-checkout-order",
-            "products/checkout/charge-tokenized-cards",
-            "products/checkout/dispute-management",
-            "products/checkout/verify-transactions"
+            {
+              "group": "Checkout",
+              "pages": [    
+                "products/checkout/introduction",
+                "products/checkout/create-checkout-order",
+                "products/checkout/charge-tokenized-cards",
+                "products/checkout/dispute-management",
+                "products/checkout/verify-transactions"
+              ]
+            },
+            {
+              "group": "Charge",
+              "pages": [
+                "products/charge/server-to-server"
+              ]
+            }
           ]
         },
         {
