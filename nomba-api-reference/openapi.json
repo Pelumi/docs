@@ -3579,7 +3579,7 @@
               }
             }
           },
-          "description": "The request payload required to upate the tokenized card data",
+          "description": "The request payload required to update the tokenized card data",
           "required": true
         },
         "responses": {
@@ -3698,7 +3698,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Update tokenzied card data",
+        "summary": "Update tokenized card data",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -3725,7 +3725,7 @@
               }
             }
           },
-          "description": "The request payload required to upate the tokenized card data",
+          "description": "The request payload required to update the tokenized card data",
           "required": true
         },
         "responses": {
@@ -3844,7 +3844,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Update tokenzied card data",
+        "summary": "Delete tokenized card data",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -4022,7 +4022,7 @@
         "operationId": "Fetch Checkout order details",
         "parameters": [
           {
-            "description": "Order referene",
+            "description": "Order reference",
             "example": "693cd007-cd1e-4ea6-8b79-5f5c4d7a83ea",
             "in": "path",
             "name": "orderReference",
@@ -4694,11 +4694,11 @@
     },
     "/v1/checkout/get-checkout-kta/{orderReference}": {
       "get": {
-        "description": "Use this endpoint to Get a flash account number which the customer cna use to make a transfer payment.",
+        "description": "Use this endpoint to Get a flash account number which the customer can use to make a transfer payment.",
         "operationId": "Fetch Checkout flash account number",
         "parameters": [
           {
-            "description": "Order referene",
+            "description": "Order reference",
             "example": "693cd007-cd1e-4ea6-8b79-5f5c4d7a83ea",
             "in": "path",
             "name": "orderReference",
