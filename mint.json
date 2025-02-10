@@ -42,7 +42,7 @@
   "navigation": [
     {
       "group": "Introduction",
-      "pages": ["introduction/welcome-to-nomba", "introduction/get-api-keys"]
+      "pages": ["introduction/welcome-to-nomba", "introduction/get-api-keys", "introduction/test-card"]
     },
     {
       "group": "Getting Started",
