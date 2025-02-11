@@ -75,10 +75,7 @@
           "icon": "building-columns",
           "pages": [
             "products/accounts/introduction",
-            "products/accounts/creating-a-sub-account",
             "products/accounts/creating-a-virtual-account",
-            "products/accounts/fetch-all-sub-accounts",
-            "products/accounts/fetch-sub-account-details",
             "products/accounts/fetching-account-balance",
             "products/accounts/terminal-assignment",
             "products/accounts/suspension-and-reactivation",
@@ -200,8 +197,7 @@
         "support/guides/accept-online-payments",
         "support/guides/authentication-best-practises",
         "support/guides/setting-up-webhooks",
-        "support/guides/processing-recurring-payments",
-        "support/guides/online-payments-with-subaccounts"
+        "support/guides/processing-recurring-payments"
       ]
     },
     {
@@ -235,17 +231,9 @@
     {
       "group": "Accounts",
       "pages": [
-        "nomba-api-reference/accounts/list-all-sub-accounts",
-        "nomba-api-reference/accounts/create-a-sub-account",
-        "nomba-api-reference/accounts/fetch-sub-account-details",
         "nomba-api-reference/accounts/fetch-parent-account-details",
-        "nomba-api-reference/accounts/fetch-sub-account-balance",
         "nomba-api-reference/accounts/fetch-parent-account-balance",
-        "nomba-api-reference/accounts/suspend-a-sub-account",
-        "nomba-api-reference/accounts/reactivate-a-sub-account",
-        "nomba-api-reference/accounts/fetch-terminals-assigned-to-a-sub-account",
-        "nomba-api-reference/accounts/fetch-terminals-assigned-to-the-parent-account",
-        "nomba-api-reference/accounts/update-access-to-sub-account"
+        "nomba-api-reference/accounts/fetch-terminals-assigned-to-the-parent-account"
       ]
     },
     {
@@ -291,30 +279,22 @@
         "nomba-api-reference/transfers/fetch-bank-codes-and-names",
         "nomba-api-reference/transfers/perform-bank-account-lookup",
         "nomba-api-reference/transfers/perform-bank-account-transfer-from-the-parent-account",
-        "nomba-api-reference/transfers/perform-bank-account-transfer-from-sub-account",
-        "nomba-api-reference/transfers/perform-wallet-transfer-from-the-parent-account",
-        "nomba-api-reference/transfers/perform-wallet-transfer-from-sub-account"
+        "nomba-api-reference/transfers/perform-wallet-transfer-from-the-parent-account"
       ]
     },
     {
       "group": "Terminals",
       "pages": [
-        "nomba-api-reference/terminals/assign-a-terminal-to-a-sub-account",
         "nomba-api-reference/terminals/assign-a-terminal-to-the-parent-account",
-        "nomba-api-reference/terminals/un-assign-terminal-from-a-sub-account",
         "nomba-api-reference/terminals/un-assign-a-terminal-from-the-parent-account"
       ]
     },
     {
       "group": "Transactions",
       "pages": [
-        "nomba-api-reference/transactions/fetch-creditdebit-transactions-on-a-sub-account",
         "nomba-api-reference/transactions/fetch-creditdebit-transactions-on-the-parent-account",
-        "nomba-api-reference/transactions/fetch-transactions-on-a-sub-account",
-        "nomba-api-reference/transactions/filter-sub-account-transactions",
         "nomba-api-reference/transactions/fetch-transactions-on-the-parent-account",
         "nomba-api-reference/transactions/filter-parent-account-transactions",
-        "nomba-api-reference/transactions/fetch-a-single-transaction-on-a-sub-account",
         "nomba-api-reference/transactions/fetch-a-single-transaction-on-the-parent-account",
         "nomba-api-reference/transactions/transaction-requery"
       ]
@@ -324,9 +304,7 @@
       "pages": [
         "nomba-api-reference/airtime-and-data-vending/fetch-data-plans-available-on-a-telco-network-provider",
         "nomba-api-reference/airtime-and-data-vending/make-airtime-purchases-via-parent-account",
-        "nomba-api-reference/airtime-and-data-vending/make-airtime-purchases-via-specific-or-sub-accounts",
-        "nomba-api-reference/airtime-and-data-vending/vend-data-bundles-via-parent-account",
-        "nomba-api-reference/airtime-and-data-vending/vend-data-bundles-via-specific-or-subaccount"
+        "nomba-api-reference/airtime-and-data-vending/vend-data-bundles-via-parent-account"
       ]
     },
     {
@@ -334,9 +312,7 @@
       "pages": [
         "nomba-api-reference/bills/fetch-electricity-providers",
         "nomba-api-reference/bills/pay-for-electricity-via-parent-account",
-        "nomba-api-reference/bills/pay-for-electricity-via-subaccount",
         "nomba-api-reference/bills/subscribe-to-cabletv-via-parent-account",
-        "nomba-api-reference/bills/subscribe-to-cabletv-via-subaccount",
         "nomba-api-reference/bills/name-lookup-for-cabletv",
         "nomba-api-reference/bills/name-lookup-for-electricity"
       ]
