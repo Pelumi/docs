@@ -42,7 +42,17 @@
   "navigation": [
     {
       "group": "Introduction",
-      "pages": ["introduction/welcome-to-nomba", "introduction/get-api-keys"]
+      "pages": [
+        "introduction/welcome-to-nomba", 
+        "introduction/get-api-keys", 
+        {
+          "group": "Testing",
+          "icon": "money-check",
+          "pages": [
+            "introduction/testing/test-card"
+          ]
+        }
+      ]
     },
     {
       "group": "Getting Started",

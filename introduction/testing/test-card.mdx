@@ -1,0 +1,37 @@
+---
+title: Cards
+description: 'Learn about the test cards we use for testing purposes'
+---
+
+<Info>
+   This test card is provided for use in a test environment only. It cannot be used for real transactions and should not be used in production.  
+</Info>
+
+## Test Card Details
+
+Use the following card details when testing transactions in a sandbox or staging environment.
+
+### Card Information
+1. **Card Number:** `5434 6210 7425 2808`
+3. **CVV:** Any 3-digit value e.g `123`
+4. **Expiration Date:** Any future date e.g `12/30`
+
+### OTP Authentication
+
+1. **OTP for Success:** `999999`
+2. **OTP for Failure:** Any incorrect value `000000`
+
+### Transaction Scenarios
+Use the test card with different amounts or inputs to simulate various scenarios:
+
+| Scenario                | Input Details                     | Expected Outcome |
+|-------------------------|----------------------------------|------------------|
+| Successful Transaction  | Correct details & `999999` OTP   | Transaction Approved |
+| Incorrect CVV           | CVV: `000` or any incorrect CVV  | Transaction Declined |
+| Expired Card            | Expired Date `12/20`             | Transaction Declined |
+| Insufficient Funds      | Amount greater than `500,000`    | Transaction Declined |
+| Invalid OTP             | OTP: `000000`                    | Transaction Declined |
+
+<Warning>
+   This test card should only be used in development or staging environments. Do not attempt real transactions with this card.
+</Warning>
