@@ -37,9 +37,20 @@
     {
       "name": "API Reference",
       "url": "nomba-api-reference"
+    },
+    {
+      "name": "Changelog",
+      "url": "nomba-api-changelog"
     }
   ],
   "navigation": [
+    {
+      "group": "Changelog",
+      "pages": [
+        "nomba-api-changelog/ui/updates",
+        "nomba-api-changelog/api/updates"
+      ]
+    },
     {
       "group": "Introduction",
       "pages": [
