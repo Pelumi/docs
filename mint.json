@@ -45,13 +45,6 @@
   ],
   "navigation": [
     {
-      "group": "Changelog",
-      "pages": [
-        "nomba-api-changelog/ui/updates",
-        "nomba-api-changelog/api/updates"
-      ]
-    },
-    {
       "group": "Introduction",
       "pages": [
         "introduction/welcome-to-nomba", 
@@ -336,6 +329,12 @@
         "nomba-api-reference/bills/subscribe-to-cabletv-via-parent-account",
         "nomba-api-reference/bills/name-lookup-for-cabletv",
         "nomba-api-reference/bills/name-lookup-for-electricity"
+      ]
+    },
+    {
+      "group": "Changelog",
+      "pages": [
+        "nomba-api-changelog/api/updates"
       ]
     }
   ],
