@@ -37,6 +37,10 @@
     {
       "name": "API Reference",
       "url": "nomba-api-reference"
+    },
+    {
+      "name": "Changelog",
+      "url": "nomba-api-changelog"
     }
   ],
   "navigation": [
@@ -325,6 +329,12 @@
         "nomba-api-reference/bills/subscribe-to-cabletv-via-parent-account",
         "nomba-api-reference/bills/name-lookup-for-cabletv",
         "nomba-api-reference/bills/name-lookup-for-electricity"
+      ]
+    },
+    {
+      "group": "Changelog",
+      "pages": [
+        "nomba-api-changelog/api/updates"
       ]
     }
   ],
