@@ -61,7 +61,15 @@
     {
       "group": "Getting Started",
       "pages": [
-        "getting-started/dashboard-setup",
+        {
+          "group": "Dashboard Setup",
+          "icon": "chart-line",
+          "pages": [
+            "getting-started/dashboard-setup/introduction",
+            "getting-started/dashboard-setup/account-setup",
+            "getting-started/dashboard-setup/acceptable-documents"
+          ]
+        },
         {
           "group": "Authentication",
           "icon": "shield-keyhole",
