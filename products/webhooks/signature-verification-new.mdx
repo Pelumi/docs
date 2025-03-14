@@ -7,7 +7,7 @@ Signature verification in webhooks is a crucial security measure employed to ens
 
 This verification mechanism safeguards against potential threats like data tampering and unauthorized access, enhancing the overall reliability of our webhook integration.
 
-There are 3 essentials steps to follow to ensure a proper signature verification. They are as follows;
+There are 2 essentials steps to follow to ensure a proper signature verification. They are as follows;
 
 <Steps titleSize="p">
   <Step title="Calculate HMAC Signature">
@@ -16,41 +16,39 @@ There are 3 essentials steps to follow to ensure a proper signature verification
     <CodeGroup>
 
         ```go sample.go
-                package main
+            package main
+            import (
+                    "crypto/hmac"
+                    "crypto/sha256"
+                    "encoding/hex"
+                    "fmt"
+            )
 
-        import (
-                "crypto/hmac"
-                "crypto/sha256"
-                "encoding/hex"
-                "fmt"
-        )
+            func main() {
+                    signatureKey := "your_secret_key" // Replace with your actual signature key
+                    payload := map[string]interface{}{
+                            "event_type": "some_event",
+                            "requestId": "12345",
+                            // ... other payload fields
+                    }
+                    timestamp := "1690646400" // Replace with actual timestamp
 
-        func main() {
-                signatureKey := "your_secret_key" // Replace with your actual signature key
-                payload := map[string]interface{}{
-                        "event_type": "some_event",
-                        "requestId": "12345",
-                        // ... other payload fields
-                }
-                timestamp := "1690646400" // Replace with actual timestamp
+                    hashingPayload := fmt.Sprintf("%s:%s:%s:%s:%s:%s:%s:%s",
+                            payload["event_type"],
+                            payload["requestId"],
+                            payload["data"]["merchant"]["userId"],
+                            payload["data"]["merchant"]["walletId"],
+                            payload["data"]["transaction"]["transactionId"],
+                            payload["data"]["transaction"]["type"],
+                            payload["data"]["transaction"]["time"],
+                            payload["data"]["transaction"]["responseCode"])
 
-                hashingPayload := fmt.Sprintf("%s:%s:%s:%s:%s:%s:%s:%s",
-                        payload["event_type"],
-                        payload["requestId"],
-                        payload["data"]["merchant"]["userId"],
-                        payload["data"]["merchant"]["walletId"],
-                        payload["data"]["transaction"]["transactionId"],
-                        payload["data"]["transaction"]["type"],
-                        payload["data"]["transaction"]["time"],
-                        payload["data"]["transaction"]["responseCode"])
+                    message := fmt.Sprintf("%s:%s", hashingPayload, timestamp)
 
-                message := fmt.Sprintf("%s:%s", hashingPayload, timestamp)
-
-                h := hmac.New(sha256.New, []byte(signatureKey))
-                h.Write([]byte(message))
-                signature := hex.EncodeToString(h.Sum(nil))
-
-                fmt.Println(signature)
+                    mac := hmac.New(sha256.New, []byte(signatureKey))
+                    mac.Write([]byte(message))
+                    hashed := mac.Sum(nil)
+                    digest = base64.StdEncoding.EncodeToString(hashed)
         }
         ```
 
