@@ -9476,6 +9476,17 @@
             }
           },
           {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          },
+          {
             "description": "cableTvType",
             "example": "dstv",
             "in": "query",
@@ -9937,6 +9948,19 @@
       "get": {
         "description": "You can use this endpoint to fetch electricity providers/discos",
         "operationId": "Fetch electricity providers",
+        "parameters": [
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          }
+        ],
         "responses": {
           "200": {
             "content": {
@@ -10080,6 +10104,17 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
           },
           {
             "description": "customerId",
