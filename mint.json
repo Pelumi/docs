@@ -175,7 +175,6 @@
           "icon": "webhook",
           "pages": [
             "products/webhooks/introduction",
-            "products/webhooks/signature-verification",
             "products/webhooks/signature-verification-new",
             "products/webhooks/retries-backoff-policy"
           ]
