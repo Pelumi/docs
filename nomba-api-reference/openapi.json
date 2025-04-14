@@ -8646,7 +8646,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Fetch a single transaction on the parent account",
+        "summary": "Confirm a transaction's status by sessionId",
         "tags": ["Transactions"]
       }
     },
