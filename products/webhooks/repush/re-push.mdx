@@ -1,0 +1,53 @@
+---
+title: "Repush"
+description: "Learn how to re-push a failed webhook."
+---
+
+<CardGroup cols={2}>  
+  <Card 
+    title="Bulk repush"
+    icon="pushed"
+    href="/products/webhooks/repush/bulk-repush"
+  >
+    Initiate a bulk webhook re-push with delivery log IDs.
+  </Card>
+</CardGroup>
+
+### `POST /v1/webhooks/re-push`
+
+#### Request Body
+
+<ParamField body="hooksRequestId" type="string" required>
+  Unique identifier of the webhook event you want to re-push.
+</ParamField>
+
+#### Response Body
+
+<ResponseField name="code" type="string" required>
+  Response code indicating the status of the request.
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Description of the response.
+</ResponseField>
+
+<RequestExample>
+```bash Request
+curl --location 'https://api.nomba.com/v1/webhooks/re-push' \
+--header 'Authorization: Bearer TOKEN \
+--header 'Content-Type: application/json' \
+--header 'accountId: 670353d1-158a-XXXXXXXXX'\
+--data '{
+    "hooksRequestId": "6703XXXd1-158a-42XX-8f0b-XXXXXXXXX"
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success response
+{
+  "code": "200",
+  "description": "Webhooks message re-pushed successfully"
+}
+```
+</ResponseExample>
