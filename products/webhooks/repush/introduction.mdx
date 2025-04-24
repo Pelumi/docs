@@ -1,0 +1,58 @@
+---
+title: "Introduction"
+description: "Learn how to re-push or debug a webhook"
+---
+
+This section documents the available endpoints for managing, monitoring, and re-pushing webhooks. These tools are useful for identifying webhook delivery issues and manually retrying failed requests.
+
+<Info>
+  Re-push is especially useful when your webhook endpoint was temporarily unreachable or rejected the payload. This ensures no events are lost during transmission failures.
+</Info>
+
+
+## Process flow
+
+1. Start by using **Get Webhook Delivery Logs** to find failed requests.
+
+2. Retrieve the `hooksRequestId` from those logs returned when you query **Get Webhook Delivery Logs** endpoint.
+
+3. Use Re-push for single retries or Bulk Re-push for multiple retries.
+
+4. Use **Get Customer Events** to confirm webhook setup.
+
+## Get started
+
+<CardGroup cols={2}>
+  <Card
+    title="Delivery Logs"
+    icon="file-waveform"
+    href="/products/webhooks/repush/delivery-log"
+  >
+    Learn how to track failed webhooks events.
+  </Card>
+  <Card 
+    title="Webhook Events" 
+    icon="webhook"
+    href="/products/webhooks/repush/webhook-events"
+  >
+    Learn how to fetch your webhook event.
+  </Card>
+  <Card 
+    title="Re-push"
+    icon="repeat"
+    href="/products/webhooks/repush/re-push"
+  >
+    Re-push a failed webhook event to your system.
+  </Card>
+  <Card 
+    title="Bulk repush"
+    icon="pushed"
+    href="/products/webhooks/repush/bulk-repush"
+  >
+    Initiate a bulk webhook re-push with delivery log IDs.
+  </Card>
+</CardGroup>
+
+<Note>
+  To learn about the various webhook event types we have and how to set them up, please check <a href="/products/webhooks/introduction">webhook introduction here</a>
+</Note>

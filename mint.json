@@ -177,7 +177,16 @@
             "products/webhooks/introduction",
             "products/webhooks/signature-verification-new",
             "products/webhooks/retries-backoff-policy",
-            "products/webhooks/repush"
+            {
+              "group": "repush",
+              "pages": [
+                  "products/webhooks/repush/introduction",
+                  "products/webhooks/repush/delivery-log",
+                  "products/webhooks/repush/re-push",
+                  "products/webhooks/repush/bulk-repush",
+                  "products/webhooks/repush/webhook-events"
+              ]
+            }
           ]
         },
         {
