@@ -16,11 +16,11 @@ Verifying this signature on your end helps confirm that the payload:
 
 There are **2 essentials** steps to follow to ensure a proper signature verification. They are as follows;
 
-## Generate HMAC
+**1. Generate HMAC**
 
 Generate a secure Hash-based Message Authentication Code (HMAC) signature by applying a cryptographic hash function to the payload using a shared secret, ensuring data integrity.
 
-## Verify webhook integrity
+**2. Verify webhook integrity**
 
 Verify the integrity of incoming data by comparing the computed HMAC signature with the received signature, ensuring a match to establish the authenticity of the webhook payload.
 

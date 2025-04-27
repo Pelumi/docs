@@ -1,0 +1,113 @@
+---
+title: "Fetch Cable TV Plans"
+description: "Get a list of the available plans from a provider."
+---
+
+<CardGroup cols={2}>
+  <Card
+    title="Subscribe to Cable TV"
+    icon="link-simple"
+    href="/products/bills/subscribe-to-cable-tv"
+  ></Card>
+</CardGroup>
+
+## `GET /v1/bill/cableTvProduct?cableTvType=dstv`
+
+Available Cable TV type:  
+1. dstv  
+2. gotv  
+3. startimes
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="message" type="string" required>
+  Response message
+</ResponseField>
+
+<ResponseField name="data" type="object[]">
+  List of available subscription plans
+  <Expandable title="object" defaultOpen="true">
+    <ResponseField name="subScriptionType" type="string" required>
+      The subscription plan type (e.g., COMPACT, PREMIUM)
+    </ResponseField>
+    <ResponseField name="amount" type="number" required>
+      The amount for the subscription plan
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash Request
+curl --location 'https://api.nomba.com/v1/bill/cableTvProduct?cableTvType=dstv' \
+--header 'Authorization: Bearer <token>' \
+--header 'accountId: <accountId>'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success response
+{
+    "code": "00",
+    "description": "SUCCESS",
+    "data": [
+        {
+            "subScriptionType": "COMPACT",
+            "amount": 19000.0
+        },
+        {
+            "subScriptionType": "COMPACT_PLUS",
+            "amount": 30000.0
+        },
+        {
+            "subScriptionType": "PREMIUM",
+            "amount": 44500.0
+        },
+        {
+            "subScriptionType": "COMPACT_PLUS_EXTRA_VIEW",
+            "amount": 36000.0
+        },
+        {
+            "subScriptionType": "PREMIUM_EXTRA_VIEW",
+            "amount": 50500.0
+        },
+        {
+            "subScriptionType": "COMPACT_EXTRA_VIEW",
+            "amount": 25000.0
+        },
+        {
+            "subScriptionType": "YANGA",
+            "amount": 6000.0
+        },
+        {
+            "subScriptionType": "CONFAM",
+            "amount": 11000.0
+        },
+        {
+            "subScriptionType": "PADI",
+            "amount": 4400.0
+        },
+        {
+            "subScriptionType": "CONFAM_PLUS_EXTRA_VIEW",
+            "amount": 17000.0
+        },
+        {
+            "subScriptionType": "YANGA_PLUS_EXTRA_VIEW",
+            "amount": 12000.0
+        },
+        {
+            "subScriptionType": "PADI_PLUS_EXTRA_VIEW",
+            "amount": 10400.0
+        }
+    ],
+    "message": "SUCCESS"
+}
+```
+</ResponseExample>

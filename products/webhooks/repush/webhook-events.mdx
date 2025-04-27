@@ -60,9 +60,9 @@ description: "Learn how to fetch all webhook event types."
 <RequestExample>
 ```bash Request
 curl --location 'https://api.nomba.com/v1/webhooks/events' \
---header 'Authorization: Bearer TOKEN \
+--header 'Authorization: Bearer <token> \
 --header 'Content-Type: application/json' \
---header 'accountId: 670353d1-158a-XXXXXXXXX'\
+--header 'accountId: <accountId>'\
 --data '{
     "coreUserId": "6703XXXd1-158a-42XX-8f0b-XXXXXXXXX",
     "limit": 20
