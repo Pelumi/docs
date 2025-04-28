@@ -212,11 +212,12 @@
           "group": "Cable & Bill Payments",
           "icon": "money-bill",
           "pages": [
-            "products/bills/fetch-electricity-providers",
-            "products/bills/pay-for-electricity",
+            "products/bills/fetch-cable-tv-plans",
             "products/bills/subscribe-to-cable-tv",
+            "products/bills/name-lookup-for-cabletv",
             "products/bills/name-lookup-for-electricity",
-            "products/bills/name-lookup-for-cabletv"
+            "products/bills/fetch-electricity-providers",
+            "products/bills/pay-for-electricity"
           ]
         }
       ]

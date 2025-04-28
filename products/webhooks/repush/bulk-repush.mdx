@@ -38,9 +38,9 @@ description: "Learn how to re-push multiple failed webhook events."
 <RequestExample>
 ```bash Request
 curl --location 'https://api.nomba.com/v1/webhooks/bulk-re-push' \
---header 'Authorization: Bearer TOKEN \
+--header 'Authorization: Bearer <token> \
 --header 'Content-Type: application/json' \
---header 'accountId: 670353d1-158a-XXXXXXXXX' \
+--header 'accountId: <accountId>' \
 --data '{
     "hooksRequestIds": [
       "6703XXXd1-158a-42XX-8f0b-XXXXXXXXX",
