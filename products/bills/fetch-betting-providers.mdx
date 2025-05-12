@@ -1,0 +1,222 @@
+---
+title: "Fetch Betting Providers"
+description: "Get a list of the available plans from a provider."
+---
+
+<CardGroup cols={2}>
+    <Card
+        title="Subscribe to betting"
+        icon="link-simple"
+        href="/products/bills/subscribe-to-betting"
+    ></Card>
+</CardGroup>
+
+## `GET /v1/bill/betting/providers`
+
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+    Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+    Response description
+</ResponseField>
+
+<ResponseField name="message" type="string" required>
+    Response message
+</ResponseField>
+
+<ResponseField name="data" type="object[]">
+    List of available subscription plans
+    <Expandable title="object" defaultOpen="true">
+        <ResponseField name="id" type="string" required>
+            The corresponding id for this provider
+        </ResponseField>
+        <ResponseField name="name" type="string" required>
+            The pretty name for this provider
+        </ResponseField>
+    </Expandable>
+</ResponseField>
+
+<RequestExample>
+    ```bash Request
+    curl --location 'https://api.nomba.com/v1/bill/betting/providers' \
+    --header 'Authorization: Bearer <token>' \
+    --header 'accountId: <accountId>'
+        ```
+</RequestExample>
+
+<ResponseExample>
+    ```json Success response
+    {
+        "code": "00",
+        "description": "SUCCESS",
+        "data": [
+            {
+                "lookup_id": "BET9JA",
+                "amount": "",
+                "name": "BET9JA",
+                "biller_id": "bet9ja",
+                "id": "bet9ja"
+            },
+            {
+                "lookup_id": "BET_1960BET",
+                "amount": "",
+                "name": "1960Bet",
+                "biller_id": "1960bet",
+                "id": "1960bet"
+            },
+            {
+                "lookup_id": "BETFARM",
+                "amount": "",
+                "name": "BETFARM",
+                "biller_id": "betfarm",
+                "id": "betfarm"
+            },
+            {
+                "lookup_id": "BETKING",
+                "amount": "",
+                "name": "BetKing",
+                "biller_id": "betking",
+                "id": "betking"
+            },
+            {
+                "lookup_id": "BETWAY",
+                "amount": "",
+                "name": "BetWay",
+                "biller_id": "betway",
+                "id": "betway"
+            },
+            {
+                "lookup_id": "NAIRABET",
+                "amount": "",
+                "name": "Nairabet",
+                "biller_id": "nairabet",
+                "id": "nairabet"
+            },
+            {
+                "lookup_id": "BET_360BETS",
+                "amount": "",
+                "name": "360bets",
+                "biller_id": "360bets",
+                "id": "360bets"
+            },
+            {
+                "lookup_id": "BETBONANZA",
+                "amount": "",
+                "name": "Bet Bonanza",
+                "biller_id": "betbonanza",
+                "id": "betbonanza"
+            },
+            {
+                "lookup_id": "CRYSTALGAMING",
+                "amount": "",
+                "name": "Crystal Gaming",
+                "biller_id": "crystal_gaming",
+                "id": "crystal_gaming"
+            },
+            {
+                "lookup_id": "FORTUNEBETS",
+                "amount": "",
+                "name": "Fortune Bets",
+                "biller_id": "fortunebets",
+                "id": "fortunebets"
+            },
+            {
+                "lookup_id": "GAMESPAY",
+                "amount": "",
+                "name": "GamesPay",
+                "biller_id": "gamespay",
+                "id": "gamespay"
+            },
+            {
+                "lookup_id": "KONFAMBET",
+                "amount": "",
+                "name": "Konfambet",
+                "biller_id": "konfambet",
+                "id": "konfambet"
+            },
+            {
+                "lookup_id": "MEGABETENTERTAINMENT",
+                "amount": "",
+                "name": "Megabet Entertainment",
+                "biller_id": "megabet_entertainment",
+                "id": "megabet_entertainment"
+            },
+            {
+                "lookup_id": "MOBILESPORT",
+                "amount": "",
+                "name": "Mobile Sport",
+                "biller_id": "mobile_sport",
+                "id": "mobile_sport"
+            },
+            {
+                "lookup_id": "NAIRAPOWERBET",
+                "amount": "",
+                "name": "Naira Powerbet",
+                "biller_id": "naira_powerbet",
+                "id": "naira_powerbet"
+            },
+            {
+                "lookup_id": "NAIRABETSHOP",
+                "amount": "",
+                "name": "Nairabet Shop",
+                "biller_id": "nairabet_shop",
+                "id": "nairabet_shop"
+            },
+            {
+                "lookup_id": "SUREBET247",
+                "amount": "",
+                "name": "SureBet247",
+                "biller_id": "surebet247",
+                "id": "surebet247"
+            },
+            {
+                "lookup_id": "TOTIPRIMALOTTO",
+                "amount": "",
+                "name": "TOTI PRIMA LOTTO",
+                "biller_id": "toti_prima_lotto",
+                "id": "toti_prima_lotto"
+            },
+            {
+                "lookup_id": "TRADEFADA",
+                "amount": "",
+                "name": "Tradefada",
+                "biller_id": "tradefada",
+                "id": "tradefada"
+            },
+            {
+                "lookup_id": "VOUCHERNET",
+                "amount": "",
+                "name": "Voucher Net",
+                "biller_id": "voucher_net",
+                "id": "voucher_net"
+            },
+            {
+                "lookup_id": "SCRATCH2WIN",
+                "amount": "",
+                "name": "Scratch2Win",
+                "biller_id": "scratch2win",
+                "id": "scratch2win"
+            },
+            {
+                "lookup_id": "WESTERNSPORTBET",
+                "amount": "",
+                "name": "Western Sport Bet",
+                "biller_id": "western_sport_bet",
+                "id": "western_sport_bet"
+            },
+            {
+                "lookup_id": "XTRAGOALSFANTASY",
+                "amount": "",
+                "name": "Xtragoals Fantasy",
+                "biller_id": "xtragoals_fantasy",
+                "id": "xtragoals_fantasy"
+            }
+        ],
+        "message": "SUCCESS"
+    }
+    ```
+</ResponseExample>

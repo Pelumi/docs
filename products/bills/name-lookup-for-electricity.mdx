@@ -3,7 +3,7 @@ title: "Get customer information for an electricity payment "
 description: "Describes how to get the information of an electricity vendor's customer"
 ---
 
-# `GET /v1/bills/electricity/lookup`
+# `GET /v1/bill/electricity/lookup`
 
 #### Query parameters
 
@@ -27,6 +27,10 @@ description: "Describes how to get the information of an electricity vendor's cu
 
 <ResponseField name="data" type="string" required>
   Data containing customer's name if present
+</ResponseField>
+
+<ResponseField name="message" type="string" required>
+    Response message
 </ResponseField>
 
 <RequestExample>
