@@ -10613,6 +10613,11 @@
                     },
                     "data": {
                       "$ref": "#/components/schemas/BettingProvidersList"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "SUCCESS",
+                      "description": "Response message"
                     }
                   },
                   "required": ["code", "description", "data"]
@@ -10780,6 +10785,11 @@
                       "type": "string",
                       "example": "John Doe",
                       "description": "The name of the customer"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "SUCCESS",
+                      "description": "Response message"
                     }
                   },
                   "required": ["code", "description", "data"]
@@ -13826,17 +13836,40 @@
           }
         }
       },
-      "BettingProvidersList": {
+      "BettingProvider": {
         "type": "object",
         "properties": {
-          "id": {
+          "lookup_id": {
             "type": "string",
-            "example": "bet9ja"
+            "example": "BET9JA"
+          },
+          "amount": {
+            "type": "string",
+            "example": ""
           },
           "name": {
             "type": "string",
             "example": "BET9JA"
+          },
+          "biller_id": {
+            "type": "string",
+            "example": "bet9ja"
+          },
+          "id": {
+            "type": "string",
+            "example": "bet9ja"
           }
+        },
+        "required": [
+          "name",
+          "id"
+        ]
+      },
+      "BettingProvidersList": {
+        "type": "array",
+        "description": "List of all betting providers",
+        "items": {
+          "$ref": "#/components/schemas/BettingProvider"
         }
       },
       "ElectricityVendingRequest": {

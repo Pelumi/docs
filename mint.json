@@ -217,7 +217,13 @@
             "products/bills/name-lookup-for-cabletv",
             "products/bills/name-lookup-for-electricity",
             "products/bills/fetch-electricity-providers",
-            "products/bills/pay-for-electricity",
+            "products/bills/pay-for-electricity"
+          ]
+        },
+        {
+          "group": "Betting",
+          "icon": "money-bill",
+          "pages": [
             "products/bills/fetch-betting-providers",
             "products/bills/name-lookup-for-betting",
             "products/bills/pay-for-betting"
@@ -349,7 +355,12 @@
         "nomba-api-reference/bills/pay-for-electricity-via-parent-account",
         "nomba-api-reference/bills/subscribe-to-cabletv-via-parent-account",
         "nomba-api-reference/bills/name-lookup-for-cabletv",
-        "nomba-api-reference/bills/name-lookup-for-electricity",
+        "nomba-api-reference/bills/name-lookup-for-electricity"
+      ]
+    },
+    {
+      "group": "Betting",
+      "pages": [
         "nomba-api-reference/bills/name-lookup-for-betting",
         "nomba-api-reference/bills/fetch-betting-providers",
         "nomba-api-reference/bills/pay-for-betting-via-parent-account"
