@@ -47,8 +47,8 @@
     {
       "group": "Introduction",
       "pages": [
-        "introduction/welcome-to-nomba", 
-        "introduction/get-api-keys", 
+        "introduction/welcome-to-nomba",
+        "introduction/get-api-keys",
         {
           "group": "Testing",
           "icon": "money-check",
@@ -110,7 +110,7 @@
           "pages": [
             {
               "group": "Checkout",
-              "pages": [    
+              "pages": [
                 "products/checkout/introduction",
                 "products/checkout/create-checkout-order",
                 "products/checkout/charge-tokenized-cards",
@@ -217,7 +217,10 @@
             "products/bills/name-lookup-for-cabletv",
             "products/bills/name-lookup-for-electricity",
             "products/bills/fetch-electricity-providers",
-            "products/bills/pay-for-electricity"
+            "products/bills/pay-for-electricity",
+            "products/bills/fetch-betting-providers",
+            "products/bills/name-lookup-for-betting",
+            "products/bills/pay-for-betting"
           ]
         }
       ]
@@ -346,7 +349,10 @@
         "nomba-api-reference/bills/pay-for-electricity-via-parent-account",
         "nomba-api-reference/bills/subscribe-to-cabletv-via-parent-account",
         "nomba-api-reference/bills/name-lookup-for-cabletv",
-        "nomba-api-reference/bills/name-lookup-for-electricity"
+        "nomba-api-reference/bills/name-lookup-for-electricity",
+        "nomba-api-reference/bills/name-lookup-for-betting",
+        "nomba-api-reference/bills/fetch-betting-providers",
+        "nomba-api-reference/bills/pay-for-betting-via-parent-account"
       ]
     },
     {
@@ -366,18 +372,18 @@
       {
         "title": "Community",
         "links": [
-          { 
-            "label": "Join Slack Community", 
-            "url": "https://join.slack.com/t/nombadevelope-6l32082/shared_invite/zt-2yhdw0typ-LFC8ce2yBLlW9FAxJjplJQ" 
+          {
+            "label": "Join Slack Community",
+            "url": "https://join.slack.com/t/nombadevelope-6l32082/shared_invite/zt-2yhdw0typ-LFC8ce2yBLlW9FAxJjplJQ"
           }
         ]
       },
       {
         "title": "Need Help?",
         "links": [
-          { 
-            "label": "Contact Support", 
-            "url": "/#" 
+          {
+            "label": "Contact Support",
+            "url": "/#"
           }
         ]
       }
