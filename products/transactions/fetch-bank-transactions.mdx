@@ -47,84 +47,82 @@ Use this resource to fetch credit/debit type transactions associated with accoun
 </ResponseField>
 
 <ResponseField name="data" type="object" required>
-  <Expandable title="object"  defaultOpen="true">
+  <Expandable title="object" defaultOpen="true">
     <ResponseField name="cursor" type="string">
       Cursor for pagination. It will be empty if there is no more page to scroll to.
     </ResponseField>
     <ResponseField name="results" type="object[]">
-        <Expandable title="object"  defaultOpen="true">
-            <ResponseField name="amount" type="number" required>
-                The transaction amount.
+      <Expandable title="object" defaultOpen="true">
+        <ResponseField name="amount" type="number" required>
+          The transaction amount.
+        </ResponseField>
+        <ResponseField name="currency" type="string" required>
+          The transaction currency.
+        </ResponseField>
+        <ResponseField name="status" type="string" required>
+          The transaction status.
+        </ResponseField>
+        <ResponseField name="timeUpdated" type="string" required>
+          The updated timestamp.
+        </ResponseField>
+        <ResponseField name="transactionType" type="string" required>
+          The transaction type.
+        </ResponseField>
+        <ResponseField name="walletBalance" type="number" required>
+          The account balance.
+        </ResponseField>
+        <ResponseField name="meta" type="object" required>
+          <Expandable title="object" defaultOpen="true">
+            <ResponseField name="mCollectionsId" type="string">
+              The merchant collections ID.
             </ResponseField>
-            <ResponseField name="currency" type="string" required>
-                The transaction currency.
+            <ResponseField name="type" type="string" required>
+              The transaction type.
             </ResponseField>
-            <ResponseField name="status" type="string" required>
-                The transaction status.
+            <ResponseField name="transactionAmount" type="number" required>
+              The transaction amount.
             </ResponseField>
-            <ResponseField name="timeUpdated" type="string" required>
-                The updated timestamp.
+            <ResponseField name="billerId" type="string">
+              The biller ID.
             </ResponseField>
-            <ResponseField name="transactionType" type="string" required>
-                The transaction type.
+            <ResponseField name="accountId" type="string">
+              The account ID.
             </ResponseField>
-            <ResponseField name="walletBalance" type="number" required>
-                The account balance.
+            <ResponseField name="parentAccountId" type="string">
+              The parent account ID.
             </ResponseField>
-            <ResponseField name="meta" type="object" required>
-                <Expandable title="object"  defaultOpen="true">
-                  <ResponseField name="mCollectionsId" type="string" required>
-                      The merchant collections ID.
-                  </ResponseField>
-                  <ResponseField name="type" type="string" required>
-                      The transaction type.
-                  </ResponseField>
-                  <ResponseField name="transactionAmount" type="number" required>
-                      The transaction amount.
-                  </ResponseField>
-                  <ResponseField name="billerId" type="string">
-                      The biller ID.
-                  </ResponseField>
-                  <ResponseField name="accountId" type="string">
-                      The account ID.
-                  </ResponseField>
-                  <ResponseField name="parentAccountId" type="string">
-                      The parent account ID.
-                  </ResponseField>
-                  <ResponseField name="rrn" type="string">
-                      The RRN (Retrieval Reference Number).
-                  </ResponseField>
-                  <ResponseField name="transactionId" type="string">
-                      The transaction ID.
-                  </ResponseField>
-                  <ResponseField name="posTerminalLabel" type="string">
-                      The POS terminal label.
-                  </ResponseField>
-                  <ResponseField name="fee" type="string">
-                      The transaction fee.
-                  </ResponseField>
-                  <ResponseField name="productId" type="string">
-                      The product ID.
-                  </ResponseField>
-                  <ResponseField name="terminalActionId" type="string">
-                      The terminal action ID.
-                  </ResponseField>
-                  <ResponseField name="merchantTxRef" type="string">
-                      The merchant transaction reference.
-                  </ResponseField>
-                </Expandable>
+            <ResponseField name="rrn" type="string">
+              The RRN (Retrieval Reference Number).
             </ResponseField>
-
-        </Expandable>
+            <ResponseField name="transactionId" type="string">
+              The transaction ID.
+            </ResponseField>
+            <ResponseField name="posTerminalLabel" type="string">
+              The POS terminal label.
+            </ResponseField>
+            <ResponseField name="fee" type="number">
+              The transaction fee.
+            </ResponseField>
+            <ResponseField name="productId" type="string">
+              The product ID.
+            </ResponseField>
+            <ResponseField name="terminalActionId" type="string">
+              The terminal action ID.
+            </ResponseField>
+            <ResponseField name="merchantTxRef" type="string">
+              The merchant transaction reference.
+            </ResponseField>
+          </Expandable>
+        </ResponseField>
+      </Expandable>
     </ResponseField>
-    
   </Expandable>
 </ResponseField>
 
 <RequestExample>
 ```bash Request
 curl --request GET \
-  --url https://api.nomba.com/v1/transactions/accounts \
+  --url https://api.nomba.com/v1/transactions/bank \
   --header 'Authorization: Bearer <token>' \
   --header 'accountId: <accountid>'
 ```
@@ -138,26 +136,27 @@ curl --request GET \
   "data": {
     "results": [
       {
-        "id": "POS-WITHDRAW-DFC05-693cd007-cd1e-4ea6-8b79-5f5c4d7a83ea",
-        "status": "PAYMENT_FAILED",
-        "amount": 4000,
-        "fixedCharge": 123,
-        "source": "pos",
-        "type": "withdrawal",
-        "gatewayMessage": "Insufficient funds",
-        "customerBillerId": "539983 **** **** 5118",
-        "timeCreated": "2023-09-08T19:26:34.657000Z",
-        "posTid": "2KUD4AKB",
-        "terminalId": "2KUD4AKB",
-        "providerTerminalId": "2KUD4AKB",
-        "rrn": "230908202632",
-        "posSerialNumber": "91230309116826",
-        "posTerminalLabel": "KEB MUSA ABUBAKAR",
-        "stan": "556734",
-        "paymentVendorReference": "2KUD4AKB230908202632",
-        "userId": "dfc05ca1-4e75-41dd-8e41-2d362d565893",
-        "posRrn": "230908202632",
-        "merchantTxRef": "c90d-4b25-ad0f"
+        "amount": 7000,
+        "currency": "NGN",
+        "meta": {
+          "billerId": "API_FCIR5UQFMYS",
+          "terminalActionId": "",
+          "productId": "p2p",
+          "fee": 0,
+          "type": "p2p",
+          "transactionId": "API-P2P-84026-d8a4d658-6747-418d-a7e2-37bc6290310d",
+          "rrn": "",
+          "parentAccountId": "01a10aeb-d989-460a-bbde-9842f2b4320f",
+          "terminalLabel": "",
+          "accountId": "890022ce-bae0-45c1-9b9d-ee7872e6ca27",
+          "merchantTxRef": "",
+          "transactionAmount": 7000,
+          "mCollectionsId": ""
+        },
+        "status": "SUCCESS",
+        "timeUpdated": "2023-09-08T19:05:21.000Z",
+        "walletBalance": 285951,
+        "transactionType": "DEBIT"
       }
     ],
     "cursor": "xchbaVFsjdsbaADddd"

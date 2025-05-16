@@ -1,28 +1,22 @@
 ---
-title: 'Suspending and reactivating accounts'
-description: 'Learn about suspending and reactivating accounts'
+title: 'Suspending accounts'
+description: 'Learn about suspending an accounts'
 ---
 
 <CardGroup cols={2}>
   <Card
-    title="Suspend an account"
-    icon="ban"
-    href="/nomba-api-reference/accounts/suspend-an-account"
-  >
-  </Card>
-  <Card
-    title="Reactivate an account"
+    title="Expire an account"
     icon="wave-pulse"
-    href="/nomba-api-reference/accounts/reactivate-an-account"
+    href="/nomba-api-reference/virtual-accounts/expire-a-virtual-account"
   >
   </Card>
 </CardGroup>
 
 <Note>
-You can neither suspend nor reactivate the parent account. The parent account is the account directly tied to your business. You can only suspend accounts that you created via the API or your Nomba dashboard
+  You can neither suspend nor reactivate the parent account. The parent account is the account directly tied to your business. You can only suspend accounts that you created via the API or your Nomba dashboard
 </Note>
 
-# `PUT /v1/accounts/suspend/{accountId}`
+### `PUT /v1/accounts/suspend/{accountId}`
 
 ## Suspending Accounts
 
