@@ -99,9 +99,7 @@
             "products/accounts/introduction",
             "products/accounts/creating-a-virtual-account",
             "products/accounts/fetching-account-balance",
-            "products/accounts/terminal-assignment",
-            "products/accounts/suspension-and-reactivation",
-            "products/accounts/granting-permissions"
+            "products/accounts/suspension-and-reactivation"
           ]
         },
         {
@@ -195,7 +193,6 @@
           "pages": [
             "products/transactions/fetch-account-transactions",
             "products/transactions/fetch-bank-transactions",
-            "products/transactions/filtering-through-transactions",
             "products/transactions/transaction-requery"
           ]
         },
