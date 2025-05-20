@@ -35,7 +35,8 @@ description: "Describes how to get the information of a betting vendor's custome
 
 <RequestExample>
     ```bash Request
-    curl --location 'https://api.nomba.com/v1/bill/betting/lookup' \
+    curl --location GET \
+    --url https://api.nomba.com/v1/bill/betting/lookup \
     --header 'accountId: <accountId>' \
     --header 'Authorization: <token>'
         ```

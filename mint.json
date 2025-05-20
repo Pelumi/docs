@@ -209,21 +209,30 @@
           "group": "Cable & Bill Payments",
           "icon": "money-bill",
           "pages": [
-            "products/bills/fetch-cable-tv-plans",
-            "products/bills/subscribe-to-cable-tv",
-            "products/bills/name-lookup-for-cabletv",
-            "products/bills/name-lookup-for-electricity",
-            "products/bills/fetch-electricity-providers",
-            "products/bills/pay-for-electricity"
-          ]
-        },
-        {
-          "group": "Betting",
-          "icon": "money-bill",
-          "pages": [
-            "products/bills/fetch-betting-providers",
-            "products/bills/name-lookup-for-betting",
-            "products/bills/pay-for-betting"
+            {
+              "group": "Cable TV",
+              "pages": [    
+                "products/bills/fetch-cable-tv-plans",
+                "products/bills/subscribe-to-cable-tv",
+                "products/bills/name-lookup-for-cabletv"
+              ]
+            },
+            {
+              "group": "Electricity",
+              "pages": [
+                "products/bills/name-lookup-for-electricity",
+                "products/bills/fetch-electricity-providers",
+                "products/bills/pay-for-electricity"
+              ]
+            },
+            {
+              "group": "Betting",
+              "pages": [
+                "products/bills/fetch-betting-providers",
+                "products/bills/name-lookup-for-betting",
+                "products/bills/pay-for-betting"
+              ]
+            }
           ]
         }
       ]
@@ -382,7 +391,7 @@
         "links": [
           {
             "label": "Join Slack Community",
-            "url": "https://join.slack.com/t/nombadevelope-6l32082/shared_invite/zt-2yhdw0typ-LFC8ce2yBLlW9FAxJjplJQ"
+            "url": "https://join.slack.com/t/nombadevelope-6l32082/shared_invite/zt-350byydhe-m5aQJtyHpRG9Y7Kmg43a5w"
           }
         ]
       },

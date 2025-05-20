@@ -80,7 +80,8 @@ description: "This describes the process of paying for betting"
 
 <RequestExample>
     ```bash Request
-    curl --location 'https://api.nomba.com/v1/bill/betting' \
+    curl --location POST \
+    --url https://api.nomba.com/v1/bill/betting \
     --header 'accountId: <accountId>' \
     --header 'Authorization: Bearer <token>' \
         --data '{

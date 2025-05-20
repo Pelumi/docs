@@ -42,7 +42,8 @@ description: "Get a list of the available plans from a provider."
 
 <RequestExample>
     ```bash Request
-    curl --location 'https://api.nomba.com/v1/bill/betting/providers' \
+    curl --location  GET \
+    --url  https://api.nomba.com/v1/bill/betting/providers \
     --header 'Authorization: Bearer <token>' \
     --header 'accountId: <accountId>'
         ```
