@@ -119,55 +119,36 @@ The content of the payload is a JSON object and it gives details about the event
 
 ```json
 {
-  "event_type": "payment_success",
-  "requestId": "999111df-9f20-4cf8-8740-3d2fc43c7149",
-  "data": {
-    "merchant": {
-      "userId": "000000ab-154e-4a11-a0cf-2249fad063e3",
-      "walletId": "5f04b9ee600f1c00084affa2",
-      "walletBalance": 2903.31
-    },
-    "terminal": {
-      "terminalId": "",
-      "terminalLabel": ""
-    },
-    "transaction": {
-      "transactionId": "API-VACT_TRA-067fg-sdf78ghy-fd7f-4567-b404-3122939dc25f",
-      "type": "vact_transfer",
-      "originatingFrom": "api",
-      "rrn": "",
-      "transactionAmount": 1000,
-      "fee": 5,
-      "time": "2024-07-26T18:17:29Z",
-      "terminalActionId": "",
-      "mcollectionsId": "",
-      "merchantTxRef": "",
-      "aliasAccountNumber": "0010721887",
-      "aliasAccountType": "VIRTUAL",
-      "aliasAccountName": "SHARP GUY",
-      "terminalSerialNumber": "",
-      "cardBank": "",
-      "cardIssuer": "",
-      "responseCode": "",
-      "responseCodeMessage": "",
-      "sessionId": "111113240726191726000236980560"
-    },
-    "customer": {
-      "billerId": null,
-      "productId": null,
-      "bankCode": "000",
-      "cardPan": null,
-      "network": null,
-      "accountNumber": "0123467890",
-      "bankName": "Nomba MFB",
-      "meterNumber": null,
-      "subscriberNumber": null,
-      "iucNumber": null,
-      "decoderNumber": null,
-      "senderName": "JOHN NEE DOE",
-      "recipientName": ""
+    "event_type": "payment_success",
+    "requestId": "999111df-9f20-4cf8-8740-3d2fc43c7149",
+    "data": {
+        "merchant": {
+            "walletId": "5f04b9ee600f1c00084affa2",
+            "walletBalance": 732233.66,
+            "userId": "000000ab-154e-4a11-a0cf-2249fad063e3"
+        },
+        "terminal": {},
+        "transaction": {
+            "aliasAccountNumber": "0010721887",
+            "fee": 150,
+            "sessionId": "100004240726191726000236980560",
+            "type": "vact_transfer",
+            "transactionId": "API-VACT_TRA-067fg-sdf78ghy-fd7f-4567-b404-3122939dc25f",
+            "aliasAccountName": "Bestbrains-Kunle Oyetunji",
+            "responseCode": "",
+            "originatingFrom": "api",
+            "transactionAmount": 1000,
+            "narration": "Transfer from Kunle Nnaji",
+            "time": "2025-05-26T12:34:24Z",
+            "aliasAccountType": "VIRTUAL"
+        },
+        "customer": {
+            "bankCode": "305",
+            "senderName": "Kunle Nnaji",
+            "bankName": "Paycom (Opay)",
+            "accountNumber": "9035418377"
+        }
     }
-  }
 }
 ```
 
