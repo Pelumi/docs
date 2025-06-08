@@ -207,7 +207,7 @@
         },
         {
           "group": "Cable & Bill Payments",
-          "icon": "money-bill",
+          "icon": "tv",
           "pages": [
             {
               "group": "Cable TV",
@@ -244,7 +244,8 @@
         "support/guides/accept-online-payments",
         "support/guides/authentication-best-practises",
         "support/guides/setting-up-webhooks",
-        "support/guides/processing-recurring-payments"
+        "support/guides/processing-recurring-payments",
+        "support/guides/add-shopify-webhook-url"
       ]
     },
     {
@@ -381,7 +382,7 @@
   ],
   "footer": {
     "socials": {
-     "twitter": "https://twitter.com/nombahq",
+    "twitter": "https://twitter.com/nombahq",
     "github": "https://github.com/kudi-inc",
     "linkedin": "https://www.linkedin.com/company/nombahq"
     },
