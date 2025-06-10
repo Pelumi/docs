@@ -245,7 +245,8 @@
         "support/guides/authentication-best-practises",
         "support/guides/setting-up-webhooks",
         "support/guides/processing-recurring-payments",
-        "support/guides/add-shopify-webhook-url"
+        "support/guides/shopify-nomba-integration",
+        "support/guides/nomba-woocommerce-integration"
       ]
     },
     {
@@ -254,7 +255,7 @@
         "getting-started/pagination",
         "getting-started/rate_limit",
         "getting-started/idempotency",
-        "getting-started/environment"
+        "getting-started/environment"   
       ]
     },
     {
