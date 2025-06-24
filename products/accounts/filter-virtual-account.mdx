@@ -1,0 +1,82 @@
+---
+title: 'Filter account with account number.'
+description: 'Learn hot to filter account with virtual account number'
+---
+
+### `GET /v1/accounts/virtual/`
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+<ResponseField name="message" type="string" required>
+  Response message
+</ResponseField>
+<ResponseField name="status" type="boolean" required>
+   transaction status
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="object"  defaultOpen="true">
+    <ResponseField name="createdAt" type="Date" required>
+      Account creation date.
+    </ResponseField>
+    <ResponseField name="bankAccountNumber" type="Date" required>
+      bank account number.
+    </ResponseField>
+    <ResponseField name="bankAccountName" type="string" required>
+      bank account name
+    </ResponseField>
+    <ResponseField name="accountRef" type="string" required>
+      bank account name
+    </ResponseField>
+    <ResponseField name="accountHolderId" type="string" required>
+      bank account holder ID
+    </ResponseField>
+    <ResponseField name="accountName" type="string" required>
+      bank account holder name
+    </ResponseField>
+    <ResponseField name="currency" type="string" required>
+      Currency code.
+    </ResponseField>
+    <ResponseField name="expired" type="boolean" required>
+      Account status.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash Request
+curl --request GET \
+  --url https://vendor-api.kudi.ai/v1/accounts/virtual/{virtualAcctNumber} \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountid>'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success response
+{
+    "code": "00",
+    "description": "SUCCESS",
+    "data": {
+        "createdAt": "2025-05-28T08:23:48.073Z",
+        "bankAccountNumber": "",
+        "bankAccountName": "",
+        "bankName": "Nombank MFB",
+        "accountRef": "created-wed-28-05-2501",
+        "accountHolderId": "",
+        "accountName": "",
+        "currency": "NGN",
+        "bvn": "00***",
+        "expired": false
+    },
+    "message": "SUCCESS",
+    "status": true
+}
+```
+</ResponseExample>
