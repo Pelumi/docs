@@ -3,6 +3,9 @@ title: "Introduction"
 description: "Learn how to create middlewares for Terminals"
 ---
 
+
+## Overview
+
 Terminal action allows developers to insert custom decision making logic to extend Nomba Terminal features behaviour during different transaction scenarios. 
 
 Imagine your terminal is about to:
@@ -21,8 +24,28 @@ Instead of instantly completing the action, Terminal action pulse the process, s
 
 • Cancel or reject the action  
 
-
 Think of it as **middleware for your terminal** — it gives your infrastructure control over what happens next in real time.
+
+
+## Quick Action
+
+<CardGroup cols={2}>
+  <Card
+    title="Pre-Balance Check"
+    icon="fa-solid fa-wallet"
+    href="/products/checkout/create-checkout-order"
+  >
+    Intercept balance check requests to apply validation or custom logic.
+  </Card>
+  <Card
+    title="Alter Payout Transactions"
+    icon="fa-solid fa-money-check-dollar"
+    href="/products/checkout/charge-tokenized-cards"
+  >
+    Customize or approve payout transactions before they are processed.
+  </Card>
+</CardGroup>
+
 
 ## Terminal Actions Scenarios
 

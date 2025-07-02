@@ -1,4 +1,90 @@
 ---
-title: "Terminal Info"
-description: "Adjusting Terminal Info"
+title: "Balance Check"
+description: "Intercept balance check requests to apply validation or custom logic"
 ---
+
+#### Passed Data Object
+
+<ParamField body="action_type" type="string" required>
+  The type of terminal action to perform (e.g., `pre-balance-check-auth`).
+</ParamField>
+
+<ParamField body="action_id" type="string" required>
+  A unique identifier for this terminal action request.
+</ParamField>
+
+<ParamField body="version" type="string" required>
+  API version to use (e.g., `v1.1.0`).
+</ParamField>
+
+<ParamField body="data" type="object" required>
+  Contains details about the terminal making the request.
+
+  <Expandable title="data.terminal" defaultOpen="true">
+    <ParamField body="terminal.terminalId" type="string" required>
+      Unique identifier for the terminal.
+    </ParamField>
+    <ParamField body="terminal.serialNo" type="string" required>
+      Serial number of the terminal.
+    </ParamField>
+    <ParamField body="terminal.pin" type="string" required>
+      PIN entered by the user.
+    </ParamField>
+    <ParamField body="terminal.signature" type="string" required>
+      HMAC hash of the plain key signed with the merchant’s secret key.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+---
+
+#### Expected response
+
+<ResponseField name="data" type="object" required>
+  Contains user balance information.
+
+  <Expandable title="data.user" defaultOpen="true">
+    <ResponseField name="balance" type="number" required>
+      Current balance of the user’s account.
+    </ResponseField>
+    <ResponseField name="currency" type="string" required>
+      Currency of the returned balance (e.g., `NGN`).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+---
+
+
+
+<RequestExample>
+```json Data passed
+{
+	"action_type" : "pre-balance-check-auth",
+	"action_id" : "q6cf8t96-7fg8-432e-98c8-d4cb8f5b",
+	"version": "v1.1.0",
+	"data" : {
+		"terminal" : {
+			"terminalId" : "2KUD1234",
+			"serialNo" : "91201008993212",
+			"pin": "0000",
+			"signature":
+            "plainKeyPassedByUserAndHashedWithMerchantSecretKey"
+		}
+	}
+}
+```
+</RequestExample>
+
+<ResponseExample>
+```json data response
+{
+	"data": {
+		"user": {
+			"balance": 154567.78,
+			"currency": "NGN"
+		}
+	}
+}
+```
+</ResponseExample>
