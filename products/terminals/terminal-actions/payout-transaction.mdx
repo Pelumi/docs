@@ -4,6 +4,17 @@ description: "Customize or approve payout transactions before they are processed
 ---
 
 
+<CardGroup cols={2}>
+  <Card
+    title="Pre-Balance Check"
+    icon="wallet"
+    href="/products/terminals/terminal-actions/balance-check"
+  >
+    Intercept balance check requests to apply validation or custom logic.
+  </Card>
+</CardGroup>
+
+
 ####  Passed Data Object
 
 <ParamField body="action_type" type="string" required>
@@ -94,6 +105,9 @@ description: "Customize or approve payout transactions before they are processed
 </ResponseField>
 
 ---
+<Note>
+  `reasonCode` is a standard response identifier used in the Terminal Action API to communicate the outcome of a custom logic check. To see all of the supported reason code [check here](products/terminals/terminal-actions/introduction#reason-code-list).
+</Note>
 
 <RequestExample>
 ```json Data passed

@@ -26,21 +26,22 @@ Instead of instantly completing the action, Terminal action pulse the process, s
 
 Think of it as **middleware for your terminal** — it gives your infrastructure control over what happens next in real time.
 
+---
 
 ## Quick Action
 
 <CardGroup cols={2}>
   <Card
     title="Pre-Balance Check"
-    icon="fa-solid fa-wallet"
-    href="/products/checkout/create-checkout-order"
+    icon="wallet"
+    href="/products/terminals/terminal-actions/balance-check"
   >
     Intercept balance check requests to apply validation or custom logic.
   </Card>
   <Card
-    title="Alter Payout Transactions"
-    icon="fa-solid fa-money-check-dollar"
-    href="/products/checkout/charge-tokenized-cards"
+    title="Payout Transactions"
+    icon="money-check-dollar"
+    href="/products/terminals/terminal-actions/payout-transaction"
   >
     Customize or approve payout transactions before they are processed.
   </Card>
@@ -61,10 +62,65 @@ Terminal actions can be triggered at different stages of a transaction to allow 
 In synchronous mode, the terminal will wait for your backend to respond before moving forward with the transaction.
 </Note>
 
+---
+
 ## Precedence
+
+**Precedence** defines the exact point in the transaction pipeline where a terminal action is triggered.  
+It determines **when your custom logic is executed** relative to the terminal’s built-in process — such as before showing a balance or after requesting a PIN.  
+
+This lets you:
+
+• Enforce business rules before the terminal proceeds
+
+• Reject unauthorized actions early
+
+• Run validations like balance checks and similar actions
+
+---
 
 1. `pre-payout-auth`:  Triggered when a user is about to initiate a payout transaction, immediately after the terminal requests a PIN. This allows you to validate the transaction, apply rules, or reject it before processing.
 
+<Frame caption="Payout Transaction Flow (pre-payout-auth)">
+  <img src="/images/payout.png" style={{ borderRadius: '0.5rem' }} loading="lazy" />
+</Frame>
+
 2. `pre-balance-check-auth`: Triggered when a user attempts to check their wallet or account balance. This provides an opportunity to authorize or restrict access based on custom logic.
 
+<Frame caption="Balance Check Flow (pre-balance-check-auth)">
+  <img src="/images/balance-check.png" style={{ borderRadius: '0.5rem' }} loading="lazy" />
+</Frame>
 
+---
+
+## Reason Code List
+
+Terminal Action responses include a `reasonCode` that indicates the **outcome** of your custom logic and guides the terminal on what to do next.
+
+These codes help standardize system responses, making them easy to interpret programmatically.
+
+### What is a `reasonCode`?
+
+A `reasonCode` is a **status flag** returned in your response to indicate **whether the transaction should proceed or not**, and why It is paired with `shouldActionProceed: true/false` to clearly guide the terminal's next step.
+
+```javascript
+{
+	"shouldActionProceed": true,
+	"reasonCode": "00"		 
+}
+```
+
+---
+
+### Reason Code Reference
+
+| **Code** | **Meaning**               | **Description**                                                         |
+| -------- | ------------------------- | ----------------------------------------------------------------------- |
+| `00`     | **SUCCESS**               | The action passed all checks — proceed with the transaction.            |
+| `01`     | **FAILED**                | A generic failure occurred — stop the transaction.                      |
+| `02`     | **BLACKLISTED**           | The terminal or customer is blacklisted and cannot perform this action. |
+| `03`     | **TERMINAL\_NOT\_FOUND**  | The terminal making the request does not exist in your system.          |
+| `04`     | **ACCOUNT\_NOT\_FOUND**   | The associated account could not be located.                            |
+| `05`     | **INVALID\_PIN**          | The PIN provided is incorrect or unauthorized.                          |
+| `06`     | **LIMIT\_EXCEEDED**       | The transaction amount exceeds the allowable limit.                     |
+| `07`     | **INSUFFICIENT\_BALANCE** | The account does not have enough funds to complete the transaction.     |
