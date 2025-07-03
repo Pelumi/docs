@@ -159,6 +159,14 @@
               ]
             },
             {
+              "group": "Terminal actions",
+              "pages": [
+                "products/terminals/terminal-actions/introduction",
+                "products/terminals/terminal-actions/balance-check",
+                "products/terminals/terminal-actions/payout-transaction"
+              ]
+            },
+            {
               "group": "Connect to Nomba PTSP",
               "pages": [
                 "products/terminals/connect-to-nomba-ptsp/introduction",
