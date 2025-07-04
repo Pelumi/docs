@@ -202,7 +202,8 @@
           "pages": [
             "products/transactions/fetch-account-transactions",
             "products/transactions/fetch-bank-transactions",
-            "products/transactions/transaction-requery"
+            "products/transactions/transaction-requery",
+            "products/transactions/fetch-virtual-account-transaction"
           ]
         },
         {

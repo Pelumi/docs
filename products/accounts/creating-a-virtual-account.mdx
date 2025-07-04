@@ -13,6 +13,18 @@ description: "Learn about creating virtual accounts"
   </Card>
 </CardGroup>
 
+<Note>
+
+When creating a virtual account, you can optionally include `bvn`, `expiryDate` and `expectedAmount` in the request. <br/>
+
+**`bvn`**: If omitted, the virtual account will default to the BVN of the parent account. Only provide this if you want to assign a different BVN to the virtual account.
+  
+**`expectedAmount`**: This is used to restrict the virtual account to only accept a specific amount. If set, **the account will reject any payment that is lower or higher** than the specified amount. Use this carefully when expecting exact payments (e.g., invoice matching or controlled transfers).
+
+**`expiryDate`**: You can set this to anytime in the future. However, if omitted the default time will be set to 5 mins.
+
+</Note>
+
 # `POST /v1/accounts/virtual`
 
 #### Request body
@@ -29,10 +41,22 @@ description: "Learn about creating virtual accounts"
   Currency code
 </ParamField>
 
+<ParamField body="expectedAmount" type="number">
+  This is an optional field that is used to set a default value that the account must receive.
+</ParamField>
+
+<ParamField body="bvn" type="string">
+  Account holder Bank Verification Number (BVN).
+</ParamField>
+
 <ParamField body="expiryDate" type="string" optional>
   Expiry Date (This field allows you to customize the expiry period for this
   account. The default time however is 5 minutes)
 </ParamField>
+
+<Warning>
+  Be cautious when setting the `expectedAmount`. Once set, the account will **only** accept that exact amount. Payments with any other amount will be rejected.
+</Warning>
 
 #### Response body
 
@@ -87,7 +111,9 @@ curl --request POST \
     "accountRef": "1oWbJQQHLyQ************",
     "accountName": "Daniel Scorsese",
     "currency": "NGN",
-    "expiryDate": "2024-06-17 04:55:00"
+    "expiryDate": "2024-06-17 04:55:00",
+    "bvn":"12345678901",
+    "expectedAmount": 5000.00,
   }'
 ```
 </RequestExample>
