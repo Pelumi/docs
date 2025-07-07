@@ -7026,6 +7026,142 @@
         "tags": ["Terminals"]
       }
     },
+    "/v1/terminals/payment-request/{terminalId}": {
+      "post": {
+        "description": "You can use this endpoint to trigger a payment request on a nomba terminal",
+        "operationId": "Send payment request to terminal",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TerminalPaymentRequest"
+              }
+            }
+          },
+          "description": "The request payload required to send payment request to a nomba terminal",
+          "required": true
+        },
+        "responses": {
+        "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00",
+                      "description": "Response Code"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Success",
+                      "description": "Response description"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/TerminalPaymentResponse"
+                    }
+                  },
+                  "required": ["code", "description", "data"]
+                }
+              }
+            },
+            "description": "OK - your request was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          }
+        },
+
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Send payment request to terminal",
+        "tags": ["Terminals"]
+      }
+    },
     "/v1/transactions/bank/{subAccountId}": {
       "get": {
         "description": "You can use this endpoint to fetch credit/debit transactions on a sub account.",
@@ -13186,6 +13322,65 @@
           }
         },
         "required": ["serialNumber"]
+      },
+      "TerminalPaymentRequest": {
+        "type": "object",
+        "description": "Represents a request to initiate a payment on a physical payment terminal.",
+        "properties": {
+          "merchantTxRef": {
+            "type": "string",
+            "description": "The unique identifier for the order associated with the payment.",
+            "example": "55555555"
+          },
+          "amount": {
+            "type": "number",
+            "description": "The total amount to be charged on the terminal, in the smallest currency unit (e.g., cents, kobo).",
+            "example": "1000"
+          },
+          "currency": {
+            "type": "string",
+            "minLength": 3,
+            "maxLength": 3,
+            "description": "Currency code based on the ISO4217 standard",
+            "enum": ["NGN", "USD", "CDF"],
+            "example": "NGN"
+          }
+        },
+        "required": ["merchantTxRef", "amount", "currency"]
+      },
+      "TerminalPaymentResponse": {
+        "type": "object",
+        "description": "Represents a response to payment initialization request",
+        "properties": {
+          "paymentId": {
+            "type": "string",
+            "description": "Unique identifier for the payment",
+            "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+          },
+          "status": {
+            "type": "string",
+            "description": "Current status of the payment",
+            "enum": ["pending", "completed", "failed"],
+            "example": "pending"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Amount of the payment",
+            "example": 1000
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency code for the payment",
+            "example": "NGN"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the payment was created",
+            "example": "2023-08-30T14:56:59.000Z"
+          }
+        },
+        "required": ["paymentId", "status", "amount", "currency", "createdAt"]
       },
       "TerminalResult": {
         "type": "object",
