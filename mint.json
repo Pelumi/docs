@@ -113,7 +113,6 @@
                 "products/checkout/introduction",
                 "products/checkout/create-checkout-order",
                 "products/checkout/charge-tokenized-cards",
-                "products/checkout/dispute-management",
                 "products/checkout/verify-transactions"
               ]
             },
