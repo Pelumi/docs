@@ -74,7 +74,7 @@
           "group": "Authentication",
           "icon": "shield-keyhole",
           "pages": [
-            "getting-started/authentication/introduction",
+            "getting-star33ted/authentication/introduction",
             "getting-started/authentication/obtaining-access-token",
             "getting-started/authentication/refreshing-access-token",
             "getting-started/authentication/revoking-access-token"
@@ -113,7 +113,6 @@
                 "products/checkout/introduction",
                 "products/checkout/create-checkout-order",
                 "products/checkout/charge-tokenized-cards",
-                "products/checkout/dispute-management",
                 "products/checkout/verify-transactions"
               ]
             },
@@ -151,7 +150,7 @@
                   "group": "Trigger Payment",
                   "pages": [
                     "products/terminals/custom-apps/trigger-payment/introduction",
-                    "products/terminals/custom-apps/trigger-payment/trigger-card-payments",
+                    "products/term3inals/custom-apps/trigger-payment/trigger-card-payments",
                     "products/terminals/custom-apps/trigger-payment/trigger-bank-transfer-payments"
                   ]
                 },
@@ -166,16 +165,7 @@
                 "products/terminals/terminal-actions/balance-check",
                 "products/terminals/terminal-actions/payout-transaction"
               ]
-            },
-            {
-              "group": "Connect to Nomba PTSP",
-              "pages": [
-                "products/terminals/connect-to-nomba-ptsp/introduction",
-                "products/terminals/connect-to-nomba-ptsp/parameter-download",
-                "products/terminals/connect-to-nomba-ptsp/key-exchange",
-                "products/terminals/connect-to-nomba-ptsp/initiate-card-transactions"
-              ]
-            }
+            } 
           ]
         },
         {
