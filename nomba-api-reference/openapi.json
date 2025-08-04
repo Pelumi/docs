@@ -7026,6 +7026,737 @@
         "tags": ["Terminals"]
       }
     },
+    "/v1/terminals/upload-virtual-terminal": {
+      "post": {
+        "description": "You can use this endpoint to upload virtual terminals for your account.",
+        "operationId": "Upload virtual terminals",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UploadVirtualTerminalRequest"
+              }
+            }
+          },
+          "description": "The request payload required to upload virtual terminals",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00",
+                      "description": "Response Code"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Success",
+                      "description": "Response description"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/VirtualTerminal"
+                      }
+                    }
+                  },
+                  "required": ["code", "description", "data"]
+                }
+              }
+            },
+            "description": "Your virtual terminal upload request was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Upload virtual terminals",
+        "parameters": [
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          }
+        ],
+        "tags": ["Terminals"]
+      }
+    },
+    "/v1/terminals/{serialNumber}/initialize": {
+      "get": {
+        "description": "You can use this endpoint to initialize a terminal using its serial number.",
+        "operationId": "Initialize terminal",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00",
+                      "description": "Response Code"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Success",
+                      "description": "Response description"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/InitializeTerminalResponse"
+                    }
+                  },
+                  "required": ["code", "description", "data"]
+                }
+              }
+            },
+            "description": "Terminal initialization was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The terminal with the specified serial number does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          }
+        },
+        "summary": "Initialize terminal",
+        "parameters": [
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          },
+          {
+            "description": "The serial number of the terminal to initialize.",
+            "example": "55555555",
+            "in": "path",
+            "name": "serialNumber",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": ["Terminals"]
+      }
+    },
+    "/v1/terminals/{terminalId}/key-exchange": {
+      "get": {
+        "description": "You can use this endpoint to perform key exchange for a terminal.",
+        "operationId": "Terminal key exchange",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00",
+                      "description": "Response Code"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Success",
+                      "description": "Response description"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/KeyExchangeResponse"
+                    }
+                  },
+                  "required": ["code", "description", "data"]
+                }
+              }
+            },
+            "description": "Key exchange was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The terminal with the specified ID does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          }
+        },
+        "summary": "Terminal key exchange",
+        "parameters": [
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          },
+          {
+            "description": "The terminal ID for key exchange.",
+            "example": "2KUD2XFU",
+            "in": "path",
+            "name": "terminalId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": ["Terminals"]
+      }
+    },
+    "/v1/terminals/card-transaction": {
+      "post": {
+        "description": "You can use this endpoint to initiate a card transaction through a terminal.",
+        "operationId": "Initiate card transaction",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CardTransactionRequest"
+              }
+            }
+          },
+          "description": "The request payload required to initiate a card transaction",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00",
+                      "description": "Response Code"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Success",
+                      "description": "Response description"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/CardTransactionResponse"
+                    }
+                  },
+                  "required": ["code", "description", "data"]
+                }
+              }
+            },
+            "description": "Card transaction was successfully initiated.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The terminal or transaction record does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Initiate card transaction",
+        "parameters": [
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          }
+        ],
+        "tags": ["Terminals"]
+      }
+    },
+    "/v1/terminals/pbt/initialize": {
+      "post": {
+        "description": "You can use this endpoint to initialize Pay by Transfer (PBT) on a terminal.",
+        "operationId": "Initialize PBT",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InitializePBTRequest"
+              }
+            }
+          },
+          "description": "The request payload required to initialize PBT",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00",
+                      "description": "Response Code"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Success",
+                      "description": "Response description"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/InitializePBTResponse"
+                    }
+                  },
+                  "required": ["code", "description", "data"]
+                }
+              }
+            },
+            "description": "PBT initialization was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The terminal or account does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Initialize PBT",
+        "parameters": [
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          }
+        ],
+        "tags": ["Terminals"]
+      }
+    },
     "/v1/transactions/bank/{subAccountId}": {
       "get": {
         "description": "You can use this endpoint to fetch credit/debit transactions on a sub account.",
@@ -13260,6 +13991,329 @@
             "example": "xchbaVFsjdsbaADddd"
           }
         }
+      },
+      "UploadVirtualTerminalRequest": {
+        "type": "object",
+        "description": "Request payload for uploading virtual terminals",
+        "properties": {
+          "virtualSerials": {
+            "type": "array",
+            "description": "Array of virtual serial numbers to upload",
+            "items": {
+              "type": "string"
+            },
+            "example": ["VIRTUAL001", "VIRTUAL002", "VIRTUAL003"]
+          }
+        },
+        "required": ["virtualSerials"]
+      },
+      "VirtualTerminal": {
+        "type": "object",
+        "description": "Virtual terminal object",
+        "properties": {
+          "serialNumber": {
+            "type": "string",
+            "description": "Virtual terminal serial number",
+            "example": "VIRTUAL001"
+          },
+          "terminalId": {
+            "type": "string",
+            "description": "Terminal ID assigned to the virtual terminal",
+            "example": "2KUD4VRT"
+          },
+          "accountId": {
+            "type": "string",
+            "description": "Account ID associated with the terminal",
+            "example": "01a10aeb-d989-460a-bbde-9842f2b4320f"
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the virtual terminal",
+            "enum": ["active", "inactive", "pending"],
+            "example": "active"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Creation timestamp",
+            "example": "2023-08-30T14:56:59.000Z"
+          }
+        },
+        "required": ["serialNumber", "terminalId", "accountId", "status", "createdAt"]
+      },
+      "InitializeTerminalResponse": {
+        "type": "object",
+        "description": "Terminal initialization response",
+        "properties": {
+          "terminalId": {
+            "type": "string",
+            "description": "Terminal ID",
+            "example": "2KUD2XFU"
+          },
+          "serialNumber": {
+            "type": "string",
+            "description": "Terminal serial number",
+            "example": "55555555"
+          },
+          "tmk": {
+            "type": "string",
+            "description": "Terminal Master Key",
+            "example": "A1B2C3D4E5F6G7H8"
+          },
+          "time": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Server time for synchronization",
+            "example": "2023-08-30T14:56:59.000Z"
+          },
+          "merchantLocation": {
+            "type": "string",
+            "description": "Merchant location code",
+            "example": "LAGOS001"
+          },
+          "parameters": {
+            "type": "object",
+            "description": "Additional terminal parameters",
+            "additionalProperties": true
+          }
+        },
+        "required": ["terminalId", "serialNumber", "tmk", "time"]
+      },
+      "KeyExchangeResponse": {
+        "type": "object",
+        "description": "Key exchange response",
+        "properties": {
+          "terminalId": {
+            "type": "string",
+            "description": "Terminal ID",
+            "example": "2KUD2XFU"
+          },
+          "tpk": {
+            "type": "string",
+            "description": "Terminal Pin Key",
+            "example": "F1E2D3C4B5A69780"
+          },
+          "keyIndex": {
+            "type": "string",
+            "description": "Key index for the TPK",
+            "example": "01"
+          },
+          "checkValue": {
+            "type": "string",
+            "description": "Key check value",
+            "example": "ABC123"
+          }
+        },
+        "required": ["terminalId", "tpk", "keyIndex"]
+      },
+      "CardTransactionRequest": {
+        "type": "object",
+        "description": "Request payload for card transaction",
+        "properties": {
+          "terminalId": {
+            "type": "string",
+            "description": "Terminal ID",
+            "example": "2KUD2XFU"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Transaction amount in smallest currency unit (kobo)",
+            "example": 1000
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency code",
+            "enum": ["NGN", "USD", "CDF"],
+            "example": "NGN"
+          },
+          "merchantTxRef": {
+            "type": "string",
+            "description": "Merchant transaction reference",
+            "example": "TXN123456789"
+          },
+          "iccData": {
+            "type": "string",
+            "description": "ICC data from the card chip",
+            "example": "9F2608D..."
+          },
+          "track2Data": {
+            "type": "string",
+            "description": "Track 2 data from the card",
+            "example": "4111111111111111=2512..."
+          },
+          "pinBlock": {
+            "type": "string",
+            "description": "Encrypted PIN block",
+            "example": "A1B2C3D4E5F6G7H8"
+          },
+          "transactionType": {
+            "type": "string",
+            "description": "Type of transaction",
+            "enum": ["purchase", "withdrawal", "balance_inquiry"],
+            "example": "purchase"
+          }
+        },
+        "required": ["terminalId", "amount", "currency", "merchantTxRef", "transactionType"]
+      },
+      "CardTransactionResponse": {
+        "type": "object",
+        "description": "Card transaction response",
+        "properties": {
+          "transactionId": {
+            "type": "string",
+            "description": "Unique transaction ID",
+            "example": "TXN-CARD-2023-08-30-001"
+          },
+          "responseCode": {
+            "type": "string",
+            "description": "Transaction response code",
+            "example": "00"
+          },
+          "responseMessage": {
+            "type": "string",
+            "description": "Transaction response message",
+            "example": "Approved"
+          },
+          "rrn": {
+            "type": "string",
+            "description": "Retrieval Reference Number",
+            "example": "240117080003"
+          },
+          "authCode": {
+            "type": "string",
+            "description": "Authorization code",
+            "example": "123456"
+          },
+          "stan": {
+            "type": "string",
+            "description": "System Trace Audit Number",
+            "example": "575780"
+          },
+          "cardPan": {
+            "type": "string",
+            "description": "Masked card PAN",
+            "example": "559441******5882"
+          },
+          "cardScheme": {
+            "type": "string",
+            "description": "Card scheme",
+            "example": "Visa"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Transaction amount",
+            "example": 1000
+          },
+          "currency": {
+            "type": "string",
+            "description": "Transaction currency",
+            "example": "NGN"
+          },
+          "dateTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Transaction timestamp",
+            "example": "2024-01-17T08:00:03.000Z"
+          }
+        },
+        "required": ["transactionId", "responseCode", "responseMessage", "amount", "currency", "dateTime"]
+      },
+      "InitializePBTRequest": {
+        "type": "object",
+        "description": "Request payload for initializing Pay by Transfer",
+        "properties": {
+          "terminalId": {
+            "type": "string",
+            "description": "Terminal ID",
+            "example": "2KUD2XFU"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Transaction amount in smallest currency unit (kobo)",
+            "example": 1000
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency code",
+            "enum": ["NGN", "USD", "CDF"],
+            "example": "NGN"
+          },
+          "merchantTxRef": {
+            "type": "string",
+            "description": "Merchant transaction reference",
+            "example": "PBT123456789"
+          },
+          "customerPhone": {
+            "type": "string",
+            "description": "Customer phone number",
+            "example": "08012345678"
+          },
+          "customerEmail": {
+            "type": "string",
+            "description": "Customer email address",
+            "example": "customer@example.com"
+          },
+          "expiryTime": {
+            "type": "number",
+            "description": "Transaction expiry time in minutes",
+            "example": 15
+          }
+        },
+        "required": ["terminalId", "amount", "currency", "merchantTxRef"]
+      },
+      "InitializePBTResponse": {
+        "type": "object",
+        "description": "PBT initialization response",
+        "properties": {
+          "transactionId": {
+            "type": "string",
+            "description": "Unique transaction ID",
+            "example": "PBT-2023-08-30-001"
+          },
+          "accountNumber": {
+            "type": "string",
+            "description": "Virtual account number for the transfer",
+            "example": "8012345678"
+          },
+          "accountName": {
+            "type": "string",
+            "description": "Account name for the transfer",
+            "example": "NOMBA MERCHANT"
+          },
+          "bankName": {
+            "type": "string",
+            "description": "Bank name for the transfer",
+            "example": "Nomba Microfinance Bank"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Transaction amount",
+            "example": 1000
+          },
+          "currency": {
+            "type": "string",
+            "description": "Transaction currency",
+            "example": "NGN"
+          },
+          "reference": {
+            "type": "string",
+            "description": "Payment reference",
+            "example": "NB-PBT-123456"
+          },
+          "expiryTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Transaction expiry time",
+            "example": "2023-08-30T15:11:59.000Z"
+          },
+          "status": {
+            "type": "string",
+            "description": "Transaction status",
+            "enum": ["pending", "completed", "expired", "failed"],
+            "example": "pending"
+          }
+        },
+        "required": ["transactionId", "accountNumber", "accountName", "bankName", "amount", "currency", "reference", "status"]
       },
       "WalletTransferMetaObject": {
         "type": "object",
