@@ -165,7 +165,9 @@
                 "products/terminals/terminal-actions/balance-check",
                 "products/terminals/terminal-actions/payout-transaction"
               ]
-            } 
+            },
+            "products/terminals/terminal-integration-flow"
+
           ]
         },
         {
@@ -337,7 +339,13 @@
       "pages": [
         "nomba-api-reference/terminals/assign-a-terminal-to-the-parent-account",
         "nomba-api-reference/terminals/un-assign-a-terminal-from-the-parent-account",
-        "nomba-api-reference/terminals/push-payment-request"
+        "nomba-api-reference/terminals/update-terminal-details",
+        "nomba-api-reference/terminals/push-payment-request",
+        "nomba-api-reference/terminals/upload-virtual-terminal",
+        "nomba-api-reference/terminals/initialize-terminal",
+        "nomba-api-reference/terminals/key-exchange",
+        "nomba-api-reference/terminals/card-transaction",
+        "nomba-api-reference/terminals/initialize-pbt"
       ]
     },
     {

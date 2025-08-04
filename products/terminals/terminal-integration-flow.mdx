@@ -1,0 +1,152 @@
+---
+title: Card Payment Flow (Non-Nomba Terminal)
+description: 
+---
+
+This guide walks you through the complete terminal integration flow, from setting up virtual terminals to process payments. The integration enables seamless communication between your backend system and Nomba's physical payment terminals.
+
+## API Reference
+
+<CardGroup cols={2}>
+  <Card
+    title="Upload Virtual Terminal"
+    icon="upload"
+    href="/nomba-api-reference/terminals/upload-virtual-terminal"
+  >
+    Create and configure a virtual terminal instance
+  </Card>
+  <Card
+    title="Initialize Terminal"
+    icon="play"
+    href="/nomba-api-reference/terminals/initialize-terminal"
+  >
+    Initialize a terminal with configuration settings
+  </Card>
+  <Card
+    title="Key Exchange"
+    icon="key"
+    href="/nomba-api-reference/terminals/key-exchange"
+  >
+    Establish secure communication keys
+  </Card>
+  <Card
+    title="Card Transaction"
+    icon="credit-card"
+    href="/nomba-api-reference/terminals/card-transaction"
+  >
+    Process card-based payments
+  </Card>
+  <Card
+    title="Initialize PBT"
+    icon="mobile"
+    href="/nomba-api-reference/terminals/initialize-pbt"
+  >
+    Initialize Pay-by-Transfer transactions
+  </Card>
+</CardGroup>
+
+## Integration Flow Overview
+
+<Frame caption="Terminal Integration Flow - From Setup to Payment Processing">
+    <img src="/images/terminal-flow-diagram.svg" style={{ borderRadius: '0.5rem' }} loading="lazy" />
+</Frame>
+
+## Step-by-Step Integration
+
+### Step 1: Upload Virtual Terminal
+
+Before you can interact with a physical terminal, you need to create a virtual terminal instance in the Nomba system.
+
+**Endpoint:** `POST /v1/terminals/upload-virtual-terminal`
+
+This step registers your terminal configuration and prepares it for initialization. The virtual terminal acts as a bridge between your application and the physical device.
+
+**Key Purpose:**
+- Register terminal metadata
+- Set up initial configuration parameters
+
+<Card title="API Reference" icon="link" href="/nomba-api-reference/terminals/upload-virtual-terminal">
+  View detailed endpoint documentation
+</Card>
+
+### Step 2: Initialize Terminal
+
+Once the virtual terminal is uploaded, you initialize the physical terminal using its serial number.
+
+**Endpoint:** `POST /v1/terminals/{serialNumber}/initialize`
+
+This step establishes the connection between your virtual terminal and the physical device, configuring it with the necessary settings for operation.
+
+**Key Purpose:**
+- Load terminal parameters including terminal keys
+
+**Response:** You'll receive a terminal ID and configuration details that will be used in subsequent API calls.
+
+<Card title="API Reference" icon="link" href="/nomba-api-reference/terminals/initialize-terminal">
+  Initialize Terminal API
+</Card>
+
+### Step 3: Key Exchange
+
+Update terminal keys
+
+**Endpoint:** `POST /v1/terminals/{terminalId}/key-exchange`
+
+This should be done regularly advisably every 24 hours or after a failed card transaction.
+
+**Key Purpose:**
+- Establish encryption keys
+
+<Card title="API Reference" icon="link" href="/nomba-api-reference/terminals/key-exchange">
+  Key Exchange API
+</Card>
+
+### Step 4: Process Transactions
+
+After the terminal is initialized and secured, you can process payments using one of two methods:
+
+#### Option A: Card Transaction
+
+For traditional card-based payments (chip, contactless, magnetic stripe).
+
+**Endpoint:** `POST /v1/terminals/card-transaction`
+
+**Use Cases:**
+- Chip and PIN transactions
+- Contactless payments
+
+<Card title="API Reference" icon="link" href="/nomba-api-reference/terminals/card-transaction">
+  Card transaction API
+</Card>
+
+#### Option B: Pay-by-Transfer (PBT)
+
+For bank transfer-based payments where customers transfer money directly from their bank accounts.
+
+**Endpoint:** `POST /v1/terminals/pbt/initialize`
+
+**Use Cases:**
+- Bank transfer payments
+
+<Card title="API Reference" icon="link" href="/nomba-api-reference/terminals/initialize-pbt">
+  Pay By transfer API
+</Card>
+
+## Related Documentation
+
+<CardGroup cols={2}>
+  <Card
+    title="Terminal Assignment"
+    icon="link"
+    href="/products/terminals/assigning-terminals"
+  >
+    Learn how to assign terminals to accounts
+  </Card>
+  <Card
+    title="Push Payment Requests"
+    icon="arrow-right"
+    href="/products/terminals/push-payment-request"
+  >
+    Trigger payments from your backend
+  </Card>
+</CardGroup>

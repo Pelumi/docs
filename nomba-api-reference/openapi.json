@@ -14073,7 +14073,7 @@
             "minLength": 3,
             "maxLength": 3,
             "description": "Currency code based on the ISO4217 standard",
-            "enum": ["NGN", "USD", "CDF"],
+            "enum": ["NGN", "USD"],
             "example": "NGN"
           }
         },
@@ -14191,16 +14191,26 @@
         "type": "object",
         "description": "Request payload for uploading virtual terminals",
         "properties": {
-          "virtualSerials": {
+          "serialNumbers": {
             "type": "array",
             "description": "Array of virtual serial numbers to upload",
             "items": {
               "type": "string"
             },
             "example": ["VIRTUAL001", "VIRTUAL002", "VIRTUAL003"]
+          },
+          "terminalManufacturer": {
+            "type": "string",
+            "description": "Terminal manufacturer",
+            "example": "NOMBA"
+          },
+          "subAccountId": {
+            "type": "string",
+            "description": "Sub account ID (optional)",
+            "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d"
           }
         },
-        "required": ["virtualSerials"]
+        "required": ["serialNumbers", "terminalManufacturer"]
       },
       "VirtualTerminal": {
         "type": "object",
@@ -14215,203 +14225,189 @@
             "type": "string",
             "description": "Terminal ID assigned to the virtual terminal",
             "example": "2KUD4VRT"
-          },
-          "accountId": {
-            "type": "string",
-            "description": "Account ID associated with the terminal",
-            "example": "01a10aeb-d989-460a-bbde-9842f2b4320f"
-          },
-          "status": {
-            "type": "string",
-            "description": "Status of the virtual terminal",
-            "enum": ["active", "inactive", "pending"],
-            "example": "active"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Creation timestamp",
-            "example": "2023-08-30T14:56:59.000Z"
           }
         },
-        "required": ["serialNumber", "terminalId", "accountId", "status", "createdAt"]
+        "required": ["serialNumber", "terminalId"]
       },
       "InitializeTerminalResponse": {
         "type": "object",
         "description": "Terminal initialization response",
         "properties": {
+          "minAmount": {
+            "type": "string",
+            "description": "Minimum transaction amount",
+            "example": "100"
+          },
+          "ktaBankAccountNumber": {
+            "type": "string",
+            "description": "KTA bank account number",
+            "example": "1234567890"
+          },
+          "maxCashoutAmount": {
+            "type": "string",
+            "description": "Maximum cashout amount",
+            "example": "500000"
+          },
           "terminalId": {
             "type": "string",
             "description": "Terminal ID",
             "example": "2KUD2XFU"
           },
-          "serialNumber": {
+          "ktaBankName": {
             "type": "string",
-            "description": "Terminal serial number",
-            "example": "55555555"
+            "description": "KTA bank name",
+            "example": "Nomba Microfinance Bank"
           },
           "tmk": {
             "type": "string",
             "description": "Terminal Master Key",
             "example": "A1B2C3D4E5F6G7H8"
           },
-          "time": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Server time for synchronization",
-            "example": "2023-08-30T14:56:59.000Z"
-          },
-          "merchantLocation": {
-            "type": "string",
-            "description": "Merchant location code",
-            "example": "LAGOS001"
-          },
-          "parameters": {
-            "type": "object",
-            "description": "Additional terminal parameters",
-            "additionalProperties": true
-          }
-        },
-        "required": ["terminalId", "serialNumber", "tmk", "time"]
-      },
-      "KeyExchangeResponse": {
-        "type": "object",
-        "description": "Key exchange response",
-        "properties": {
-          "terminalId": {
-            "type": "string",
-            "description": "Terminal ID",
-            "example": "2KUD2XFU"
-          },
           "tpk": {
             "type": "string",
             "description": "Terminal Pin Key",
             "example": "F1E2D3C4B5A69780"
           },
-          "keyIndex": {
+          "secondaryUserId": {
             "type": "string",
-            "description": "Key index for the TPK",
-            "example": "01"
+            "description": "Secondary user ID",
+            "example": "user123"
           },
-          "checkValue": {
+          "maxAmount": {
             "type": "string",
-            "description": "Key check value",
-            "example": "ABC123"
+            "description": "Maximum transaction amount",
+            "example": "1000000"
+          },
+          "ktaBankAccountName": {
+            "type": "string",
+            "description": "KTA bank account name",
+            "example": "NOMBA MERCHANT ACCOUNT"
+          },
+          "isPurchaseEnabled": {
+            "type": "string",
+            "description": "Whether purchase is enabled",
+            "example": "true"
+          },
+          "name": {
+            "type": "string",
+            "description": "Terminal name",
+            "example": "Terminal 001"
+          },
+          "mapped": {
+            "type": "string",
+            "description": "Terminal mapping status",
+            "example": "true"
+          },
+          "time": {
+            "type": "string",
+            "description": "Server time for synchronization",
+            "example": "2023-08-30T14:56:59.000Z"
+          },
+          "status": {
+            "type": "string",
+            "description": "Terminal status",
+            "example": "ACTIVE"
           }
         },
-        "required": ["terminalId", "tpk", "keyIndex"]
+        "required": ["terminalId", "tmk", "time"]
+      },
+      "KeyExchangeResponse": {
+        "type": "object",
+        "description": "Key exchange response",
+        "properties": {
+          "terminalPinKey": {
+            "type": "string",
+            "description": "Terminal Pin Key",
+            "example": "F1E2D3C4B5A69780"
+          }
+        },
+        "required": ["terminalPinKey"]
       },
       "CardTransactionRequest": {
         "type": "object",
         "description": "Request payload for card transaction",
         "properties": {
-          "terminalId": {
-            "type": "string",
-            "description": "Terminal ID",
-            "example": "2KUD2XFU"
-          },
           "amount": {
             "type": "number",
-            "description": "Transaction amount in smallest currency unit (kobo)",
-            "example": 1000
+            "description": "Transaction amount in naira",
+            "example": 10.00
           },
-          "currency": {
+          "currencyCode": {
             "type": "string",
             "description": "Currency code",
-            "enum": ["NGN", "USD", "CDF"],
             "example": "NGN"
-          },
-          "merchantTxRef": {
-            "type": "string",
-            "description": "Merchant transaction reference",
-            "example": "TXN123456789"
           },
           "iccData": {
             "type": "string",
             "description": "ICC data from the card chip",
             "example": "9F2608D..."
           },
-          "track2Data": {
+          "terminalId": {
             "type": "string",
-            "description": "Track 2 data from the card",
-            "example": "4111111111111111=2512..."
-          },
-          "pinBlock": {
-            "type": "string",
-            "description": "Encrypted PIN block",
-            "example": "A1B2C3D4E5F6G7H8"
+            "description": "Terminal ID",
+            "example": "2KUD2XFU"
           },
           "transactionType": {
             "type": "string",
             "description": "Type of transaction",
-            "enum": ["purchase", "withdrawal", "balance_inquiry"],
-            "example": "purchase"
+            "enum": ["PURCHASE", "CASHOUT"],
+            "example": "PURCHASE"
+          },
+          "accountType": {
+            "type": "string",
+            "description": "Account type for the transaction",
+            "enum": ["SAVINGS", "CURRENT", "DEFAULT"],
+            "example": "SAVINGS"
           }
         },
-        "required": ["terminalId", "amount", "currency", "merchantTxRef", "transactionType"]
+        "required": ["amount", "currencyCode", "iccData", "terminalId", "transactionType", "accountType"]
       },
       "CardTransactionResponse": {
         "type": "object",
         "description": "Card transaction response",
         "properties": {
-          "transactionId": {
+          "terminalId": {
             "type": "string",
-            "description": "Unique transaction ID",
-            "example": "TXN-CARD-2023-08-30-001"
+            "description": "Terminal ID",
+            "example": "2KUD2XFU"
           },
           "responseCode": {
             "type": "string",
             "description": "Transaction response code",
             "example": "00"
           },
-          "responseMessage": {
+          "stan": {
             "type": "string",
-            "description": "Transaction response message",
-            "example": "Approved"
+            "description": "System Trace Audit Number",
+            "example": "575780"
           },
           "rrn": {
             "type": "string",
             "description": "Retrieval Reference Number",
             "example": "240117080003"
           },
-          "authCode": {
-            "type": "string",
-            "description": "Authorization code",
-            "example": "123456"
+          "amount": {
+            "type": "number",
+            "description": "Transaction amount in naira",
+            "example": 10.00
           },
-          "stan": {
-            "type": "string",
-            "description": "System Trace Audit Number",
-            "example": "575780"
-          },
-          "cardPan": {
+          "maskedCardPan": {
             "type": "string",
             "description": "Masked card PAN",
             "example": "559441******5882"
           },
-          "cardScheme": {
+          "cardExpDate": {
             "type": "string",
-            "description": "Card scheme",
-            "example": "Visa"
+            "description": "Card expiration date",
+            "example": "2512"
           },
-          "amount": {
-            "type": "number",
-            "description": "Transaction amount",
-            "example": 1000
-          },
-          "currency": {
+          "providerTid": {
             "type": "string",
-            "description": "Transaction currency",
-            "example": "NGN"
-          },
-          "dateTime": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Transaction timestamp",
-            "example": "2024-01-17T08:00:03.000Z"
+            "description": "Provider terminal ID",
+            "example": "2KUD2XFU"
           }
         },
-        "required": ["transactionId", "responseCode", "responseMessage", "amount", "currency", "dateTime"]
+        "required": ["terminalId", "responseCode", "stan", "rrn", "amount", "maskedCardPan", "cardExpDate", "providerTid"]
       },
       "InitializePBTRequest": {
         "type": "object",
@@ -14424,91 +14420,38 @@
           },
           "amount": {
             "type": "number",
-            "description": "Transaction amount in smallest currency unit (kobo)",
-            "example": 1000
+            "description": "Transaction amount in naira",
+            "example": 10.00
           },
-          "currency": {
+          "reference": {
             "type": "string",
-            "description": "Currency code",
-            "enum": ["NGN", "USD", "CDF"],
-            "example": "NGN"
-          },
-          "merchantTxRef": {
-            "type": "string",
-            "description": "Merchant transaction reference",
+            "description": "Payment reference",
             "example": "PBT123456789"
-          },
-          "customerPhone": {
-            "type": "string",
-            "description": "Customer phone number",
-            "example": "08012345678"
-          },
-          "customerEmail": {
-            "type": "string",
-            "description": "Customer email address",
-            "example": "customer@example.com"
-          },
-          "expiryTime": {
-            "type": "number",
-            "description": "Transaction expiry time in minutes",
-            "example": 15
           }
         },
-        "required": ["terminalId", "amount", "currency", "merchantTxRef"]
+        "required": ["terminalId", "amount", "reference"]
       },
       "InitializePBTResponse": {
         "type": "object",
         "description": "PBT initialization response",
         "properties": {
-          "transactionId": {
-            "type": "string",
-            "description": "Unique transaction ID",
-            "example": "PBT-2023-08-30-001"
-          },
           "accountNumber": {
             "type": "string",
             "description": "Virtual account number for the transfer",
             "example": "8012345678"
-          },
-          "accountName": {
-            "type": "string",
-            "description": "Account name for the transfer",
-            "example": "NOMBA MERCHANT"
           },
           "bankName": {
             "type": "string",
             "description": "Bank name for the transfer",
             "example": "Nomba Microfinance Bank"
           },
-          "amount": {
-            "type": "number",
-            "description": "Transaction amount",
-            "example": 1000
-          },
-          "currency": {
+          "merchantName": {
             "type": "string",
-            "description": "Transaction currency",
-            "example": "NGN"
-          },
-          "reference": {
-            "type": "string",
-            "description": "Payment reference",
-            "example": "NB-PBT-123456"
-          },
-          "expiryTime": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Transaction expiry time",
-            "example": "2023-08-30T15:11:59.000Z"
-          },
-          "status": {
-            "type": "string",
-            "description": "Transaction status",
-            "enum": ["pending", "completed", "expired", "failed"],
-            "example": "pending"
+            "description": "Merchant name for the transfer",
+            "example": "NOMBA MERCHANT"
           }
         },
-        "required": ["transactionId", "accountNumber", "accountName", "bankName", "amount", "currency", "reference", "status"]
+        "required": ["accountNumber", "bankName", "merchantName"]
       },
       "WalletTransferMetaObject": {
         "type": "object",
