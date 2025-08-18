@@ -97,8 +97,8 @@
           "icon": "building-columns",
           "pages": [
             "products/accounts/introduction",
-            "products/accounts/creating-a-virtual-account",
-            "products/accounts/fetching-account-balance",
+            "products/accounts/fetch-account-balance",
+            "products/accounts/create-a-virtual-account",
             "products/accounts/suspension-and-reactivation",
             "products/accounts/perform-virtual-account-lookup"
           ]
