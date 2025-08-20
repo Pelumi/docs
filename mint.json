@@ -100,7 +100,8 @@
             "products/accounts/fetch-account-balance",
             "products/accounts/create-a-virtual-account",
             "products/accounts/suspension-and-reactivation",
-            "products/accounts/perform-virtual-account-lookup"
+            "products/accounts/perform-virtual-account-lookup",
+            "products/accounts/fetch-parent-account-details"
           ]
         },
         {
