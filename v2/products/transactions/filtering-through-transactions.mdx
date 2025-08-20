@@ -1,0 +1,192 @@
+---
+title: 'Filtering through transactions'
+description: 'Learn how to filter through transactions on an account.'
+---
+
+<CardGroup cols={2}>
+  <Card
+    title="Filter parent account transactions"
+    icon="receipt"
+    href="/nomba-api-reference/transactions/filter-parent-account-transactions"
+  >
+  </Card>
+</CardGroup>
+
+# `POST /v1/transactions/accounts`
+
+#### Query parameters
+
+<ParamField query="limit" type="integer">
+  This endpoint is paginated. `limit` describes the size of the page you are querying.
+</ParamField>
+
+<ParamField query="cursor" type="string">
+  The `cursor` is used to scroll to the next page. When making the first call to list all accounts, there is no need to pass in any cursor since the API has not returned any cursor back to you. Only use cursor when the API provides it. For more information, please see [Pagination](/getting-started/pagination)
+</ParamField>
+
+<ParamField query="dateFrom" type="string">
+  This starting date. Expected format: `yyyy-MM-dd'T'HH:mm:ss` (in `UTC`)
+</ParamField>
+
+<ParamField query="dateTo" type="string">
+  This ending date. Expected format: `yyyy-MM-dd'T'HH:mm:ss` (in `UTC`)
+</ParamField>
+
+#### Request body
+
+<ParamField body="transactionRef" type="string">
+  The transaction ID/Reference.
+</ParamField>
+
+<ParamField body="status" type="string">
+  The transaction status.
+</ParamField>
+
+<ParamField body="source" type="string">
+  The transaction source.
+</ParamField>
+
+<ParamField body="type" type="string">
+  The transaction type.
+</ParamField>
+
+<ParamField body="terminalId" type="string">
+  The terminal ID that carried out the transaction.
+</ParamField>
+
+<ParamField body="rrn" type="string">
+  The RRN (Retrieval Reference Number) of the transaction.
+</ParamField>
+
+<ParamField body="merchantTxRef" type="string">
+  The merchant transaction reference of the transaction.
+</ParamField>
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="data" type="object" required>
+  <Expandable title="object"  defaultOpen="true">
+    <ResponseField name="cursor" type="string">
+      Cursor for pagination. It will be empty if there is no more page to scroll to.
+    </ResponseField>
+    <ResponseField name="results" type="object[]">
+        <Expandable title="object"  defaultOpen="true">
+            <ResponseField name="id" type="string" required>
+                The transaction ID.
+            </ResponseField>
+            <ResponseField name="status" type="string" required>
+                The transaction status.
+            </ResponseField>
+            <ResponseField name="amount" type="number" required>
+                The transaction amount.
+            </ResponseField>
+            <ResponseField name="fixedCharge" type="number">
+                The transaction fixed charge.
+            </ResponseField>
+            <ResponseField name="source" type="string" required>
+                The transaction source.
+            </ResponseField>
+            <ResponseField name="type" type="string" required>
+                The transaction type.
+            </ResponseField>
+            <ResponseField name="gatewayMessage" type="string" required>
+                The gateway message.
+            </ResponseField>
+            <ResponseField name="customerBillerId" type="string">
+                The customer biller ID.
+            </ResponseField>
+            <ResponseField name="timeCreated" type="string" required>
+                The creation timestamp.
+            </ResponseField>
+            <ResponseField name="posTid" type="string">
+                The POS terminal ID.
+            </ResponseField>
+            <ResponseField name="terminalId" type="string">
+                The terminal ID.
+            </ResponseField>
+            <ResponseField name="providerTerminalId" type="string">
+                The provider terminal ID.
+            </ResponseField>
+            <ResponseField name="rrn" type="string">
+                The RRN (Retrieval Reference Number).
+            </ResponseField>
+            <ResponseField name="posSerialNumber" type="string">
+                The POS serial number.
+            </ResponseField>
+            <ResponseField name="posTerminalLabel" type="string">
+                The POS terminal label.
+            </ResponseField>
+            <ResponseField name="stan" type="string">
+                The STAN (System Trace Audit Number).
+            </ResponseField>
+            <ResponseField name="paymentVendorReference" type="string">
+                The Payment vendor reference.
+            </ResponseField>
+            <ResponseField name="userId" type="string">
+                The User ID.
+            </ResponseField>
+            <ResponseField name="posRrn" type="string">
+                The POS RRN (Retrieval Reference Number).
+            </ResponseField>
+            <ResponseField name="merchantTxRef" type="string">
+                The merchant transaction reference.
+            </ResponseField>
+
+        </Expandable>
+    </ResponseField>
+    
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash Request
+curl --request GET \
+  --url https://api.nomba.com/v1/transactions/accounts \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountid>'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success response
+{
+  "code": "00",
+  "description": "Success",
+  "data": {
+    "results": [
+      {
+        "id": "POS-WITHDRAW-DFC05-693cd007-cd1e-4ea6-8b79-5f5c4d7a83ea",
+        "status": "PAYMENT_FAILED",
+        "amount": 4000,
+        "fixedCharge": 123,
+        "source": "pos",
+        "type": "withdrawal",
+        "gatewayMessage": "Insufficient funds",
+        "customerBillerId": "539983 **** **** 5118",
+        "timeCreated": "2023-09-08T19:26:34.657000Z",
+        "posTid": "2KUD4AKB",
+        "terminalId": "2KUD4AKB",
+        "providerTerminalId": "2KUD4AKB",
+        "rrn": "230908202632",
+        "posSerialNumber": "91230309116826",
+        "posTerminalLabel": "KEB MUSA ABUBAKAR",
+        "stan": "556734",
+        "paymentVendorReference": "2KUD4AKB230908202632",
+        "userId": "dfc05ca1-4e75-41dd-8e41-2d362d565893",
+        "posRrn": "230908202632",
+        "merchantTxRef": "c90d-4b25-ad0f"
+      }
+    ],
+    "cursor": "xchbaVFsjdsbaADddd"
+  }
+}
+```
+</ResponseExample>

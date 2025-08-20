@@ -1,0 +1,140 @@
+---
+title: "Creating virtual accounts"
+description: "Learn about creating virtual accounts"
+---
+
+<CardGroup cols={2}>
+  <Card
+    title="Create a virtual account"
+    icon="cart-shopping"
+    href="/nomba-api-reference/virtual-accounts/create-virtual-account"
+  >
+    Accept payments with virtual accounts
+  </Card>
+</CardGroup>
+
+<Note>
+
+When creating a virtual account, you can optionally include `bvn`, `expiryDate` and `expectedAmount` in the request. <br/>
+
+**`bvn`**: If omitted, the virtual account will default to the BVN of the parent account. Only provide this if you want to assign a different BVN to the virtual account.
+  
+**`expectedAmount`**: This is used to restrict the virtual account to only accept a specific amount. If set, **the account will reject any payment that is lower or higher** than the specified amount. Use this carefully when expecting exact payments (e.g., invoice matching or controlled transfers).
+
+**`expiryDate`**: You can set this to anytime in the future. However, if omitted the default time will be set to 5 mins.
+
+</Note>
+
+# `POST /v1/accounts/virtual`
+
+<CodeGroup>
+```bash Request
+curl --request POST \
+  --url https://api.nomba.com/v1/accounts/virtual \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <parent accountId>' \
+  --data '{
+    "accountRef": "1oWbJQQHLyQ************",
+    "accountName": "Daniel Scorsese",
+    "currency": "NGN",
+    "expiryDate": "2024-06-17 04:55:00",
+    "bvn":"12345678901",
+    "expectedAmount": 5000.00,
+  }'
+```
+
+```json Response
+{
+  "code": "00",
+  "description": "Success",
+  "data": {
+    "createdAt": "2024-10-11T14:15:39.376Z",
+    "accountRef": "Archie Friesen",
+    "accountHolderId": "8d19d421-85b1-4b61-be90-168dc261gf45",
+    "accountName": "John Doe",
+    "currency": "NGN",
+    "bankAccountNumber": "9171424569",
+    "bankAccountName": "Ayomide Akinrotoye",
+    "bankName": "Amucha MFB",
+    "bvn": "22122204392",
+    "expiryDate": "2024-10-12T12:30:49",
+    "expired": false
+  }
+}
+```
+</CodeGroup>
+
+#### Request body
+
+<ParamField body="accountRef" type="string" required>
+  Account reference
+</ParamField>
+
+<ParamField body="accountName" type="string" required>
+  Account holder's name
+</ParamField>
+
+<ParamField body="currency" type="string" required>
+  Currency code
+</ParamField>
+
+<ParamField body="expectedAmount" type="number">
+  This is an optional field that is used to set a default value that the account must receive.
+</ParamField>
+
+<ParamField body="bvn" type="string">
+  Account holder Bank Verification Number (BVN).
+</ParamField>
+
+<ParamField body="expiryDate" type="string" optional>
+  Expiry Date (This field allows you to customize the expiry period for this
+  account. The default time however is 5 minutes)
+</ParamField>
+
+<Warning>
+  Be cautious when setting the `expectedAmount`. Once set, the account will **only** accept that exact amount. Payments with any other amount will be rejected.
+</Warning>
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="object" defaultOpen="true">
+    <ResponseField name="createdAt" type="string" required>
+      Creation timestamp.
+    </ResponseField>
+    <ResponseField name="accountHolderId" type="string" required>
+      Account holder ID.
+    </ResponseField>
+    <ResponseField name="accountRef" type="string" required>
+      Account reference.
+    </ResponseField>
+    <ResponseField name="bvn" type="string" required>
+      Bank Verification Number (BVN).
+    </ResponseField>
+    <ResponseField name="accountName" type="string" required>
+      The name associated with the account (may return the parent account name if not a corporate account)
+    </ResponseField>
+    <ResponseField name="bankAccountNumber" type="string" required>
+      The account number
+    </ResponseField>
+     <ResponseField name="bankAccountName" type="string" required>
+      The account name that will reflect when doing name lookup
+    </ResponseField>
+     <ResponseField name="currency" type="string" required>
+      Currency code.
+    </ResponseField>
+    <ResponseField name="expiryDate" type="string" optional>
+      Expiry date of the account created.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+

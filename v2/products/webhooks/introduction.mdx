@@ -1,0 +1,228 @@
+---
+title: "Introduction"
+description: "Learn how to interact with Nomba webhooks"
+---
+
+## Overview
+
+Webhooks serve as a vital conduit for transmitting real-time notifications or events seamlessly from one application to another. We empower users with the ability to receive prompt and automated notifications through a webhook interface. This comprehensive documentation is crafted to guide you through the process of setting up and configuring your system to listen attentively for notifications from Nomba.
+
+By implementing this webhook integration, you can effortlessly direct notifications to any URL of your preference, allowing for a customized and responsive communication channel between Nomba and your application. The following sections will give you the necessary steps and intricacies involved in harnessing the power of webhooks for real-time updates and event-driven interactions, ensuring a seamless integration experience.
+
+<Tip>
+  For example, a workflow may include giving value to your customer when a
+  successful payment has been made from a terminal. A webhook can be set up such
+  that you will receive notification of the payment event on your URL and you
+  can proceed to give value to your customer.
+</Tip>
+
+<Frame caption="Webhooks on your Nomba dashboard">
+  <img
+    src="/images/webhooks-2.png"
+    style={{ borderRadius: "0.5rem" }}
+    loading="lazy"
+  />
+</Frame>
+
+## Getting started
+
+#### Process flow
+
+<Frame caption="Webhooks on your Nomba dashboard">
+  <img
+    src="/images/webhooks-1.png"
+    style={{ borderRadius: "0.5rem" }}
+    loading="lazy"
+  />
+</Frame>
+
+Upon the occurrence of an event within a customer's account, such as a purchase event at a terminal or a transfer event through a web transaction, an HTTP `POST` call is triggered to the customer's webhook url.
+This HTTP `POST` call includes a message payload and is directed to the URL previously specified during the webhook creation. The message payload encompasses essential components, including request headers and JSON content, providing comprehensive details about the event.
+
+<Note>
+  It is good to note that, you must subscribe for the event type you want to get
+  notified on. For example; if you want to get notified on your webhook every
+  time you receive money in your account (across the various channels; pos, web,
+  app, etc.), you must subscribe to the event type `Payment success`
+</Note>
+
+#### Event Types
+
+| Event            | Event type         | Meaning                                                                                                                                |
+| ---------------- | ------------------ | -------------------------------------------------------------------------------------------------------------------------------------- |
+| Payment Success  | `payment_success`  | Event triggered when a payment is successfully credited to the merchant’s nomba account e.g. Card transaction, PayByTransfer, PayByQR. |
+| Payout Success   | `payout_success`   | Event triggered when a payment is successfully debited from the merchant’s account e.g. Funds transfer, Bill payment etc.              |
+| Payment Failed   | `payment_failed`   | Event triggered when a proposed payment failed in flight.                                                                              |
+| Payment Reversal | `payment_reversal` | Event triggered when a payment is reversed from the merchant’s account back to the customer’s account.                                 |
+| Payout Failed    | `payout_failed`    | Event triggered when an attempted payout transaction fails to be processed successfully and is not completed.                          |
+| Payout Refund    | `payout_refund`    | Event triggered when a payment is refunded back to the merchant’s nomba account                                                        |
+
+#### Request body Headers
+
+The payload sent on a webhook notification contains Nomba-specific headers.
+
+| Header                      | Description                                                                                                             |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `nomba-signature`           | A signature created using the signature key configured while creating the webhook on the Nomba dashboard                |
+| `nomba-signature-algorithm` | The algorithm used to generate the signature. Value is always `HmacSHA256`                                              |
+| `nomba-signature-version`   | The version of the signature used. Value is `1.0.0` at the moment. It will keep updating as the signing process updates |
+| `nomba-timestamp`           | An `RFC-3339` timestamp that identifies when the payload was sent.                                                      |
+
+<Tip>
+  The RFC-3339 format specifies that dates should be represented using the year,
+  month, and day, separated by hyphens, followed by a "T" to separate the date
+  from the time, and then the time represented in hours, minutes, and seconds,
+  separated by colons, with an optional fractional second component. Example;
+  2022-01-01T15:45:22Z
+</Tip>
+
+A typical webhook payload will come with the following;
+
+| Header Key                  | Header Value                                   |
+| --------------------------- | ---------------------------------------------- |
+| `nomba-signature`           | `0zzATkAuEta5kpKVCExReupW/XglCk/re51P4jiDJ9c=` |
+| `nomba-sig-value`           | `0zzATkAuEta5kpKVCExReupW/XglCk/re51P4jiDJ9c=` |
+| `nomba-signature-algorithm` | `HmacSHA256`                                   |
+| `nomba-signature-version`   | `1.0.0`                                        |
+| `nomba-timestamp`           | `2023-03-31T05:56:47Z`                         |
+
+<Warning>
+  We recommend configuring the signature key while creating a webhook URL. While
+  this configuration is optional, it is important to configure the keys and
+  verify the signature of the payloads in order to prevent DDoS or
+  Man-in-the-Middle attacks.
+</Warning>
+
+<Tip>
+  HTTP header names are case insensitive. Your client should convert all header
+  names to a standardized lowercase or uppercase format before trying to
+  determine the value of a header.
+</Tip>
+
+#### Request body payload
+
+The content of the payload is a JSON object and it gives details about the event that has been triggered.
+
+```json
+{
+  "event_type": "<event_type>",
+  "requestId": "<request_id>",
+  "data": {...}
+}
+```
+
+| Field        | Type          | Description                                              |
+| ------------ | ------------- | -------------------------------------------------------- |
+| `event_type` | String        | The event type that was triggered                        |
+| `request_id` | String (UUID) | A unique request identifier useful for tracking messages |
+| `data`       | Object (JSON) | An object describing the details of the triggered event  |
+
+```json
+{
+    "event_type": "payment_success",
+    "requestId": "999111df-9f20-4cf8-8740-3d2fc43c7149",
+    "data": {
+        "merchant": {
+            "walletId": "5f04b9ee600f1c00084affa2",
+            "walletBalance": 732233.66,
+            "userId": "000000ab-154e-4a11-a0cf-2249fad063e3"
+        },
+        "terminal": {},
+        "transaction": {
+            "aliasAccountNumber": "0010721887",
+            "fee": 150,
+            "sessionId": "100004240726191726000236980560",
+            "type": "vact_transfer",
+            "transactionId": "API-VACT_TRA-067fg-sdf78ghy-fd7f-4567-b404-3122939dc25f",
+            "aliasAccountName": "Bestbrains-Kunle Oyetunji",
+            "responseCode": "",
+            "originatingFrom": "api",
+            "transactionAmount": 1000,
+            "narration": "Transfer from Kunle Nnaji",
+            "time": "2025-05-26T12:34:24Z",
+            "aliasAccountType": "VIRTUAL"
+        },
+        "customer": {
+            "bankCode": "305",
+            "senderName": "Kunle Nnaji",
+            "bankName": "Paycom (Opay)",
+            "accountNumber": "9035418377"
+        }
+    }
+}
+```
+
+## Data content
+
+| Field         | Type          | Description                                             |
+| ------------- | ------------- | ------------------------------------------------------- |
+| `merchant`    | Object (JSON) | Details of the business.                                |
+| `terminal`    | Object (JSON) | Details of the terminal involved in the payment/payout. |
+| `transaction` | Object (JSON) | Details of the transaction.                             |
+| `customer`    | Object (JSON) | Details of the customer involved.                       |
+
+#### Transaction Object
+
+`data.transaction`
+
+| Field                  | Type                                        | Description                                                                 |
+| ---------------------- | ------------------------------------------- | --------------------------------------------------------------------------- |
+| `transactionId`        | String                                      | The unique identifier for the transaction                                   |
+| `type`                 | String                                      | The type of the transaction (e.g., purchase, transfer, etc.)                |
+| `originatingFrom`      | String                                      | The source of the transaction (e.g., pos, web, app, etc.)                   |
+| `rrn`                  | String                                      | Retrieval reference number of the transaction                               |
+| `transactionAmount`    | Double                                      | The original amount of the transaction                                      |
+| `fee`                  | Double                                      | The fees associated with processing the transaction                         |
+| `time`                 | DateTime                                    | An RFC-3339 timestamp indicating when the transaction was initiated         |
+| `terminalActionId`     | String                                      | Terminal action identifier, linking a terminal action object                |
+| `mcollectionsId`       | String                                      | Merchant collections identifier, linking a merchant collections object      |
+| `merchantTxRef`        | String                                      | Merchant transaction reference, linking an externally initiated transaction |
+| `aliasAccountNumber`   | String                                      | The account number that received the value                                  |
+| `aliasAccountName`     | String                                      | The corresponding name of the recipient account number                      |
+| `aliasAccountType`     | String                                      | The type of the recipient account                                           |
+| `terminalSerialNumber` | String                                      | The serial number of the terminal associated with the recipient account     |
+| `cardBank`             | String                                      | The issuing bank of the card used for carrying out the transaction          |
+| `cardIssuer`           | String                                      | The card scheme of the card used for this transaction                       |
+| `responseCode`         | String                                      | The response code for the transaction                                       |
+| `responseMessage`      | String                                      | The response message for the transaction                                    |
+| `sessionId`            | String                                      | The sessionId attached to this transaction particularly for NIP Transfers   |
+|                        | and can be used for requerying transactions |
+
+#### Terminal Object
+
+`data.terminal`
+
+| Field           | Type   | Description                                                           |
+| --------------- | ------ | --------------------------------------------------------------------- |
+| `terminalId`    | String | The unique identifier for the terminal                                |
+| `terminalLabel` | String | The label or display name configured for the terminal by the business |
+
+#### Merchant Object
+
+`data.merchant`
+
+| Field           | Type   | Description                                                                                                                                                                        |
+| --------------- | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `userId`        | String | A unique identifier attributed to your business                                                                                                                                    |
+| `walletId`      | String | The unique identifier of the account impacted by this event                                                                                                                        |
+| `walletBalance` | Double | The account balance immediately after the impact of this event. Example: If the account balance before a payment is 100.00 and you received 20.0, the walletBalance will be 120.00 |
+
+#### Customer Object
+
+`data.customer`
+
+| Field              | Type   | Description                                                                     |
+| ------------------ | ------ | ------------------------------------------------------------------------------- |
+| `billerId`         | String | Identifier of the payment instrument (e.g., card pan, account number)           |
+| `productId`        | String | Additional identifier complementing billerId (e.g., bank code for card payment) |
+| `bankCode`         | String | Bank code (e.g., "000")                                                         |
+| `cardPan`          | String | Card PAN (if applicable)                                                        |
+| `network`          | String | Card network (if applicable)                                                    |
+| `accountNumber`    | String | Account number (if applicable)                                                  |
+| `bankName`         | String | Bank name of recipient account                                                  |
+| `meterNumber`      | String | Meter number (if applicable)                                                    |
+| `subscriberNumber` | String | Subscriber number (if applicable)                                               |
+| `iucNumber`        | String | IUC number (if applicable)                                                      |
+| `decoderNumber`    | String | Decoder number (if applicable)                                                  |
+| `senderName`       | String | Sender name                                                                     |
+| `recipientName`    | String | Recipient name                                                                  |

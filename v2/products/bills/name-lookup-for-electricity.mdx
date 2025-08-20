@@ -1,0 +1,52 @@
+---
+title: "Get customer information for an electricity payment "
+description: "Describes how to get the information of an electricity vendor's customer"
+---
+
+# `GET /v1/bill/electricity/lookup`
+
+#### Query parameters
+
+<ParamField query="disco" type="string">
+  The code name of the electricity provider as gotten when the list of discos is fetched e.g. phed
+</ParamField>
+
+<ParamField query="customerId" type="string">
+  The unique identifier of the customer on the provider's platform
+</ParamField>
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="data" type="string" required>
+  Data containing customer's name if present
+</ResponseField>
+
+<ResponseField name="message" type="string" required>
+    Response message
+</ResponseField>
+
+<RequestExample>
+```bash Request
+curl --location 'https://api.nomba.com/v1/bill/electricity/lookup' \
+--header 'accountId: <accountId>' \
+--header 'Authorization: <token>'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success response
+{
+    "code": "00",
+    "description": "SUCCESS",
+    "data": "John Doe"
+}
+```
+</ResponseExample>

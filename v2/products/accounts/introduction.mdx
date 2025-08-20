@@ -1,0 +1,81 @@
+---
+title: 'Introduction'
+description: 'Understand everything about accounts in Nomba'
+---
+
+## Overview
+
+Accounts are a great way to create entities under your business. Accounts have several use cases from accepting payments to creating persistent standalone bank accounts for your customers. Accounts are also resources that need permissions to be accessed. As explained in the Authentication documentation, API Keys have Admin access to resources. This means that when you access your accounts via Nomba API, you would have all the Admin privileges across all the accounts. You can create multiple accounts in your business and you can grant or deny access in each account.
+
+When an account is created, the account functions under your business and becomes a part of the business. Whilst this account can operate standalone (i.e. you can independently credit and debit money out of the account), the account is seen as a sub to your primary or parent account.
+
+## Quick Action
+<CardGroup cols={2}>
+  <Card
+    title="Create virtual accounts"
+    icon="cart-shopping"
+    href="/products/accounts/creating-a-virtual-account"
+  >
+    Accept payments with virtual accounts
+  </Card>
+  <Card
+    title="Assign a terminal"
+    icon="link-simple"
+    href="/products/accounts/terminal-assignment"
+  >
+    Assign a terminal to your account
+  </Card>
+</CardGroup>
+
+## What are accounts
+
+Accounts play a pivotal role as operational units within a business. They also act as a pocket of money where funds can sit in. This means that payments from your customers can sit inside of an account. Accounts typically have a bank account number that is linked to them. When you provide this bank account to your customer, and they make a bank transfer from their commercial bank into it, the money will sit inside of the account. This technical documentation is designed to provide software engineers with an in-depth understanding of the intricacies of accounts, including their types, functionalities, and relationships.
+
+<Note>
+All accounts can accept inbound transfers. When the bank account number linked to the account is provided to your customer, they can transfer money into it and you will be credited.
+</Note>
+
+## Types of Accounts
+
+There are two primary types of accounts on the Nomba platform:
+
+#### Parent or Primary Account
+
+Automatically generated upon dashboard signup, the primary account serves as the foundational element of a business on Nomba. It facilitates essential functions, including accepting payments, making transfers, assigning terminals, and configuring auto-settlement.
+
+#### Virtual Account
+
+Created exclusively through the API, virtual accounts serve a unique purpose. While they do not function as standalone repositories of money, virtual accounts efficiently route inbound payments to the primary account. Notably, outbound transfers and terminal assignments are not supported for virtual accounts. Importantly, Virtual Accounts do not require BVNs upon creation, as they do not serve as containers for funds.
+
+## Core Functionalities of Accounts
+
+#### Payment Handling
+Accounts offer comprehensive functionalities, empowering businesses to:
+
+#### Accept Payments
+Serve as repositories for funds received from customers, allowing businesses to seamlessly handle transactions.
+
+#### Make Transfers
+Facilitate both inbound and outbound fund transfers between accounts for efficient financial management.
+
+#### Assign Terminals
+Enable businesses to organize payment processing by assigning terminals as needed.
+
+#### Configure Auto Settlement
+Provide automation options for settling funds into commercial bank accounts, streamlining financial processes.
+
+## Relationship between Accounts
+
+When an account is created, it becomes an integral part of the business structure. Virtual are considered subordinate to the primary account, establishing a hierarchical relationship.
+
+Comprehending the nuanced details of account types, their functionalities, and relationships is vital for software engineers working on applications within the Nomba platform. By leveraging this comprehensive documentation, engineers can design robust solutions aligned with the platform's architecture, ensuring seamless integration with businesses utilizing Nomba services.
+
+The following table shows the features across the different types of accounts
+
+|                                |         Primary Account        |  Virtual Account    |
+| -----------------------------  | ------------------------------ | ------------------- |
+| BVN requirement for creation   |              `Y`               |          `N`        |
+| Inbound transfers              |              `Y`               |          `Y`        |
+| Outbound transfers             |              `Y`               |          `N`        |
+| Terminal assignment            |              `Y`               |          `N`        |
+| Auto-settlement configuration  |              `Y`               |          `N`        |

@@ -122,7 +122,7 @@
                               "group": "Trigger Payment",
                               "pages": [
                                 "v1/products/terminals/custom-apps/trigger-payment/introduction",
-                                "v1/products/term3inals/custom-apps/trigger-payment/trigger-card-payments",
+                                "v1/products/terminals/custom-apps/trigger-payment/trigger-card-payments",
                                 "v1/products/terminals/custom-apps/trigger-payment/trigger-bank-transfer-payments"
                               ]
                             },
@@ -381,13 +381,13 @@
                 {
                   "group": "Introduction",
                   "pages": [
-                    "introduction/welcome-to-nomba",
-                    "introduction/get-api-keys",
+                    "v2/introduction/welcome-to-nomba",
+                    "v2/introduction/get-api-keys",
                     {
                       "group":"Testing",
                       "icon": "money-check",
                       "pages": [
-                        "introduction/testing/test-card"
+                        "v2/introduction/testing/test-card"
                       ]
                     }
                   ]
@@ -399,28 +399,28 @@
                       "group": "Dashboard Setup",
                       "icon": "chart-line",
                       "pages": [
-                        "getting-started/dashboard-setup/introduction",
-                        "getting-started/dashboard-setup/account-setup",
-                        "getting-started/dashboard-setup/acceptable-documents"
+                        "v2/getting-started/dashboard-setup/introduction",
+                        "v2/getting-started/dashboard-setup/account-setup",
+                        "v2/getting-started/dashboard-setup/acceptable-documents"
                       ]
                     },
                     {
                       "group": "Authentication",
                       "icon": "shield-keyhole",
                       "pages": [
-                        "getting-star33ted/authentication/introduction",
-                        "getting-started/authentication/obtaining-access-token",
-                        "getting-started/authentication/refreshing-access-token",
-                        "getting-started/authentication/revoking-access-token"
+                        "v2/getting-star33ted/authentication/introduction",
+                        "v2/getting-started/authentication/obtaining-access-token",
+                        "v2/getting-started/authentication/refreshing-access-token",
+                        "v2/getting-started/authentication/revoking-access-token"
                       ]
                     },
-                    "getting-started/definitions"
+                    "v2/getting-started/definitions"
                   ]
                 },
                 {
                   "group": "Plugins and SDKs",
                   "pages": [
-                    "plugins-and-sdk/overview"
+                    "v2/plugins-and-sdk/overview"
                   ]
                 },
                 {
@@ -430,11 +430,11 @@
                       "group": "Accounts",
                       "icon": "building-columns",
                       "pages": [
-                        "products/accounts/introduction",
-                        "products/accounts/creating-a-virtual-account",
-                        "products/accounts/fetching-account-balance",
-                        "products/accounts/suspension-and-reactivation",
-                        "products/accounts/perform-virtual-account-lookup"
+                        "v2/products/accounts/introduction",
+                        "v2/products/accounts/creating-a-virtual-account",
+                        "v2/products/accounts/fetching-account-balance",
+                        "v2/products/accounts/suspension-and-reactivation",
+                        "v2/products/accounts/perform-virtual-account-lookup"
                       ]
                     },
                     {
@@ -444,16 +444,16 @@
                         {
                           "group": "Checkout",
                           "pages": [
-                            "products/checkout/introduction",
-                            "products/checkout/create-checkout-order",
-                            "products/checkout/charge-tokenized-cards",
-                            "products/checkout/verify-transactions"
+                            "v2/products/checkout/introduction",
+                            "v2/products/checkout/create-checkout-order",
+                            "v2/products/checkout/charge-tokenized-cards",
+                            "v2/products/checkout/verify-transactions"
                           ]
                         },
                         {
                           "group": "Charge",
                           "pages": [
-                            "products/charge/server-to-server"
+                            "v2/products/charge/server-to-server"
                           ]
                         }
                       ]
@@ -462,42 +462,42 @@
                       "group": "Transfers",
                       "icon": "shuffle",
                       "pages": [
-                        "products/transfers/introduction",
-                        "products/transfers/bank-account-lookup",
-                        "products/transfers/fetch-bank-codes-and-names",
-                        "products/transfers/transfer-to-banks",
-                        "products/transfers/transfer-between-accounts"
+                        "v2/products/transfers/introduction",
+                        "v2/products/transfers/bank-account-lookup",
+                        "v2/products/transfers/fetch-bank-codes-and-names",
+                        "v2/products/transfers/transfer-to-banks",
+                        "v2/products/transfers/transfer-between-accounts"
                       ]
                     },
                     {
                       "group": "Terminals",
                       "icon": "mobile-retro",
                       "pages": [
-                        "products/terminals/assigning-terminals",
-                        "products/terminals/unassigning-terminals",
-                        "products/terminals/push-payment-request",
+                        "v2/products/terminals/assigning-terminals",
+                        "v2/products/terminals/unassigning-terminals",
+                        "v2/products/terminals/push-payment-request",
                         {
                           "group": "Custom Apps",
                           "pages": [
-                            "products/terminals/custom-apps/introduction",
+                            "v2/products/terminals/custom-apps/introduction",
                             {
                               "group": "Trigger Payment",
                               "pages": [
-                                "products/terminals/custom-apps/trigger-payment/introduction",
-                                "products/term3inals/custom-apps/trigger-payment/trigger-card-payments",
-                                "products/terminals/custom-apps/trigger-payment/trigger-bank-transfer-payments"
+                                "v2/products/terminals/custom-apps/trigger-payment/introduction",
+                                "v2/products/terminals/custom-apps/trigger-payment/trigger-card-payments",
+                                "v2/products/terminals/custom-apps/trigger-payment/trigger-bank-transfer-payments"
                               ]
                             },
-                            "products/terminals/custom-apps/retrieve-device-info",
-                            "products/terminals/custom-apps/trigger-receipt-printing"
+                            "v2/products/terminals/custom-apps/retrieve-device-info",
+                            "v2/products/terminals/custom-apps/trigger-receipt-printing"
                           ]
                         },
                         {
                           "group": "Terminal actions",
                           "pages": [
-                            "products/terminals/terminal-actions/introduction",
-                            "products/terminals/terminal-actions/balance-check",
-                            "products/terminals/terminal-actions/payout-transaction"
+                            "v2/products/terminals/terminal-actions/introduction",
+                            "v2/products/terminals/terminal-actions/balance-check",
+                            "v2/products/terminals/terminal-actions/payout-transaction"
                           ]
                         }
                       ]
@@ -506,17 +506,17 @@
                       "group": "Webhooks",
                       "icon": "webhook",
                       "pages": [
-                        "products/webhooks/introduction",
-                        "products/webhooks/signature-verification-new",
-                        "products/webhooks/retries-backoff-policy",
+                        "v2/products/webhooks/introduction",
+                        "v2/products/webhooks/signature-verification-new",
+                        "v2/products/webhooks/retries-backoff-policy",
                         {
                           "group": "repush",
                           "pages": [
-                            "products/webhooks/repush/introduction",
-                            "products/webhooks/repush/delivery-log",
-                            "products/webhooks/repush/re-push",
-                            "products/webhooks/repush/bulk-repush",
-                            "products/webhooks/repush/webhook-events"
+                            "v2/products/webhooks/repush/introduction",
+                            "v2/products/webhooks/repush/delivery-log",
+                            "v2/products/webhooks/repush/re-push",
+                            "v2/products/webhooks/repush/bulk-repush",
+                            "v2/products/webhooks/repush/webhook-events"
                           ]
                         }
                       ]
@@ -525,19 +525,19 @@
                       "group": "Transactions",
                       "icon": "receipt",
                       "pages": [
-                        "products/transactions/fetch-account-transactions",
-                        "products/transactions/fetch-bank-transactions",
-                        "products/transactions/transaction-requery",
-                        "products/transactions/fetch-virtual-account-transaction"
+                        "v2/products/transactions/fetch-account-transactions",
+                        "v2/products/transactions/fetch-bank-transactions",
+                        "v2/products/transactions/transaction-requery",
+                        "v2/products/transactions/fetch-virtual-account-transaction"
                       ]
                     },
                     {
                       "group": "Airtime & Data Vending",
                       "icon": "money-bill",
                       "pages": [
-                        "products/airtime-and-data/fetch-data-plans",
-                        "products/airtime-and-data/buy-data-bundle",
-                        "products/airtime-and-data/vend-airtime"
+                        "v2/products/airtime-and-data/fetch-data-plans",
+                        "v2/products/airtime-and-data/buy-data-bundle",
+                        "v2/products/airtime-and-data/vend-airtime"
                       ]
                     },
                     {
@@ -547,25 +547,25 @@
                         {
                           "group": "Cable TV",
                           "pages": [
-                            "products/bills/fetch-cable-tv-plans",
-                            "products/bills/subscribe-to-cable-tv",
-                            "products/bills/name-lookup-for-cabletv"
+                            "v2/products/bills/fetch-cable-tv-plans",
+                            "v2/products/bills/subscribe-to-cable-tv",
+                            "v2/products/bills/name-lookup-for-cabletv"
                           ]
                         },
                         {
                           "group": "Electricity",
                           "pages": [
-                            "products/bills/name-lookup-for-electricity",
-                            "products/bills/fetch-electricity-providers",
-                            "products/bills/pay-for-electricity"
+                            "v2/products/bills/name-lookup-for-electricity",
+                            "v2/products/bills/fetch-electricity-providers",
+                            "v2/products/bills/pay-for-electricity"
                           ]
                         },
                         {
                           "group": "Betting",
                           "pages": [
-                            "products/bills/fetch-betting-providers",
-                            "products/bills/name-lookup-for-betting",
-                            "products/bills/pay-for-betting"
+                            "v2/products/bills/fetch-betting-providers",
+                            "v2/products/bills/name-lookup-for-betting",
+                            "v2/products/bills/pay-for-betting"
                           ]
                         }
                       ]
@@ -575,30 +575,30 @@
                 {
                   "group": "Guides",
                   "pages": [
-                    "support/guides/introduction",
-                    "support/guides/accept-online-payments",
-                    "support/guides/authentication-best-practises",
-                    "support/guides/setting-up-webhooks",
-                    "support/guides/processing-recurring-payments",
-                    "support/guides/shopify-nomba-integration",
-                    "support/guides/nomba-woocommerce-integration"
+                    "v2/support/guides/introduction",
+                    "v2/support/guides/accept-online-payments",
+                    "v2/support/guides/authentication-best-practises",
+                    "v2/support/guides/setting-up-webhooks",
+                    "v2/support/guides/processing-recurring-payments",
+                    "v2/support/guides/shopify-nomba-integration",
+                    "v2/support/guides/nomba-woocommerce-integration"
                   ]
                 },
                 {
                   "group": "API Patterns",
                   "pages": [
-                    "getting-started/pagination",
-                    "getting-started/rate_limit",
-                    "getting-started/idempotency",
-                    "getting-started/environment"
+                    "v2/getting-started/pagination",
+                    "v2/getting-started/rate_limit",
+                    "v2/getting-started/idempotency",
+                    "v2/getting-started/environment"
                   ]
                 },
                 {
                   "group": "Support",
                   "pages": [
-                    "support/security",
-                    "support/reach-out",
-                    "support/faqs"
+                    "v2/support/security",
+                    "v2/support/reach-out",
+                    "v2/support/faqs"
                   ]
                 }
               ]

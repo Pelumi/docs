@@ -1,0 +1,120 @@
+---
+title: 'Retrieve device info'
+description: 'Learn how to retrieve terminal specific details from your custom application'
+---
+
+<Note>
+The aim of this document is to assist you in retrieving device information from your custom application running on the Nomba Android terminal. If you encounter any difficulties with this process, feel free to [reach out for support.](/support/reach-out) 
+</Note>
+
+<Tip>
+Retrieve device info - available since NombaX Application `v1.6.2`
+</Tip>
+
+This following code snippet serves as a foundation for retrieving device information on the Nomba terminal.
+
+<CodeGroup>
+
+```kotlin retrieve_device_info.kt
+import android.app.Activity;
+import android.content.Intent;
+import androidx.activity.result.ActivityResultContracts;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.lifecycle.MutableLiveData;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
+const val TERMINAL_ID = "terminalId"
+const val SERIAL_NO = "serialNo"
+const val DEVICE_INFO_ARGUMENTS = "deviceInfoArguments"
+const val DEVICE_INFO_RESULT = "deviceInfoResult"
+const val DEVICE_INFO_INTENT = "com.nomba.pro.feature.device_setup.ACTION_VIEW"
+
+val resultString = mutableStateOf("")
+var deviceInfoResult = HashMap<String, String>()
+val gson = GsonBuilder()
+    .setObjectToNumberStrategy(ToNumberPolicy.LONG_OR_DOUBLE)
+    .create()
+
+//setup a launcher that would help launch the intent
+var deviceInfoResultLauncher = registerForActivityResult(
+    ActivityResultContracts
+        .StartActivityForResult()
+) { result ->
+    val data: Intent? = result.data
+    if (result.resultCode == Activity.RESULT_OK) {
+        val type = object : TypeToken<HashMap<String, Any>>() {}.type
+        val resultJson = data?.getStringExtra(DEVICE_INFO_RESULT)
+        deviceInfoResult = gson.fromJson(resultJson, type)
+
+        val terminalId = deviceInfoResult[TERMINAL_ID]
+        val serialNo = deviceInfoResult[SERIAL_NO]
+        resultString.value = "Terminal Id: $terminalId Serial No: $serialNo"
+    }
+}
+
+//setup an intent to be triggered
+val intent = Intent(DEVICE_INFO_INTENT)
+
+//pass the terminalId and serialNo as extra data
+intent.putExtra(DEVICE_INFO_ARGUMENTS, "$TERMINAL_ID,$SERIAL_NO")
+
+//launch the intent
+deviceInfoResultLauncher.launch(intent)
+```
+
+```java retrieve_device_info.java
+import android.app.Activity;
+import android.content.Intent;
+import java.lang.reflect.Type;
+import java.util.HashMap;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+
+public static final String TERMINAL_ID = "terminalId";
+public static final String SERIAL_NO = "serialNo";
+public static final String DEVICE_INFO_ARGUMENTS = "deviceInfoArguments";
+public static final String DEVICE_INFO_RESULT = "deviceInfoResult";
+public static final String DEVICE_INFO_INTENT = "com.nomba.pro.feature.device_setup.ACTION_VIEW";
+
+// Assuming you have a mutable state variable similar to mutableStateOf in Java
+private MutableLiveData<String> resultString = new MutableLiveData<>();
+private HashMap<String, String> deviceInfoResult = new HashMap<>();
+private Gson gson = new GsonBuilder()
+        .setObjectToNumberStrategy(ToNumberPolicy.LONG_OR_DOUBLE)
+        .create();
+
+// Setup a launcher that would help launch the intent
+ActivityResultLauncher<Intent> deviceInfoResultLauncher = registerForActivityResult(
+        new ActivityResultContracts.StartActivityForResult(),
+        result -> {
+            Intent data = result.getData();
+            if (result.getResultCode() == Activity.RESULT_OK) {
+                Type type = new TypeToken<HashMap<String, Object>>() {}.getType();
+                String resultJson = data.getStringExtra(DEVICE_INFO_RESULT);
+                deviceInfoResult = gson.fromJson(resultJson, type);
+
+                String terminalId = deviceInfoResult.get(TERMINAL_ID);
+                String serialNo = deviceInfoResult.get(SERIAL_NO);
+                resultString.setValue("Terminal Id: " + terminalId + " Serial No: " + serialNo);
+            }
+        }
+);
+
+// Setup an intent to be triggered
+Intent intent = new Intent(DEVICE_INFO_INTENT);
+
+// Pass the terminalId and serialNo as extra data
+intent.putExtra(DEVICE_INFO_ARGUMENTS, TERMINAL_ID + "," + SERIAL_NO);
+
+// Launch the intent
+deviceInfoResultLauncher.launch(intent);
+```
+</CodeGroup>
+
+Your resultString should look like;
+```
+Terminal Id: 2KUD4AKB Serial No: 1234567890
+```

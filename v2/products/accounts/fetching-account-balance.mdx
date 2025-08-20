@@ -1,0 +1,84 @@
+---
+title: 'Fetching account balance'
+description: 'Learn about fetching account balances'
+---
+
+<CardGroup cols={2}>
+  <Card
+    title="Parent account balance"
+    icon="wallet"
+    href="/nomba-api-reference/accounts/fetch-parent-account-balance"
+  >
+    Fetch the parent's account balance
+  </Card>
+</CardGroup>
+
+### `GET /v1/accounts/balance`
+
+<CodeGroup>
+```bash Request
+curl --request POST \
+  --url https://api.nomba.com/v1/accounts \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountid>' \
+  --data '{
+    "accountRef": "1oWbJQQHLyQqqf1SwxjSpudeA21",
+    "phoneNumber": "2348188667581",
+    "email": "ifeol-subaccount@exmple.com",
+    "bvn": "12234412345",
+    "pin": "1234",
+    "accountName": "Daniel Scorsese",
+    "currency": "NGN",
+    "callbackUrl": "https://webhook.site/98ef100f-5adc-4434-800a-0808h60bd8d7",
+    "expiryDate": "2023-12-06T15:46:43.000Z"
+  }'
+```
+
+```json Response
+{
+  "code": "00",
+  "description": "Success",
+  "data": {
+    "createdAt": "2023-09-04T07:09:06.900Z",
+    "accountId": "fc81b80e-e607-4b86-8591-840925191733",
+    "accountHolderId": "01a10aeb-d989-460a-bbde-9842f2b4320f",
+    "accountRef": "1oWbJQQHLyQqqf1SwxjSpudeA21",
+    "phoneNumber": "2348188667581",
+    "email": "ifeol-subaccount-4@exmple.com",
+    "bvn": "12234412345",
+    "status": "ACTIVE",
+    "type": "virtual",
+    "accountName": "Daniel Scorsese",
+    "currency": "NGN",
+    "callbackUrl": "https://webhook.site/98ef100f-5adc-4434-800a-0808h60bd8d7",
+    "expiryDate": "2023-12-06T15:46:43.000Z"
+  }
+}
+```
+</CodeGroup>
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="object"  defaultOpen="true">
+    <ResponseField name="amount" type="string" required>
+      Account balance.
+    </ResponseField>
+    <ResponseField name="currency" type="string" required>
+      Currency code.
+    </ResponseField>
+    <ResponseField name="timeCreated" type="string" required>
+      Account creation timestamp.
+    </ResponseField>
+    
+  </Expandable>
+</ResponseField>

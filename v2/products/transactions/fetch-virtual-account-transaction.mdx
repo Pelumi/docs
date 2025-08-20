@@ -1,0 +1,226 @@
+---
+title: "Fetch Virtual Account Transactions"
+description: "Retrieve transaction history for a specific virtual account"
+---
+
+
+# `GET /v1/transactions/virtual`
+
+<CodeGroup>
+```bash Request
+curl --request GET \
+--url'https://api.nomba.com/v1/transactions/virtual?virtual_account=8578228675&dateFrom=2025-06-24&dateTo=2025-06-25' \
+--header 'accountId: <your-account-id>' \
+--header 'Authorization: Bearer <your-token>'
+```
+
+```json Success response
+{
+    "code": "00",
+    "description": "SUCCESS",
+    "data": {
+        "cursor": "",
+        "results": [
+            {
+                "id": "API-VACT_TRA-FFCBE-9eb634eb-4dc5-46a9-bb65-7d03d6b88c1c",
+                "status": "SUCCESS",
+                "amount": "100.0",
+                "fixedCharge": "0.5",
+                "source": "api",
+                "type": "vact_transfer",
+                "customerBillerId": "8065219824",
+                "timeCreated": "2025-06-24T11:31:35.017Z",
+                "timeUpdated": "2025-06-24T11:31:35.107Z",
+                "posTid": "",
+                "posSerialNumber": "",
+                "walletCurrency": "NGN",
+                "walletBalance": "457.0",
+                "billingVendorReference": "685a8c973ccb33995cbefc1f",
+                "paymentVendorReference": "038309078367093226893790137012",
+                "userId": "***",
+                "ktaSenderName": "John doe",
+                "ktaSenderAccountNumber": "8068952954",
+                "ktaSenderBankCode": "Paycom (Opay)",
+                "recipientAccountNumber": "8578228675",
+                "recipientAccountType": "VIRTUAL",
+                "senderName": "John Doe",
+                "currency": "NGN",
+                "bankCode": "305",
+                "productId": "305",
+                "isAgentTransaction": true,
+                "isInternational": false,
+                "customerCommission": "0.00",
+                "recipientAccountName": "Clean/Agboola Oyenike",
+                "sessionId": "100004250624113131135397696024",
+                "accountNumber": "8028952054",
+                "bankName": "Paycom (Opay)",
+                "entryType": "CREDIT",
+                "transactionCategory": "Income",
+                "narration": "Transfer from John Doe",
+                "receiptTerminalId": ""
+            }
+        ]
+    },
+    "status": false
+}
+```
+</CodeGroup>
+
+<Note variant="info">
+Use this endpoint to fetch a list of transactions made to a virtual account over a specific date range.
+</Note>
+
+#### Query Parameters
+
+<ParamField query="virtual_account" type="string" required>
+  The virtual account number whose transactions you want to retrieve.
+</ParamField>
+
+<ParamField query="dateFrom" type="string" required>
+  Start date for transaction search (in ISO 8601 format).
+</ParamField>
+
+<ParamField query="dateTo" type="string" required>
+  End date for transaction search (in ISO 8601 format).
+</ParamField>
+
+#### Request Headers
+
+<ParamField header="accountId" type="string" required>
+  Your parent account ID.
+</ParamField>
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token for authentication.
+</ParamField>
+
+#### Response Body
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="object" defaultOpen="true">
+    <ResponseField name="cursor" type="string">
+      Pagination cursor (if available).
+    </ResponseField>
+    <ResponseField name="results" type="array">
+      <Expandable title="Transaction Object" defaultOpen="true">
+        <ResponseField name="id" type="string" required>
+          Unique transaction ID.
+        </ResponseField>
+        <ResponseField name="status" type="string" required>
+          Transaction status (e.g., SUCCESS, FAILED).
+        </ResponseField>
+        <ResponseField name="amount" type="string" required>
+          Transaction amount.
+        </ResponseField>
+        <ResponseField name="fixedCharge" type="string">
+          Flat fee charged for the transaction.
+        </ResponseField>
+        <ResponseField name="source" type="string">
+          Source of the transaction (e.g., api).
+        </ResponseField>
+        <ResponseField name="type" type="string">
+          Transaction type (e.g., vact_transfer).
+        </ResponseField>
+        <ResponseField name="customerBillerId" type="string">
+          Customer biller identifier.
+        </ResponseField>
+        <ResponseField name="timeCreated" type="string">
+          ISO timestamp when the transaction was created.
+        </ResponseField>
+        <ResponseField name="timeUpdated" type="string">
+          ISO timestamp when the transaction was last updated.
+        </ResponseField>
+        <ResponseField name="posTid" type="string">
+          POS terminal ID, if applicable.
+        </ResponseField>
+        <ResponseField name="posSerialNumber" type="string">
+          Serial number of the POS used (if any).
+        </ResponseField>
+        <ResponseField name="walletCurrency" type="string">
+          Currency of the wallet (e.g., NGN).
+        </ResponseField>
+        <ResponseField name="walletBalance" type="string">
+          Wallet balance after the transaction.
+        </ResponseField>
+        <ResponseField name="billingVendorReference" type="string">
+          Reference from billing vendor.
+        </ResponseField>
+        <ResponseField name="paymentVendorReference" type="string">
+          Reference from payment vendor.
+        </ResponseField>
+        <ResponseField name="userId" type="string">
+          ID of the user that initiated the transaction.
+        </ResponseField>
+        <ResponseField name="ktaSenderName" type="string">
+          Full name of the sender (from KTA).
+        </ResponseField>
+        <ResponseField name="ktaSenderAccountNumber" type="string">
+          Sender's account number (from KTA).
+        </ResponseField>
+        <ResponseField name="ktaSenderBankCode" type="string">
+          Sender's bank name or code (from KTA).
+        </ResponseField>
+        <ResponseField name="recipientAccountNumber" type="string">
+          Virtual account number receiving the funds.
+        </ResponseField>
+        <ResponseField name="recipientAccountType" type="string">
+          Type of recipient account (e.g., VIRTUAL).
+        </ResponseField>
+        <ResponseField name="recipientAccountName" type="string">
+          Name on the recipient virtual account.
+        </ResponseField>
+        <ResponseField name="senderName" type="string">
+          Display name of the sender.
+        </ResponseField>
+        <ResponseField name="currency" type="string">
+          Transaction currency (e.g., NGN).
+        </ResponseField>
+        <ResponseField name="bankCode" type="string">
+          Code of the bank involved.
+        </ResponseField>
+        <ResponseField name="bankName" type="string">
+          Bank name used in the transaction.
+        </ResponseField>
+        <ResponseField name="productId" type="string">
+          Product identifier.
+        </ResponseField>
+        <ResponseField name="isAgentTransaction" type="boolean">
+          Whether the transaction was initiated by an agent.
+        </ResponseField>
+        <ResponseField name="isInternational" type="boolean">
+          Whether the transaction was international.
+        </ResponseField>
+        <ResponseField name="customerCommission" type="string">
+          Commission earned by customer, if any.
+        </ResponseField>
+        <ResponseField name="sessionId" type="string">
+          Unique session ID for the transaction.
+        </ResponseField>
+        <ResponseField name="accountNumber" type="string">
+          Sender’s account number.
+        </ResponseField>
+        <ResponseField name="entryType" type="string">
+          CREDIT or DEBIT.
+        </ResponseField>
+        <ResponseField name="transactionCategory" type="string">
+          Transaction category (e.g., Income).
+        </ResponseField>
+        <ResponseField name="narration" type="string">
+          Description or note attached to the transaction.
+        </ResponseField>
+        <ResponseField name="receiptTerminalId" type="string">
+          Receipt terminal ID, if applicable.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
