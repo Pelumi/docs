@@ -1,0 +1,182 @@
+---
+title: 'Get Mandates'
+description: 'Learn how to get all created Mandates using the Nomba API'
+---
+
+<CardGroup cols={2}>
+  <Card
+    title="Get All Mandates"
+    icon="shuffle"
+    href="/nomba-api-reference/direct-debits/get-direct-debit-mandates"
+  >
+  </Card>
+</CardGroup>
+
+# `GET /v1/direct-debits/mandates?page=0&pageSize=20&status=ACTIVE`
+
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="object"  defaultOpen="true">
+    <ResponseField name="items" type="list" required>
+      <Expandable title = "object" defaultOpen="true">
+        <ResponseField name="status" type="string" required>
+        Status
+        </ResponseField>
+
+        <ResponseField name="customerAccountNumber" type="string" required>
+        Customer Account Number
+        </ResponseField>
+
+        <ResponseField name="customerAccountName" type="string" required>
+        Customer Account Name
+        </ResponseField>
+
+        <ResponseField name="bankCode" type="string" required>
+        Bank Code
+        </ResponseField>
+
+        <ResponseField name="amount" type="number" required>
+        Amount
+        </ResponseField>
+
+        <ResponseField name="customerName" type="string" required>
+        Customer Name
+        </ResponseField>
+
+        <ResponseField name="customerAddress" type="string" required>
+        Customer Address
+        </ResponseField>
+
+        <ResponseField name="customerEmail" type="string" required>
+        Customer Email
+        </ResponseField>
+
+        <ResponseField name="customerPhoneNumber" type="string" required>
+        Customer Phone Number
+        </ResponseField>
+
+        <ResponseField name="merchantReference" type="string" required>
+        Merchant Reference
+        </ResponseField>
+
+        <ResponseField name="frequency" type="string" required>
+        Frequency
+        </ResponseField>
+
+        <ResponseField name="startDate" type="array" required>
+        Start Date
+        </ResponseField>
+
+        <ResponseField name="endDate" type="array" required>
+        End Date
+        </ResponseField>
+
+        <ResponseField name="mandateAdviceStatus" type="string" required>
+        Mandate Advice Status
+        </ResponseField>
+
+        <ResponseField name="mandateId" type="string" required>
+        Mandate Id
+        </ResponseField>
+
+      </Expandable>
+    </ResponseField>
+
+    <ResponseField name="page" type="number" required>
+      Page
+    </ResponseField>
+    <ResponseField name="pageSize" type="number" required>
+      Page Size
+    </ResponseField>
+    <ResponseField name="totalItems" type="number" required>
+      Total Items
+    </ResponseField>
+    <ResponseField name="totalPages" type="number" required>
+      Total Pages
+    </ResponseField>
+    <ResponseField name="hasMore" type="boolean" required>
+      Has More
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="message" type="string" required>
+  Message
+</ResponseField>
+
+<ResponseField name="status" type="boolean" required>
+  status
+</ResponseField>
+
+
+<RequestExample>
+```bash Request
+curl --location 'http://api.nomba.com/v1/direct-debits/mandates?page=0&pageSize=20' \
+--header 'Authorization: Bearer [token]' \
+--header 'accountId: <accountId>' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+</RequestExample>
+
+
+<ResponseExample>
+```json Success response
+{
+    "code": "00",
+    "description": "SUCCESS",
+    "data": {
+        "items": [
+          {
+              "status": "SUSPEND",
+              "customerAccountNumber": "085566772",
+              "customerAccountName": "Kolapo Ojo",
+              "bankCode": "057",
+              "amount": 100.0,
+              "customerName": "Kolapo Ojo",
+              "customerAddress": "maryland Ikeja computer village",
+              "customerEmail": "mobolajihabib@gmail.com",
+              "customerPhoneNumber": "08022342232",
+              "merchantReference": "12003074001",
+              "frequency": "VARIABLE",
+              "startDate": [
+                  2025,
+                  8,
+                  13,
+                  15,
+                  30
+              ],
+              "endDate": [
+                  2025,
+                  8,
+                  30,
+                  10,
+                  40
+              ],
+              "mandateAdviceStatus": "ADVICE_NOT_SENT",
+              "mandateId": "c93e1e1b-85f5-461e-8b9b-74ee091d4aa4"
+          }
+
+        ],
+        "page": 0,
+        "pageSize": 20,
+        "totalItems": 4,
+        "totalPages": 1,
+        "hasMore": false
+    },
+    "message": "SUCCESS",
+    "status": true
+}
+```
+</ResponseExample>
+

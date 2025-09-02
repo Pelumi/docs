@@ -1,0 +1,94 @@
+---
+title: 'Debit Mandate'
+description: 'Learn how to debit a mandate using the Nomba API'
+---
+
+<CardGroup cols={2}>
+  <Card
+    title="Debit Mandate"
+    icon="shuffle"
+    href="/nomba-api-reference/direct-debits/debit-mandate"
+  >
+  </Card>
+</CardGroup>
+
+# `POST /v1/direct-debits/debit-mandate`
+
+#### Request body
+
+<ParamField body="mandateId" type="string" required>
+  This is the mandate ID.
+</ParamField>
+
+<ParamField body="amount" type="string" required>
+  The amount to be debited.
+</ParamField>
+
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="object"  defaultOpen="true">
+    <ResponseField name="mandateId" type="string" required>
+      Mandate ID
+    </ResponseField>
+    <ResponseField name="status" type="string" required>
+      Transaction Status
+    </ResponseField>
+    <ResponseField name="amount" type="string" required>
+      Amount
+    </ResponseField>
+    <ResponseField name="message" type="string" required>
+      Transaction Message
+    </ResponseField> 
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="message" type="string" required>
+  Message
+</ResponseField>
+
+<ResponseField name="status" type="boolean" required>
+  status
+</ResponseField>
+
+
+<RequestExample>
+```bash Request
+curl --location 'http://api.nomba.com/v1/direct-debits/debit-mandate' \
+--header 'Authorization: Bearer [token]' \
+--header 'accountId: <accountId>' \
+--header 'Content-Type: application/json' \
+--data '{
+    "mandateId":   "89b0efc0-dde5-49e2-8bde-5523ae081c43"    
+    "amount" : "110"
+}
+```
+</RequestExample>
+
+
+<ResponseExample>
+```json Success response
+{
+    "code": "00",
+    "description": "SUCCESS",
+    "data": {
+        "mandateId": "89b0efc0-dde5-49e2-8bde-5523ae081c43",
+        "status": "SUCCESS",
+        "amount": "110.00",
+        "message": "Approved or completed successfully"
+    },
+    "message": "SUCCESS",
+    "status": true
+}
+```
+</ResponseExample>
+

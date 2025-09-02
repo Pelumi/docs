@@ -1,0 +1,89 @@
+---
+title: 'Check Mandate Status'
+description: 'Learn how to check direct debit mandate status for an account using the Nomba API'
+---
+
+<CardGroup cols={2}>
+  <Card
+    title="Check Direct Debit Mandate Status"
+    icon="shuffle"
+    href="/nomba-api-reference/direct-debits/check-direct-debit-status"
+  >
+  </Card>
+</CardGroup>
+
+# `GET /v1/direct-debits/status?mandateId=<mandateId>`
+
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="object"  defaultOpen="true">
+    <ResponseField name="mandateId" type="string" required>
+      Mandate ID
+    </ResponseField>
+    <ResponseField name="customerAccountName" type="string" required>
+      Customer Account Name
+    </ResponseField>
+    <ResponseField name="customerAccountNumber" type="string" required>
+      Customer Account Number
+    </ResponseField>
+    <ResponseField name="mandateStatus" type="string" required>
+      Mandate Status
+    </ResponseField>
+    <ResponseField name="rejectionReason" type="string" required>
+      Rejection Reason
+    </ResponseField>
+    <ResponseField name="mandateAdviceStatus" type="string" required>
+      Mandate Advice Status
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="message" type="string" required>
+  Message
+</ResponseField>
+
+<ResponseField name="status" type="boolean" required>
+  status
+</ResponseField>
+
+
+<RequestExample>
+```bash Request
+curl --location 'http://api.nomba.com/v1/direct-debits/status?mandateId=<mandateId>' \
+--header 'Authorization: Bearer [token]' \
+--header 'accountId: <accountId>' \
+--header 'Content-Type: application/json' \
+--data ''
+```
+</RequestExample>
+
+
+<ResponseExample>
+```json Success response
+{
+    "code": "00",
+    "description": "SUCCESS",
+    "data": {
+        "customerAccountName": "Habib Muhammad",
+        "mandateId": "e50b7835-502c-4cfe-8828-47657633d7a2",
+        "customerAccountNumber": "8079914423",
+        "mandateStatus": "Active",
+        "rejectionReason": null,
+        "mandateAdviceStatus": "Advice Sent"
+    },
+    "message": "SUCCESS",
+    "status": true
+}
+```
+</ResponseExample>
+
