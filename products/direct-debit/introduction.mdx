@@ -1,0 +1,46 @@
+---
+title: 'Introduction'
+description: 'Understand everything about direct debit in Nomba'
+---
+
+
+## Overview
+
+Direct Debit is a payment method that allows businesses to collect funds directly from their customers' bank accounts with their authorization. This method is particularly useful for recurring payments, such as subscriptions or utility bills, as it provides a convenient and automated way to manage payments. Direct Debit transactions are typically initiated by the business, but they require prior consent from the customer, ensuring that the process is secure and transparent.
+
+
+## Quick Action
+
+<CardGroup cols={2}>
+  <Card
+    title="Create Direct Debit Mandate"
+    icon="shuffle"
+    href="/nomba-api-reference/direct-debits/create-direct-debit"
+  >
+    Learn how to create direct debit mandate for an account using the Nomba API
+  </Card>
+  <Card
+    title="List Direct Debit Mandates"
+    icon="list"
+    href="/nomba-api-reference/direct-debits/list-direct-debit-mandates"
+  >
+    Learn how to list direct debit mandates using the Nomba API
+  </Card>
+</CardGroup>
+
+
+## How Direct Debit Works
+
+1. **Mandate Creation**: The process begins with the creation of a Direct Debit mandate. This is an authorization given by the customer to the business, allowing them to debit their bank account for specified amounts and frequencies. The mandate includes details such as the customer's bank account information, the amount to be debited, start date, end date and the frequency of the debits. In order to authorize the mandate, the customer will transfer an amount (N50) to the NIBSS provided account for validation. This amount should be sent from the customer's account number that is being used for the mandate.
+2. **Mandate Status Verification**: Once the mandate is created, it undergoes a verification process to ensure that the provided bank account details are valid and the customer's bank authorizes the request. This step can take up to 72 hours for some banks to authorize the mandate.
+3. **Payment Collection**: After the mandate is verified and activated, the business can initiate Direct Debit transactions according to the agreed schedule. The specified amounts will be automatically debited from the customer's bank account and credited to the business's account.
+4. **Update Mandate Status**: The status of the mandate can be updated as needed. For instance, if a customer wishes to cancel the mandate, the business can update the mandate status accordingly.
+
+
+## Api Nuances
+
+When implementing Direct Debit using the Nomba API, it's important to consider the following nuances:
+
+1. **Mandate Frequency**: The frequency of the Direct Debit can be set to various intervals such as VARIABLE, WEEKLY, MONTHLY, QUARTERLY, EVERY_TWO_MONTHS, EVERY_THREE_MONTHS, ..., EVERY_TWELVE_MONTHS. This flexibility allows businesses to tailor the payment schedule to their specific needs. When VARIABLE is selected, the amount will be specified at the time of each debit. For other frequencies, the amount specified during mandate creation will be used for each debit.
+2. **Mandate Status**: The status of the mandate is crucial for managing Direct Debit transactions. The possible statuses include ACTIVE, SUSPENDED, and DELETED. Only mandates with an ACTIVE status can be used for debit transactions. If a mandate is SUSPENDED or DELETED, no debits can be initiated until the status is changed back to ACTIVE.
+3. **Mandate Advice Status**: The mandate advice status indicates whether the mandate has been approved by the customer's bank for debit. The possible statuses are ADVICE_NOT_SENT and ADVICE_SENT. It's essential to check the mandate advice status before initiating any debit transactions to ensure that the mandate is valid and active. Only mandates with an ADVICE_SENT status can be used for debit transactions.
