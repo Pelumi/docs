@@ -100,8 +100,7 @@
             "products/accounts/fetch-account-balance",
             "products/accounts/create-a-virtual-account",
             "products/accounts/suspension-and-reactivation",
-            "products/accounts/perform-virtual-account-lookup",
-            "products/accounts/fetch-parent-account-details"
+            "products/accounts/perform-virtual-account-lookup"
           ]
         },
         {
@@ -137,6 +136,18 @@
           ]
         },
         {
+          "group": "Direct Debit",
+          "icon": "shuffle",
+          "pages": [
+            "products/direct-debit/introduction",
+            "products/direct-debit/create-direct-debit",
+            "products/direct-debit/check-direct-debit-status",
+            "products/direct-debit/debit-mandate",
+            "products/direct-debit/update-direct-debit-status",
+            "products/direct-debit/list-direct-debit-mandates"
+          ]
+        },
+        {
           "group": "Terminals",
           "icon": "mobile-retro",
           "pages": [
@@ -166,7 +177,7 @@
                 "products/terminals/terminal-actions/balance-check",
                 "products/terminals/terminal-actions/payout-transaction"
               ]
-            } 
+            }
           ]
         },
         {
@@ -213,7 +224,7 @@
           "pages": [
             {
               "group": "Cable TV",
-              "pages": [    
+              "pages": [
                 "products/bills/fetch-cable-tv-plans",
                 "products/bills/subscribe-to-cable-tv",
                 "products/bills/name-lookup-for-cabletv"
@@ -257,7 +268,7 @@
         "getting-started/pagination",
         "getting-started/rate_limit",
         "getting-started/idempotency",
-        "getting-started/environment"   
+        "getting-started/environment"
       ]
     },
     {
@@ -331,6 +342,16 @@
         "nomba-api-reference/transfers/perform-bank-account-lookup",
         "nomba-api-reference/transfers/perform-bank-account-transfer-from-the-parent-account",
         "nomba-api-reference/transfers/perform-wallet-transfer-from-the-parent-account"
+      ]
+    },
+    {
+      "group": "Direct Debits",
+      "pages": [
+        "nomba-api-reference/direct-debits/create-direct-debit",
+        "nomba-api-reference/direct-debits/check-direct-debit-status",
+        "nomba-api-reference/direct-debits/debit-mandate",
+        "nomba-api-reference/direct-debits/update-direct-debit-status",
+        "nomba-api-reference/direct-debits/list-direct-debit-mandates"
       ]
     },
     {
