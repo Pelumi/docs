@@ -19,32 +19,15 @@
                 {
                   "group": "Introduction",
                   "pages": [
-                    "v2/introduction/welcome-to-nomba",
-                    "v2/introduction/get-api-keys"
+                    "v2/introduction/welcome-to-nomba"
                   ]
                 },
                 {
                   "group": "Getting Started",
                   "pages": [
-                    {
-                      "group": "Dashboard Setup",
-                      "icon": "chart-line",
-                      "pages": [
-                        "v2/getting-started/dashboard-setup/introduction",
-                        "v2/getting-started/dashboard-setup/account-setup",
-                        "v2/getting-started/dashboard-setup/acceptable-documents"
-                      ]
-                    },
-                    {
-                      "group": "Authentication",
-                      "icon": "shield-keyhole",
-                      "pages": [
-                        "v2/getting-star33ted/authentication/introduction",
-                        "v2/getting-started/authentication/obtaining-access-token",
-                        "v2/getting-started/authentication/refreshing-access-token",
-                        "v2/getting-started/authentication/revoking-access-token"
-                      ]
-                    }
+                    "v2/getting-started/get-api-keys",
+                    "v2/getting-started/acceptable-documents",
+                    "v2/getting-started/authentication"
                   ]
                 },
                 {
@@ -318,17 +301,6 @@
               ]
             },
             {
-              "tab": "Changelog",
-              "groups": [
-                {
-                  "group": "Changelog",
-                  "pages": [
-                    "nomba-api-changelog/api/updates"
-                  ]
-                }
-              ]
-            },
-            {
               "tab": "Developer Resources",
               "groups": [
                 {
@@ -349,6 +321,17 @@
                     "/developer-resources/guides/processing-recurring-payments",
                     "/developer-resources/guides/shopify-nomba-integration",
                     "/developer-resources/guides/nomba-woocommerce-integration"
+                  ]
+                }
+              ]
+            },
+            {
+              "tab": "Changelog",
+              "groups": [
+                {
+                  "group": "Changelog",
+                  "pages": [
+                    "nomba-api-changelog/api/updates"
                   ]
                 }
               ]
