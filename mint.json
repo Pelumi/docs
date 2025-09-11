@@ -74,7 +74,7 @@
           "group": "Authentication",
           "icon": "shield-keyhole",
           "pages": [
-            "getting-star33ted/authentication/introduction",
+            "getting-started/authentication/introduction",
             "getting-started/authentication/obtaining-access-token",
             "getting-started/authentication/refreshing-access-token",
             "getting-started/authentication/revoking-access-token"
