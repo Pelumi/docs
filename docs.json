@@ -48,21 +48,13 @@
                       "group": "Accept Payments",
                       "icon": "cart-shopping",
                       "pages": [
-                        {
-                          "group": "Checkout",
-                          "pages": [
-                            "v2/products/checkout/introduction",
-                            "v2/products/checkout/create-checkout-order",
-                            "v2/products/checkout/charge-tokenized-cards",
-                            "v2/products/checkout/verify-transactions"
-                          ]
-                        },
-                        {
-                          "group": "Charge",
-                          "pages": [
-                            "v2/products/charge/server-to-server"
-                          ]
-                        }
+                        "v2/products/checkout/overview",
+                        "v2/products/checkout/create-checkout-order",
+                        "v2/products/checkout/recurring-payments",
+                        "v2/products/checkout/split-payments",
+                        "v2/products/checkout/verify-transactions",
+                        "v2/products/checkout/server-to-server",
+                        "v2/products/checkout/payment-methods"
                       ]
                     },
                     {
