@@ -8,16 +8,49 @@ href="/nomba-api-reference/online-checkout/create-an-online-checkout-order">
   Create an online checkout order to accept payments from your customers
 </Card>
 
-# `POST /v1/checkout/order`
+## Create a checkout order
+
+To create a checkout order, you need to authenticate with Nomba to get your [access token](). If you don't know how to do this, see the getting started section to learn how to obtain API keys and obtain access tokens. Customers can make payments with their Mastercard, Visa or Verve cards; when they do, Nomba sends a payment receipt to the customer email provided when you created the order.
+
+To generate a [checkout order link](/nomba-api-reference/online-checkout/create-an-online-checkout-order), make a `POST` call to `/checkout/order`. The Nomba API responds with a success message containing the checkout link, which your app will display to the customer for them to make payment.
+
+Here are a few things to take note of when creating a checkout order.
+
+- Kindly be aware that the optional boolean value `tokenizedCard` should be included or set to true only if you intend to tokenize your customer's card for the purpose of attempting card payments at a later time.
+
+- Please pass the `accountId` inside the order request object if you wish to generate a checkout link for a subaccount.
+
+- Include the `splitRequest` parameter in the order object if you intend to split your payment.
 
 <Note>
-Kindly be aware that the optional boolean value tokenizedCard should be included or set to true only if you intend to tokenize your customer's card for the purpose of attempting other card payments at a later time.
+  Account ID: if specified in the order object, this is the account where the funds will be deposited. Also, this has to be one of your outlet accounts with Nomba. This will enable you to process checkout transactions for different subaccounts.
 </Note>
 
-<Tip>
-Please pass the `accountId` inside the order request object if you wish to generate a checkout link for a subaccount.
-</Tip>
+You can create a subaccount from the dashboard; follow this guide to learn how to create a subaccount and obtain your subaccount account ID. You will also learn how to follow our settlement cycle to set up auto settlement to external banks via subaccount.
 
+### Required Fields 
+
+Besides these mandatory fields when creating a checkout order, there are various optional fields that can be used for a number of customizations while creating a checkout order; they can be seen in the request body.
+
+<ParamField body="order" type="object" required>
+    Account reference
+    <Expandable title="object"  defaultOpen="true">
+        <ParamField body="callbackUrl" type="string" required>
+            Merchant callback url for redirect after payment
+        </ParamField>
+        <ParamField body="customerEmail" type="string" required>
+            Customer email
+        </ParamField>
+        <ParamField body="amount" type="number" required>
+            The amount to be paid by the customer
+        </ParamField>
+        <ParamField body="currency" type="string" required>
+            The currency of the money to be paid by the customer
+        </ParamField>
+    </Expandable>
+</ParamField>
+
+Follow the request and sample response code shown below to create a checkout order.
 
 <CodeGroup>
   ```bash Request
@@ -28,18 +61,18 @@ Please pass the `accountId` inside the order request object if you wish to gener
       --header 'accountId: <accountid>' \
       --data '{
     "order": {
-        "orderReference": "90e81e8a-bc14-4ebf-89c0-57da752cca58",
+        "orderReference": "90e81e8a-bc14-4ebf-89c0-57**********",
         "customerId": "762878332454",
         "callbackUrl": "https://ip:port/merchant.com/callback",
         "customerEmail": "abcde@gmail.com",
         "amount": "10000.00",
         "currency": "NGN",
-        "accountId": "01a10aeb-d989-460a-bbde-9842f2b4320f",
+        "accountId": "01a10aeb-d989-460a-bbde-9**********",
         "splitRequest": {
           "splitType": "PERCENTAGE",
           "splitList": [
             {
-              "accountId": "01a10aeb-d989-460a-bbde-9842f2b4320f",
+              "accountId": "01a10aeb-d989-460a-bbde-98**********",
               "value": "65.45"
             }
           ]
@@ -55,153 +88,127 @@ Please pass the `accountId` inside the order request object if you wish to gener
       "description": "Success",
       "data": 
       {
-        "checkoutLink": "https://ip:port/checkout/78388899938",
-        "orderReference": "fd3002af-d48b-40a0-adba-0b1c93635bd2"
+        "checkoutLink": "https://ip:port/checkout/78388899***8",
+        "orderReference": "fd3002af-d48b-40a0-adba-0b**********"
       }
     }
 ```
 </CodeGroup>
 
 
-#### Request body
+## Split payment
+The Checkout service allows you to distribute a single payment across multiple accounts. You can define how the order value is shared either as a percentage of the total or as a fixed amount.
 
-<ParamField body="order" type="object" required>
-    Account reference
-    <Expandable title="object"  defaultOpen="true">
-        <ParamField body="orderReference" type="string">
-            Reference of the online checkout order to be created
-        </ParamField>
-        <ParamField body="customerId" type="string">
-            ID of the customer that would be paying for the checkout order
-        </ParamField>
-        <ParamField body="callbackUrl" type="string" required>
-            Merchant callback url for redirect after payment
-        </ParamField>
-        <ParamField body="customerEmail" type="string" required>
-            Customer email
-        </ParamField>
-        <ParamField body="amount" type="number" required>
-            The amount to be paid by the customer
-        </ParamField>
-        <ParamField body="currency" type="string" required>
-            The currency of the money to be paid by the customer
-        </ParamField>
-        <ParamField body="accountId" type="string">
-            Pass the accountId if you are generating this for a subaccount.
-        </ParamField>
-        <ParamField body="splitRequest" type="object">
-            To split payment to multiple accounts
-          <Expandable title="object"  defaultOpen="false">
-              <ParamField body="splitType" type="string">
-                  The Split type. Values are either PERCENTAGE or AMOUNT.
-              </ParamField>
+To enable this feature, include the optional splitRequest parameter when creating the checkout order.
 
-              <ParamField body="splitList" type="list">
-                  Contains list of account numbers and the split value.
-                <Expandable title="list item"  defaultOpen="false">
-                  <ParamField body="accountId" type="string">
-                      The account where funds will be deposited
-                  </ParamField>
-                  <ParamField body="value" type="string">
-                      The value that will be deposited in the account.
-                  </ParamField>
-                </Expandable>
-              </ParamField>
-          </Expandable>
-        </ParamField>
-    </Expandable>
-</ParamField>
+- Use splitType: **"PERCENTAGE"** to specify shares as percentages of the order value.
+- Use splitType: **"AMOUNT"** to specify exact amounts.
 
-<ParamField body="tokenizedCard" type="boolean">
-  Determines if the card used for payment is to be tokenized
-</ParamField>
-
-
-#### Response body
-
-<ResponseField name="code" type="string" required>
-  Response code
-</ResponseField>
-
-<ResponseField name="description" type="string" required>
-  Response description
-</ResponseField>
-
-<ResponseField name="data" type="object">
-  <Expandable title="object"  defaultOpen="true">
-    <ResponseField name="checkoutLink" type="string" required>
-      Payment checkout link.
-    </ResponseField>
-    <ResponseField name="orderReference" type="string" required>
-      Account ID.
-    </ResponseField>
-    
-  </Expandable>
-</ResponseField>
-
-
-## How Nomba Checkout Works
-
-In addition to its core functionality as a payment gateway, Nomba Checkout distinguishes itself by offering a robust API. This API empowers customers to build customized checkout payment links tailored to their specific needs. Businesses can leverage this feature to create a seamless and integrated payment experience for their customers. By utilizing the Nomba Checkout API, businesses gain the flexibility to adapt payment processes to their unique requirements, enhancing efficiency and providing a tailored payment solution for their customer base.
-
-The provided diagram illustrates the sequence of events in a payment processing flow involving your customer, your application, and Nomba. This sequence ensures a secure and streamlined payment processing flow, demonstrating the interactions between the customer, app, and Nomba at various stages.
-
-<Frame caption="Nomba Checkout flow">
-  <img src="/images/checkout-1.png" style={{ borderRadius: '0.5rem' }} loading="lazy" />
-</Frame>
-
-The process begins with authentication, followed by the generation of a checkout link, and concludes with payment acceptance and transaction verification. 
-
-### Authentication
-The process kicks off with your app communicating with Nomba to generate an access token by making a `POST` call to `/auth/token/issue` ([Authentication](/nomba-api-reference/authenticate/obtain-access-token)). Upon successful authentication, the Nomba API will respond with a success message containing the access token.
-
-### Checkout Link Generation
-Your app proceeds to generate a checkout link by making a `POST` call to `/checkout/order` ([Create checkout order](/nomba-api-reference/online-checkout/create-an-online-checkout-order)). The Nomba API responds with a success message containing the checkout link, which your app will display to the customer for them to make payment.
-Besides the mandatory fields when creating a checkout order, the various optional fields allow for a number of customizations while creating a checkout order.
-
-#### Create Checkout Order to Tokenize a card
-For the purpose of recurrent or subscription payment, while creating the order set the optional parameter `tokenizeCard` to true. This will cause the
-checkout service to save the customer's payment details securely and enable you to charge the merchant in the future.
-
-#### Create Checkout Order for a sub/outlet account
-When creating a checkout order, specifying the optional field `accountId` will have the checkout funds paid into whatever account is provided in this field.
-Note this has to be one of your outlet accounts with Nomba. This will enable you process checkout transactions for different sub accounts.
-
-#### Split settlement
-Checkout service allows you to receive payment into multiple accounts you specify. This allows you to specify and amount or percentage of the order value to the settled in specific amounts.
-To enable this feature, pass the optional `splitRequest` parameter when creating the checkout order. This will contain how the order amount will be split (by Percentage of the order Amount, or based on actual amount), and the various accounts where the funds will be split into.
-Set `PERCENTAGE` for percentage split or `AMOUNT` for monetary amount split in the splitType property.
-
-<Note>
-Note that if the transaction fee will be paid by you, the fee will be deducted from your primary account.
+<Note> 
+  If you choose to cover the transaction fee, it will always be deducted from your **primary account**. 
 </Note>
 
+```json
+"splitRequest": {
+  "splitType": "PERCENTAGE",
+  "splitList": [
+    {
+      "accountId": "01a10aeb-d989-460a-bbde-9**********",
+      "value": "65.45"
+    },
+    {
+      "accountId": "02c20beb-a123-460a-bbde-9**********",
+      "value": "34.55"
+    }
+  ]
+}
 
-### Payment Acceptance
-The customer, using the checkout link, initiates the payment process, choosing to pay with a card or bank transfer.
-Nomba sends a webhook notification to your app, signaling the completion of the payment.
+```
 
-<Steps titleSize="p">
-  <Step title="Pay with Card">
-    Customers can make payments with their Mastercard, Visa or Verve cards.
+## Tokenize Card
 
-    <Frame caption="Pay with card">
-      <img src="/images/pay-with-card-1.png" style={{ borderRadius: '0.5rem' }} loading="lazy" />
-    </Frame>
+If you need to support recurring or subscription payments, set the optional parameter `tokenizeCard` to true when creating the order.
+Include and set the `tokenizeCard` field to true.
 
-  </Step>
-  <Step title="Pay with Bank Transfer">
-    Customers can initiate transfer payments to the displayed account number, triggering instant webhook notifications. A success response will also be presented to customers for a seamless experience.
+```json
+"tokenizeCard": true
+```
 
-    <Frame caption="Pay with bank transfer">
-      <img src="/images/pay-with-bank-transfer-1.png" style={{ borderRadius: '0.5rem' }} loading="lazy" />
-    </Frame>
-  </Step>
-</Steps>
+When the payment is successfully completed, Nomba will send a webhook with the event type `payment_success`.
+This webhook includes a `tokenizedCardData` object containing the tokenKey and other card details.
 
-### Transaction Verification:
-Your app processes the webhook notification and proceeds to verify the transaction by making a `POST` call to `/transactions/accounts` ([Filter Transactions](/nomba-api-reference/transactions/filter-account-transactions)) on Nomba, using the transaction reference. The Nomba API responds with a success message containing transaction details.
+You should save the `tokenKey`, as it is required to charge the card for future recurring payments.
 
-### Payment Receipt
-Your app sends a payment receipt to the customer, completing the payment process.
+## Sample Webhook Payload
 
+```json
+{
+  event_type: 'payment_success',
+  requestId: '1ef33774-6d95-411c-b5*************',
+  data: {
+    merchant: {
+      walletId: '1ef33774-6d95-411c-b5*************',
+      walletBalance: 259.47,
+      userId: '1ef33774-6d95-411c-b5*************'
+    },
+    terminal: {},
+    tokenizedCardData: {
+      tokenKey: 'N/A',
+      cardType: 'Visa',
+      tokenExpiryYear: 'N/A',
+      tokenExpiryMonth: 'N/A',
+      cardPan: '4***45**** ****111*'
+    },
+    transaction: {
+      fee: 2.8,
+      type: 'online_checkout',
+      transactionId: 'WEB-ONLINE_C-69923-2e102708-ee34-4a29-b713-a826ca928a********',
+      cardIssuer: 'Visa',
+      responseCode: '',
+      originatingFrom: 'web',
+      merchantTxRef: '18********',
+      transactionAmount: 202.8,
+      time: '2025-09-11T11:50:05Z'
+    },
+    customer: { billerId: '418745**** ****1119', productId: '418***' },
+    order: {
+      amount: 202.8,
+      orderId: '1ef33774-6d95-411c-b5*************',
+      cardType: 'Visa',
+      accountId: '1ef33774-6d95-411c-b5*************',
+      cardLast4Digits: '111*',
+      cardCurrency: 'NGN',
+      customerEmail: 'makurseme@gmail.com',
+      customerId: '7628783*******',
+      isTokenizedCardPayment: 'false',
+      orderReference: '1ef33774-6d95-411c-b5*************',
+      paymentMethod: 'card_payment',
+      callbackUrl: 'https://nomba.com',
+      currency: 'NGN'
+    }
+  }
+}
+
+```
+
+## Verify Transaction
+
+After receiving the webhook notification, always verify the transaction with Nomba before giving value to your customer. This ensures that the event is genuine and the payment was truly successful.
+
+You can verify transactions in two ways:
+
+### Webhook Validation (Recommended)
+
+- Compute the webhook hash sent in the request headers.
+
+- Compare it against your own generated hash to confirm the integrity of the payload.
+
+- Learn how to compute webhook signatures in the [Webhook guide](/v2/api-basics/webhook).
+
+### Verify via API
+
+Check here to learn how to [verify transactions](/v2/products/checkout/verify-transactions). The API responds with the transaction details and status.
+
+<Tip> 
+  While webhooks notify you in real time, it is best practice to **always verify all transactions** with the Nomba API before delivering goods or services. 
+</Tip>
