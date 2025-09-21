@@ -1,0 +1,85 @@
+---
+title: 'Verify Transactions'
+description: 'Learn how to retrieve and filter through your transactions with the Nomba API'
+---
+
+<CardGroup cols={2}>
+  <Card
+    title="Filter Transactions (Parent Account)"
+    icon="layer-group"
+    href="/nomba-api-reference/transactions/filter-parent-account-transactions"
+  >
+    Search and filter through all transactions associated with your parent account.
+  </Card>
+
+  <Card
+    title="Fetch Checkout Transaction"
+    icon="file-invoice-dollar"
+    href="/nomba-api-reference/online-checkout/fetch-checkout-transaction"
+  >
+    Retrieve details of a single transaction using its reference or order ID.
+  </Card>
+</CardGroup>
+
+## Verify a Transaction
+
+The **Verify Transactions** endpoint allows you to confirm the status of a specific transaction by using either the `orderReference` or the `orderId`.  
+This is important for ensuring that payments are successfully completed before providing value to your customers.
+
+---
+
+**`GET /v1/checkout/transaction`**
+
+<CodeGroup>
+  ```bash Request
+    curl --request GET \
+      --url 'https://api.nomba.com/v1/checkout/transaction?idType=ORDER_REFERENCE&id=68da39e0-2ce4-4ea6-9def-5*********' \
+      --header 'Authorization: Bearer <token>' \
+      --header 'accountId: <accountid>'
+  ```
+
+  ```json Response
+    {
+      "code": "00",
+      "description": "Success",
+      "data": {
+        "success": "true",
+        "message": "success",
+        "order": {
+          "orderId": "56e03654-0c32-4d3e-bbd6-a9df22994a12",
+          "orderReference": "90e81e8a-bc14-4ebf-89c0-57da752cca58",
+          "customerId": "762878332454",
+          "accountId": "56e03654-0c32-4d3e-bbd6-a9df22994a12",
+          "callbackUrl": "https://ip:port/merchant.com/callback",
+          "customerEmail": "abcde@gmail.com",
+          "amount": "10000.00",
+          "currency": "NGN"
+        },
+        "transactionDetails": {
+          "transactionDate": "2023-12-06T15:46:43.000Z",
+          "paymentReference": "5844858382134",
+          "paymentVendorReference": "5844858382675493",
+          "tokenizedCardPayment": "true",
+          "statusCode": "Payment approved"
+        },
+        "transferDetails": {
+          "sessionId": "67584432178569543",
+          "beneficiaryAccountName": "Tope Fade",
+          "beneficiaryAccountNumber": "5844858382",
+          "originatorAccountName": "Femi Fash",
+          "originatorAccountNumber": "3409082834",
+          "narration": "Checkout payment",
+          "destinationInstitutionCode": "true",
+          "paymentReference": "44384586756"
+        },
+        "cardDetails": {
+          "cardPan": "515123 **** **** 6667",
+          "cardType": "Verve",
+          "cardCurrency": "NGN",
+          "cardBank": "057"
+        }
+      }
+    }
+  ```
+</CodeGroup>
+

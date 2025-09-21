@@ -1,0 +1,133 @@
+---
+title: "Debug webhooks"
+description: "Learn how to re-push or debug a webhook"
+icon: "bug"
+---
+
+##  Get Webhook deliver log
+
+<CodeGroup>
+```bash Request
+curl --request POST \ 
+--url https://api.nomba.com/v1/webhooks/event-logs \
+--header 'Authorization: Bearer <token> \
+--header 'Content-Type: application/json' \
+--header 'accountId: <accountId>' \
+--data '{
+        "coreUserId": "6703XXXd1-158a-42XX-8f0b-XXXXXXXXX",
+        "limit": 1,
+        "eventType": "payment_success",
+        "startDateTime": "2025-03-03",
+        "endDateTime": "2025-03-12"
+   }'
+```
+```json Success
+{
+    "code": "200",
+    "description": "Webhook events fetched successfully",
+    "data": {
+        "list": [
+            {
+                "webhookUrl": "https://hip-namsj.preme.ngrok-free.app/api/v1/nomba-hook",
+                "eventId": 257,
+                "eventType": "payment_success",
+                "hookRequestId": "ff99274c-58f7-4da4-b20f-XXXXXXXX",
+                "responsePayload": "This URL has no default content configured. <a href=\"https://webhook.site/#!/edit/7604-6372-41ee-8f89-d28b8d21944b\">Change response in Webhook.site</a>.",
+                "responseHttpStatus": 200
+            },
+        ],
+        "pageToken": "MjEyOTY3MThzM2NyM3Q="
+    }
+}
+```
+</CodeGroup>
+
+##  Trigger a repush
+
+<CodeGroup>
+```bash Request
+curl --request POST \ 
+--url https://api.nomba.com/v1/webhooks/re-push \
+--header 'Authorization: Bearer <token> \
+--header 'Content-Type: application/json' \
+--header 'accountId: <accountId>'\
+--data '{
+    "hooksRequestId": "6703XXXd1-158a-42XX-8f0b-XXXXXXXXX"
+  }'
+```
+
+```json Success response
+{
+  "code": "200",
+  "description": "Webhooks message re-pushed successfully"
+}
+```
+</CodeGroup>
+
+## Trigger Bulk Repush
+
+<CodeGroup>
+```bash Request
+curl --request POST \ 
+--url https://api.nomba.com/v1/webhooks/bulk-re-push \
+--header 'Authorization: Bearer <token> \
+--header 'Content-Type: application/json' \
+--header 'accountId: <accountId>' \
+--data '{
+    "hooksRequestIds": [
+      "6703XXXd1-158a-42XX-8f0b-XXXXXXXXX",
+      "703XXXd1-158a-42XX-8f0b-XXXXXXXXX",
+      "8703XXXd1-158a-42XX-8f0b-XXXXXXXXX"
+    ]
+  }'
+```
+
+```json Success response
+{
+    "code": "200",
+    "description": "Webhook events bulk re-pushed successfully"
+}
+```
+</CodeGroup>
+
+## Webhook Event logs
+
+<CodeGroup>
+```bash Request
+curl --request POST \ 
+--url https://api.nomba.com/v1/webhooks/events \
+--header 'Authorization: Bearer <token> \
+--header 'Content-Type: application/json' \
+--header 'accountId: <accountId>'\
+--data '{
+    "coreUserId": "6703XXXd1-158a-42XX-8f0b-XXXXXXXXX",
+    "limit": 20
+  }'
+```
+
+```json Success
+{
+    "code": "200",
+    "description": "Webhook events fetched successfully",
+    "data": {
+        "list": [
+            {
+                "webHookId": 782,
+                "eventURL": "https://hip-guinea-supr.net",
+                "description": "new",
+                "eventType": "order_success",
+                "enabled": true
+            },
+            {
+                "webHookId": 257,
+                "eventURL": "https://hip-guinea-supr.net",
+                "description": "new",
+                "eventType": "payment_success",
+                "enabled": true
+            }
+        ],
+        "pageToken": ""
+    }
+}
+```
+</CodeGroup>

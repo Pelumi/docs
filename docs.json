@@ -34,26 +34,16 @@
                   "group": "Products",
                   "pages": [
                     {
-                      "group": "Accounts",
-                      "icon": "building-columns",
-                      "pages": [
-                        "v2/products/accounts/introduction",
-                        "v2/products/accounts/creating-a-virtual-account",
-                        "v2/products/accounts/fetching-account-balance",
-                        "v2/products/accounts/suspension-and-reactivation",
-                        "v2/products/accounts/perform-virtual-account-lookup"
-                      ]
-                    },
-                    {
                       "group": "Accept Payments",
                       "icon": "cart-shopping",
                       "pages": [
-                        "v2/products/checkout/overview",
-                        "v2/products/checkout/create-checkout-order",
-                        "v2/products/checkout/recurring-payments",
-                        "v2/products/checkout/verify-transactions",
-                        "v2/products/checkout/server-to-server",
-                        "v2/products/checkout/payment-methods"
+                        "v2/products/accept-payment/overview",
+                        "v2/products/accept-payment/create-checkout-order",
+                        "v2/products/accept-payment/recurring-payments",
+                        "v2/products/accept-payment/verify-transactions",
+                        "v2/products/accept-payment/server-to-server",
+                        "v2/products/accept-payment/virtual-account",
+                        "v2/products/accept-payment/payment-methods"
                       ]
                     },
                     {
@@ -156,11 +146,23 @@
                   "pages": [
                     "v2/api-basics/pagination",
                     "v2/api-basics/rate_limit",
-                    "v2/api-basics/idempotency",
                     "v2/api-basics/environment",
                     "v2/api-basics/testing",
                     "v2/api-basics/webhook",
+                    "v2/api-basics/troubleshoot-webhooks",
                     "v2/api-basics/definitions"
+                  ]
+                },
+                {
+                  "group": "Guides",
+                  "pages": [
+                    "/v2/guides/introduction",
+                    "/v2/guides/accept-online-payments",
+                    "/v2/guides/authentication-best-practises",
+                    "/v2/guides/setting-up-webhooks",
+                    "/v2/guides/shopify-nomba-integration",
+                    "/v2/guides/nomba-woocommerce-integration",
+                    "/v2/guides/managing-accounts-with-nomba"
                   ]
                 },
                 {
@@ -300,18 +302,6 @@
                     "/developer-resources/tools/overview",
                     "/developer-resources/tools/plugins-and-sdks/",
                     "/developer-resources/tools/code-samples"
-                  ]
-                },
-                {
-                  "group": "Guides",
-                  "pages": [
-                    "/developer-resources/guides/introduction",
-                    "/developer-resources/guides/accept-online-payments",
-                    "/developer-resources/guides/authentication-best-practises",
-                    "/developer-resources/guides/setting-up-webhooks",
-                    "/developer-resources/guides/processing-recurring-payments",
-                    "/developer-resources/guides/shopify-nomba-integration",
-                    "/developer-resources/guides/nomba-woocommerce-integration"
                   ]
                 }
               ]
@@ -532,13 +522,13 @@
                 {
                   "group": "Guides",
                   "pages": [
-                    "v1/support/guides/introduction",
-                    "v1/support/guides/accept-online-payments",
-                    "v1/support/guides/authentication-best-practises",
-                    "v1/support/guides/setting-up-webhooks",
-                    "v1/support/guides/processing-recurring-payments",
-                    "v1/support/guides/shopify-nomba-integration",
-                    "v1/support/guides/nomba-woocommerce-integration"
+                    "v1/guides/introduction",
+                    "v1/guides/accept-online-payments",
+                    "v1/guides/authentication-best-practises",
+                    "v1/guides/setting-up-webhooks",
+                    "v1/guides/processing-recurring-payments",
+                    "v1/guides/shopify-nomba-integration",
+                    "v1/guides/nomba-woocommerce-integration"
                   ]
                 },
                 {
@@ -701,6 +691,10 @@
   "appearance": {
     "default": "dark",
     "strict": false
+  },
+  "banner": {
+    "content": "🚀 Version 2.0 is now live! See our [changelog](/changelog) for details.",
+    "dismissible": true 
   },
   "navbar": {
     "links": [

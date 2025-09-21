@@ -1,0 +1,80 @@
+---
+title: 'Managing accounts with Nomba'
+description: "Learn everything about accounts with Nomba."
+---
+
+#### Introduction
+
+Accounts in Nomba are like dedicated spaces you can create under your business. They come in handy for different use cases, whether you’re accepting payments or setting up persistent, standalone bank accounts for your customers.
+
+Just like any other resource in Nomba, accounts are protected by permissions. With your API keys (which give admin-level access), you can manage all accounts under your business. That means full control—create accounts, view balances, move money, and more.
+
+When you create an account, it automatically becomes part of your business, but it can also run independently. Think of it as a sub-account: it’s tied to your parent account, but you can still credit or debit it on its own.
+
+## What are accounts
+
+Accounts play a pivotal role as operational units within a business. They also act as a pocket of money where funds can sit in. This means that payments from your customers can sit inside of an account. Accounts typically have a bank account number that is linked to them. When you provide this bank account to your customer, and they make a bank transfer from their commercial bank into it, the money will sit inside of the account. This guide is designed to provide software engineers with an in-depth understanding of the intricacies of accounts, including their types, functionalities, and relationships.
+
+<Note>
+    All accounts can accept inbound transfers. When the bank account number linked to the account is provided to your customer, they can transfer money into it and you will be credited.
+</Note>
+
+## Types of Accounts
+
+There are three primary types of accounts on the Nomba platform:
+
+### Parent or Primary Account
+
+Automatically generated upon dashboard signup, the primary account serves as the foundational element of a business on Nomba. It facilitates essential functions, including accepting payments, making transfers, assigning terminals, and configuring auto-settlement.
+
+### Virtual Account
+
+Created exclusively through the API, virtual accounts serve a unique purpose. While they do not function as standalone repositories of money, virtual accounts efficiently route inbound payments to the primary account. Notably, outbound transfers and terminal assignments are not supported for virtual accounts.
+
+### Sub Account
+
+A sub-account is an account type that is exclusively available on the dashboard; it serves as a pocket of money due to its repository nature of holding funds. When you intend to have a separate account where you can hold or accept some dedicated funds, it's great to consider opening a sub-account. Nomba allows you to create a sub-account that receives USD and NGN inflows all in one place, sitting right on top of your primary account; it can also process settlement to external banks.
+
+## Create a Sub-account
+
+To create a sub account, sign in on the dashboard and navigate to the account section. click on the Open Account button on the top right corner of the account section. you will have the option to select Naira account or Dollar account. When you are done selecting based on your preference you will be presented with a modal to add your account name. follow the on screen guide to complete the process. 
+
+<Note>
+   You can use your sub-account to accept split payment from checkout. To do this, copy your sub-account account ID and pass it on your checkout setup. 
+</Note>
+
+<Frame caption="Sub-account on your Nomba dashboard">
+  <img
+    src="/images/sub-account.png"
+    style={{ borderRadius: "0.5rem" }}
+    loading="lazy"
+  />
+</Frame>
+
+## Core Functionalities of Accounts
+
+- **Payment Handling** Accounts offer comprehensive functionalities, empowering businesses to:
+
+- **Accept Payments** Serve as repositories for funds received from customers, allowing businesses to seamlessly handle transactions.
+
+- **Make Transfers** Facilitate both inbound and outbound fund transfers between accounts for efficient financial management.
+
+- **Assign Terminals** Enable businesses to organize payment processing by assigning terminals as needed.
+
+- **Configure Auto Settlement** Provide automation options for settling funds into commercial bank accounts, streamlining financial processes.
+
+## Relationship between Accounts
+
+When an account is created, it becomes an integral part of the business structure. Virtual accounts are considered subordinate to the primary account, establishing a hierarchical relationship.
+
+Comprehending the nuanced details of account types, their functionalities, and relationships is vital for software engineers working on applications within the Nomba platform. By leveraging this comprehensive documentation, engineers can design robust solutions aligned with the platform's architecture, ensuring seamless integration with businesses utilizing Nomba services.
+
+The following table shows the features across the different types of accounts
+
+|                                |         Primary Account        |  Virtual Account    |        Sub Account       |
+| -----------------------------  | ------------------------------ | ------------------- | ------------------------ |
+| BVN requirement for creation   |              `Y`               |          `N`        |            `N`           |
+| Inbound transfers              |              `Y`               |          `Y`        |            `Y`           |
+| Outbound transfers             |              `Y`               |          `N`        |            `Y`           |  
+| Terminal assignment            |              `Y`               |          `N`        |            `Y`           |
+| Auto-settlement configuration  |              `Y`               |          `N`        |            `Y`           |

@@ -3,10 +3,12 @@ title: 'Create a checkout order'
 description: 'Learn how to create a checkout order to accept payments'
 ---
 
+<CardGroup cols={2}>
 <Card title="Create a checkout order" icon="money-bill"
 href="/nomba-api-reference/online-checkout/create-an-online-checkout-order">
   Create an online checkout order to accept payments from your customers
 </Card>
+</CardGroup>
 
 ## Create a checkout order
 
@@ -95,14 +97,17 @@ Follow the request and sample response code shown below to create a checkout ord
 ```
 </CodeGroup>
 
-
 ## Split payment
 The Checkout service allows you to distribute a single payment across multiple accounts. You can define how the order value is shared either as a percentage of the total or as a fixed amount.
 
-To enable this feature, include the optional splitRequest parameter when creating the checkout order.
+This is useful when you want to receive inflows in a separate account for a product you are collecting payment for. For example, if you are selling a product for ₦1,000 and 10% of the price is your profit, you may want to separate the profit from the original amount. In this case, you can create a sub-account on the Nomba dashboard, pass the sub-account ID, and set the percentage to 10%. This means that every transaction from checkout will automatically deposit ₦100 into the sub-account.
 
-- Use splitType: **"PERCENTAGE"** to specify shares as percentages of the order value.
-- Use splitType: **"AMOUNT"** to specify exact amounts.
+See this [guide](/v2/guides/managing-accounts-with-nomba#create-a-sub-account) to learn how to create a sub-account on Nomba dashboard.
+
+To enable this feature, include the optional `splitRequest` parameter when creating the checkout order.
+
+- Use `splitType`: **"PERCENTAGE"** to specify shares as percentages of the order value.
+- Use `splitType`: **"AMOUNT"** to specify exact amounts.
 
 <Note> 
   If you choose to cover the transaction fee, it will always be deducted from your **primary account**. 
@@ -141,7 +146,7 @@ You should save the `tokenKey`, as it is required to charge the card for future 
 
 ## Sample Webhook Payload
 
-```json
+```bash expandable
 {
   event_type: 'payment_success',
   requestId: '1ef33774-6d95-411c-b5*************',
