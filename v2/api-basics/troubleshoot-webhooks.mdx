@@ -4,15 +4,20 @@ description: "Learn how to re-push or debug a webhook"
 icon: "bug"
 ---
 
-##  Get Webhook deliver log
+## Get Deliver Logs
+Nomba offers a smooth method for tracking down or debugging earlier webhooks that were sent to your system. The URL or event type of webhooks sent within a given timeframe can be obtained by querying the event log API if you wish to verify whether a webhook was actually sent to your system. When a problem occurs and you need to go back and confirm that you have received notifications of all payment events via webhooks, this can be helpful.
+
+To do this, send a `POST`request to this``; this will return a detailed list of events that have been sent to your system.
+
+See a sample request and response data below:
 
 <CodeGroup>
 ```bash Request
 curl --request POST \ 
 --url https://api.nomba.com/v1/webhooks/event-logs \
---header 'Authorization: Bearer <token> \
+--header 'Authorization: Bearer <token>' \
 --header 'Content-Type: application/json' \
---header 'accountId: <accountId>' \
+--header 'accountId: <accountid>' \
 --data '{
         "coreUserId": "6703XXXd1-158a-42XX-8f0b-XXXXXXXXX",
         "limit": 1,
@@ -21,7 +26,7 @@ curl --request POST \
         "endDateTime": "2025-03-12"
    }'
 ```
-```json Success
+```json Response
 {
     "code": "200",
     "description": "Webhook events fetched successfully",
@@ -42,13 +47,19 @@ curl --request POST \
 ```
 </CodeGroup>
 
-##  Trigger a repush
+## Repush
+
+After carefully reviewing the webhook via the event log API, you may want to do a single webhook repush or bulk repush; this will trigger a resend of the event back to your system.
+
+To do a repush, send a `POST` request to `v1/webhooks/re-push`, copy the `hooksRequestId` of the event to repush from the event log list, and pass it as the request payload.
+
+See a sample request and response data below:
 
 <CodeGroup>
 ```bash Request
 curl --request POST \ 
 --url https://api.nomba.com/v1/webhooks/re-push \
---header 'Authorization: Bearer <token> \
+--header 'Authorization: Bearer <token>' \
 --header 'Content-Type: application/json' \
 --header 'accountId: <accountId>'\
 --data '{
@@ -64,13 +75,17 @@ curl --request POST \
 ```
 </CodeGroup>
 
-## Trigger Bulk Repush
+## Bulk Repush
+
+Trigger a bulk webhook repush by passing an array of `hooksRequestIds` selected from your delivery logs. 
+
+See a sample request and response data below:
 
 <CodeGroup>
 ```bash Request
 curl --request POST \ 
 --url https://api.nomba.com/v1/webhooks/bulk-re-push \
---header 'Authorization: Bearer <token> \
+--header 'Authorization: Bearer <token>' \
 --header 'Content-Type: application/json' \
 --header 'accountId: <accountId>' \
 --data '{
@@ -90,13 +105,19 @@ curl --request POST \
 ```
 </CodeGroup>
 
-## Webhook Event logs
+
+
+## Webhook Events
+
+You can also query all events that were sent to your system.
+
+See a sample request and response data below:
 
 <CodeGroup>
 ```bash Request
 curl --request POST \ 
 --url https://api.nomba.com/v1/webhooks/events \
---header 'Authorization: Bearer <token> \
+--header 'Authorization: Bearer <token>' \
 --header 'Content-Type: application/json' \
 --header 'accountId: <accountId>'\
 --data '{
