@@ -94,10 +94,8 @@
                       "group": "Transactions",
                       "icon": "receipt",
                       "pages": [
-                        "v2/products/transactions/fetch-account-transactions",
-                        "v2/products/transactions/fetch-bank-transactions",
-                        "v2/products/transactions/transaction-requery",
-                        "v2/products/transactions/fetch-virtual-account-transaction"
+                        "v2/products/transactions/introduction",
+                        "v2/products/transactions/fetch-transactions"
                       ]
                     },
                     {
