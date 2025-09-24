@@ -19,26 +19,25 @@ description: 'Learn how to fetch transactions associated with an account.'
 </CardGroup>
 
 ## Overview
-You may want to fetch transaction status or list of transactions for reconciliation purposes. Nomba provide different API for retriveing different typpes of transaction e.g debit/credit, virtual account, parent account transactions. Depending on what you need you can explore our fetch transaction API
 
-<Note>
-  The API for fetching related transaction associated with accounts is a paginated endpoint, we advice that you go through our pagination guide to understand how to call paginated endpoints or try live API interaction to see it in action.
+You may need to check the status of a transaction or retrieve a list of transactions for reconciliation purposes.
+
+Nomba provides multiple APIs for fetching different types of transactions—for example, debit/credit, virtual account, or parent account transactions. Depending on your use case, you can explore the relevant fetch transaction endpoint.
+
+<Note> 
+  Transaction APIs are paginated. We recommend reviewing the [pagination guide](/v2/api-basics/pagination) to understand how to work with paginated endpoints or trying out live API interactions to see how it works in practice. 
 </Note>
 
 ## Fetch Account Transactions
 
-To Fetch account transaction within a specific timeframe make a GET 
+To fetch account transactions within a specific timeframe, make a [GET request](/nomba-api-reference/transactions/fetch-transactions-on-the-parent-account) to `/v1/transactions/accounts` or see the sample request and response below:You can pass a query param to specify a timeframe by passing `dateFrom` and `dateTo` as part of the request. You can also set a limit, as it's a paginated endpoint.
 
-<Info>
-  The `cursor` is used to scroll to the next page. When making the first call to list all accounts, there is no need to pass in any cursor since the API has not returned any cursor back to you. Only use cursor when the API provides it. For more information, please see [Pagination](/getting-started/pagination)
-</Info>
-
-# `GET /v1/transactions/accounts`
+To learn how Nomba handles pagination, [check here.](/v2/api-basics/pagination)
 
 <CodeGroup>
 ```bash Request
 curl --request GET \
-  --url https://api.nomba.com/v1/transactions/accounts \
+  --url https://api.nomba.com/v1/transactions/accounts?limit=10&dateFrom=2023-01-01T00%3A00%3A00&dateTo=2025-01-01T00%3A00%3A00'  \
   --header 'Authorization: Bearer <token>' \
   --header 'accountId: <accountId>'
 ```
@@ -80,11 +79,7 @@ curl --request GET \
 
 ## Fetch Bank Transactions
 
-<Tip>
-  Use this resource to fetch credit/debit type transactions associated with accounts.
-</Tip>
-
-# `GET /v1/transactions/bank`
+To fetch debit or credit transactions associated with an account, make a [GET Request](/nomba-api-reference/transactions/fetch-creditdebit-transactions-on-the-parent-account) to `/v1/transactions/bank`.
 
 <CodeGroup>
 ```bash Request
@@ -131,6 +126,10 @@ curl --request GET \
 </CodeGroup>
 
 ## Fetch Virtual Account Transactions
+
+To fetch transactions on a virtual account, make a GET request to `/v1/transactions/virtual`.
+
+Pass the virtual_account query parameter with the account number. You can also filter by `dateFrom` and `dateTo`.
 
 <CodeGroup>
 ```bash Request
@@ -192,11 +191,10 @@ curl --request GET \
 ```
 </CodeGroup>
 
-<Note variant="info">
-Use this endpoint to fetch a list of transactions made to a virtual account over a specific date range.
-</Note>
-
 ## Transaction Requery
+
+Use this endpoint to confirm the status of a transaction using its `sessionId`.
+To obtain a session ID, first filter through virtual account transactions to locate the transaction you want to requery.
 
 <CodeGroup>
 ```bash Request
