@@ -51,12 +51,12 @@
                       "group": "Direct Debit",
                       "icon": "shuffle",
                       "pages": [
-                        "products/direct-debit/introduction",
-                        "products/direct-debit/create-direct-debit",
-                        "products/direct-debit/check-direct-debit-status",
-                        "products/direct-debit/debit-mandate",
-                        "products/direct-debit/update-direct-debit-status",
-                        "products/direct-debit/list-direct-debit-mandates"
+                        "v2/products/direct-debit/introduction",
+                        "v2/products/direct-debit/create-direct-debit",
+                        "v2/products/direct-debit/check-direct-debit-status",
+                        "v2/products/direct-debit/debit-mandate",
+                        "v2/products/direct-debit/update-direct-debit-status",
+                        "v2/products/direct-debit/list-direct-debit-mandates"
                       ]
                     },
                     {
