@@ -1,0 +1,154 @@
+---
+title: 'Create Direct Debit Mandate'
+description: 'Learn how to create direct debit mandate for an account using the Nomba API'
+---
+
+<CardGroup cols={2}>
+  <Card
+    title="Create Direct Debit Mandate"
+    icon="shuffle"
+    href="/nomba-api-reference/direct-debits/create-direct-debit"
+  >
+  </Card>
+</CardGroup>
+
+# `POST /v1/direct-debits`
+
+#### Request body
+
+
+<ParamField body="customerName" type="string" required>
+  The customer's account name.
+</ParamField>
+
+<ParamField body="customerPhoneNumber" type="string" required>
+  The phone of the customer.
+</ParamField>
+
+<ParamField body="customerEmail" type="string" required>
+  The email of the customer.
+</ParamField>
+
+<ParamField body="customerAddress" type="string" required>
+  The address of the customer.
+</ParamField>
+
+<ParamField body="amount" type="number" required >
+  The amount to be used for the mandate.
+</ParamField>
+
+<ParamField body="customerAccountNumber" type="string" required>
+  The customer's account number.
+</ParamField>
+
+<ParamField body="customerAccountName" type="string" required>
+  The customer's account name.
+</ParamField>
+
+<ParamField body="bankCode" type="string" required>
+  The customer account bank code.
+</ParamField>
+
+<ParamField body="merchantReference" type="string" required>
+  Unique reference used to track a transaction from an external process.
+</ParamField>
+
+<ParamField body="frequency" type="string" required>
+  The frequency of the mandate
+</ParamField>
+
+<ParamField body="narration" type="string" required>
+  The narration for this transfer (NB: This will be appended to the normal system generated narration).
+</ParamField>
+
+<ParamField body="startDate" type="date" required>
+  The start date for the mandate to commence. This is a future date to the date of creation.
+</ParamField>
+
+<ParamField body="endDate" type="date" required>
+  The end date for the mandate to stop
+</ParamField>
+
+<ParamField body="startImmediately" type="boolean" required>
+  This is set to allow the mandate to start running immediately
+</ParamField>
+
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="object"  defaultOpen="true">
+    <ResponseField name="mandateId" type="string" required>
+      Mandate ID
+    </ResponseField>
+    <ResponseField name="merchantReference" type="string" required>
+      Merchant Reference
+    </ResponseField>
+    <ResponseField name="customerPhoneNumber" type="string" required>
+      Customer Phone Number
+    </ResponseField>
+    <ResponseField name="description" type="string" required>
+      Description
+    </ResponseField> 
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="message" type="string" required>
+  Message
+</ResponseField>
+
+<ResponseField name="status" type="boolean" required>
+  status
+</ResponseField>
+
+
+<RequestExample>
+```bash Request
+curl --location 'https://api.nomba.com/v1/direct-debits' \
+--header 'Authorization: Bearer [token]' \
+--header 'accountId: <accountId>' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "customerAccountNumber": "2334334532",
+  "bankCode": "101",
+  "customerName": "Kolapo Adeoti",
+  "customerAddress": "maryland Ikeja computer village",
+  "customerAccountName": "Kolapo Adeoti",
+  "frequency": "VARIABLE",
+  "narration": "test e mandate response",
+  "customerPhoneNumber": "08022222222",
+  "merchantReference": "12003074001223212",
+  "startDate": "2025-08-29T15:30",
+  "endDate": "2025-08-30T10:40",
+  "customerEmail": "kolapo@domail.com",
+  "startImmediately": true
+}'
+```
+</RequestExample>
+
+
+<ResponseExample>
+```json Success response
+{
+    "code": "00",
+    "description": "SUCCESS",
+    "data": {
+        "mandateId": "c93e1e1b-85f5-461e-8b9b-74ee091d4aa4",
+        "merchantReference": "12003074001",
+        "customerPhoneNumber": "08079914423",
+        "description": "Welcome to NIBSS e-mandate authentication service, a seamless and convenient authentication experience. Kindly proceed with a token payment of N50.00 into account number 9880218357 with Paystack-Titan Bank. This payment will trigger the  authentication of your mandate. Thank You"
+    },
+    "message": "SUCCESS",
+    "status": true
+}
+```
+</ResponseExample>
+

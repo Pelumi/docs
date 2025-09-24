@@ -40,10 +40,23 @@
                         "v2/products/accept-payment/overview",
                         "v2/products/accept-payment/create-checkout-order",
                         "v2/products/accept-payment/recurring-payments",
+                        "v2/products/accept-payment/direct-debit",
                         "v2/products/accept-payment/verify-transactions",
                         "v2/products/accept-payment/server-to-server",
                         "v2/products/accept-payment/virtual-account",
                         "v2/products/accept-payment/payment-methods"
+                      ]
+                    },
+                    {
+                      "group": "Direct Debit",
+                      "icon": "shuffle",
+                      "pages": [
+                        "products/direct-debit/introduction",
+                        "products/direct-debit/create-direct-debit",
+                        "products/direct-debit/check-direct-debit-status",
+                        "products/direct-debit/debit-mandate",
+                        "products/direct-debit/update-direct-debit-status",
+                        "products/direct-debit/list-direct-debit-mandates"
                       ]
                     },
                     {

@@ -35,6 +35,9 @@
       "name": "Transfers"
     },
     {
+      "name": "Direct Debits"
+    },
+    {
       "name": "Terminals"
     },
     {
@@ -11352,6 +11355,672 @@
         ],
         "tags": ["Betting Vending"]
       }
+    },
+    "/v1/direct-debits/mandates": {
+      "get": {
+        "tags": ["Direct Debits"],
+        "summary": "Get mandates by filters",
+        "parameters": [
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "integer", "example": 0 }
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "integer",
+              "example": 20
+            }
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string", "format": "date" }
+          },
+          {
+            "name": "status",
+            "in": "query",
+            "required": false,
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Page of mandates",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PageResult"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "Resource not available"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ]
+      }
+    },
+    "/v1/direct-debits/update-status": {
+      "put": {
+        "tags": ["Direct Debits"],
+        "summary": "Update mandate status",
+        "description": "Updates the status of a direct debit mandate (e.g., SUSPEND, ACTIVE).",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The vendor account ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateMandateStatusRequest"
+              },
+              "example": {
+                "mandateId": "c93e1e1b-85f5-461e-8b9b-74ee091d4aa4",
+                "status": "SUSPEND"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Mandate status updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UpdateMandateStatusResponse"
+                },
+                "example": {
+                  "code": "00",
+                  "description": "SUCCESS",
+                  "data": {
+                    "mandateId": "c93e1e1b-85f5-461e-8b9b-74ee091d4aa4",
+                    "mandateStatus": "Advise not sent"
+                  },
+                  "message": "SUCCESS",
+                  "status": true
+                }
+              }
+            }
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "Resource not available"
+          }
+        }
+      }
+    },
+    "/v1/direct-debits/debit-mandate": {
+      "post": {
+        "tags": ["Direct Debits"],
+        "summary": "Debit a mandate",
+        "description": "Debits a customer's account using an active mandate.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The vendor account ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DebitMandateRequest"
+              },
+              "example": {
+                "mandateId": "89b0efc0-dde5-49e2-8bde-5523ae081c43",
+                "amount": "110.00"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Mandate debited successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DebitMandateResponse"
+                },
+                "example": {
+                  "code": "00",
+                  "description": "SUCCESS",
+                  "data": {
+                    "mandateId": "89b0efc0-dde5-49e2-8bde-5523ae081c43",
+                    "status": "SUCCESS",
+                    "amount": "110.00",
+                    "message": "Approved or completed successfully"
+                  },
+                  "message": "SUCCESS",
+                  "status": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request payload"
+          },
+          "401": {
+            "description": "Unauthorized - invalid or missing token"
+          }
+        }
+      }
+    },
+    "/v1/direct-debits/status?mandateId={mandateId}": {
+      "get": {
+        "tags": ["Direct Debits"],
+        "summary": "Get Mandate Status",
+        "description": "Fetches the status of a specific mandate by mandateId.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The vendor account ID"
+          },
+          {
+            "name": "mandateId",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the mandate"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Mandate status fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMandateStatusResponse"
+                },
+                "example": {
+                  "code": "00",
+                  "description": "SUCCESS",
+                  "data": {
+                    "customerAccountName": "Kolapo Ojo",
+                    "mandateId": "c93e1e1b-85f5-461e-8b9b-74ee091d4aa4",
+                    "customerAccountNumber": "80793414434",
+                    "mandateStatus": "Active",
+                    "rejectionComment": "Expired e-mandate",
+                    "mandateAdviceStatus": "Advise not sent"
+                  },
+                  "message": "SUCCESS",
+                  "status": true
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid mandateId provided"
+          },
+          "401": {
+            "description": "Unauthorized - invalid or missing token"
+          }
+        }
+      }
+    },
+    "/v1/direct-debits/{mandateId}": {
+      "get": {
+        "tags": ["Direct Debits"],
+        "summary": "Get Mandate by ID",
+        "description": "Fetches full details of a specific direct debit mandate using its mandateId.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The vendor account ID"
+          },
+          {
+            "name": "mandateId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Unique identifier of the mandate"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Mandate details fetched successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GetMandateByIdResponse"
+                },
+                "example": {
+                  "code": "00",
+                  "description": "SUCCESS",
+                  "data": {
+                    "status": "ACTIVE",
+                    "customerAccountNumber": "8033234423",
+                    "customerAccountName": "Kolapo Adeoti",
+                    "bankCode": "057",
+                    "amount": 100.0,
+                    "customerName": "Kolapo Adeoti",
+                    "customerAddress": "maryland Ikeja computer village",
+                    "customerEmail": "kolapoadeoti@gmail.com",
+                    "customerPhoneNumber": "08033234423",
+                    "merchantReference": "120033124001",
+                    "frequency": "VARIABLE",
+                    "startDate": [2025, 8, 13, 15, 30],
+                    "endDate": [2025, 8, 30, 10, 40],
+                    "mandateAdviceStatus": null,
+                    "mandateId": "e50b7835-502c-4cfe-9893-47657633d7a2"
+                  },
+                  "message": "SUCCESS",
+                  "status": true
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "Resource not available"
+          }
+        }
+      }
+    },
+    "/v1/direct-debits": {
+      "post": {
+        "tags": ["Direct Debits"],
+        "summary": "Create a Direct Debit Mandate",
+        "description": "Creates a new direct debit mandate for a customer.",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "accountId",
+            "in": "header",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "The vendor account ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateMandateRequest"
+              },
+              "example": {
+                "customerAccountNumber": "0212343456",
+                "bankCode": "101",
+                "customerName": "Kolapo Ojo",
+                "customerAddress": "maryland Ikeja computer village",
+                "customerAccountName": "Kolapo Ojo",
+                "amount": 100,
+                "frequency": "WEEKLY",
+                "narration": "test e mandate response",
+                "customerPhoneNumber": "08074332234",
+                "merchantReference": "12003074001",
+                "startDate": "2025-08-29T14:58",
+                "endDate": "2025-08-30T10:40",
+                "customerEmail": "kolapo@gmail.com",
+                "startImmediately": true
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Mandate created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CreateMandateResponse"
+                },
+                "example": {
+                  "responseMessage": "Success",
+                  "responseCode": "00",
+                  "data": {
+                    "mandateId": "e50b7835-502c-4cfe-9893-47657633d7a2",
+                    "merchantReference": "12003074001",
+                    "phoneNumber": "08073345562",
+                    "description": "Welcome to NIBSS e-mandate authentication service, a seamless and convenient authentication experience. Kindly proceed with a token payment of N50.00 into account number 9880218357 with Paystack-Titan Bank. This payment will trigger the authentication of your mandate. Thank You"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "Resource not available"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -14293,6 +14962,386 @@
           }
         },
         "required": ["amount", "timeCreated", "type", "status", "meta", "id"]
+      },
+      "PageResult": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "items": { "$ref": "#/components/schemas/DirectDebitMandateData"
+              },
+              "page": { "type": "integer" },
+              "pageSize": { "type": "integer" },
+              "totalItems": { "type": "integer" },
+              "totalPages": { "type": "integer" },
+              "hasMore": { "type": "boolean" }
+            }
+          },
+          "message": { "type": "string" },
+          "code": { "type": "string" },
+          "description": { "type": "string" },
+          "status": { "type": "boolean" }
+        }
+      },
+      "DirectDebitMandateData": {
+        "type": "object",
+        "properties": {
+          "status": { "type": "string" },
+          "customerAccountNumber": { "type": "string" },
+          "customerAccountName": { "type": "string" },
+          "bankCode": { "type": "string" },
+          "amount": { "type": "number" },
+          "customerName": { "type": "string" },
+          "customerAddress": { "type": "string" },
+          "customerEmail": { "type": "string" },
+          "customerPhoneNumber": { "type": "string" },
+          "merchantReference": { "type": "string" },
+          "frequency": { "type": "string" },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "mandateAdviceStatus": { "type": "string" },
+          "mandateId": { "type": "string" }
+        }
+      },
+      "UpdateMandateStatusRequest": {
+        "type": "object",
+        "properties": {
+          "mandateId": {
+            "type": "string",
+            "description": "Unique identifier of the mandate"
+          },
+          "status": {
+            "type": "string",
+            "enum": ["SUSPEND", "ACTIVE", "DELETE"],
+            "description": "New status of the mandate"
+          }
+        },
+        "required": ["mandateId", "status"]
+      },
+      "UpdateMandateStatusResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "00"
+          },
+          "description": {
+            "type": "string",
+            "example": "SUCCESS"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "mandateId": {
+                "type": "string",
+                "example": "c93e1e1b-85f5-461e-8b9b-74ee091d4aa4"
+              },
+              "mandateStatus": {
+                "type": "string",
+                "example": "Advise not sent"
+              }
+            }
+          },
+          "message": {
+            "type": "string",
+            "example": "SUCCESS"
+          },
+          "status": {
+            "type": "boolean",
+            "example": true
+          }
+        },
+        "required": ["code", "description", "data", "message", "status"]
+      },
+      "DebitMandateRequest": {
+        "type": "object",
+        "properties": {
+          "mandateId": {
+            "type": "string",
+            "description": "Unique identifier of the mandate to debit"
+          },
+          "amount": {
+            "type": "string",
+            "description": "Amount to be debited"
+          }
+        },
+        "required": ["mandateId", "amount"]
+      },
+      "DebitMandateResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "00"
+          },
+          "description": {
+            "type": "string",
+            "example": "SUCCESS"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "mandateId": {
+                "type": "string",
+                "example": "89b0efc0-dde5-49e2-8bde-5523ae081c43"
+              },
+              "status": {
+                "type": "string",
+                "example": "SUCCESS"
+              },
+              "amount": {
+                "type": "string",
+                "example": "110.00"
+              },
+              "message": {
+                "type": "string",
+                "example": "Approved or completed successfully"
+              }
+            }
+          },
+          "message": {
+            "type": "string",
+            "example": "SUCCESS"
+          },
+          "status": {
+            "type": "boolean",
+            "example": true
+          }
+        },
+        "required": ["code", "description", "data", "message", "status"]
+      },
+      "GetMandateStatusResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "00"
+          },
+          "description": {
+            "type": "string",
+            "example": "SUCCESS"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "customerAccountName": {
+                "type": "string",
+                "example": "Kolapo Ojo"
+              },
+              "mandateId": {
+                "type": "string",
+                "example": "c93e1e1b-85f5-461e-8b9b-74ee091d4aa4"
+              },
+              "customerAccountNumber": {
+                "type": "string",
+                "example": "0134914434"
+              },
+              "mandateStatus": {
+                "type": "string",
+                "example": "Active"
+              },
+              "rejectionComment": {
+                "type": "string",
+                "example": "Expired e-mandate"
+              },
+              "mandateAdviceStatus": {
+                "type": "string",
+                "example": "Advise not sent"
+              }
+            },
+            "required": [
+              "customerAccountName",
+              "mandateId",
+              "customerAccountNumber",
+              "mandateStatus"
+            ]
+          },
+          "message": {
+            "type": "string",
+            "example": "SUCCESS"
+          },
+          "status": {
+            "type": "boolean",
+            "example": true
+          }
+        },
+        "required": ["code", "description", "data", "message", "status"]
+      },
+      "GetMandateByIdResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "example": "00"
+          },
+          "description": {
+            "type": "string",
+            "example": "SUCCESS"
+          },
+          "data": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "string",
+                "example": "ACTIVE"
+              },
+              "customerAccountNumber": {
+                "type": "string",
+                "example": "014453434"
+              },
+              "customerAccountName": {
+                "type": "string",
+                "example": "Kolapo Ojo"
+              },
+              "bankCode": {
+                "type": "string",
+                "example": "057"
+              },
+              "amount": {
+                "type": "number",
+                "format": "double",
+                "example": 100.0
+              },
+              "customerName": {
+                "type": "string",
+                "example": "Kolapo Ojo"
+              },
+              "customerAddress": {
+                "type": "string",
+                "example": "maryland Ikeja computer village"
+              },
+              "customerEmail": {
+                "type": "string",
+                "example": "kolapo@gmail.com"
+              },
+              "customerPhoneNumber": {
+                "type": "string",
+                "example": "080456414423"
+              },
+              "merchantReference": {
+                "type": "string",
+                "example": "12003074001"
+              },
+              "frequency": {
+                "type": "string",
+                "example": "VARIABLE"
+              },
+              "startDate": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "example": [2025, 8, 13, 15, 30]
+              },
+              "endDate": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                },
+                "example": [2025, 8, 30, 10, 40]
+              },
+              "mandateAdviceStatus": {
+                "type": "string",
+                "example": null
+              },
+              "mandateId": {
+                "type": "string",
+                "example": "e50b7835-502c-4cfe-8828-47657633d7a2"
+              }
+            },
+            "required": [
+              "status",
+              "customerAccountNumber",
+              "customerAccountName",
+              "bankCode",
+              "amount",
+              "customerName",
+              "merchantReference",
+              "frequency",
+              "startDate",
+              "endDate",
+              "mandateId"
+            ]
+          },
+          "message": {
+            "type": "string",
+            "example": "SUCCESS"
+          },
+          "status": {
+            "type": "boolean",
+            "example": true
+          }
+        },
+        "required": ["code", "description", "data", "message", "status"]
+      },
+      "CreateMandateRequest": {
+        "type": "object",
+        "properties": {
+          "customerAccountNumber": { "type": "string", "example": "0174534423" },
+          "bankCode": { "type": "string", "example": "101" },
+          "customerName": { "type": "string", "example": "Kolapo Ojo" },
+          "customerAddress": { "type": "string", "example": "maryland Ikeja computer village" },
+          "customerAccountName": { "type": "string", "example": "Kolapo Ojo" },
+          "amount": { "type": "number", "format": "double", "example": 100 },
+          "frequency": { "type": "string",
+            "enum" : ["VARIABLE", "WEEKLY", "EVERY_TWO_WEEKS", "MONTHLY", "EVERY_TWO_MONTHS",
+              "EVERY_THREE_MONTHS",
+              "EVERY_FOUR_MONTHS",
+              "EVERY_FIVE_MONTHS",
+              "EVERY_SIX_MONTHS",
+              "EVERY_SEVEN_MONTHS",
+              "EVERY_EIGHT_MONTHS",
+              "EVERY_NINE_MONTHS",
+              "EVERY_TEN_MONTHS",
+              "EVERY_ELEVEN_MONTHS",
+              "EVERY_TWELVE_MONTHS"],
+            "example": "WEEKLY"
+          },
+          "narration": { "type": "string", "example": "test e mandate response" },
+          "customerPhoneNumber": { "type": "string", "example": "0807882343" },
+          "merchantReference": { "type": "string", "example": "12003074001" },
+          "startDate": { "type": "string", "format": "date-time", "example": "2025-08-29T14:58" },
+          "endDate": { "type": "string", "format": "date-time", "example": "2025-08-30T10:40" },
+          "customerEmail": { "type": "string", "example": "kolapo@gmail.com" },
+          "startImmediately": { "type": "boolean", "example": true }
+        },
+        "required": [
+          "customerAccountNumber",
+          "bankCode",
+          "customerName",
+          "customerAccountName",
+          "amount",
+          "frequency",
+          "merchantReference",
+          "startDate",
+          "endDate",
+          "customerEmail"
+        ]
+      },
+      "CreateMandateResponse": {
+        "type": "object",
+        "properties": {
+          "responseMessage": { "type": "string", "example": "Success" },
+          "responseCode": { "type": "string", "example": "00" },
+          "data": {
+            "type": "object",
+            "properties": {
+              "mandateId": { "type": "string", "example": "e50b7835-502c-4cfe-9893-47657633d7a2" },
+              "merchantReference": { "type": "string", "example": "12003074001" },
+              "phoneNumber": { "type": "string", "example": "08073345562" },
+              "description": { "type": "string", "example": "Welcome to NIBSS e-mandate authentication service, a seamless and convenient authentication experience. Kindly proceed with a token payment of N50.00..." }
+            },
+            "required": ["mandateId", "merchantReference", "phoneNumber", "description"]
+          }
+        },
+        "required": ["responseMessage", "responseCode", "data"]
       }
     },
     "securitySchemes": {
