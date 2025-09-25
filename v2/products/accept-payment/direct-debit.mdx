@@ -1,6 +1,315 @@
 ---
 title: 'Direct Debit'
-description: ""
+description: 'Understand everything about direct debit in Nomba'
 ---
+
+Direct Debit is a payment method that allows businesses to collect funds directly from their customers' bank accounts with their authorization. This method is particularly useful for recurring payments, such as subscriptions or utility bills, as it provides a convenient and automated way to manage payments. Direct Debit transactions are typically initiated by the business, but they require prior consent from the customer, ensuring that the process is secure and transparent.
+
+## Create Direct Debit Mandate
+
+To begin with the process of creating a Direct Debit mandate. The customer authorize the business, allowing them to debit their bank account for specified amounts and frequencies. The mandate includes details such as the customer's bank account information, the amount to be debited, start date, end date and the frequency of the debits.
+
+In order to authorize the mandate, the customer will transfer an amount (N50) to the NIBSS provided account for validation.
+
+<Note>
+   It's important to note that the amount should be sent from the customer's account number that is being used for the mandate
+</Note>
+
+To create a direct debit mandate, send a [POST request](/nomba-api-reference/direct-debits/create-direct-debit) to this endpoint `/v1/direct-debits`,
+
+<CodeGroup>
+```bash expandable Request
+curl --request POST \
+--url https://api.nomba.com/v1/direct-debits \
+--header 'Authorization: Bearer <token>' \
+--header 'accountId: <accountId>' \
+--header 'Content-Type: application/json' \
+--data'{
+  "customerAccountNumber": "2334334532",
+  "bankCode": "101",
+  "customerName": "Kolapo Adeoti",
+  "customerAddress": "maryland Ikeja computer village",
+  "customerAccountName": "Kolapo Adeoti",
+  "frequency": "VARIABLE",
+  "narration": "test e mandate response",
+  "customerPhoneNumber": "08022222222",
+  "merchantReference": "12003074001223212",
+  "startDate": "2025-08-29T15:30",
+  "endDate": "2025-08-30T10:40",
+  "customerEmail": "kolapo@domail.com",
+  "startImmediately": true
+}'
+```
+
+```json expandable Response
+{
+    "code": "00",
+    "description": "SUCCESS",
+    "data": {
+        "mandateId": "c93e1e1b-85f5-461e-8b9b-74ee091d4aa4",
+        "merchantReference": "12003074001",
+        "customerPhoneNumber": "08079914423",
+        "description": "Welcome to NIBSS e-mandate authentication service, a seamless and convenient authentication experience. Kindly proceed with a token payment of N50.00 into account number 9880218357 with Paystack-Titan Bank. This payment will trigger the  authentication of your mandate. Thank You"
+    },
+    "message": "SUCCESS",
+    "status": true
+}
+```
+</CodeGroup>
+
+The frequency field determines how often the customer’s account will be debited once the mandate is active. Businesses can choose from multiple options depending on their billing model.
+
+| Frequency            | Description                                                                 |
+|----------------------|-----------------------------------------------------------------------------|
+| VARIABLE             | The debit amount is not fixed. The business specifies the amount each time. |
+| WEEKLY               | Debit occurs once every week.                                               |
+| MONTHLY              | Debit occurs once every month.                                              |
+| QUARTERLY            | Debit occurs once every three months.                                       |
+| EVERY_TWO_MONTHS     | Debit occurs once every two months.                                         |
+| EVERY_THREE_MONTHS   | Debit occurs once every three months.                                       |
+| EVERY_FOUR_MONTHS    | Debit occurs once every four months.                                        |
+| EVERY_FIVE_MONTHS    | Debit occurs once every five months.                                        |
+| EVERY_SIX_MONTHS     | Debit occurs once every six months.                                         |
+| EVERY_SEVEN_MONTHS   | Debit occurs once every seven months.                                       |
+| EVERY_EIGHT_MONTHS   | Debit occurs once every eight months.                                       |
+| EVERY_NINE_MONTHS    | Debit occurs once every nine months.                                        |
+| EVERY_TEN_MONTHS     | Debit occurs once every ten months.                                         |
+| EVERY_ELEVEN_MONTHS  | Debit occurs once every eleven months.                                      |
+| EVERY_TWELVE_MONTHS  | Debit occurs once every twelve months (yearly).                             |
+
+Once the mandate is created, it undergoes a verification process to ensure that the provided bank account details are valid and the customer's bank authorizes the request. This step can take up to 72 hours for some banks to authorize the mandate.
+
+## Check Mandate Status
+
+The status of the mandate is crucial for managing Direct Debit transactions. The possible statuses include `ACTIVE`, `SUSPENDED`, and `DELETED`. 
+
+To check a mandate status, send a [GET request](/nomba-api-reference/direct-debits/check-direct-debit-status) to this endpoint `/v1/direct-debits/status?mandateId={mandateId}`,
+
+<CodeGroup>
+```bash Request
+curl --request GET \
+  --url 'https://api.nomba.com/v1/direct-debits/status?mandateId={mandateId}' \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountid>'
+  --header 'Content-Type: application/json' \
+```
+
+```json expandable Response
+{
+    "code": "00",
+    "description": "SUCCESS",
+    "data": {
+        "customerAccountName": "Habib Muhammad",
+        "mandateId": "e50b7835-502c-4cfe-8828-47657633d7a2",
+        "customerAccountNumber": "8079914423",
+        "mandateStatus": "Active",
+        "rejectionReason": null,
+        "mandateAdviceStatus": "Advice Sent"
+    },
+    "message": "SUCCESS",
+    "status": true
+}
+```
+</CodeGroup>
+
+The mandate advice status indicates whether the mandate has been approved by the customer's bank for debit. The possible statuses are `ADVICE_NOT_SENT` and `ADVICE_SENT`. It's essential to check the mandate advice status before initiating any debit transactions to ensure that the mandate is valid and active. 
+
+## Debit Mandate
+
+After the mandate is verified and activated, the business can initiate Direct Debit transactions according to the agreed schedule. The specified amounts will be automatically debited from the customer's bank account and credited to the business's account.
+
+<Note>
+  Please not the following :
+  - Only mandates with an `ACTIVE` status can be used for debit transactions.
+  - Only mandates with an ADVICE_SENT status can be used for debit transactions.
+</Note>
+
+To debit a mandate created, send a [GET request](/nomba-api-reference/direct-debits/debit-mandate) to this endpoint `/v1/direct-debits/debit-mandate`,
+
+<CodeGroup>
+```bash Request
+curl --request POST \
+  --url https://api.nomba.com/v1/direct-debits/debit-mandate \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountid>' \
+  --data '{
+  "mandateId": "89b0efc0-dde5-49e2-8bde-23ae081c43",
+  "amount": "110.00"
+}'
+```
+
+```json Success response
+{
+    "code": "00",
+    "description": "SUCCESS",
+    "data": {
+        "mandateId": "89b0efc0-dde5-49e2-8bde-5523ae081c43",
+        "status": "SUCCESS",
+        "amount": "110.00",
+        "message": "Approved or completed successfully"
+    },
+    "message": "SUCCESS",
+    "status": true
+}
+```
+</CodeGroup>
+
+## GET MANDATE
+
+To get a single mandate created, send a GET request to this endpoint `/v1/direct-debits/<mandateId>`, you will pass the mandateID as path parameter.
+
+<CodeGroup>
+```bash Request
+curl --request GET \
+--url 'http://api.nomba.com/v1/direct-debits/<mandateId>' \
+--header 'Authorization: Bearer <token>' \
+--header 'accountId: <accountId>' \
+--header 'Content-Type: application/json' \
+```
+
+```json expandable Response
+    {
+        "code": "00",
+        "description": "SUCCESS",
+        "data": {
+        "status": "ACTIVE",
+        "customerAccountNumber": "8079914423",
+        "customerAccountName": "Habib Muhammad",
+        "bankCode": "057",
+        "amount": 100.0,
+        "customerName": "Habib Muhammad",
+        "customerAddress": "maryland Ikeja computer village",
+        "customerEmail": "mobolajihabib@gmail.com",
+        "customerPhoneNumber": "08079914423",
+        "merchantReference": "12003074001",
+        "frequency": "VARIABLE",
+        "startDate": [ 2025, 8, 13, 15, 30],
+        "endDate": [ 2025, 8, 30, 10, 40 ],
+        "mandateAdviceStatus": null,
+        "mandateId": "e50b7835-502c-4cfe-8828-47657633d7a2"
+    },
+        "message": "SUCCESS",
+        "status": true
+    }
+```
+</CodeGroup>
+
+## List Direct debit
+
+To list all direct debit created, send a [GET request](/nomba-api-reference/direct-debits/list-direct-debit-mandates) to this endpoint `/v1/direct-debits/mandates`,
+
+<CodeGroup>
+```bash Request
+    curl --request GET \
+    --url https://api.nomba.com/v1/direct-debits/mandates?page=0&pageSize=20 \
+    --header 'Authorization: Bearer <token>' \
+    --header 'accountId: <accountid>'
+    --header 'Content-Type: application/json' \
+```
+
+```json expandable Response
+{
+    "code": "00",
+    "description": "SUCCESS",
+    "data": {
+        "items": [
+          {
+              "status": "SUSPEND",
+              "customerAccountNumber": "085566772",
+              "customerAccountName": "Kolapo Ojo",
+              "bankCode": "057",
+              "amount": 100.0,
+              "customerName": "Kolapo Ojo",
+              "customerAddress": "maryland Ikeja computer village",
+              "customerEmail": "mobolajihabib@gmail.com",
+              "customerPhoneNumber": "08022342232",
+              "merchantReference": "12003074001",
+              "frequency": "VARIABLE",
+              "startDate": [
+                  2025,8,13,15,30
+              ],
+              "endDate": [
+                  2025,8,30,10,40
+              ],
+              "mandateAdviceStatus": "ADVICE_NOT_SENT",
+              "mandateId": "c93e1e1b-85f5-461e-8b9b-74ee091d4aa4"
+          }
+
+        ],
+        "page": 0,
+        "pageSize": 20,
+        "totalItems": 4,
+        "totalPages": 1,
+        "hasMore": false
+    },
+    "message": "SUCCESS",
+    "status": true
+}
+```
+</CodeGroup>
+
+## Update Direct debit Status
+
+The status of the mandate can be updated as needed. For instance, if a customer wishes to cancel the mandate, the business can update the mandate status accordingly.
+
+To update a direct debit status, send a [PUT request](/nomba-api-reference/direct-debits/update-direct-debit-status) to this endpoint `/v1/direct-debits/update-status`,
+
+<CodeGroup>
+```bash Request
+curl --request PUT \
+  --url https://api.nomba.com/v1/direct-debits/update-status \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountid>' \
+  --data '{
+  "mandateId": "c93e1e1b-85f5-461e-8b9b-74ee091d4aa4",
+  "status": "SUSPEND"
+}'
+```
+
+```json expandable Response
+{
+    "code": "00",
+    "description": "SUCCESS",
+    "data": {
+        "items": [
+          {
+              "status": "SUSPEND",
+              "customerAccountNumber": "085566772",
+              "customerAccountName": "Kolapo Ojo",
+              "bankCode": "057",
+              "amount": 100.0,
+              "customerName": "Kolapo Ojo",
+              "customerAddress": "maryland Ikeja computer village",
+              "customerEmail": "mobolajihabib@gmail.com",
+              "customerPhoneNumber": "08022342232",
+              "merchantReference": "12003074001",
+              "frequency": "VARIABLE",
+              "startDate": [
+                  2025,8,13,15,30
+              ],
+              "endDate": [
+                  2025,8,30,10,40
+              ],
+              "mandateAdviceStatus": "ADVICE_NOT_SENT",
+              "mandateId": "c93e1e1b-85f5-461e-8b9b-74ee091d4aa4"
+          }
+
+        ],
+        "page": 0,
+        "pageSize": 20,
+        "totalItems": 4,
+        "totalPages": 1,
+        "hasMore": false
+    },
+    "message": "SUCCESS",
+    "status": true
+}
+```
+</CodeGroup>
+
+
+
 
 

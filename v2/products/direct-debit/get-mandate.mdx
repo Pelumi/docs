@@ -84,7 +84,7 @@ description: 'Learn how to get mandate details for an account using the Nomba AP
 </ResponseField>
 
 
-<RequestExample>
+<CodeGroup>
 ```bash Request
 curl --location 'http://api.nomba.com/v1/direct-debits/<mandateId>' \
 --header 'Authorization: Bearer [token]' \
@@ -92,11 +92,8 @@ curl --location 'http://api.nomba.com/v1/direct-debits/<mandateId>' \
 --header 'Content-Type: application/json' \
 --data ''
 ```
-</RequestExample>
 
-
-<ResponseExample>
-```json Success response
+```json Response
     {
         "code": "00",
         "description": "SUCCESS",
@@ -133,5 +130,5 @@ curl --location 'http://api.nomba.com/v1/direct-debits/<mandateId>' \
         "status": true
     }
 ```
-</ResponseExample>
+</CodeGroup>
 

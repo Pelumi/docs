@@ -175,14 +175,6 @@
                     "/v2/guides/nomba-woocommerce-integration",
                     "/v2/guides/managing-accounts-with-nomba"
                   ]
-                },
-                {
-                  "group": "Support",
-                  "pages": [
-                    "v2/support/security",
-                    "v2/support/reach-out",
-                    "v2/support/faqs"
-                  ]
                 }
               ]
             },
@@ -247,6 +239,16 @@
                     "nomba-api-reference/charge/submit-user-otp",
                     "nomba-api-reference/charge/get-user-saved-cards",
                     "nomba-api-reference/charge/cancel-checkout-transaction"
+                  ]
+                },
+                {
+                  "group": "Direct Debits",
+                  "pages": [
+                    "nomba-api-reference/direct-debits/create-direct-debit",
+                    "nomba-api-reference/direct-debits/check-direct-debit-status",
+                    "nomba-api-reference/direct-debits/debit-mandate",
+                    "nomba-api-reference/direct-debits/update-direct-debit-status",
+                    "nomba-api-reference/direct-debits/list-direct-debit-mandates"
                   ]
                 },
                 {
@@ -366,7 +368,7 @@
                       "group": "Authentication",
                       "icon": "shield-keyhole",
                       "pages": [
-                        "v1/getting-star33ted/authentication/introduction",
+                        "v1/getting-started/authentication/introduction",
                         "v1/getting-started/authentication/obtaining-access-token",
                         "v1/getting-started/authentication/refreshing-access-token",
                         "v1/getting-started/authentication/revoking-access-token"
@@ -549,14 +551,6 @@
                     "v1/getting-started/rate_limit",
                     "v1/getting-started/idempotency",
                     "v1/getting-started/environment"
-                  ]
-                },
-                {
-                  "group": "Support",
-                  "pages": [
-                    "v1/support/security",
-                    "v1/support/reach-out",
-                    "v1/support/faqs"
                   ]
                 }
               ]

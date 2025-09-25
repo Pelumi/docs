@@ -57,7 +57,7 @@ description: 'Learn how to update direct debit mandate status for an account usi
 </ResponseField>
 
 
-<RequestExample>
+<CodeGroup>
 ```bash Request
 curl --location 'https://api.nomba.com/v1/direct-debits' \
 --header 'Authorization: Bearer [token]' \
@@ -68,10 +68,7 @@ curl --location 'https://api.nomba.com/v1/direct-debits' \
   "status": "SUSPEND",
 }'
 ```
-</RequestExample>
 
-
-<ResponseExample>
 ```json Success response
 {
     "code": "00",
@@ -86,5 +83,6 @@ curl --location 'https://api.nomba.com/v1/direct-debits' \
     "status": true
 }
 ```
-</ResponseExample>
+</CodeGroup>
+
 

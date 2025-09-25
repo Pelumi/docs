@@ -119,7 +119,7 @@ description: 'Learn how to get all created Mandates using the Nomba API'
 </ResponseField>
 
 
-<RequestExample>
+<CodeGroup>
 ```bash Request
 curl --location 'http://api.nomba.com/v1/direct-debits/mandates?page=0&pageSize=20' \
 --header 'Authorization: Bearer [token]' \
@@ -127,10 +127,7 @@ curl --location 'http://api.nomba.com/v1/direct-debits/mandates?page=0&pageSize=
 --header 'Content-Type: application/json' \
 --data ''
 ```
-</RequestExample>
 
-
-<ResponseExample>
 ```json Success response
 {
     "code": "00",
@@ -178,5 +175,5 @@ curl --location 'http://api.nomba.com/v1/direct-debits/mandates?page=0&pageSize=
     "status": true
 }
 ```
-</ResponseExample>
+</CodeGroup>
 
