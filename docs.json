@@ -38,13 +38,18 @@
                       "icon": "cart-shopping",
                       "pages": [
                         "v2/products/accept-payment/overview",
-                        "v2/products/accept-payment/create-checkout-order",
-                        "v2/products/accept-payment/recurring-payments",
+                        {
+                          "group": "Checkout",
+                          "pages": [
+                            "v2/products/accept-payment/create-checkout-order",
+                            "v2/products/accept-payment/verify-transactions",
+                            "v2/products/accept-payment/recurring-payments",
+                            "v2/products/accept-payment/server-to-server",
+                            "v2/products/accept-payment/payment-methods"
+                          ]
+                        },
                         "v2/products/accept-payment/direct-debit",
-                        "v2/products/accept-payment/verify-transactions",
-                        "v2/products/accept-payment/server-to-server",
-                        "v2/products/accept-payment/virtual-account",
-                        "v2/products/accept-payment/payment-methods"
+                        "v2/products/accept-payment/virtual-account"
                       ]
                     },
                     {
@@ -686,7 +691,7 @@
     "strict": false
   },
   "banner": {
-    "content": "🚀 Version 2.0 is now live! See our [changelog](/changelog) for details.",
+    "content": "🚀 Version 2.0 docs improvement is now live! See our [changelog](/nomba-api-changelog/api/updates) for details.",
     "dismissible": true 
   },
   "navbar": {
