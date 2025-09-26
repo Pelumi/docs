@@ -1,0 +1,737 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "aspen",
+  "name": "Nomba Developers",
+  "colors": {
+    "primary": "#CCA300",
+    "light": "#FFEB99",
+    "dark": "#CCA300"
+  },
+  "favicon": "/favicon.svg",
+  "navigation": {
+    "versions": [
+       {
+          "version": "2.0.0",
+          "tabs": [
+            {
+              "tab": "Documentation",
+              "groups": [
+                {
+                  "group": "Introduction",
+                  "pages": [
+                    "v2/introduction/welcome-to-nomba"
+                  ]
+                },
+                {
+                  "group": "Getting Started",
+                  "pages": [
+                    "v2/getting-started/get-api-keys",
+                    "v2/getting-started/acceptable-documents",
+                    "v2/getting-started/authentication"
+                  ]
+                },
+                {
+                  "group": "Products",
+                  "pages": [
+                    {
+                      "group": "Accept Payments",
+                      "icon": "cart-shopping",
+                      "pages": [
+                        "v2/products/accept-payment/overview",
+                        {
+                          "group": "Checkout",
+                          "pages": [
+                            "v2/products/accept-payment/create-checkout-order",
+                            "v2/products/accept-payment/verify-transactions",
+                            "v2/products/accept-payment/recurring-payments",
+                            "v2/products/accept-payment/server-to-server",
+                            "v2/products/accept-payment/payment-methods"
+                          ]
+                        },
+                        "v2/products/accept-payment/direct-debit",
+                        "v2/products/accept-payment/virtual-account"
+                      ]
+                    },
+                    {
+                      "group": "Transfers",
+                      "icon": "shuffle",
+                      "pages": [
+                        "v2/products/transfers/introduction",
+                        "v2/products/transfers/bank-account-lookup",
+                        "v2/products/transfers/fetch-bank-codes-and-names",
+                        "v2/products/transfers/transfer-to-banks",
+                        "v2/products/transfers/transfer-between-accounts"
+                      ]
+                    },
+                    {
+                      "group": "Terminals",
+                      "icon": "mobile-retro",
+                      "pages": [
+                        "v2/products/terminals/assigning-terminals",
+                        "v2/products/terminals/unassigning-terminals",
+                        "v2/products/terminals/push-payment-request",
+                        {
+                          "group": "Custom Apps",
+                          "pages": [
+                            "v2/products/terminals/custom-apps/introduction",
+                            {
+                              "group": "Trigger Payment",
+                              "pages": [
+                                "v2/products/terminals/custom-apps/trigger-payment/introduction",
+                                "v2/products/terminals/custom-apps/trigger-payment/trigger-card-payments",
+                                "v2/products/terminals/custom-apps/trigger-payment/trigger-bank-transfer-payments"
+                              ]
+                            },
+                            "v2/products/terminals/custom-apps/retrieve-device-info",
+                            "v2/products/terminals/custom-apps/trigger-receipt-printing"
+                          ]
+                        },
+                        {
+                          "group": "Terminal actions",
+                          "pages": [
+                            "v2/products/terminals/terminal-actions/introduction",
+                            "v2/products/terminals/terminal-actions/balance-check",
+                            "v2/products/terminals/terminal-actions/payout-transaction"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "group": "Transactions",
+                      "icon": "receipt",
+                      "pages": [
+                        "v2/products/transactions/introduction",
+                        "v2/products/transactions/fetch-transactions"
+                      ]
+                    },
+                    {
+                      "group": "Airtime & Data Vending",
+                      "icon": "money-bill",
+                      "pages": [
+                        "v2/products/airtime-and-data/fetch-data-plans",
+                        "v2/products/airtime-and-data/buy-data-bundle",
+                        "v2/products/airtime-and-data/vend-airtime"
+                      ]
+                    },
+                    {
+                      "group": "Cable & Bill Payments",
+                      "icon": "tv",
+                      "pages": [
+                        {
+                          "group": "Cable TV",
+                          "pages": [
+                            "v2/products/bills/fetch-cable-tv-plans",
+                            "v2/products/bills/subscribe-to-cable-tv",
+                            "v2/products/bills/name-lookup-for-cabletv"
+                          ]
+                        },
+                        {
+                          "group": "Electricity",
+                          "pages": [
+                            "v2/products/bills/name-lookup-for-electricity",
+                            "v2/products/bills/fetch-electricity-providers",
+                            "v2/products/bills/pay-for-electricity"
+                          ]
+                        },
+                        {
+                          "group": "Betting",
+                          "pages": [
+                            "v2/products/bills/fetch-betting-providers",
+                            "v2/products/bills/name-lookup-for-betting",
+                            "v2/products/bills/pay-for-betting"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "group": "API Basics",
+                  "pages": [
+                    "v2/api-basics/pagination",
+                    "v2/api-basics/rate_limit",
+                    "v2/api-basics/environment",
+                    "v2/api-basics/testing",
+                    "v2/api-basics/webhook",
+                    "v2/api-basics/troubleshoot-webhooks",
+                    "v2/api-basics/definitions"
+                  ]
+                },
+                {
+                  "group": "Guides",
+                  "pages": [
+                    "/v2/guides/introduction",
+                    "/v2/guides/accept-online-payments",
+                    "/v2/guides/authentication-best-practises",
+                    "/v2/guides/setting-up-webhooks",
+                    "/v2/guides/shopify-nomba-integration",
+                    "/v2/guides/nomba-woocommerce-integration",
+                    "/v2/guides/managing-accounts-with-nomba"
+                  ]
+                }
+              ]
+            },
+            {
+              "tab": "API Reference",
+              "groups": [
+                {
+                  "group": "API Documentation",
+                  "pages": [
+                    "nomba-api-reference/introduction",
+                    "nomba-api-reference/get-api-keys"
+                  ]
+                },
+                {
+                  "group": "Authenticate",
+                  "pages": [
+                    "nomba-api-reference/authenticate/obtain-access-token",
+                    "nomba-api-reference/authenticate/refresh-an-expired-token",
+                    "nomba-api-reference/authenticate/revoke-an-access_token"
+                  ]
+                },
+                {
+                  "group": "Accounts",
+                  "pages": [
+                    "nomba-api-reference/accounts/fetch-parent-account-details",
+                    "nomba-api-reference/accounts/fetch-parent-account-balance",
+                    "nomba-api-reference/accounts/fetch-terminals-assigned-to-the-parent-account"
+                  ]
+                },
+                {
+                  "group": "Virtual Accounts",
+                  "pages": [
+                    "nomba-api-reference/virtual-accounts/create-virtual-account",
+                    "nomba-api-reference/virtual-accounts/filter-virtual-accounts",
+                    "nomba-api-reference/virtual-accounts/fetch-a-virtual-account",
+                    "nomba-api-reference/virtual-accounts/update-a-virtual-account",
+                    "nomba-api-reference/virtual-accounts/expire-a-virtual-account"
+                  ]
+                },
+                {
+                  "group": "Online Checkout",
+                  "pages": [
+                    "nomba-api-reference/online-checkout/create-an-online-checkout-order",
+                    "nomba-api-reference/online-checkout/charge-a-customer-using-tokenized-card-data",
+                    "nomba-api-reference/online-checkout/list-tokenized-cards",
+                    "nomba-api-reference/online-checkout/update-tokenized-card-data",
+                    "nomba-api-reference/online-checkout/delete-tokenized-card-data",
+                    "nomba-api-reference/online-checkout/fetch-checkout-transaction"
+                  ]
+                },
+                {
+                  "group": "Charge",
+                  "pages": [
+                    "nomba-api-reference/charge/get-order-details-based-on-the-generated-order-reference",
+                    "nomba-api-reference/charge/submit-customer-card-details",
+                    "nomba-api-reference/charge/submit-customer-card-otp",
+                    "nomba-api-reference/charge/resend-otp-to-customers-phone",
+                    "nomba-api-reference/charge/fetch-checkout-transaction-details",
+                    "nomba-api-reference/charge/fetch-checkout-flash-account-number-for-transfer-payment",
+                    "nomba-api-reference/charge/request-user-otp",
+                    "nomba-api-reference/charge/request-user-otp-1",
+                    "nomba-api-reference/charge/submit-user-otp",
+                    "nomba-api-reference/charge/get-user-saved-cards",
+                    "nomba-api-reference/charge/cancel-checkout-transaction"
+                  ]
+                },
+                {
+                  "group": "Direct Debits",
+                  "pages": [
+                    "nomba-api-reference/direct-debits/create-direct-debit",
+                    "nomba-api-reference/direct-debits/check-direct-debit-status",
+                    "nomba-api-reference/direct-debits/debit-mandate",
+                    "nomba-api-reference/direct-debits/update-direct-debit-status",
+                    "nomba-api-reference/direct-debits/list-direct-debit-mandates"
+                  ]
+                },
+                {
+                  "group": "Transfers",
+                  "pages": [
+                    "nomba-api-reference/transfers/fetch-bank-codes-and-names",
+                    "nomba-api-reference/transfers/perform-bank-account-lookup",
+                    "nomba-api-reference/transfers/perform-bank-account-transfer-from-the-parent-account",
+                    "nomba-api-reference/transfers/perform-wallet-transfer-from-the-parent-account"
+                  ]
+                },
+                {
+                  "group": "Terminals",
+                  "pages": [
+                    "nomba-api-reference/terminals/assign-a-terminal-to-the-parent-account",
+                    "nomba-api-reference/terminals/un-assign-a-terminal-from-the-parent-account",
+                    "nomba-api-reference/terminals/push-payment-request"
+                  ]
+                },
+                {
+                  "group": "Transactions",
+                  "pages": [
+                    "nomba-api-reference/transactions/fetch-creditdebit-transactions-on-the-parent-account",
+                    "nomba-api-reference/transactions/fetch-transactions-on-the-parent-account",
+                    "nomba-api-reference/transactions/filter-parent-account-transactions",
+                    "nomba-api-reference/transactions/fetch-a-single-transaction-on-the-parent-account",
+                    "nomba-api-reference/transactions/transaction-requery"
+                  ]
+                },
+                {
+                  "group": "Airtime & Data Vending",
+                  "pages": [
+                    "nomba-api-reference/airtime-and-data-vending/fetch-data-plans-available-on-a-telco-network-provider",
+                    "nomba-api-reference/airtime-and-data-vending/make-airtime-purchases-via-parent-account",
+                    "nomba-api-reference/airtime-and-data-vending/vend-data-bundles-via-parent-account"
+                  ]
+                },
+                {
+                  "group": "Cable & Bill Payments",
+                  "pages": [
+                    "nomba-api-reference/bills/fetch-electricity-providers",
+                    "nomba-api-reference/bills/pay-for-electricity-via-parent-account",
+                    "nomba-api-reference/bills/subscribe-to-cabletv-via-parent-account",
+                    "nomba-api-reference/bills/name-lookup-for-cabletv",
+                    "nomba-api-reference/bills/name-lookup-for-electricity"
+                  ]
+                },
+                {
+                  "group": "Betting",
+                  "pages": [
+                    "nomba-api-reference/bills/name-lookup-for-betting",
+                    "nomba-api-reference/bills/fetch-betting-providers",
+                    "nomba-api-reference/bills/pay-for-betting-via-parent-account"
+                  ]
+                }
+              ]
+            },
+            {
+              "tab": "Developer Resources",
+              "groups": [
+                {
+                  "group": "Developer Tools",
+                  "pages": [
+                    "/developer-resources/tools/overview",
+                    "/developer-resources/tools/plugins-and-sdks/",
+                    "/developer-resources/tools/code-samples"
+                  ]
+                }
+              ]
+            },
+            {
+              "tab": "Changelog",
+              "groups": [
+                {
+                  "group": "Changelog",
+                  "pages": [
+                    "nomba-api-changelog/api/updates"
+                  ]
+                }
+              ]
+            }
+        ]
+       },
+       {
+          "version": "1.0.0",
+          "tabs": [
+            {
+              "tab": "Documentation",
+              "groups": [
+                {
+                  "group": "Introduction",
+                  "pages": [
+                    "v1/introduction/welcome-to-nomba",
+                    "v1/introduction/get-api-keys",
+                    {
+                      "group": "Testing",
+                      "icon": "money-check",
+                      "pages": [
+                        "v1/introduction/testing/test-card"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "group": "Getting Started",
+                  "pages": [
+                    {
+                      "group": "Dashboard Setup",
+                      "icon": "chart-line",
+                      "pages": [
+                        "v1/getting-started/dashboard-setup/introduction",
+                        "v1/getting-started/dashboard-setup/account-setup",
+                        "v1/getting-started/dashboard-setup/acceptable-documents"
+                      ]
+                    },
+                    {
+                      "group": "Authentication",
+                      "icon": "shield-keyhole",
+                      "pages": [
+                        "v1/getting-started/authentication/introduction",
+                        "v1/getting-started/authentication/obtaining-access-token",
+                        "v1/getting-started/authentication/refreshing-access-token",
+                        "v1/getting-started/authentication/revoking-access-token"
+                      ]
+                    },
+                    "v1/getting-started/definitions"
+                  ]
+                },
+                {
+                  "group": "Plugins and SDKs",
+                  "pages": [
+                    "v1/plugins-and-sdk/overview"
+                  ]
+                },
+                {
+                  "group": "Products",
+                  "pages": [
+                    {
+                      "group": "Accounts",
+                      "icon": "building-columns",
+                      "pages": [
+                        "v1/products/accounts/introduction",
+                        "v1/products/accounts/creating-a-virtual-account",
+                        "v1/products/accounts/fetching-account-balance",
+                        "v1/products/accounts/suspension-and-reactivation",
+                        "v1/products/accounts/perform-virtual-account-lookup"
+                      ]
+                    },
+                    {
+                      "group": "Accept Payments",
+                      "icon": "cart-shopping",
+                      "pages": [
+                        {
+                          "group": "Checkout",
+                          "pages": [
+                            "v1/products/checkout/introduction",
+                            "v1/products/checkout/create-checkout-order",
+                            "v1/products/checkout/charge-tokenized-cards",
+                            "v1/products/checkout/verify-transactions"
+                          ]
+                        },
+                        {
+                          "group": "Charge",
+                          "pages": [
+                            "v1/products/charge/server-to-server"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "group": "Transfers",
+                      "icon": "shuffle",
+                      "pages": [
+                        "v1/products/transfers/introduction",
+                        "v1/products/transfers/bank-account-lookup",
+                        "v1/products/transfers/fetch-bank-codes-and-names",
+                        "v1/products/transfers/transfer-to-banks",
+                        "v1/products/transfers/transfer-between-accounts"
+                      ]
+                    },
+                    {
+                      "group": "Terminals",
+                      "icon": "mobile-retro",
+                      "pages": [
+                        "v1/products/terminals/assigning-terminals",
+                        "v1/products/terminals/unassigning-terminals",
+                        "v1/products/terminals/push-payment-request",
+                        {
+                          "group": "Custom Apps",
+                          "pages": [
+                            "v1/products/terminals/custom-apps/introduction",
+                            {
+                              "group": "Trigger Payment",
+                              "pages": [
+                                "v1/products/terminals/custom-apps/trigger-payment/introduction",
+                                "v1/products/terminals/custom-apps/trigger-payment/trigger-card-payments",
+                                "v1/products/terminals/custom-apps/trigger-payment/trigger-bank-transfer-payments"
+                              ]
+                            },
+                            "v1/products/terminals/custom-apps/retrieve-device-info",
+                            "v1/products/terminals/custom-apps/trigger-receipt-printing"
+                          ]
+                        },
+                        {
+                          "group": "Terminal actions",
+                          "pages": [
+                            "v1/products/terminals/terminal-actions/introduction",
+                            "v1/products/terminals/terminal-actions/balance-check",
+                            "v1/products/terminals/terminal-actions/payout-transaction"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "group": "Webhooks",
+                      "icon": "webhook",
+                      "pages": [
+                        "v1/products/webhooks/introduction",
+                        "v1/products/webhooks/signature-verification-new",
+                        "v1/products/webhooks/retries-backoff-policy",
+                        {
+                          "group": "repush",
+                          "pages": [
+                            "v1/products/webhooks/repush/introduction",
+                            "v1/products/webhooks/repush/delivery-log",
+                            "v1/products/webhooks/repush/re-push",
+                            "v1/products/webhooks/repush/bulk-repush",
+                            "v1/products/webhooks/repush/webhook-events"
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "group": "Transactions",
+                      "icon": "receipt",
+                      "pages": [
+                        "v1/products/transactions/fetch-account-transactions",
+                        "v1/products/transactions/fetch-bank-transactions",
+                        "v1/products/transactions/transaction-requery",
+                        "v1/products/transactions/fetch-virtual-account-transaction"
+                      ]
+                    },
+                    {
+                      "group": "Airtime & Data Vending",
+                      "icon": "money-bill",
+                      "pages": [
+                        "v1/products/airtime-and-data/fetch-data-plans",
+                        "v1/products/airtime-and-data/buy-data-bundle",
+                        "v1/products/airtime-and-data/vend-airtime"
+                      ]
+                    },
+                    {
+                      "group": "Cable & Bill Payments",
+                      "icon": "tv",
+                      "pages": [
+                        {
+                          "group": "Cable TV",
+                          "pages": [
+                            "v1/products/bills/fetch-cable-tv-plans",
+                            "v1/products/bills/subscribe-to-cable-tv",
+                            "v1/products/bills/name-lookup-for-cabletv"
+                          ]
+                        },
+                        {
+                          "group": "Electricity",
+                          "pages": [
+                            "v1/products/bills/name-lookup-for-electricity",
+                            "v1/products/bills/fetch-electricity-providers",
+                            "v1/products/bills/pay-for-electricity"
+                          ]
+                        },
+                        {
+                          "group": "Betting",
+                          "pages": [
+                            "v1/products/bills/fetch-betting-providers",
+                            "v1/products/bills/name-lookup-for-betting",
+                            "v1/products/bills/pay-for-betting"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "group": "Guides",
+                  "pages": [
+                    "v1/guides/introduction",
+                    "v1/guides/accept-online-payments",
+                    "v1/guides/authentication-best-practises",
+                    "v1/guides/setting-up-webhooks",
+                    "v1/guides/processing-recurring-payments",
+                    "v1/guides/shopify-nomba-integration",
+                    "v1/guides/nomba-woocommerce-integration"
+                  ]
+                },
+                {
+                  "group": "API Patterns",
+                  "pages": [
+                    "v1/getting-started/pagination",
+                    "v1/getting-started/rate_limit",
+                    "v1/getting-started/idempotency",
+                    "v1/getting-started/environment"
+                  ]
+                }
+              ]
+            },
+            {
+              "tab": "API Reference",
+              "groups": [
+                {
+                  "group": "API Documentation",
+                  "pages": [
+                    "nomba-api-reference/introduction",
+                    "nomba-api-reference/get-api-keys"
+                  ]
+                },
+                {
+                  "group": "Authenticate",
+                  "pages": [
+                    "nomba-api-reference/authenticate/obtain-access-token",
+                    "nomba-api-reference/authenticate/refresh-an-expired-token",
+                    "nomba-api-reference/authenticate/revoke-an-access_token"
+                  ]
+                },
+                {
+                  "group": "Accounts",
+                  "pages": [
+                    "nomba-api-reference/accounts/fetch-parent-account-details",
+                    "nomba-api-reference/accounts/fetch-parent-account-balance",
+                    "nomba-api-reference/accounts/fetch-terminals-assigned-to-the-parent-account"
+                  ]
+                },
+                {
+                  "group": "Virtual Accounts",
+                  "pages": [
+                    "nomba-api-reference/virtual-accounts/create-virtual-account",
+                    "nomba-api-reference/virtual-accounts/filter-virtual-accounts",
+                    "nomba-api-reference/virtual-accounts/fetch-a-virtual-account",
+                    "nomba-api-reference/virtual-accounts/update-a-virtual-account",
+                    "nomba-api-reference/virtual-accounts/expire-a-virtual-account"
+                  ]
+                },
+                {
+                  "group": "Online Checkout",
+                  "pages": [
+                    "nomba-api-reference/online-checkout/create-an-online-checkout-order",
+                    "nomba-api-reference/online-checkout/charge-a-customer-using-tokenized-card-data",
+                    "nomba-api-reference/online-checkout/list-tokenized-cards",
+                    "nomba-api-reference/online-checkout/update-tokenized-card-data",
+                    "nomba-api-reference/online-checkout/delete-tokenized-card-data",
+                    "nomba-api-reference/online-checkout/fetch-checkout-transaction"
+                  ]
+                },
+                {
+                  "group": "Charge",
+                  "pages": [
+                    "nomba-api-reference/charge/get-order-details-based-on-the-generated-order-reference",
+                    "nomba-api-reference/charge/submit-customer-card-details",
+                    "nomba-api-reference/charge/submit-customer-card-otp",
+                    "nomba-api-reference/charge/resend-otp-to-customers-phone",
+                    "nomba-api-reference/charge/fetch-checkout-transaction-details",
+                    "nomba-api-reference/charge/fetch-checkout-flash-account-number-for-transfer-payment",
+                    "nomba-api-reference/charge/request-user-otp",
+                    "nomba-api-reference/charge/request-user-otp-1",
+                    "nomba-api-reference/charge/submit-user-otp",
+                    "nomba-api-reference/charge/get-user-saved-cards",
+                    "nomba-api-reference/charge/cancel-checkout-transaction"
+                  ]
+                },
+                {
+                  "group": "Transfers",
+                  "pages": [
+                    "nomba-api-reference/transfers/fetch-bank-codes-and-names",
+                    "nomba-api-reference/transfers/perform-bank-account-lookup",
+                    "nomba-api-reference/transfers/perform-bank-account-transfer-from-the-parent-account",
+                    "nomba-api-reference/transfers/perform-wallet-transfer-from-the-parent-account"
+                  ]
+                },
+                {
+                  "group": "Terminals",
+                  "pages": [
+                    "nomba-api-reference/terminals/assign-a-terminal-to-the-parent-account",
+                    "nomba-api-reference/terminals/un-assign-a-terminal-from-the-parent-account",
+                    "nomba-api-reference/terminals/push-payment-request"
+                  ]
+                },
+                {
+                  "group": "Transactions",
+                  "pages": [
+                    "nomba-api-reference/transactions/fetch-creditdebit-transactions-on-the-parent-account",
+                    "nomba-api-reference/transactions/fetch-transactions-on-the-parent-account",
+                    "nomba-api-reference/transactions/filter-parent-account-transactions",
+                    "nomba-api-reference/transactions/fetch-a-single-transaction-on-the-parent-account",
+                    "nomba-api-reference/transactions/transaction-requery"
+                  ]
+                },
+                {
+                  "group": "Airtime & Data Vending",
+                  "pages": [
+                    "nomba-api-reference/airtime-and-data-vending/fetch-data-plans-available-on-a-telco-network-provider",
+                    "nomba-api-reference/airtime-and-data-vending/make-airtime-purchases-via-parent-account",
+                    "nomba-api-reference/airtime-and-data-vending/vend-data-bundles-via-parent-account"
+                  ]
+                },
+                {
+                  "group": "Cable & Bill Payments",
+                  "pages": [
+                    "nomba-api-reference/bills/fetch-electricity-providers",
+                    "nomba-api-reference/bills/pay-for-electricity-via-parent-account",
+                    "nomba-api-reference/bills/subscribe-to-cabletv-via-parent-account",
+                    "nomba-api-reference/bills/name-lookup-for-cabletv",
+                    "nomba-api-reference/bills/name-lookup-for-electricity"
+                  ]
+                },
+                {
+                  "group": "Betting",
+                  "pages": [
+                    "nomba-api-reference/bills/name-lookup-for-betting",
+                    "nomba-api-reference/bills/fetch-betting-providers",
+                    "nomba-api-reference/bills/pay-for-betting-via-parent-account"
+                  ]
+                }
+              ]
+            },
+            {
+              "tab": "Changelog",
+              "groups": [
+                {
+                  "group": "Changelog",
+                  "pages": [
+                    "nomba-api-changelog/api/updates"
+                  ]
+                }
+              ]
+            }
+        ]
+       }
+    ]
+  },
+  "logo": {
+    "light": "/logo/nomba-light.svg",
+    "dark": "/logo/nomba-dark.svg",
+    "href": "https://nomba.com"
+  },
+  "appearance": {
+    "default": "light",
+    "strict": false
+  },
+  "banner": {
+    "content": "🚀 Version 2.0 docs improvement is now live! See our [changelog](/nomba-api-changelog/api/updates) for details.",
+    "dismissible": true 
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Guides",
+        "href": "https://docs.nomba.com/support/guides/introduction"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Dashboard",
+      "href": "https://dashboard.nomba.com"
+    }
+  },
+  "footer": {
+    "socials": {
+      "twitter": "https://twitter.com/nombahq",
+      "github": "https://github.com/kudi-inc",
+      "linkedin": "https://www.linkedin.com/company/nombahq"
+    },
+    "links": [
+      {
+        "header": "Community",
+        "items": [
+          {
+            "label": "Join Slack Community",
+            "href": "https://join.slack.com/t/nombadevelope-6l32082/shared_invite/zt-350byydhe-m5aQJtyHpRG9Y7Kmg43a5w"
+          }
+        ]
+      },
+      {
+        "header": "Need Help?",
+        "items": [
+          {
+            "label": "Contact Support",
+            "href": "mailto:docs@nomba.com"
+          }
+        ]
+      }
+    ]
+  }
+}

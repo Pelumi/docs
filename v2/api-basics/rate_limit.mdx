@@ -1,0 +1,112 @@
+---
+title: 'Ratelimit'
+description: "Learn about Nomba's fixed window ratelimit trategy"
+icon: hourglass
+---
+
+## Overview
+
+In the realm of efficient API management and optimization, the Nomba API employs a Fixed Window Rate Limit Strategy which is used to control the rate at which the system processes requests over a specific time period. This strategy serves as a robust mechanism to regulate and control the rate at which incoming requests are processed. 
+
+## Configuration
+
+Nomba API's ratelimiting is highly configurable to meet diverse requirements. The following configurations play a crucial role in defining the parameters of the rate limiting strategy.
+
+
+`TIME_WINDOW_IN_MS`
+
+The duration of the fixed window in milliseconds.
+
+`NO_OF_REQUEST_PER_MS`
+
+The maximum number of requests allowed within the fixed window for regular accounts.
+
+`NO_OF_POST_REQ`
+
+The maximum number of POST requests allowed within the fixed window for regular accounts.
+
+<Note>
+  Most customers will fall under the REGULAR accounts category.
+</Note>
+
+`ELEVATED_ACCOUNTS`
+
+A list of account identifiers (e.g. accountIDs) considered elevated or privileged. These are accounts that require high rate limits due to the volumes they handle. Requests from these accounts have different rate limits compared to regular accounts.
+
+`NO_OF_POST_REQ_FOR_ELEVATED_ACCOUNTS`
+
+The maximum number of `POST` requests allowed within the fixed window for elevated accounts.
+
+`NO_OF_OTHER_REQ_FOR_ELEVATED_ACCOUNTS`
+
+The maximum number of `non-POST` requests allowed within the fixed window for elevated accounts.
+
+<Note>
+  Feel free to contact us if you believe you meet the criteria for an ELEVATED account. We will conduct the required assessments, and if your eligibility is confirmed, we will include your account in the ELEVATED account list.
+</Note>
+
+`LOW_TRAFFIC_ACCOUNTS`
+
+A list of account identifiers considered as low-traffic accounts.
+
+`TIME_WINDOW_IN_MILLIS_FOR_LOW_TRAFFIC_ACCOUNTS`
+
+The fixed window duration for low-traffic accounts, in milliseconds.
+
+`NO_OF_POST_REQ_FOR_LOW_TRAFFIC_ACCOUNTS`
+
+The maximum number of `POST` requests allowed within the fixed window for low-traffic accounts.
+
+`NO_OF_OTHER_REQ_FOR_LOW_TRAFFIC_ACCOUNTS`
+
+The maximum number of `non-POST` requests allowed within the fixed window for low-traffic accounts.
+
+<Note>
+  Please reach out to us if you believe you meet the criteria for a LOW_TRAFFIC account.
+</Note>
+
+#### Default values
+
+| Property                                           | Default    |
+| -------------------------------------------------- | ---------- |
+| `ELEVATED_ACCOUNTS`                                | `NA`       |
+| `TIME_WINDOW_IN_MS`                                | `1000`     |
+| `NO_OF_REQUEST_PER_MS`                             | `75 `      |
+| `LOW_TRAFFIC_ACCOUNTS`                             | `NA`       |
+| `TIME_WINDOW_IN_MILLIS_FOR_LOW_TRAFFIC_ACCOUNTS`   | `60000`    |
+| `NO_OF_POST_REQ_FOR_ELEVATED_ACCOUNTS`             | `40`       |
+| `NO_OF_POST_REQ_FOR_LOW_TRAFFIC_ACCOUNTS`          | `1`        |
+| `NO_OF_OTHER_REQ_FOR_ELEVATED_ACCOUNTS`            | `100`      |
+| `NO_OF_OTHER_REQ_FOR_LOW_TRAFFIC_ACCOUNTS`         | `25`       |
+| `NO_OF_POST_REQ`                                   | `15`       |
+
+
+## Benefits of Nomba API's Ratelimit
+
+#### Predictability and Fairness
+
+The Fixed Window Rate Limit Strategy offers predictability and fairness by providing a clear time-based structure for request processing. Users can anticipate and adapt to the defined rate limits, fostering an equitable usage environment.
+
+#### Efficient Resource Utilization
+
+By distributing requests over fixed windows, Nomba optimizes resource utilization. This prevents sudden spikes in traffic and ensures a steady, manageable flow of requests, leading to improved overall system efficiency.
+
+#### Protection Against Abuse
+
+The rate limiter acts as a shield against potential abuse or malicious activity by enforcing strict limits on the number of requests. This proactive approach safeguards the integrity and stability of the Nomba system.
+
+## Response Headers
+
+We add the following properties to the headers to let you know when the rate limiter is approaching its limit on your requests
+
+`X-Rate-Limit-Limit`
+
+The number of allowed requests in the current period.
+
+`X-Rate-Limit-Remaining`
+
+The number of remaining requests in the current period.
+
+`X-Rate-Limit-Window`
+
+The specified rate limit window.

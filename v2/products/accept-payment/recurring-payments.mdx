@@ -1,0 +1,73 @@
+---
+title: 'Recurring Payments'
+description: 'Learn how to charge tokenized cards with the Nomba API'
+---
+
+<CardGroup cols={2}>
+  <Card title="List Tokenized Cards" icon="id-card"
+    href="/nomba-api-reference/online-checkout/list-tokenized-cards">
+    Retrieve all tokenized cards associated with a customer for future payments.
+  </Card>
+
+  <Card title="Update Tokenized Card" icon="pen-to-square"
+    href="/nomba-api-reference/online-checkout/update-tokenized-card-data">
+    Update details of an existing tokenized card to keep it valid for recurring billing.
+  </Card>
+</CardGroup>
+
+## Charge a Tokenized Card
+
+Recurring or subscription payments can be processed using the `tokenKey` generated when a customer’s card was tokenized during checkout.  
+This allows you to charge the customer securely without asking for card details again.
+
+<Tip>
+  Only include `tokenizeCard: true` when creating a checkout order if you intend to use the customer’s card for future payments. The returned `tokenKey` from the webhook will then be required for recurring charges.
+</Tip>
+
+To charge a tokenize card, send a [POST request](/nomba-api-reference/online-checkout/charge-a-customer-using-tokenized-card-data) to this endpoint `/v1/checkout/tokenized-card-payment`.
+
+<CodeGroup>
+  ```bash Request
+    curl --request POST \
+      --url https://api.nomba.com/v1/checkout/tokenized-card-payment \
+      --header 'Authorization: Bearer <token>' \
+      --header 'Content-Type: application/json' \
+      --header 'accountId: <accountid>' \
+      --data '{
+        "order": {
+          "orderReference": "90e81e8a-bc14-4ebf-89c0-57da752cca58",
+          "customerId": "762878332454",
+          "callbackUrl": "https://ip:port/merchant.com/callback",
+          "customerEmail": "abcde@gmail.com",
+          "amount": "10000.00",
+          "currency": "NGN",
+          "accountId": "01a10aeb-d989-460a-bbde-9842f2b4320f",
+          "splitRequest": {
+            "splitType": "PERCENTAGE",
+            "splitList": [
+              {
+                "accountId": "01a10aeb-d989-460a-bbde-9842f2b4320f",
+                "value": "65.45"
+              }
+            ]
+          }
+        },
+        "tokenKey": "7628788443"
+      }'
+  ```
+
+  ```json Response
+    {
+        "code": "00",
+        "description": "Success",
+        "data": {
+            "status": true,
+            "message": "Approved by Financial Insitution"
+        }
+    }
+  ```
+</CodeGroup>
+
+<Tip> 
+  Always verify the transaction after charging a tokenized card. You can use webhooks for instant notifications, but it is best practice to confirm the status via the [Verify Transactions](/v2/products/accept-payment/verify-transactions) endpoint before providing value to your customers.
+</Tip> 

@@ -1,0 +1,164 @@
+---
+title: "Virtual accounts"
+description: "Learn about creating virtual accounts"
+---
+
+<CardGroup cols={2}>
+  <Card
+    title="Create a virtual account"
+    icon="cart-shopping"
+    href="/nomba-api-reference/virtual-accounts/create-virtual-account"
+  >
+    Generate a unique account number for your customer to receive payment.
+  </Card>
+  <Card
+    title="Update a virtual account"
+    icon="pen-to-square"
+    href="/nomba-api-reference/virtual-accounts/update-a-virtual-account"
+  >
+    Update a customer virtual account name and callback URL record.
+  </Card>
+</CardGroup>
+
+## Introduction
+
+In Nomba, creating a virtual account falls under the broader category of Accounts. A virtual account can be created for a customer with the primary purpose of accepting payments. Once created, Nomba will generate a unique account number in which the customer can use to receive inflows.
+
+Nomba supports different types of accounts:
+
+1. **Primary accounts** - Automatically created when you set up a business account.
+
+2. **Virtual accounts** - Created via API by merchants.
+
+3. **Sub-accounts** - Created exclusively on Nomba dashboard as a separate pocket of money.
+
+See this [guide](v2/guides/managing-accounts-with-nomba) for more details on managing accounts with Nomba.
+
+## Create a virtual account
+
+When creating a virtual account, you can optionally include the following fields in your request:
+
+- `bvn`: If not provided, the virtual account will inherit the BVN of the parent account. Only include this if you want to assign a different BVN.
+
+- `expectedAmount`: Restricts the account to accept only the specified amount. This is useful for exact payments such as invoice matching or controlled transfers. Any payment above or below the specified value will be rejected.
+
+- `expiryDate`: Sets how long the virtual account remains valid.
+
+<Warning>
+  Be cautious when setting the `expectedAmount`. Once set, the account will **only** accept that exact amount. Payments with any other amount will be rejected.
+</Warning>
+
+To create a virtual account, send a [POST request](/nomba-api-reference/virtual-accounts/create-virtual-account) to this endpoint `/v1/accounts/virtual`.
+
+<CodeGroup>
+```bash Request
+curl --request POST \
+  --url https://api.nomba.com/v1/accounts/virtual \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <parent accountId>' \
+  --data '{
+    "accountRef": "1oWbJQQHLyQ************",
+    "accountName": "Daniel Scorsese",
+    "currency": "NGN",
+    "expiryDate": "2024-06-17 04:55:00",
+    "bvn":"12345678901",
+    "expectedAmount": 5000.00,
+  }'
+```
+
+```json Response
+{
+  "code": "00",
+  "description": "Success",
+  "data": {
+    "createdAt": "2024-10-11T14:15:39.376Z",
+    "accountRef": "Archie Friesen",
+    "accountHolderId": "8d19d421-85b1-4b61-be90-168dc261gf45",
+    "accountName": "John Doe",
+    "currency": "NGN",
+    "bankAccountNumber": "9171424569",
+    "bankAccountName": "Ayomide Akinrotoye",
+    "bankName": "Amucha MFB",
+    "bvn": "22122204392",
+    "expiryDate": "2024-10-12T12:30:49",
+    "expired": false
+  }
+}
+```
+</CodeGroup>
+
+## Suspend a virtual account
+
+You cannot suspend a parent account. The parent account is directly tied to your business and always remains active. Only accounts created via the API (i.e., virtual accounts) can be suspended.
+
+To suspend a virtual account, send a PUT request with the accountId of the account you want to suspend to `/v1/accounts/suspend/{accountId}` 
+
+<Info>
+  Virtual accounts are the only accounts that can be created via API.
+</Info>
+
+<CodeGroup>
+
+```bash Request
+curl --request PUT \
+  --url https://api.nomba.com/v1/accounts/suspend/{accountId} \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountid>'
+```
+
+```bash Response
+{
+  "code": "00",
+  "description": "Success",
+  "data": true
+}
+```
+</CodeGroup>
+
+## Perform a virtual account lookup
+
+You can look up the details of a virtual account using its account number. This is useful for verifying whether an account is still valid, checking expiry status, or retrieving account details before accepting payments.
+
+<CodeGroup>
+```bash Request
+curl --request GET \
+  --url https://api.nomba.com/v1/accounts/virtual/{virtualAcctNumber} \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountId>'
+```
+
+```json Response
+{
+    "code": "00",
+    "description": "SUCCESS",
+    "data": {
+        "createdAt": "2025-05-28T08:23:48.073Z",
+        "bankAccountNumber": "",
+        "bankAccountName": "",
+        "bankName": "Nombank MFB",
+        "accountRef": "created-wed-28-05-2501",
+        "accountHolderId": "",
+        "accountName": "",
+        "currency": "NGN",
+        "bvn": "00***",
+        "expired": false
+    },
+    "message": "SUCCESS",
+    "status": true
+}
+```
+</CodeGroup>
+
+**What’s Next?**
+
+After creating a virtual account, there are additional actions you may need to perform:
+
+- [Expire a virtual account](/nomba-api-reference/virtual-accounts/expire-a-virtual-account) Set a virtual account to expire at a specific time.
+
+- [Filter virtual accounts](/nomba-api-reference/virtual-accounts/filter-virtual-accounts) Retrieve a list of accounts that match specific conditions (e g, expired, by customer account name etc).
+
+- [Fetch parent account balance](/nomba-api-reference/accounts/fetch-parent-account-details).
+
+
+

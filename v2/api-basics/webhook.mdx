@@ -1,0 +1,703 @@
+---
+title: "Webhooks"
+description: "Learn how to interact with Nomba webhooks"
+icon: "webhook"
+---
+
+## Overview
+
+Webhooks allow your system to establish a communication channel with Nomba, usually via a public URL. When a payment event occurs on your account, Nomba will send a notification via this communication channel to notify you about this event. 
+
+Nomba will send a `POST`request to the public webhook URL containing the details of the event and header strictly for verifying that the webhook event originated from the Nomba system.
+
+<Frame caption="Established webhook process flow">
+  <img
+    src="/images/webhooks-1.png"
+    style={{ borderRadius: "0.5rem" }}
+    loading="lazy"
+  />
+</Frame>
+
+This image shows an established communication via webhook URL between your system and Nomba.
+
+<Note>
+  It is good to note that, you must subscribe for the event type you want to get
+  notified on.
+</Note>
+
+
+## Set up webhook event
+
+To set up your webhooks, navigate to the settings page and select the webhook tab on your dashboard. On this page you can set a live or test webhook URL and signature key. When you add a webhook URL, you can subscribe for the event you want to get notified on.
+
+<Frame caption="Set up webhook on your dashboard">
+  <img
+    src="/images/webhooks-2.png"
+    style={{ borderRadius: "0.5rem" }}
+    loading="lazy"
+  />
+</Frame>
+
+<Note>
+    Kindly ensure that your webhook URL is publicly available.
+</Note>
+
+## Supported Events
+
+- **Payment Success** `payment_success` : Triggered when a payment is successfully credited to your Nomba account, e.g., card transaction, PayByTransfer, or PayByQR.
+
+- **Payout Success**  `payout_success` : Triggered when a payment is successfully debited from your account, e.g., funds transfer, bill payment.
+
+- **Payment Failed** `payment_failed` : Triggered when a proposed payment attempt fails.
+
+- **Payment Reversal**  `payment_reversal` : Triggered when a payment is reversed from your account back to the customer’s account.
+
+- **Payout Failed**  `payout_failed` : Triggered when a payout transaction fails to process successfully and is not completed.
+
+- **Payout Refund** `payout_refund` : Triggered when a payout is refunded back to your Nomba account.
+
+### Webhook headers
+
+Every webhook notification from Nomba includes special headers and a payload that matches the content of all supported event types. These headers will help you verify and process the request to ensure that it’s coming from Nomba, as a public URL can be accessed by anyone, so it’s to verify that all webhooks are from Nomba before giving value to your customers.
+
+A typical webhook payload will come with the following Nomba-specific headers:
+
+```http
+nomba-signature: 0zzATkAuEta5kpKVCExReupW/XglCk/re51P4jiDJ9c=
+nomba-sig-value: 0zzATkAuEta5kpKVCExReupW/XglCk/re51P4jiDJ9c=
+nomba-signature-algorithm: HmacSHA256
+nomba-signature-version: 1.0.0
+nomba-timestamp: 2023-03-31T05:56:47Z
+
+```
+
+| Header                      | Description                                                                                                             |
+| --------------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `nomba-signature`           | A signature created using the signature key configured while creating the webhook on the Nomba dashboard                |
+| `nomba-signature-algorithm` | The algorithm used to generate the signature. Value is always `HmacSHA256`                                              |
+| `nomba-signature-version`   | The version of the signature used. Value is `1.0.0` at the moment. It will keep updating as the signing process updates |
+| `nomba-timestamp`           | An `RFC-3339` timestamp that identifies when the payload was sent.                                                      |
+
+<Tip>
+  - The RFC-3339 format specifies that dates should be represented using the year,
+  month, and day, separated by hyphens, followed by a "T" to separate the date
+  from the time, and then the time represented in hours, minutes, and seconds,
+  separated by colons, with an optional fractional second component. Example;
+  2022-01-01T15:45:22Z
+  - HTTP header names are case insensitive. Your client should convert all header
+  names to a standardized lowercase or uppercase format before trying to
+  determine the value of a header.
+</Tip>
+
+Since webhooks are simply HTTP POST requests, there’s a chance that malicious actors could try to send fake webhook events to your server. To protect you from this, Nomba signs each webhook payload using the signature key you set when creating the webhook. The generated signature is included in the request headers, so your server can verify that the request truly came from Nomba and not an attacker.
+
+<Warning>
+  We recommend configuring the signature key while creating a webhook URL. While
+  this configuration is optional, it is important to configure the keys and
+  verify the signature of the payloads in order to prevent DDoS or
+  Man-in-the-Middle attacks.
+</Warning>
+
+### Webhook payload
+
+The content of the payload is a JSON object and it gives details about the event that has been triggered.
+
+| Field        | Type          | Description                                              |
+| ------------ | ------------- | -------------------------------------------------------- |
+| `event_type` | String        | The event type that was triggered                        |
+| `request_id` | String (UUID) | A unique request identifier useful for tracking messages |
+| `data`       | Object (JSON) | An object describing the details of the triggered event  |
+
+
+<CodeGroup>
+```json expandable Payment Success 
+{
+    "event_type": "payout_success",
+    "requestId": "f45a5f24-c8a7-4cce-9ae2-c1**********",
+    "data": {
+        "merchant": {
+            "walletId": "6400f***********",
+            "walletBalance": 8***.08,
+            "userId": "b9027fce-9860-4b9e-b193-*******"
+        },
+        "terminal": {},
+        "transaction": {
+            "fee": 15,
+            "type": "transfer",
+            "transactionId": "API-TRANSFER-AEAA2-350b8c6b-f31f-4cd0-a802-9************",
+            "responseCode": "",
+            "originatingFrom": "api",
+            "merchantTxRef": "LSQRMHHTLSOQ1757521351751",
+            "transactionAmount": 42500,
+            "narration": "From Ekuma Fr",
+            "time": "2025-09-10T16:22:34Z"
+        },
+        "customer": {
+            "bankCode": "011",
+            "senderName": "Ekuma ******",
+            "recipientName": "OKORO ******* ******",
+            "bankName": "First Bank of Nigeria",
+            "accountNumber": "**********"
+        }
+    }
+    "id": ********,
+    "eventType": "payout_success",
+    "coreUserId": "b9027fce-9860-4b9e-b193-7c**********",
+    "businessName": "********** Limited",
+    "status": "PUSHED",
+    "responseHttpStatus": 200,
+    "responsePayload": {
+        "status": 200,
+        "data": {
+            "successful": true
+        }
+    },
+    "email": "co********@gmail.com",
+    "eventId": 25,
+    "createdOn": "2025-09-10T16:22:34.370304",
+    "webhookUrl": "https://api.************",
+    "hookRequestId": "f45a5f24-c8a7-4cce-9ae2-************",
+    "webhookUrlId": 7
+}
+```
+```json expandable Payout Success
+{
+    "event_type": "payment_success",
+    "requestId": "999111df-9f20-4cf8-8740-3d2fc43c7149",
+    "data": {
+        "merchant": {
+            "walletId": "5f04b9ee600f1c00084affa2",
+            "walletBalance": 732233.66,
+            "userId": "000000ab-154e-4a11-a0cf-2249fad063e3"
+        },
+        "terminal": {},
+        "transaction": {
+            "aliasAccountNumber": "0010721887",
+            "fee": 150,
+            "sessionId": "100004240726191726000236980560",
+            "type": "vact_transfer",
+            "transactionId": "API-VACT_TRA-067fg-sdf78ghy-fd7f-4567-b404-3122939dc25f",
+            "aliasAccountName": "Bestbrains-Kunle Oyetunji",
+            "responseCode": "",
+            "originatingFrom": "api",
+            "transactionAmount": 1000,
+            "narration": "Transfer from Kunle Nnaji",
+            "time": "2025-05-26T12:34:24Z",
+            "aliasAccountType": "VIRTUAL"
+        },
+        "customer": {
+            "bankCode": "305",
+            "senderName": "Kunle Nnaji",
+            "bankName": "Paycom (Opay)",
+            "accountNumber": "9035418377"
+        }
+    }
+}
+```
+
+```json expandable Payment Failed
+{
+    "event_type": "payment_success",
+    "requestId": "999111df-9f20-4cf8-8740-3d2fc43c7149",
+    "data": {
+        "merchant": {
+            "walletId": "5f04b9ee600f1c00084affa2",
+            "walletBalance": 732233.66,
+            "userId": "000000ab-154e-4a11-a0cf-2249fad063e3"
+        },
+        "terminal": {},
+        "transaction": {
+            "aliasAccountNumber": "0010721887",
+            "fee": 150,
+            "sessionId": "100004240726191726000236980560",
+            "type": "vact_transfer",
+            "transactionId": "API-VACT_TRA-067fg-sdf78ghy-fd7f-4567-b404-3122939dc25f",
+            "aliasAccountName": "Bestbrains-Kunle Oyetunji",
+            "responseCode": "",
+            "originatingFrom": "api",
+            "transactionAmount": 1000,
+            "narration": "Transfer from Kunle Nnaji",
+            "time": "2025-05-26T12:34:24Z",
+            "aliasAccountType": "VIRTUAL"
+        },
+        "customer": {
+            "bankCode": "305",
+            "senderName": "Kunle Nnaji",
+            "bankName": "Paycom (Opay)",
+            "accountNumber": "9035418377"
+        }
+    }
+}
+```
+
+```json expandable Payment Reversal
+{
+    "event_type": "payment_success",
+    "requestId": "999111df-9f20-4cf8-8740-3d2fc43c7149",
+    "data": {
+        "merchant": {
+            "walletId": "5f04b9ee600f1c00084affa2",
+            "walletBalance": 732233.66,
+            "userId": "000000ab-154e-4a11-a0cf-2249fad063e3"
+        },
+        "terminal": {},
+        "transaction": {
+            "aliasAccountNumber": "0010721887",
+            "fee": 150,
+            "sessionId": "100004240726191726000236980560",
+            "type": "vact_transfer",
+            "transactionId": "API-VACT_TRA-067fg-sdf78ghy-fd7f-4567-b404-3122939dc25f",
+            "aliasAccountName": "Bestbrains-Kunle Oyetunji",
+            "responseCode": "",
+            "originatingFrom": "api",
+            "transactionAmount": 1000,
+            "narration": "Transfer from Kunle Nnaji",
+            "time": "2025-05-26T12:34:24Z",
+            "aliasAccountType": "VIRTUAL"
+        },
+        "customer": {
+            "bankCode": "305",
+            "senderName": "Kunle Nnaji",
+            "bankName": "Paycom (Opay)",
+            "accountNumber": "9035418377"
+        }
+    }
+}
+```
+
+```json expandable Payout Failed
+{
+    "event_type": "payment_success",
+    "requestId": "999111df-9f20-4cf8-8740-3d2fc43c7149",
+    "data": {
+        "merchant": {
+            "walletId": "5f04b9ee600f1c00084affa2",
+            "walletBalance": 732233.66,
+            "userId": "000000ab-154e-4a11-a0cf-2249fad063e3"
+        },
+        "terminal": {},
+        "transaction": {
+            "aliasAccountNumber": "0010721887",
+            "fee": 150,
+            "sessionId": "100004240726191726000236980560",
+            "type": "vact_transfer",
+            "transactionId": "API-VACT_TRA-067fg-sdf78ghy-fd7f-4567-b404-3122939dc25f",
+            "aliasAccountName": "Bestbrains-Kunle Oyetunji",
+            "responseCode": "",
+            "originatingFrom": "api",
+            "transactionAmount": 1000,
+            "narration": "Transfer from Kunle Nnaji",
+            "time": "2025-05-26T12:34:24Z",
+            "aliasAccountType": "VIRTUAL"
+        },
+        "customer": {
+            "bankCode": "305",
+            "senderName": "Kunle Nnaji",
+            "bankName": "Paycom (Opay)",
+            "accountNumber": "9035418377"
+        }
+    }
+}
+```
+
+```json expandable Payout Refund
+{
+    "event_type": "payment_success",
+    "requestId": "999111df-9f20-4cf8-8740-3d2fc43c7149",
+    "data": {
+        "merchant": {
+            "walletId": "5f04b9ee600f1c00084affa2",
+            "walletBalance": 732233.66,
+            "userId": "000000ab-154e-4a11-a0cf-2249fad063e3"
+        },
+        "terminal": {},
+        "transaction": {
+            "aliasAccountNumber": "0010721887",
+            "fee": 150,
+            "sessionId": "100004240726191726000236980560",
+            "type": "vact_transfer",
+            "transactionId": "API-VACT_TRA-067fg-sdf78ghy-fd7f-4567-b404-3122939dc25f",
+            "aliasAccountName": "Bestbrains-Kunle Oyetunji",
+            "responseCode": "",
+            "originatingFrom": "api",
+            "transactionAmount": 1000,
+            "narration": "Transfer from Kunle Nnaji",
+            "time": "2025-05-26T12:34:24Z",
+            "aliasAccountType": "VIRTUAL"
+        },
+        "customer": {
+            "bankCode": "305",
+            "senderName": "Kunle Nnaji",
+            "bankName": "Paycom (Opay)",
+            "accountNumber": "9035418377"
+        }
+    }
+}
+```
+</CodeGroup>
+
+## Webhook signature verification
+
+To make sure a webhook truly comes from Nomba and hasn’t been altered, each request we send includes a signature in the header. This signature is generated using your webhook payload and the secret key you set on your dashboard.
+
+On your end, verification is straightforward:
+
+1. **Re-create the signature** :
+Use the same secret key and payload to generate a hash - HMAC signature.
+
+2. **Compare signatures** :
+Match your generated hash with the nomba-signature header we sent. If they’re the same, you can trust the webhook.
+
+The tab below contains sample code demonstrating how to calculate the HMAC signature and compare it with the signature sent via the webhook. 
+
+<Tabs>
+  <Tab title="GoLang">
+    <CodeGroup>
+       ```go expandable CalculateHMAC.go
+        package main
+        import (
+                "crypto/hmac"
+                "crypto/sha256"
+                "encoding/hex"
+                "fmt"
+        )
+
+        func main() {
+                signatureKey := "your_secret_key" // Replace with your actual signature key
+                payload := map[string]interface{}{
+                        "event_type": "some_event",
+                        "requestId": "12345",
+                        // ... other payload fields
+                }
+                timestamp := "1690646400" // Replace with actual timestamp
+
+                hashingPayload := fmt.Sprintf("%s:%s:%s:%s:%s:%s:%s:%s",
+                        payload["event_type"],
+                        payload["requestId"],
+                        payload["data"]["merchant"]["userId"],
+                        payload["data"]["merchant"]["walletId"],
+                        payload["data"]["transaction"]["transactionId"],
+                        payload["data"]["transaction"]["type"],
+                        payload["data"]["transaction"]["time"],
+                        payload["data"]["transaction"]["responseCode"])
+
+                message := fmt.Sprintf("%s:%s", hashingPayload, timestamp)
+
+                mac := hmac.New(sha256.New, []byte(signatureKey))
+                mac.Write([]byte(message))
+                hashed := mac.Sum(nil)
+                digest = base64.StdEncoding.EncodeToString(hashed)
+       }
+    ```
+    ```go expandable compare.go
+        package main
+
+        import (
+            "encoding/base64"
+            "fmt"
+        )
+
+        func main() {
+            digest := "..."
+            signature := headers.Get("nomba-sig-value")
+
+            isValid := digest == signature
+            fmt.Println(isValid)
+        }
+    ```
+    </CodeGroup>
+  </Tab>
+  <Tab title="Python">
+    <CodeGroup>
+       ```python expandable CalculateHMAC.py
+            import hmac
+            import hashlib
+
+            headers = request.headers
+            signature = headers.get("nomba-sig-value") # extract signature value from nomba
+            timestamp = headers.get("nomba-timestamp") # extract timestamp
+            your_secret = "000000" # Replace with your actual secret if you have or use default secret "000000"
+
+            data = request.get_json()
+
+            # Construct the new payload string
+            event_type = data["event_type"]
+            request_id = data["requestId"]
+            user_id = data["data"]["merchant"]["userId"]
+            wallet_id = data["data"]["merchant"]["walletId"]
+            transaction_id = data["data"]["transaction"]["transactionId"]
+            transaction_type = data["data"]["transaction"]["type"]
+            transaction_time = data["data"]["transaction"]["time"]
+            transaction_response_code = data["data"]["transaction"]["responseCode"]
+
+            concatenated_hashable_fields = ":".join(str(element) for element in [
+                event_type,
+                request_id,
+                user_id,
+                wallet_id,
+                transaction_id,
+                transaction_type,
+                transaction_time,
+                transaction_response_code,
+                timestamp
+            ] if element is not None)
+
+            # Generate HMAC signature
+            hmac_generated = generate_hmac(concatenated_hashable_fields, your_secret)
+        ```
+
+        
+        ```python expandable compare.py
+          signature = headers.get('nomba-sig-value')
+          is_valid = hmac_generated == signature
+        ```
+
+    </CodeGroup>
+  </Tab>
+  <Tab title="Javascript">
+    <CodeGroup>
+        ```javascript expandable CalculateHMAC.js
+            const { createHmac } = await import("node:crypto");
+
+            const signatureKey = "..."; // Replace with your actual signature key
+            const payload = req.body; // Extract the request body
+
+            // Extract timestamp from the header
+            const timestamp = req.get("nomba-timestamp");
+
+            // Construct the new payload string
+            const hashingPayload = `${payload.event_type}:${payload.requestId}:${payload.data.merchant.userId}:${payload.data.merchant.walletId}:${payload.data.transaction.transactionId}:${payload.data.transaction.type}:${payload.data.transaction.time}:${payload.data.transaction.responseCode}`;
+
+            // Combine the new payload with the timestamp
+            const message = `${hashingPayload}:${timestamp}`;
+
+            var hmacVal = createHmac("sha256", signatureKey);
+
+            var signature = req.get("nomba-sig-value");
+            hmacVal.update(message);
+        ```
+        ```javascript expandable compare.js
+            var signature = req.get("nomba-sig-value");
+
+            var isValid = (digest === signature);
+        ```
+    </CodeGroup>
+  </Tab>
+  <Tab title="Java">
+    <CodeGroup>
+       ```java expandable CalculateHMAC.java
+        import java.nio.charset.StandardCharsets;
+        import java.security.InvalidKeyException;
+        import java.security.NoSuchAlgorithmException;
+        import java.util.Objects;   
+
+        import javax.crypto.Mac;
+        import javax.crypto.spec.SecretKeySpec;
+
+        public class SignatureGenerator {
+
+            private static final String SIGNATURE_KEY = "..."; // Replace with your actual signature key
+            private static final String ALGORITHM = "HmacSHA256";
+
+            public static String generateSignature(String payload, String timestamp) throws NoSuchAlgorithmException, InvalidKeyException {
+                final var eventType =  String.valueOf(requestPayload.getOrDefault("event_type",""));
+                final var requestId = String.valueOf(requestPayload.getOrDefault("requestId", ""));
+                final var userId =  String.valueOf(merchantHashMap.getOrDefault("userId", ""));
+                final var walletId = String.valueOf(merchantHashMap.getOrDefault("walletId", ""));
+                final var transactionId = String.valueOf(transactionHashMap.getOrDefault("transactionId", ""));
+                final var transactionType = String.valueOf(transactionHashMap.getOrDefault("type", ""));
+                final var transactionTime =   String.valueOf(transactionHashMap.getOrDefault("time", ""));
+                final var transactionResponseCode = String.valueOf(transactionHashMap.getOrDefault("responseCode", ""));
+                final var hashingPayload = String.format("%s:%s:%s:%s:%s:%s:%s:%s", eventType, requestId, userId, walletId, transactionId, transactionType, transactionTime, transactionResponseCode);
+
+                String message = String.format("%s:%s", hashingPayload, timestamp);
+
+                Mac sha256HMAC = Mac.getInstance(ALGORITHM);
+                SecretKeySpec secretKey = new SecretKeySpec(secret.getBytes(), ALGORITHM);
+                sha256HMAC.init(secretKey);
+                byte[] hash = sha256HMAC.doFinal(hashingPayload.getBytes());
+                return Base64.getEncoder().encodeToString(hash);
+            }
+        }
+        ```
+
+        ```java expandable compare.java
+            String signature = headers.get("nomba-sig-value");
+
+            boolean isValid = digest.equals(signature);
+        ```
+    </CodeGroup>
+  </Tab>
+  <Tab title="C#">
+    <CodeGroup>
+       ```csharp expandable CalculateHMAC.cs
+            using System;
+            using System.Security.Cryptography;
+
+            public class SignatureGenerator
+            {
+                private const string SignatureKey = "..."; // Replace with your actual signature key
+                private const string Algorithm = "HmacSHA256";
+
+                public static string GenerateSignature(string payload, string timestamp)
+                {
+                    string hashingPayload = $"{payload["event_type"]}" +
+                                        $":{payload["requestId"]}" +
+                                        $":{payload["data"]["merchant"]["userId"]}" +
+                                        $":{payload["data"]["merchant"]["walletId"]}" +
+                                        $":{payload["data"]["transaction"]["transactionId"]}" +
+                                        $":{payload["data"]["transaction"]["type"]}" +
+                                        $":{payload["data"]["transaction"]["time"]}" +
+                                        $":{payload["data"]["transaction"]["responseCode"]}";
+
+                    string message = $"{hashingPayload}:{timestamp}";
+
+                    byte[] keyBytes = Encoding.UTF8.GetBytes(SignatureKey);
+                    byte[] messageBytes = Encoding.UTF8.GetBytes(message);
+                    using (var hmac = new HMACSHA256(keyBytes))
+                    {
+                        hmac.ComputeHash(messageBytes);
+                        return Convert.ToHexString(hmac.Hash).ToUpper();
+                    }
+                }
+            }
+        ```
+
+        ```csharp expandable compare.cs
+            using System;
+
+            class Program
+            {
+                static void Main()
+                {
+                    string digest = "...";
+                    string signature = headers["nomba-sig-value"];
+
+                    bool isValid = digest == signature;
+                    Console.WriteLine(isValid);
+                }
+            }
+        ```
+    </CodeGroup>
+  </Tab>
+  <Tab title="php">
+    <CodeGroup>
+        ```php expandable CalculateHMAC.php
+            $input = file_get_contents("php://input"); //raw input
+            $payload = json_decode($input, true); //decoded payload
+
+            $signatureKey = ""; //your signature key
+
+            $timestamp = $_SERVER['HTTP_NOMBA_TIMESTAMP']; //timestamp
+            $signature = $_SERVER['HTTP_NOMBA_SIG_VALUE']; //signature
+
+            // The payload
+            $hashingPayload = $payload['event_type'] . ':' .
+                        $payload['requestId'] . ':' .
+                        $payload['data']['merchant']['userId'] . ':' .
+                        $payload['data']['merchant']['walletId'] . ':' .
+                        $payload['data']['transaction']['transactionId'] . ':' .
+                        $payload['data']['transaction']['type'] . ':' .
+                        $payload['data']['transaction']['time'] . ':' .
+                        $payload['data']['transaction']['responseCode'];
+
+            // Combine d payload with d timestamp
+            $message = $hashingPayload . ':' . $timestamp;
+
+
+            // Generate HMAC hash using SHA256
+            $calculatedSignature = hash_hmac('sha256', $message, $signatureKey,true);
+
+            $encoded_data = base64_encode($calculatedSignature);
+        ```
+        ```php expandable compare.php
+            // Now compare the signature from header with the calculated one
+            if (!hash_equals($encoded_data, $signature)) {
+                // die
+            } 
+        ```
+    </CodeGroup> 
+  </Tab>
+</Tabs>
+
+## Idempotency in Nomba
+
+Nomba allows you to pass an idempotency key using the `X-Idempotent-key` header. This helps prevent duplicate requests when the first request fails due to issues like network interruptions.
+
+Although our system already handles idempotency internally, we recommend that you include an idempotency key when calling endpoints such as Bank Transfer.
+
+For example, if a bank transfer request succeeds but the confirmation is lost, resending the same request with the same idempotency key ensures that:
+
+- Only the first request is processed.
+
+- A duplicate request will either return the original response if identical or throw an error if different.
+
+This keeps your transactions safe and predictable by avoiding accidental duplicate transfers.
+
+<Warning> 
+  Always use a unique idempotency key for each request. This is best practice to ensure consistent behavior. 
+</Warning>
+
+The following examples show how to generate a unique keys in popular programming languages.
+
+<CodeGroup>
+
+```go unique_key.go
+package main
+
+import (
+	"fmt"
+	"github.com/google/uuid"
+)
+
+func main() {
+	idempotentKey := uuid.New().String()
+	fmt.Println(idempotentKey)
+}
+```
+
+```javascript unique_key.js
+const { v4: uuidv4 } = require('uuid');
+const idempotentKey = uuidv4();
+console.log(idempotentKey);
+```
+
+```python unique_key.py
+import uuid
+idempotent_key = str(uuid.uuid4())
+print(idempotent_key)
+```
+
+```java unique_key.java
+import java.util.UUID;
+String idempotentKey = UUID.randomUUID().toString();
+System.out.println(idempotentKey);
+```
+
+```cs unique_key.cs
+using System;
+
+string idempotentKey = Guid.NewGuid().ToString();
+Console.WriteLine(idempotentKey);
+```
+</CodeGroup>
+
+## Retrying Failed Webhooks
+
+When a webhook fails to deliver because the receiving server does not return a `2XX` status code, Nomba automatically retries the request using an exponential backoff policy. This approach spaces out retries with increasing delays, preventing your server from being overwhelmed while still ensuring delivery. Both `4XX` client errors and `5XX` server errors will trigger this retry flow. After the first failed attempt, Nomba will make up to five additional attempts to re-deliver the webhook. 
+
+The table below gives proper perspective into how failed webhooks would be retried.
+
+| No of Retries | WaitTime (in Seconds)    | WaitTime (in Mins)    |
+| ------------- | ------------------------ | -------------------- |
+| 1             | `120 secs`               | `2 mins`             |
+| 2             | `280 secs`               | `~ 5 mins`           |
+| 3             | `640 secs`               | `~ 11 mins`          |
+| 4             | `1440 secs`              | `24 mins`            |
+| 5             | `3200 secs`              | `~ 53 mins`          |
+
+
+
+
+
+
