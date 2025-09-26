@@ -3,6 +3,21 @@ title: 'Direct Debit'
 description: 'Understand everything about direct debit in Nomba'
 ---
 
+<CardGroup cols={2}>
+   <Card title="Create Direct Debit Mandate" icon="money-bill"
+    href="/nomba-api-reference/direct-debits/create-direct-debit">
+      Get started with creating a direct debit mandate via API reference
+</Card>
+<Card
+    title="Check Mandate Status"
+    icon="pen-to-square"
+    href="/nomba-api-reference/direct-debits/check-direct-debit-status"
+  >
+    Check mandate status via API reference.
+  </Card>
+</CardGroup>
+
+
 Direct Debit is a payment method that allows businesses to collect funds directly from their customers' bank accounts with their authorization. This method is particularly useful for recurring payments, such as subscriptions or utility bills, as it provides a convenient and automated way to manage payments. Direct Debit transactions are typically initiated by the business, but they require prior consent from the customer, ensuring that the process is secure and transparent.
 
 ## Create Direct Debit Mandate
@@ -15,7 +30,7 @@ In order to authorize the mandate, the customer will transfer an amount (N50) to
    It's important to note that the amount should be sent from the customer's account number that is being used for the mandate
 </Note>
 
-To create a direct debit mandate, send a [POST request](/nomba-api-reference/direct-debits/create-direct-debit) to this endpoint `/v1/direct-debits`,
+To create a direct debit mandate, send a [POST request](/nomba-api-reference/direct-debits/create-direct-debit) to this endpoint `/v1/direct-debits`.
 
 <CodeGroup>
 ```bash expandable Request
@@ -83,12 +98,12 @@ Once the mandate is created, it undergoes a verification process to ensure that 
 
 The status of the mandate is crucial for managing Direct Debit transactions. The possible statuses include `ACTIVE`, `SUSPENDED`, and `DELETED`. 
 
-To check a mandate status, send a [GET request](/nomba-api-reference/direct-debits/check-direct-debit-status) to this endpoint `/v1/direct-debits/status?mandateId={mandateId}`,
+To check a mandate status, send a [GET request](/nomba-api-reference/direct-debits/check-direct-debit-status) to this endpoint `/v1/direct-debits/status?mandateId={mandateId}`.
 
 <CodeGroup>
 ```bash Request
 curl --request GET \
-  --url 'https://api.nomba.com/v1/direct-debits/status?mandateId={mandateId}' \
+  --url https://api.nomba.com/v1/direct-debits/status?mandateId={mandateId} \
   --header 'Authorization: Bearer <token>' \
   --header 'accountId: <accountid>'
   --header 'Content-Type: application/json' \
@@ -124,7 +139,7 @@ After the mandate is verified and activated, the business can initiate Direct De
   - Only mandates with an ADVICE_SENT status can be used for debit transactions.
 </Note>
 
-To debit a mandate created, send a [GET request](/nomba-api-reference/direct-debits/debit-mandate) to this endpoint `/v1/direct-debits/debit-mandate`,
+To debit a mandate created, send a [GET request](/nomba-api-reference/direct-debits/debit-mandate) to this endpoint `/v1/direct-debits/debit-mandate`.
 
 <CodeGroup>
 ```bash Request
@@ -162,10 +177,10 @@ To get a single mandate created, send a GET request to this endpoint `/v1/direct
 <CodeGroup>
 ```bash Request
 curl --request GET \
---url 'http://api.nomba.com/v1/direct-debits/<mandateId>' \
---header 'Authorization: Bearer <token>' \
---header 'accountId: <accountId>' \
---header 'Content-Type: application/json' \
+  --url http://api.nomba.com/v1/direct-debits/<mandateId> \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountId>' \
+  --header 'Content-Type: application/json' \
 ```
 
 ```json expandable Response
@@ -197,7 +212,7 @@ curl --request GET \
 
 ## List Direct debit
 
-To list all direct debit created, send a [GET request](/nomba-api-reference/direct-debits/list-direct-debit-mandates) to this endpoint `/v1/direct-debits/mandates`,
+To list all direct debit created, send a [GET request](/nomba-api-reference/direct-debits/list-direct-debit-mandates) to this endpoint `/v1/direct-debits/mandates`.
 
 <CodeGroup>
 ```bash Request
@@ -253,7 +268,7 @@ To list all direct debit created, send a [GET request](/nomba-api-reference/dire
 
 The status of the mandate can be updated as needed. For instance, if a customer wishes to cancel the mandate, the business can update the mandate status accordingly.
 
-To update a direct debit status, send a [PUT request](/nomba-api-reference/direct-debits/update-direct-debit-status) to this endpoint `/v1/direct-debits/update-status`,
+To update a direct debit status, send a [PUT request](/nomba-api-reference/direct-debits/update-direct-debit-status) to this endpoint `/v1/direct-debits/update-status`.
 
 <CodeGroup>
 ```bash Request

@@ -48,17 +48,7 @@ When creating a virtual account, you can optionally include the following fields
   Be cautious when setting the `expectedAmount`. Once set, the account will **only** accept that exact amount. Payments with any other amount will be rejected.
 </Warning>
 
-### Required Fields
-
-<ParamField body="accountRef" type="string" required>
-  Account reference
-</ParamField>
-
-<ParamField body="accountName" type="string" required>
-  Account holder's name
-</ParamField>
-
-See a request and response example below.
+To create a virtual account, send a [POST request](/nomba-api-reference/virtual-accounts/create-virtual-account) to this endpoint `/v1/accounts/virtual`.
 
 <CodeGroup>
 ```bash Request

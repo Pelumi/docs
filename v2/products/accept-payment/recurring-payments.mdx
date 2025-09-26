@@ -24,33 +24,7 @@ This allows you to charge the customer securely without asking for card details 
   Only include `tokenizeCard: true` when creating a checkout order if you intend to use the customer’s card for future payments. The returned `tokenKey` from the webhook will then be required for recurring charges.
 </Tip>
 
----
-
-## Required Fields
-
-<ParamField body="order" type="object" required>
-    Account reference
-    <Expandable title="object"  defaultOpen="true">
-        <ParamField body="callbackUrl" type="string" required>
-            Merchant callback url for redirect after payment
-        </ParamField>
-        <ParamField body="customerEmail" type="string" required>
-            Customer email
-        </ParamField>
-        <ParamField body="amount" type="number" required>
-            The amount to be paid by the customer
-        </ParamField>
-        <ParamField body="currency" type="string" required>
-            The currency of the money to be paid by the customer
-        </ParamField>
-    </Expandable>
-</ParamField>
-
-<ParamField body="tokenkey" type="string">
-  The token key returned in the webhook
-</ParamField>
-
-**Endpoint:** `POST /v1/checkout/tokenized-card-payment`
+To charge a tokenize card, send a [POST request](/nomba-api-reference/online-checkout/charge-a-customer-using-tokenized-card-data) to this endpoint `/v1/checkout/tokenized-card-payment`.
 
 <CodeGroup>
   ```bash Request

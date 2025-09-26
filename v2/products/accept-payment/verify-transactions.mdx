@@ -23,12 +23,88 @@ description: 'Learn how to retrieve and filter through your transactions with th
 
 ## Verify a Transaction
 
-The **Verify Transactions** endpoint allows you to confirm the status of a specific transaction by using either the `orderReference` or the `orderId`.  
+The **Verify Transactions** endpoint allows you to confirm the status of a specific transaction by using either the `orderReference` or the `orderId` or Nomba transaction reference.  
 This is important for ensuring that payments are successfully completed before providing value to your customers.
 
----
+<Tip>
+  You can use this API to verify sandbox transactions or live transactions 
+</Tip>
 
-**`GET /v1/checkout/transaction`**
+To verify a transaction, send a GET request to this endpoint `/v1/transactions/accounts/single`.
+
+The Payment statuses are SUCCESS or FAILED.
+
+<CodeGroup>
+  ```bash Request
+    curl --request GET \
+      --url https://api.nomba.com/v1/transactions/accounts/single?orderReference=90e81e8a-bc14-4ebf-828c0-57da801cca68 \
+      --header 'Authorization: Bearer <token>' \
+      --header 'accountId: <accountid>'
+  ```
+
+  ```bash expandable Response
+  {
+    "code": "00",
+    "description": "SUCCESS",
+    "data": {
+        "id": "WEB-ONLINE_C-69923-ae0f2688-12b1-45b6-9972-06261aa65ef1",
+        "status": "SUCCESS",
+        "amount": "202.8",
+        "fixedCharge": "2.8",
+        "source": "web",
+        "type": "online_checkout",
+        "gatewayMessage": "PAYMENT SUCCESSFUL",
+        "customerBillerId": "7373019705",
+        "timeCreated": "2025-09-26T01:07:02.729Z",
+        "timeUpdated": "2025-09-26T01:07:02.989Z",
+        "walletCurrency": "NGN",
+        "walletBalance": "478.97",
+        "billingVendorReference": "68d5e736e414b032b3******",
+        "paymentVendorReference": "09064525092601065923059812******
+        "userId": "69923f4d-963f-4a2b-b0f5-4da074d0a461",
+        "ktaSenderName": "Oluwafemi Makanju",
+        "ktaSenderAccountNumber": "7373019705",
+        "senderName": "Oluwafemi Makanju",
+        "merchantTxRef": "IFAP-TRANSFER-34863-c4e36a8f-ea19-4355-a0e2-151b3******",
+        "onlineCheckoutOrderId": "9adcbf44-8cca-4fc6-b3a7-ac2758******",
+        "onlineCheckoutCardPanLast4Digits": "N/A",
+        "onlineCheckoutOrderReference": "90e81e8a-bc14-4ebf-89c0-57da801c******",
+        "onlineCheckoutTokenizedCardPayment": "false",
+        "onlineCheckoutCardPan": "N/A",
+        "onlineCheckoutCurrency": "NGN",
+        "onlineCheckoutCustomerEmail": "make@gmail.com",
+        "currency": "NGN",
+        "onlineCheckoutAmount": "202.8",
+        "onlineCheckoutPaymentMethod": "bank_transfer",
+        "onlineCheckoutTokenKey": "N/A",
+        "onlineCheckoutTokenExpiryMonth": "N/A",
+        "onlineCheckoutTokenExpiryYear": "N/A",
+        "onlineCheckoutCardType": "N/A",
+        "productId": "090645",
+        "isAgentTransaction": true,
+        "isInternational": false,
+        "customerCommission": "0.00",
+        "accountNumber": "7373019825",
+        "entryType": "CREDIT",
+        "transactionCategory": "General",
+        "loyaltyAction": "UNKOWN",
+        "customerType": "UNKOWN"
+    },
+    "status": false
+  }
+  ```
+</CodeGroup>
+
+
+## Get Checkout Transaction
+
+This endpoint allows you to retrieve the details of a checkout transaction using either the `ORDER_REFERENCE` or `ORDER_ID`. It is especially useful for verifying transaction status in case you miss a webhook notification or want to double-check the transaction details sent to you via webhook.
+
+<Warning>
+  This API is only available in production environment
+</Warning>
+
+To fetch a checkout transaction, send a [POST request](/nomba-api-reference/online-checkout/create-an-online-checkout-order) to this endpoint `/v1/checkout/transaction`.
 
 <CodeGroup>
   ```bash Request

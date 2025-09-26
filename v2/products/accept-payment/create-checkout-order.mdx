@@ -8,6 +8,13 @@ description: 'Learn how to create a checkout order to accept payments'
 href="/nomba-api-reference/online-checkout/create-an-online-checkout-order">
   Create an online checkout order to accept payments from your customers
 </Card>
+<Card
+    title="Charge Tokenized card"
+    icon="pen-to-square"
+    href="/nomba-api-reference/online-checkout/charge-a-customer-using-tokenized-card-data"
+  >
+    Charge customer tokenize card with a token key.
+  </Card>
 </CardGroup>
 
 ## Create a checkout order
@@ -30,29 +37,7 @@ Here are a few things to take note of when creating a checkout order.
 
 You can create a subaccount from the dashboard; follow this guide to learn how to create a subaccount and obtain your subaccount account ID. You will also learn how to follow our settlement cycle to set up auto settlement to external banks via subaccount.
 
-### Required Fields 
-
-Besides these mandatory fields when creating a checkout order, there are various optional fields that can be used for a number of customizations while creating a checkout order; they can be seen in the request body.
-
-<ParamField body="order" type="object" required>
-    Account reference
-    <Expandable title="object"  defaultOpen="true">
-        <ParamField body="callbackUrl" type="string" required>
-            Merchant callback url for redirect after payment
-        </ParamField>
-        <ParamField body="customerEmail" type="string" required>
-            Customer email
-        </ParamField>
-        <ParamField body="amount" type="number" required>
-            The amount to be paid by the customer
-        </ParamField>
-        <ParamField body="currency" type="string" required>
-            The currency of the money to be paid by the customer
-        </ParamField>
-    </Expandable>
-</ParamField>
-
-Follow the request and sample response code shown below to create a checkout order.
+To create a checkout, send a [POST request](/nomba-api-reference/online-checkout/create-an-online-checkout-order) to this endpoint `/v1/checkout/order`.
 
 <CodeGroup>
   ```bash Request

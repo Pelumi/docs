@@ -48,18 +48,6 @@
                       ]
                     },
                     {
-                      "group": "Direct Debit",
-                      "icon": "shuffle",
-                      "pages": [
-                        "v2/products/direct-debit/introduction",
-                        "v2/products/direct-debit/create-direct-debit",
-                        "v2/products/direct-debit/check-direct-debit-status",
-                        "v2/products/direct-debit/debit-mandate",
-                        "v2/products/direct-debit/update-direct-debit-status",
-                        "v2/products/direct-debit/list-direct-debit-mandates"
-                      ]
-                    },
-                    {
                       "group": "Transfers",
                       "icon": "shuffle",
                       "pages": [
@@ -694,7 +682,7 @@
     "href": "https://nomba.com"
   },
   "appearance": {
-    "default": "dark",
+    "default": "light",
     "strict": false
   },
   "banner": {
