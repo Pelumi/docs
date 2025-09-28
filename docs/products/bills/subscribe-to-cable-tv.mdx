@@ -1,0 +1,112 @@
+---
+title: "Subscribe to Cable TV"
+description: "This describes the process of subscribing to a Cable TV network"
+---
+
+<CardGroup cols={2}>
+  <Card
+    title="Subscribe to Cable TV via the Parent Account"
+    icon="link-simple"
+    href="/nomba-api-reference/bills/subscribe-to-cable-tv-via-parent-account"
+  ></Card>
+</CardGroup>
+
+# `POST /v1/bill/cabletv`
+
+#### Request body
+
+<ParamField body="amount" type="integer" required>
+  Amount
+</ParamField>
+
+<ParamField body="cableTvPaymentType" type="string" required>
+  The cable tv provider name id usually dstv or gotv
+</ParamField>
+
+<ParamField body="merchantTxRef" type="string" required>
+  Merchant Transaction Reference (a unique reference to identify this
+  transaction on your system)
+</ParamField>
+
+<ParamField body="payerName" type="string" required>
+  The name of the person to be attached to this transaction
+</ParamField>
+
+<ParamField body="customerId" type="string" required>
+  An unique id to identify the customer to which this payment belongs
+</ParamField>
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="object" defaultOpen="true">
+    <ResponseField name="amount" type="string" required>
+      Amount
+    </ResponseField>
+    <ResponseField name="meta" type="object">
+      <Expandable title="object" defaultOpen="false">
+        <ResponseField name="merchantTxRef" type="string">
+          Merchant Transaction Reference
+        </ResponseField>
+        <ResponseField name="rrn" type="string">
+          Retrieval Reference Number (RRN)
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="timeCreated" type="string" required>
+      Date and Time of the transaction
+    </ResponseField>
+    <ResponseField name="type" type="string" required>
+      The type of this transaction.
+    </ResponseField>
+    <ResponseField name="status" type="string" required>
+      The status of this transaction
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash Request
+curl --location 'https://api.nomba.com/v1/bill/cabletv' \
+--header 'accountId: <accountId>' \
+--header 'Authorization: Bearer <token>' \
+--data '{
+    "cableTvPaymentType": "dstv",
+    "merchantTxRef": "{{$guid}}",
+    "payerName": "{{$randomFullName}}",
+    "amount": 2000,
+    "customerId": "123909200"
+}'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success response
+{
+    "code": "00",
+    "description": "SUCCESS",
+    "data": {
+        "amount": 2000,
+        "meta": {
+            "merchantTxRef": "bf6cd7cc-5952-4e66-abff-64032ce1a73a",
+            "api_client_id": "10422171-9100-4e66-93e1-7f6da894ef89",
+            "api_account_id": "01a10aeb-d989-460a-bbde-9842f2b4320f",
+            "rrn": "240803091832"
+        },
+        "fee": "",
+        "timeCreated": "2024-08-03T08:18:34.201Z",
+        "id": "API-DSTV-C1073-2d10909a-df07-4e95-9851-e5ebd5695040",
+        "type": "dstv",
+        "status": "SUCCESS"
+    }
+}
+```
+</ResponseExample>

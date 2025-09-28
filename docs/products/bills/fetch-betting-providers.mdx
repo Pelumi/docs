@@ -1,0 +1,76 @@
+---
+title: "Fetch Betting Providers"
+description: "Get a list of the available plans from a provider."
+---
+
+<CardGroup cols={2}>
+    <Card
+        title="Subscribe to betting"
+        icon="link-simple"
+        href="/docs/products/bills/subscribe-to-betting"
+    ></Card>
+</CardGroup>
+
+## `GET /v1/bill/betting/providers`
+
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+    Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+    Response description
+</ResponseField>
+
+<ResponseField name="message" type="string" required>
+    Response message
+</ResponseField>
+
+<ResponseField name="data" type="object[]">
+    List of available subscription plans
+    <Expandable title="object" defaultOpen="true">
+        <ResponseField name="id" type="string" required>
+            The corresponding id for this provider
+        </ResponseField>
+        <ResponseField name="name" type="string" required>
+            The pretty name for this provider
+        </ResponseField>
+    </Expandable>
+</ResponseField>
+
+<RequestExample>
+    ```bash Request
+    curl --location  GET \
+    --url  https://api.nomba.com/v1/bill/betting/providers \
+    --header 'Authorization: Bearer <token>' \
+    --header 'accountId: <accountId>'
+        ```
+</RequestExample>
+
+<ResponseExample>
+    ```json Success response
+    {
+        "code": "00",
+        "description": "SUCCESS",
+        "data": [
+            {
+                "lookup_id": "BET9JA",
+                "amount": "",
+                "name": "BET9JA",
+                "biller_id": "bet9ja",
+                "id": "bet9ja"
+            },
+            {
+                "lookup_id": "BET_1960BET",
+                "amount": "",
+                "name": "1960Bet",
+                "biller_id": "1960bet",
+                "id": "1960bet"
+            }
+        ],
+        "message": "SUCCESS"
+    }
+    ```
+</ResponseExample>
