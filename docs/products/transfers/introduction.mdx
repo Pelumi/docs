@@ -1,0 +1,113 @@
+---
+title: 'Overview'
+description: "Learn how to process bank transfers with the Nomba API"
+---
+
+Bank transfers form the backbone of modern financial services, enabling swift and secure movement of funds. You can initiate bank transfers effortlessly with our APIs. We prioritize the highest standards of security and compliance, ensuring your financial transactions are handled with the utmost care.
+
+## Quick Action
+<CardGroup cols={3}>
+  <Card
+    title="Bank account lookup"
+    icon="money-bill"
+    href="/docs/products/transfers/bank-account-lookup"
+  >
+    Use the Nomba API to do account lookups.
+  </Card>
+  <Card
+    title="Perform bank transfer"
+    icon="credit-card"
+    href="/docs/products/transfers/transfer-to-banks"
+  >
+    Initiate account transfers with the Nomba API.
+  </Card>
+  <Card
+    title="Perform account transfer"
+    icon="comment-dollar"
+    href="/docs/products/transfers/transfer-between-accounts"
+  >
+    Initiate P2P transfers within Nomba.
+  </Card>
+</CardGroup>
+
+To successfully execute bank transfers using our endpoints, it is necessary to undergo the following steps:
+
+<Steps titleSize="p">
+  <Step title="Perform a bank account lookup">
+    Before initiating bank transfers, it's advisable to inform your customers about the recipient. The bank account lookup endpoint requires an `accountNumber` and the associated `bankCode` (a unique code representing the bank) as input.
+
+    `Request`
+
+    ```bash
+    curl --request POST \
+        --url https://api.nomba.com/v1/transfers/bank/lookup \
+        --header 'Authorization: Bearer <token>' \
+        --header 'Content-Type: application/json' \
+        --header 'accountId: <accountid>' \
+        --data '{
+        "accountNumber": "0554772814",
+        "bankCode": "053"
+    }'
+    ```
+
+    `Response`
+
+    ```json
+    {
+        "code": "00",
+        "description": "Success",
+        "data": {
+            "accountNumber": "0554772814",
+            "accountName": "M.A Animashaun"
+        }
+    }
+    ```
+
+  </Step>
+
+  <Step title="Perform a bank transfer">
+    Initiate a bank transfer from Nomba to an external bank. This endpoint requires details such as the `amount` to be transferred, a `merchantTxRef` for later transaction reconciliation, as well as the recipient's `accountNumber` and `bankCode`.
+
+    `Request`
+
+    ```bash
+    curl --request POST \
+        --url https://api.nomba.com/v1/transfers/bank \
+        --header 'Authorization: Bearer <token>' \
+        --header 'Content-Type: application/json' \
+        --header 'accountId: <accountid>' \
+        --data '{
+        "amount": 3500,
+        "accountNumber": "0554772814",
+        "accountName": "M.A Animashaun",
+        "bankCode": "058",
+        "merchantTxRef": "UNQ_123abGGhh5546",
+        "senderName": "Nightly Post"
+        }'
+    ```
+
+    `Response`
+
+    ```json
+    {
+        "code": "00",
+        "description": "Success",
+        "data": {
+            "amount": 5502,
+            "meta": {
+            "merchantTxRef": "3JVW2xJCjj443oannREBuTaXDdji",
+            "api_client_id": "6a7bed88-7c93-4a1c-a445-f88edbca6489",
+            "api_account_id": "01a10aeb-d989-460a-bbde-9842f2b4320f",
+            "rrn": "230908151711"
+            },
+            "fee": 50,
+            "timeCreated": "2023-09-08T14:17:13.634Z",
+            "id": "API-TRANSFER-C24AD-a6443bf0-011c-4bc2-b739-4a2e33e2a27b",
+            "type": "transfer",
+            "status": "SUCCESS"
+        }
+    }
+    ```
+
+  </Step>
+</Steps>
