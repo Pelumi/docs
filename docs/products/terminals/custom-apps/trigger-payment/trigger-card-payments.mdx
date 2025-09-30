@@ -102,18 +102,72 @@ paymentOptionLauncher.launch(intent);
 </CodeGroup>
 
 <Check>
-Please ensure to pass the amount as `kobo` i.e. `200` will charge your customer `NGN 2.00`
+   Please ensure to pass the amount as `kobo` i.e. `200` will charge your customer `NGN 2.00`
 </Check>
 
-Your resultString should look like;
-```
+The result of your payment action would be similar to this structure. 
+
+<Info>
+   We’ve migrated from using hash maps to json strings for more flexibility and usage.
+</Info>
+
+```bash expandable 
 {
-    responseCode=00, responseCodeMeaning="Completed successfully", terminalId="2KUD2XFU", 
-    rrn="240117080003", formattedAmountString="₦3.00", txnType="PURCHASE", dateTime="2024-01-17 8:00:03", 
-    cardPan="559441******5882", stan="575780", expiryDate="2606", cardName="00002220", 
-    merchantName="Etrack Systems", providerTid="2KUD2XFU", cardScheme="Debit Mastercard"
+  "transactionResultType": "CARD_TRANSACTION",
+  "statusCode": "00",
+  "statusCodeMeaning": "Completed successfully",
+  "tid": "2UP1N329",
+  "rrn": "250917135704",
+  "amountString": "₦1.00",
+  "amountHeldString": "",
+  "txnType": "PURCHASE",
+  "dateTime": "17 Sep 25 | 01:57 PM",
+  "cardPan": "537010******4203",
+  "stan": "161681",
+  "expiryDate": "2709",
+  "cardName": "DAMILOLA/ADEKUNLE",
+  "merchantName": "Etrack Systems",
+  "providerTid": "2KUD2XFU",
+  "cardScheme": "Debit MasterCard",
+  "waiterName": "",
+  "tipAmount": "",
+  "paymentOptionState": "SDK_PAYMENT_OPTIONS",
+  "transactionRef": "",
+  "internationalChargeAmount": "",
+  "internationalChargeFee": "",
+  "internationalChargeFeePercent": "",
+  "loyaltyPointDiscount": 0.0,
+  "amountPaid": 0.0,
+  "loyaltyPointEarned": 0,
+  "bookingId": "",
+  "orderId": "",
+  "responseCode": "00",
+  "responseMessage": "Completed successfully"
 }
 ```
+
+This an old sample of payment actions using an hash map to represent the result. Kindly update your implementation if you’re running on v1.9.x+.
+
+```bash expandable
+{
+    responseCode=00, 
+    responseCodeMeaning="Completed successfully", 
+    terminalId="2KUD2XFU", 
+    rrn="240117080003", 
+    formattedAmountString="₦3.00", 
+    txnType="PURCHASE", 
+    dateTime="2024-01-17 8:00:03", 
+    cardPan="559441******5882", 
+    stan="575780", 
+    expiryDate="2606", 
+    cardName="00002220", 
+    merchantName="Etrack Systems", 
+    providerTid="2KUD2XFU", 
+    cardScheme="Debit Mastercard"
+}
+```
+
+</CodeGroup>
 
 <Tip>
 Please note that the following details will make reference to the kotlin code snippet
