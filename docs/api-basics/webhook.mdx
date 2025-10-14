@@ -112,71 +112,21 @@ The content of the payload is a JSON object and it gives details about the event
 <CodeGroup>
 ```json expandable Payment Success 
 {
-    "event_type": "payout_success",
-    "requestId": "f45a5f24-c8a7-4cce-9ae2-c1**********",
-    "data": {
-        "merchant": {
-            "walletId": "6400f***********",
-            "walletBalance": 8***.08,
-            "userId": "b9027fce-9860-4b9e-b193-*******"
-        },
-        "terminal": {},
-        "transaction": {
-            "fee": 15,
-            "type": "transfer",
-            "transactionId": "API-TRANSFER-AEAA2-350b8c6b-f31f-4cd0-a802-9************",
-            "responseCode": "",
-            "originatingFrom": "api",
-            "merchantTxRef": "LSQRMHHTLSOQ1757521351751",
-            "transactionAmount": 42500,
-            "narration": "From Ekuma Fr",
-            "time": "2025-09-10T16:22:34Z"
-        },
-        "customer": {
-            "bankCode": "011",
-            "senderName": "Ekuma ******",
-            "recipientName": "OKORO ******* ******",
-            "bankName": "First Bank of Nigeria",
-            "accountNumber": "**********"
-        }
-    }
-    "id": ********,
-    "eventType": "payout_success",
-    "coreUserId": "b9027fce-9860-4b9e-b193-7c**********",
-    "businessName": "********** Limited",
-    "status": "PUSHED",
-    "responseHttpStatus": 200,
-    "responsePayload": {
-        "status": 200,
-        "data": {
-            "successful": true
-        }
-    },
-    "email": "co********@gmail.com",
-    "eventId": 25,
-    "createdOn": "2025-09-10T16:22:34.370304",
-    "webhookUrl": "https://api.************",
-    "hookRequestId": "f45a5f24-c8a7-4cce-9ae2-************",
-    "webhookUrlId": 7
-}
-```
-```json expandable Payout Success
-{
     "event_type": "payment_success",
-    "requestId": "999111df-9f20-4cf8-8740-3d2fc43c7149",
+    "requestId": "999111df-9f20-4cf8-8740-3XXXXXXXXX",
     "data": {
         "merchant": {
-            "walletId": "5f04b9ee600f1c00084affa2",
+            "walletId": "5f04b9ee600f1c03XXXXXXXXX",
             "walletBalance": 732233.66,
-            "userId": "000000ab-154e-4a11-a0cf-2249fad063e3"
+            "userId": "000000ab-154e-4a11-a0cf-23XXXXXXXXX"
         },
         "terminal": {},
         "transaction": {
             "aliasAccountNumber": "0010721887",
             "fee": 150,
-            "sessionId": "100004240726191726000236980560",
+            "sessionId": "100004240726191726003XXXXXXXXX",
             "type": "vact_transfer",
-            "transactionId": "API-VACT_TRA-067fg-sdf78ghy-fd7f-4567-b404-3122939dc25f",
+            "transactionId": "API-VACT_TRA-067fg-sdf78ghy-fd7f-4567-b404-313XXXXXXXXX",
             "aliasAccountName": "Bestbrains-Kunle Oyetunji",
             "responseCode": "",
             "originatingFrom": "api",
@@ -190,6 +140,38 @@ The content of the payload is a JSON object and it gives details about the event
             "senderName": "Kunle Nnaji",
             "bankName": "Paycom (Opay)",
             "accountNumber": "9035418377"
+        }
+    }
+}
+```
+```json expandable Payout Success
+{
+    "event_type": "payout_success",
+    "requestId": "69c9aebe-a4e6-4144-8248-bXXXXXXXX",
+    "data": {
+        "merchant": {
+            "walletId": "67a4e03745f1a049XXXXXX",
+            "walletBalance": 1000,
+            "userId": "8yanljbsXXXXX"
+        },
+        "terminal": {},
+        "transaction": {
+            "fee": 7,
+            "type": "transfer",
+            "transactionId": "API-TRANSFER-8A07F-d945b6f5-903c-4a5a-84bb-XXXXXXXX",
+            "responseCode": "",
+            "originatingFrom": "api",
+            "merchantTxRef": "EG17IJXXXX",
+            "transactionAmount": 370,
+            "narration": "From David O",
+            "time": "2025-10-11T21:25:42Z"
+        },
+        "customer": {
+            "bankCode": "305",
+            "senderName": "Faruk ",
+            "recipientName": "FARUK OSENI JOSEPH"
+            "bankName": "Paycom (Opay)",
+            "accountNumber": "9133647309"
         }
     }
 }
@@ -197,104 +179,33 @@ The content of the payload is a JSON object and it gives details about the event
 
 ```json expandable Payment Failed
 {
-    "event_type": "payment_success",
-    "requestId": "999111df-9f20-4cf8-8740-3d2fc43c7149",
+    "event_type": "payment_failed",
+    "requestId": "7b28d6d1-f91e-46c3-b312-89e9XXXXXXX",
     "data": {
         "merchant": {
-            "walletId": "5f04b9ee600f1c00084affa2",
-            "walletBalance": 732233.66,
-            "userId": "000000ab-154e-4a11-a0cf-2249fad063e3"
+            "userId": "usr_71kd89e9XXXXXXX"
         },
-        "terminal": {},
+        "terminal": {
+            "terminalLabel": "IKEJA MALL",
+            "terminalId": "3PLQXXX"
+        },
         "transaction": {
-            "aliasAccountNumber": "0010721887",
             "fee": 150,
-            "sessionId": "100004240726191726000236980560",
-            "type": "vact_transfer",
-            "transactionId": "API-VACT_TRA-067fg-sdf78ghy-fd7f-4567-b404-3122939dc25f",
-            "aliasAccountName": "Bestbrains-Kunle Oyetunji",
-            "responseCode": "",
-            "originatingFrom": "api",
-            "transactionAmount": 1000,
-            "narration": "Transfer from Kunle Nnaji",
-            "time": "2025-05-26T12:34:24Z",
-            "aliasAccountType": "VIRTUAL"
+            "type": "purchase",
+            "transactionId": "POS-PURCHASE-71KD9-ae67-91fe-4b6a-a45b-689e9XXXXXXX",
+            "responseCodeMessage": "Insufficient Funds",
+            "rrn": "2510089e9XXXXXXX5",
+            "cardIssuer": "MASTERCARD",
+            "responseCode": "51",
+            "originatingFrom": "pos",
+            "terminalSerialNumber": "91230989e9XXXXXXX",
+            "cardBank": "058",
+            "transactionAmount": 25000,
+            "time": "2025-10-06T17:38:45Z"
         },
         "customer": {
-            "bankCode": "305",
-            "senderName": "Kunle Nnaji",
-            "bankName": "Paycom (Opay)",
-            "accountNumber": "9035418377"
-        }
-    }
-}
-```
-
-```json expandable Payment Reversal
-{
-    "event_type": "payment_success",
-    "requestId": "999111df-9f20-4cf8-8740-3d2fc43c7149",
-    "data": {
-        "merchant": {
-            "walletId": "5f04b9ee600f1c00084affa2",
-            "walletBalance": 732233.66,
-            "userId": "000000ab-154e-4a11-a0cf-2249fad063e3"
-        },
-        "terminal": {},
-        "transaction": {
-            "aliasAccountNumber": "0010721887",
-            "fee": 150,
-            "sessionId": "100004240726191726000236980560",
-            "type": "vact_transfer",
-            "transactionId": "API-VACT_TRA-067fg-sdf78ghy-fd7f-4567-b404-3122939dc25f",
-            "aliasAccountName": "Bestbrains-Kunle Oyetunji",
-            "responseCode": "",
-            "originatingFrom": "api",
-            "transactionAmount": 1000,
-            "narration": "Transfer from Kunle Nnaji",
-            "time": "2025-05-26T12:34:24Z",
-            "aliasAccountType": "VIRTUAL"
-        },
-        "customer": {
-            "bankCode": "305",
-            "senderName": "Kunle Nnaji",
-            "bankName": "Paycom (Opay)",
-            "accountNumber": "9035418377"
-        }
-    }
-}
-```
-
-```json expandable Payout Failed
-{
-    "event_type": "payment_success",
-    "requestId": "999111df-9f20-4cf8-8740-3d2fc43c7149",
-    "data": {
-        "merchant": {
-            "walletId": "5f04b9ee600f1c00084affa2",
-            "walletBalance": 732233.66,
-            "userId": "000000ab-154e-4a11-a0cf-2249fad063e3"
-        },
-        "terminal": {},
-        "transaction": {
-            "aliasAccountNumber": "0010721887",
-            "fee": 150,
-            "sessionId": "100004240726191726000236980560",
-            "type": "vact_transfer",
-            "transactionId": "API-VACT_TRA-067fg-sdf78ghy-fd7f-4567-b404-3122939dc25f",
-            "aliasAccountName": "Bestbrains-Kunle Oyetunji",
-            "responseCode": "",
-            "originatingFrom": "api",
-            "transactionAmount": 1000,
-            "narration": "Transfer from Kunle Nnaji",
-            "time": "2025-05-26T12:34:24Z",
-            "aliasAccountType": "VIRTUAL"
-        },
-        "customer": {
-            "bankCode": "305",
-            "senderName": "Kunle Nnaji",
-            "bankName": "Paycom (Opay)",
-            "accountNumber": "9035418377"
+            "productId": "058",
+            "cardPan": "539983 **** **** 4297"
         }
     }
 }
@@ -302,37 +213,36 @@ The content of the payload is a JSON object and it gives details about the event
 
 ```json expandable Payout Refund
 {
-    "event_type": "payment_success",
-    "requestId": "999111df-9f20-4cf8-8740-3d2fc43c7149",
+    "event_type": "payout_refund",
+    "requestId": "062bbb0f-ecaa-481a-9ae5-12f73fXXXXXX",
     "data": {
         "merchant": {
-            "walletId": "5f04b9ee600f1c00084affa2",
-            "walletBalance": 732233.66,
-            "userId": "000000ab-154e-4a11-a0cf-2249fad063e3"
+            "walletId": "67khagklfXXXXXX",
+            "walletBalance": 45000,
+            "userId": "e5e6987d-32ea-4d04-8c49-13fXXXXXX"
         },
         "terminal": {},
         "transaction": {
-            "aliasAccountNumber": "0010721887",
-            "fee": 150,
-            "sessionId": "100004240726191726000236980560",
-            "type": "vact_transfer",
-            "transactionId": "API-VACT_TRA-067fg-sdf78ghy-fd7f-4567-b404-3122939dc25f",
-            "aliasAccountName": "Bestbrains-Kunle Oyetunji",
+            "fee": 7,
+            "sessionId": "090645251008183142932001fXXXXXX",
+            "type": "transfer",
+            "transactionId": "API-TRANSFER-9772C-bf28b3d1-e18f-4ecd-a33c-4fXXXXXX",
             "responseCode": "",
             "originatingFrom": "api",
-            "transactionAmount": 1000,
-            "narration": "Transfer from Kunle Nnaji",
-            "time": "2025-05-26T12:34:24Z",
-            "aliasAccountType": "VIRTUAL"
+            "merchantTxRef": "5TDL0CL7CP",
+            "transactionAmount": 45000,
+            "narration": "From Bidemi O",
+            "time": "2025-10-08T19:00:33Z"
         },
         "customer": {
-            "bankCode": "305",
-            "senderName": "Kunle Nnaji",
-            "bankName": "Paycom (Opay)",
-            "accountNumber": "9035418377"
+            "bankCode": "327",
+            "senderName": "Test",
+            "recipientName": "Test Technology Limited - MAKANJU FEMI",
+            "bankName": "Paga",
+            "accountNumber": "07937890XX"
         }
     }
-}
+} 
 ```
 </CodeGroup>
 
@@ -352,271 +262,816 @@ The tab below contains sample code demonstrating how to calculate the HMAC signa
 
 <Tabs>
   <Tab title="GoLang">
-    <CodeGroup>
-       ```go expandable CalculateHMAC.go
-        package main
-        import (
-                "crypto/hmac"
-                "crypto/sha256"
-                "encoding/hex"
-                "fmt"
-        )
-
-        func main() {
-                signatureKey := "your_secret_key" // Replace with your actual signature key
-                payload := map[string]interface{}{
-                        "event_type": "some_event",
-                        "requestId": "12345",
-                        // ... other payload fields
-                }
-                timestamp := "1690646400" // Replace with actual timestamp
-
-                hashingPayload := fmt.Sprintf("%s:%s:%s:%s:%s:%s:%s:%s",
-                        payload["event_type"],
-                        payload["requestId"],
-                        payload["data"]["merchant"]["userId"],
-                        payload["data"]["merchant"]["walletId"],
-                        payload["data"]["transaction"]["transactionId"],
-                        payload["data"]["transaction"]["type"],
-                        payload["data"]["transaction"]["time"],
-                        payload["data"]["transaction"]["responseCode"])
-
-                message := fmt.Sprintf("%s:%s", hashingPayload, timestamp)
-
-                mac := hmac.New(sha256.New, []byte(signatureKey))
-                mac.Write([]byte(message))
-                hashed := mac.Sum(nil)
-                digest = base64.StdEncoding.EncodeToString(hashed)
-       }
-    ```
-    ```go expandable compare.go
+  ```go expandable CalculateHMAC.go
         package main
 
         import (
+            "crypto/hmac"
+            "crypto/sha256"
             "encoding/base64"
+            "encoding/json"
             "fmt"
+            "log"
+            "strings"
         )
 
-        func main() {
-            digest := "..."
-            signature := headers.Get("nomba-sig-value")
+        // --- Struct Definitions for JSON Mapping ---
 
-            isValid := digest == signature
-            fmt.Println(isValid)
+        type Payload struct {
+            EventType string `json:"event_type"`
+            RequestID string `json:"requestId"`
+            Data      Data   `json:"data"`
+        }
+
+        type Data struct {
+            Merchant    Merchant    `json:"merchant"`
+            Terminal    map[string]interface{} `json:"terminal"`
+            Transaction Transaction `json:"transaction"`
+            Customer    Customer    `json:"customer"`
+        }
+
+        type Merchant struct {
+            WalletID       string  `json:"walletId"`
+            WalletBalance  float64 `json:"walletBalance"`
+            UserID         string  `json:"userId"`
+        }
+
+        type Transaction struct {
+            AliasAccountNumber   string  `json:"aliasAccountNumber"`
+            Fee                  float64 `json:"fee"`
+            SessionID            string  `json:"sessionId"`
+            Type                 string  `json:"type"`
+            TransactionID        string  `json:"transactionId"`
+            AliasAccountName     string  `json:"aliasAccountName"`
+            ResponseCode         string  `json:"responseCode"`
+            OriginatingFrom      string  `json:"originatingFrom"`
+            TransactionAmount    float64 `json:"transactionAmount"`
+            Narration            string  `json:"narration"`
+            Time                 string  `json:"time"`
+            AliasAccountReference string `json:"aliasAccountReference"`
+            AliasAccountType     string  `json:"aliasAccountType"`
+        }
+
+        type Customer struct {
+            BankCode     string `json:"bankCode"`
+            SenderName   string `json:"senderName"`
+            BankName     string `json:"bankName"`
+            AccountNumber string `json:"accountNumber"`
+        }
+
+        // --- Core Logic ---
+
+        func main() {
+            hooksCron2()
+        }
+
+        func hooksCron2() {
+            payloadJSON := `
+            {
+            "event_type": "payment_success",
+            "requestId": "45f2dc2d-d559-4773-bba3-2d5ec17b2e20",
+            "data": {
+                "merchant": {
+                "walletId": "6756ff80aafe04a795f18b38",
+                "walletBalance": 6052,
+                "userId": "b7b10e81-e57d-41d0-8fdc-f4e23a132bbf"
+                },
+                "terminal": {},
+                "transaction": {
+                "aliasAccountNumber": "5343270516",
+                "fee": 5,
+                "sessionId": "IFAP-TRANSFER-46501-e0339485-1a2f-4b43-9bd5-fec9649e5928",
+                "type": "vact_transfer",
+                "transactionId": "API-VACT_TRA-B7B10-0435b274-807a-4bc7-8abe-9dbb4548fd7a",
+                "aliasAccountName": "ZAXBOX/EZENNA NWACHUKWU",
+                "responseCode": "",
+                "originatingFrom": "api",
+                "transactionAmount": 10,
+                "narration": "Habiblahi Hamzat Transfer 10.00 To ZAXBOX/EZENNA NWACHUKWU - Nomba",
+                "time": "2025-09-29T10:51:44Z",
+                "aliasAccountReference": "654f7c80bd4a510c90fb7f92",
+                "aliasAccountType": "VIRTUAL"
+                },
+                "customer": {
+                "bankCode": "090645",
+                "senderName": "Habiblahi Hamzat",
+                "bankName": "Nombank",
+                "accountNumber": "9617811496"
+                }
+            }
+            }`
+
+            signatureValue := "Kt9095hQxfgmVbx6iz7G2tPhHdbdXgLlyY/mf35sptw="
+            nombaTimeStamp := "2025-09-29T10:51:44Z"
+            secret := "HkatexKDZg7CLWy96q5sfrVHSvtoz92B"
+
+            mySig, err := generateSignature(payloadJSON, secret, nombaTimeStamp)
+            if err != nil {
+                log.Fatalf("Error generating signature: %v", err)
+            }
+
+            log.Printf("Generated signature [%s]", mySig)
+            log.Printf("Expected signature [%s]", signatureValue)
+
+            if strings.EqualFold(signatureValue, mySig) {
+                log.Println(">>>>>>> Signatures match <<<<<<<<<")
+            } else {
+                log.Println("<<<<<<<<< Signatures did not match >>>>>>>>>")
+            }
+        }
+
+        func generateSignature(payloadJSON, secret, timeStamp string) (string, error) {
+            var payload Payload
+            if err := json.Unmarshal([]byte(payloadJSON), &payload); err != nil {
+                return "", fmt.Errorf("error parsing JSON payload: %w", err)
+            }
+
+            transaction := payload.Data.Transaction
+            merchant := payload.Data.Merchant
+
+            transactionResponseCode := transaction.ResponseCode
+            if transactionResponseCode == "null" {
+                transactionResponseCode = ""
+            }
+
+            // Construct the exact signature payload as in Java
+            hashingPayload := fmt.Sprintf(
+                "%s:%s:%s:%s:%s:%s:%s:%s:%s",
+                payload.EventType,
+                payload.RequestID,
+                merchant.UserID,
+                merchant.WalletID,
+                transaction.TransactionID,
+                transaction.Type,
+                transaction.Time,
+                transactionResponseCode,
+                timeStamp,
+            )
+
+            log.Printf("::: payload to hash --> [%s] :::", hashingPayload)
+
+            // Generate HMAC SHA256 and encode Base64
+            h := hmac.New(sha256.New, []byte(secret))
+            h.Write([]byte(hashingPayload))
+            hash := h.Sum(nil)
+
+            return base64.StdEncoding.EncodeToString(hash), nil
         }
     ```
-    </CodeGroup>
   </Tab>
   <Tab title="Python">
-    <CodeGroup>
-       ```python expandable CalculateHMAC.py
-            import hmac
-            import hashlib
+    ```python expandable CalculateHMAC.py
+        import json
+        import hmac
+        import hashlib
+        import base64
+        import logging
 
-            headers = request.headers
-            signature = headers.get("nomba-sig-value") # extract signature value from nomba
-            timestamp = headers.get("nomba-timestamp") # extract timestamp
-            your_secret = "000000" # Replace with your actual secret if you have or use default secret "000000"
+        logging.basicConfig(level=logging.INFO, format="%(message)s")
 
-            data = request.get_json()
-
-            # Construct the new payload string
-            event_type = data["event_type"]
-            request_id = data["requestId"]
-            user_id = data["data"]["merchant"]["userId"]
-            wallet_id = data["data"]["merchant"]["walletId"]
-            transaction_id = data["data"]["transaction"]["transactionId"]
-            transaction_type = data["data"]["transaction"]["type"]
-            transaction_time = data["data"]["transaction"]["time"]
-            transaction_response_code = data["data"]["transaction"]["responseCode"]
-
-            concatenated_hashable_fields = ":".join(str(element) for element in [
-                event_type,
-                request_id,
-                user_id,
-                wallet_id,
-                transaction_id,
-                transaction_type,
-                transaction_time,
-                transaction_response_code,
-                timestamp
-            ] if element is not None)
-
-            # Generate HMAC signature
-            hmac_generated = generate_hmac(concatenated_hashable_fields, your_secret)
-        ```
-
-        
-        ```python expandable compare.py
-          signature = headers.get('nomba-sig-value')
-          is_valid = hmac_generated == signature
-        ```
-
-    </CodeGroup>
-  </Tab>
-  <Tab title="Javascript">
-    <CodeGroup>
-        ```javascript expandable CalculateHMAC.js
-            const { createHmac } = await import("node:crypto");
-
-            const signatureKey = "..."; // Replace with your actual signature key
-            const payload = req.body; // Extract the request body
-
-            // Extract timestamp from the header
-            const timestamp = req.get("nomba-timestamp");
-
-            // Construct the new payload string
-            const hashingPayload = `${payload.event_type}:${payload.requestId}:${payload.data.merchant.userId}:${payload.data.merchant.walletId}:${payload.data.transaction.transactionId}:${payload.data.transaction.type}:${payload.data.transaction.time}:${payload.data.transaction.responseCode}`;
-
-            // Combine the new payload with the timestamp
-            const message = `${hashingPayload}:${timestamp}`;
-
-            var hmacVal = createHmac("sha256", signatureKey);
-
-            var signature = req.get("nomba-sig-value");
-            hmacVal.update(message);
-        ```
-        ```javascript expandable compare.js
-            var signature = req.get("nomba-sig-value");
-
-            var isValid = (digest === signature);
-        ```
-    </CodeGroup>
-  </Tab>
-  <Tab title="Java">
-    <CodeGroup>
-       ```java expandable CalculateHMAC.java
-        import java.nio.charset.StandardCharsets;
-        import java.security.InvalidKeyException;
-        import java.security.NoSuchAlgorithmException;
-        import java.util.Objects;   
-
-        import javax.crypto.Mac;
-        import javax.crypto.spec.SecretKeySpec;
-
-        public class SignatureGenerator {
-
-            private static final String SIGNATURE_KEY = "..."; // Replace with your actual signature key
-            private static final String ALGORITHM = "HmacSHA256";
-
-            public static String generateSignature(String payload, String timestamp) throws NoSuchAlgorithmException, InvalidKeyException {
-                final var eventType =  String.valueOf(requestPayload.getOrDefault("event_type",""));
-                final var requestId = String.valueOf(requestPayload.getOrDefault("requestId", ""));
-                final var userId =  String.valueOf(merchantHashMap.getOrDefault("userId", ""));
-                final var walletId = String.valueOf(merchantHashMap.getOrDefault("walletId", ""));
-                final var transactionId = String.valueOf(transactionHashMap.getOrDefault("transactionId", ""));
-                final var transactionType = String.valueOf(transactionHashMap.getOrDefault("type", ""));
-                final var transactionTime =   String.valueOf(transactionHashMap.getOrDefault("time", ""));
-                final var transactionResponseCode = String.valueOf(transactionHashMap.getOrDefault("responseCode", ""));
-                final var hashingPayload = String.format("%s:%s:%s:%s:%s:%s:%s:%s", eventType, requestId, userId, walletId, transactionId, transactionType, transactionTime, transactionResponseCode);
-
-                String message = String.format("%s:%s", hashingPayload, timestamp);
-
-                Mac sha256HMAC = Mac.getInstance(ALGORITHM);
-                SecretKeySpec secretKey = new SecretKeySpec(secret.getBytes(), ALGORITHM);
-                sha256HMAC.init(secretKey);
-                byte[] hash = sha256HMAC.doFinal(hashingPayload.getBytes());
-                return Base64.getEncoder().encodeToString(hash);
-            }
-        }
-        ```
-
-        ```java expandable compare.java
-            String signature = headers.get("nomba-sig-value");
-
-            boolean isValid = digest.equals(signature);
-        ```
-    </CodeGroup>
-  </Tab>
-  <Tab title="C#">
-    <CodeGroup>
-       ```csharp expandable CalculateHMAC.cs
-            using System;
-            using System.Security.Cryptography;
-
-            public class SignatureGenerator
-            {
-                private const string SignatureKey = "..."; // Replace with your actual signature key
-                private const string Algorithm = "HmacSHA256";
-
-                public static string GenerateSignature(string payload, string timestamp)
+        def hooks_cron2():
+            try:
+                payload = """
                 {
-                    string hashingPayload = $"{payload["event_type"]}" +
-                                        $":{payload["requestId"]}" +
-                                        $":{payload["data"]["merchant"]["userId"]}" +
-                                        $":{payload["data"]["merchant"]["walletId"]}" +
-                                        $":{payload["data"]["transaction"]["transactionId"]}" +
-                                        $":{payload["data"]["transaction"]["type"]}" +
-                                        $":{payload["data"]["transaction"]["time"]}" +
-                                        $":{payload["data"]["transaction"]["responseCode"]}";
-
-                    string message = $"{hashingPayload}:{timestamp}";
-
-                    byte[] keyBytes = Encoding.UTF8.GetBytes(SignatureKey);
-                    byte[] messageBytes = Encoding.UTF8.GetBytes(message);
-                    using (var hmac = new HMACSHA256(keyBytes))
-                    {
-                        hmac.ComputeHash(messageBytes);
-                        return Convert.ToHexString(hmac.Hash).ToUpper();
+                "event_type": "payment_success",
+                "requestId": "45f2dc2d-d559-4773-bba3-2d5ec17b2e20",
+                "data": {
+                    "merchant": {
+                    "walletId": "6756ff80aafe04a795f18b38",
+                    "walletBalance": 6052,
+                    "userId": "b7b10e81-e57d-41d0-8fdc-f4e23a132bbf"
+                    },
+                    "terminal": {},
+                    "transaction": {
+                    "aliasAccountNumber": "5343270516",
+                    "fee": 5,
+                    "sessionId": "IFAP-TRANSFER-46501-e0339485-1a2f-4b43-9bd5-fec9649e5928",
+                    "type": "vact_transfer",
+                    "transactionId": "API-VACT_TRA-B7B10-0435b274-807a-4bc7-8abe-9dbb4548fd7a",
+                    "aliasAccountName": "SAMPLE/JOHN DOE",
+                    "responseCode": "",
+                    "originatingFrom": "api",
+                    "transactionAmount": 10,
+                    "narration": "John Doe Transfer 10.00 To ZAXBOX/EZENNA NWACHUKWU - Nomba",
+                    "time": "2025-09-29T10:51:44Z",
+                    "aliasAccountReference": "654f7c80bd4**10c90fb7f92",
+                    "aliasAccountType": "VIRTUAL"
+                    },
+                    "customer": {
+                    "bankCode": "090645",
+                    "senderName": "John Doe",
+                    "bankName": "Nombank",
+                    "accountNumber": "0000000000"
                     }
                 }
-            }
-        ```
+                }
+                """
 
-        ```csharp expandable compare.cs
-            using System;
+                signature_value = "Kt9095hQxfgmVbx6iz7G2tPhHdbdXgLlyY/mf35sptw="
+                nomba_timestamp = "2025-09-29T10:51:44Z"
+                secret = "sampleScret"
 
-            class Program
+                my_sig = generate_signature(payload, secret, nomba_timestamp)
+
+                logging.info(f"Generated signature [{my_sig}]")
+                logging.info(f"Expected signature [{signature_value}]")
+
+                if signature_value.lower() == my_sig.lower():
+                    logging.info(">>>>>>> Signatures match <<<<<<<<<")
+                else:
+                    logging.info("<<<<<<<<< Signatures did not match >>>>>>>>>")
+
+            except Exception as ex:
+                logging.error(f"Error occurred while generating signature: {ex}")
+
+        def generate_signature(payload: str, secret: str, timestamp: str) -> str:
+            request_payload = json.loads(payload)
+
+            data = request_payload.get("data", {})
+            merchant = data.get("merchant", {})
+            transaction = data.get("transaction", {})
+
+            event_type = request_payload.get("event_type", "")
+            request_id = request_payload.get("requestId", "")
+            user_id = merchant.get("userId", "")
+            wallet_id = merchant.get("walletId", "")
+            transaction_id = transaction.get("transactionId", "")
+            transaction_type = transaction.get("type", "")
+            transaction_time = transaction.get("time", "")
+            transaction_response_code = transaction.get("responseCode", "")
+
+            if transaction_response_code == "null":
+                transaction_response_code = ""
+
+            # Construct the same hashing payload as in Java/Go
+            hashing_payload = f"{event_type}:{request_id}:{user_id}:{wallet_id}:{transaction_id}:{transaction_type}:{transaction_time}:{transaction_response_code}:{timestamp}"
+
+            logging.info(f"::: payload to hash --> [{hashing_payload}] :::")
+
+            # Compute HMAC-SHA256 and Base64 encode it
+            digest = hmac.new(secret.encode(), hashing_payload.encode(), hashlib.sha256).digest()
+            signature = base64.b64encode(digest).decode()
+
+            return signature
+
+        if __name__ == "__main__":
+            hooks_cron2()
+    ```
+  </Tab>
+  <Tab title="Javascript">
+    ```javascript expandable CalculateHMAC.js
+        import crypto from "crypto";
+
+        async function hooksCron2() {
+        try {
+            const payload = `
             {
-                static void Main()
-                {
-                    string digest = "...";
-                    string signature = headers["nomba-sig-value"];
-
-                    bool isValid = digest == signature;
-                    Console.WriteLine(isValid);
+            "event_type": "payment_success",
+            "requestId": "45f2dc2d-d559-4773-bba3-2d5ec17b2e20",
+            "data": {
+                "merchant": {
+                "walletId": "6756ff80aafe04a795f18b38",
+                "walletBalance": 6052,
+                "userId": "b7b10e81-**-**-**-f4e23a132bbf"
+                },
+                "terminal": {},
+                "transaction": {
+                "aliasAccountNumber": "5343270516",
+                "fee": 5,
+                "sessionId": "IFAP-TRANSFER-46501-e0339485-1a2f-4b43-9bd5-fec9649e5928",
+                "type": "vact_transfer",
+                "transactionId": "API-VACT_TRA-B7B10-0435b274-807a-4bc7-8abe-9dbb4548fd7a",
+                "aliasAccountName": "SAMPLE/JOHN DOE",
+                "responseCode": "",
+                "originatingFrom": "api",
+                "transactionAmount": 10,
+                "narration": "John Does Transfer 10.00 To SAMPLE/JOHN DOE - Nomba",
+                "time": "2025-09-29T10:51:44Z",
+                "aliasAccountReference": "sampleAccountReference",
+                "aliasAccountType": "VIRTUAL"
+                },
+                "customer": {
+                "bankCode": "090645",
+                "senderName": "John Does",
+                "bankName": "Nombank",
+                "accountNumber": "0000000000"
                 }
             }
-        ```
-    </CodeGroup>
+            }`;
+
+            const signatureValue = "Kt9095hQxfgmVbx6iz7G2tPhHdbdXgLlyY/mf35sptw=";
+            const nombaTimeStamp = "2025-09-29T10:51:44Z";
+            const secret = "sampleSecret";
+
+            const mySig = generateSignature(payload, secret, nombaTimeStamp);
+
+            console.log(`Generated signature [${mySig}]`);
+            console.log(`Expected signature [${signatureValue}]`);
+
+            if (signatureValue.toLowerCase() === mySig.toLowerCase()) {
+            console.log(">>>>>>> Signatures match <<<<<<<<<<<");
+            } else {
+            console.log("<<<<<<<<< Signatures did not match >>>>>>>>>");
+            }
+        } catch (ex) {
+            console.error("Error occurred while generating signature:", ex.message);
+        }
+        }
+
+        function generateSignature(payload, secret, timeStamp) {
+        const requestPayload = JSON.parse(payload);
+        const data = requestPayload.data || {};
+        const merchant = data.merchant || {};
+        const transaction = data.transaction || {};
+
+        const eventType = requestPayload.event_type || "";
+        const requestId = requestPayload.requestId || "";
+        const userId = merchant.userId || "";
+        const walletId = merchant.walletId || "";
+        const transactionId = transaction.transactionId || "";
+        const transactionType = transaction.type || "";
+        const transactionTime = transaction.time || "";
+        let transactionResponseCode = transaction.responseCode || "";
+
+        if (transactionResponseCode === "null") {
+            transactionResponseCode = "";
+        }
+
+
+        const hashingPayload = `${eventType}:${requestId}:${userId}:${walletId}:${transactionId}:${transactionType}:${transactionTime}:${transactionResponseCode}:${timeStamp}`;
+
+        console.log(`::: payload to hash --> [${hashingPayload}] :::`);
+
+        const hmac = crypto.createHmac("sha256", secret);
+        hmac.update(hashingPayload);
+        const hash = hmac.digest("base64");
+
+        return hash;
+        }
+
+        // Run
+        hooksCron2();
+    ```
+  </Tab>
+  <Tab title="Java">
+    ```java expandable CalculateHMAC.java
+    import com.fasterxml.jackson.annotation.JsonProperty;
+    import com.fasterxml.jackson.core.JsonProcessingException;
+    import com.fasterxml.jackson.databind.ObjectMapper;
+    import lombok.Data;
+    import lombok.extern.slf4j.Slf4j;
+
+    import javax.crypto.Mac;
+    import javax.crypto.spec.SecretKeySpec;
+    import java.util.Base64;
+
+    @Slf4j
+    public class NombaHooksRefactored {
+
+        private static final ObjectMapper objectMapper = new ObjectMapper();
+
+        public static void main(String[] args) throws Exception {
+            new NombaHooksRefactored().hooksCron2();
+        }
+
+        public void hooksCron2() {
+            try {
+                String payload = """
+                    {
+                    "event_type": "payment_success",
+                    "requestId": "45f2dc2d-d559-4773-bba3-2d5ec17b2e20",
+                    "data": {
+                        "merchant": {
+                        "walletId": "6756ff80aafe04a795f18b38",
+                        "walletBalance": 6052,
+                        "userId": "b7b10e81-**-**-**-f4e23a132bbf"
+                        },
+                        "terminal": {},
+                        "transaction": {
+                        "aliasAccountNumber": "5343270516",
+                        "fee": 5,
+                        "sessionId": "IFAP-TRANSFER-46501-***-1a2f-4b43-9bd5-fec9649e5928",
+                        "type": "vact_transfer",
+                        "transactionId": "API-VACT_TRA-B7B10-0435b274-807a-4bc7-8abe-9dbb4548fd7a",
+                        "aliasAccountName": "SAMPLE/JOHN DOE",
+                        "responseCode": "",
+                        "originatingFrom": "api",
+                        "transactionAmount": 10,
+                        "narration": "John Doe Transfer 10.00 To ZAXBOX/EZENNA NWACHUKWU - Nomba",
+                        "time": "2025-09-29T10:51:44Z",
+                        "aliasAccountReference": "654f7c80bd4***0c90fb7f92",
+                        "aliasAccountType": "VIRTUAL"
+                        },
+                        "customer": {
+                        "bankCode": "090645",
+                        "senderName": "John Doe",
+                        "bankName": "Nombank",
+                        "accountNumber": "0000000000"
+                        }
+                    }
+                    }
+                    """;
+
+                String signatureValue = "Kt9095hQxfgmVbx6iz7G2tPhHdbdXgLlyY/mf35sptw=";
+                String nombaTimeStamp = "2025-09-29T10:51:44Z";
+                String secret = "HkatexKDZg7CLWy96q5sfrVHSvtoz92B";
+
+                HookPayload hookPayload = objectMapper.readValue(payload, HookPayload.class);
+
+                String mySig = generateSignature(hookPayload, secret, nombaTimeStamp);
+
+                log.info("Generated signature [{}]", mySig);
+                log.info("Expected signature [{}]", signatureValue);
+
+                if (signatureValue.equalsIgnoreCase(mySig)) {
+                    log.info(">>>>>>> Signatures match <<<<<<<<<");
+                } else {
+                    log.info("<<<<<<<<< Signatures did not match >>>>>>>>>");
+                }
+
+            } catch (Exception ex) {
+                log.error("Error occurred while generating signature. Error message [{}]", ex.getMessage(), ex);
+            }
+        }
+
+        public String generateSignature(HookPayload payload, String secret, String timeStamp) throws Exception {
+            var data = payload.getData();
+            var merchant = data.getMerchant();
+            var transaction = data.getTransaction();
+
+            String eventType = safe(payload.getEventType());
+            String requestId = safe(payload.getRequestId());
+            String userId = safe(merchant.getUserId());
+            String walletId = safe(merchant.getWalletId());
+            String transactionId = safe(transaction.getTransactionId());
+            String transactionType = safe(transaction.getType());
+            String transactionTime = safe(transaction.getTime());
+            String transactionResponseCode = safe(transaction.getResponseCode());
+
+            if ("null".equalsIgnoreCase(transactionResponseCode)) {
+                transactionResponseCode = "";
+            }
+
+            String hashingPayload = String.format(
+                    "%s:%s:%s:%s:%s:%s:%s:%s:%s",
+                    eventType, requestId, userId, walletId,
+                    transactionId, transactionType, transactionTime,
+                    transactionResponseCode, timeStamp
+            );
+
+            log.info("::: payload to hash --> [{}] :::", hashingPayload);
+
+            Mac sha256HMAC = Mac.getInstance("HmacSHA256");
+            SecretKeySpec secretKey = new SecretKeySpec(secret.getBytes(), "HmacSHA256");
+            sha256HMAC.init(secretKey);
+
+            byte[] hash = sha256HMAC.doFinal(hashingPayload.getBytes());
+            return Base64.getEncoder().encodeToString(hash);
+        }
+
+        private String safe(String value) {
+            return value == null ? "" : value;
+        }
+    }
+
+    // POJO Models (Strongly Typed Payload Classes)
+
+    import com.fasterxml.jackson.annotation.JsonProperty;
+    import lombok.Data;
+
+    @Data
+    public class HookPayload {
+        @JsonProperty("event_type")
+        private String eventType;
+
+        @JsonProperty("requestId")
+        private String requestId;
+
+        @JsonProperty("data")
+        private HookData data;
+    }
+
+    @Data
+    class HookData {
+        private Merchant merchant;
+        private Transaction transaction;
+        private Customer customer;
+        private Object terminal;
+    }
+
+    @Data
+    class Merchant {
+        private String walletId;
+        private Double walletBalance;
+        private String userId;
+    }
+
+    @Data
+    class Transaction {
+        private String transactionId;
+        private String type;
+        private String time;
+        private String responseCode;
+    }
+
+    @Data
+    class Customer {
+        private String bankCode;
+        private String senderName;
+        private String bankName;
+        private String accountNumber;
+    }
+    ```
+  </Tab>
+  <Tab title="C#">
+    ```csharp expandable CalculateHMAC.cs
+        using System;
+        using System.Text;
+        using System.Text.Json;
+        using System.Text.Json.Serialization;
+        using System.Security.Cryptography;
+
+        public class HooksCron
+        {
+            public static void Main()
+            {
+                try
+                {
+                    var payload = @"
+                    {
+                    ""event_type"": ""payment_success"",
+                    ""requestId"": ""45f2dc2d-d559-4773-bba3-2d5ec17b2e20"",
+                    ""data"": {
+                        ""merchant"": {
+                        ""walletId"": ""6756ff80aafe04a795f18b38"",
+                        ""walletBalance"": 6052,
+                        ""userId"": ""b7b10e81-e57d-41d0-8fdc-f4e23a132bbf""
+                        },
+                        ""terminal"": {},
+                        ""transaction"": {
+                        ""aliasAccountNumber"": ""5343270516"",
+                        ""fee"": 5,
+                        ""sessionId"": ""IFAP-TRANSFER-46501-e0339485-1a2f-4b43-9bd5-fec9649e5928"",
+                        ""type"": ""vact_transfer"",
+                        ""transactionId"": ""API-VACT_TRA-B7B10-0435b274-807a-4bc7-8abe-9dbb4548fd7a"",
+                        ""aliasAccountName"": ""ZAXBOX/EZENNA NWACHUKWU"",
+                        ""responseCode"": """",
+                        ""originatingFrom"": ""api"",
+                        ""transactionAmount"": 10,
+                        ""narration"": ""Habiblahi Hamzat Transfer 10.00 To ZAXBOX/EZENNA NWACHUKWU - Nomba"",
+                        ""time"": ""2025-09-29T10:51:44Z"",
+                        ""aliasAccountReference"": ""654f7c80bd4a510c90fb7f92"",
+                        ""aliasAccountType"": ""VIRTUAL""
+                        },
+                        ""customer"": {
+                        ""bankCode"": ""090645"",
+                        ""senderName"": ""Habiblahi Hamzat"",
+                        ""bankName"": ""Nombank"",
+                        ""accountNumber"": ""9617811496""
+                        }
+                    }
+                    }";
+
+                    var signatureValue = "Kt9095hQxfgmVbx6iz7G2tPhHdbdXgLlyY/mf35sptw=";
+                    var nombaTimestamp = "2025-09-29T10:51:44Z";
+                    var secret = "HkatexKDZg7CLWy96q5sfrVHSvtoz92B";
+
+                    // Deserialize payload into object model
+                    var requestPayload = JsonSerializer.Deserialize<HookPayload>(payload);
+
+                    var mySig = GenerateSignature(requestPayload, secret, nombaTimestamp);
+
+                    Console.WriteLine($"Generated signature [{mySig}]");
+                    Console.WriteLine($"Expected signature [{signatureValue}]");
+
+                    if (string.Equals(signatureValue, mySig, StringComparison.OrdinalIgnoreCase))
+                    {
+                        Console.WriteLine(">>>>>>> Signatures match <<<<<<<<<");
+                    }
+                    else
+                    {
+                        Console.WriteLine("<<<<<<<<< Signatures did not match >>>>>>>>>");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error occurred while generating signature. Error: {ex.Message}");
+                }
+            }
+
+            public static string GenerateSignature(HookPayload payload, string secret, string timestamp)
+            {
+                var data = payload.Data;
+                var merchant = data.Merchant;
+                var transaction = data.Transaction;
+
+                string eventType = payload.EventType ?? "";
+                string requestId = payload.RequestId ?? "";
+                string userId = merchant?.UserId ?? "";
+                string walletId = merchant?.WalletId ?? "";
+                string transactionId = transaction?.TransactionId ?? "";
+                string transactionType = transaction?.Type ?? "";
+                string transactionTime = transaction?.Time ?? "";
+                string transactionResponseCode = transaction?.ResponseCode ?? "";
+
+                if (transactionResponseCode == "null")
+                {
+                    transactionResponseCode = "";
+                }
+
+                var hashingPayload = $"{eventType}:{requestId}:{userId}:{walletId}:{transactionId}:{transactionType}:{transactionTime}:{transactionResponseCode}:{timestamp}";
+                Console.WriteLine($"::: payload to hash --> [{hashingPayload}] :::");
+
+                using var hmac = new HMACSHA256(Encoding.UTF8.GetBytes(secret));
+                var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(hashingPayload));
+                var signature = Convert.ToBase64String(hash);
+
+                return signature;
+            }
+        }
+
+        #region Models
+
+        public class HookPayload
+        {
+            [JsonPropertyName("event_type")]
+            public string? EventType { get; set; }
+
+            [JsonPropertyName("requestId")]
+            public string? RequestId { get; set; }
+
+            [JsonPropertyName("data")]
+            public HookData Data { get; set; } = new();
+        }
+
+        public class HookData
+        {
+            [JsonPropertyName("merchant")]
+            public Merchant? Merchant { get; set; }
+
+            [JsonPropertyName("transaction")]
+            public Transaction? Transaction { get; set; }
+
+            [JsonPropertyName("customer")]
+            public Customer? Customer { get; set; }
+
+            [JsonPropertyName("terminal")]
+            public object? Terminal { get; set; }
+        }
+
+        public class Merchant
+        {
+            [JsonPropertyName("walletId")]
+            public string? WalletId { get; set; }
+
+            [JsonPropertyName("walletBalance")]
+            public decimal? WalletBalance { get; set; }
+
+            [JsonPropertyName("userId")]
+            public string? UserId { get; set; }
+        }
+
+        public class Transaction
+        {
+            [JsonPropertyName("transactionId")]
+            public string? TransactionId { get; set; }
+
+            [JsonPropertyName("type")]
+            public string? Type { get; set; }
+
+            [JsonPropertyName("time")]
+            public string? Time { get; set; }
+
+            [JsonPropertyName("responseCode")]
+            public string? ResponseCode { get; set; }
+        }
+
+        public class Customer
+        {
+            [JsonPropertyName("bankCode")]
+            public string? BankCode { get; set; }
+
+            [JsonPropertyName("senderName")]
+            public string? SenderName { get; set; }
+
+            [JsonPropertyName("bankName")]
+            public string? BankName { get; set; }
+
+            [JsonPropertyName("accountNumber")]
+            public string? AccountNumber { get; set; }
+        }
+
+        #endregion     
+    ```
   </Tab>
   <Tab title="php">
-    <CodeGroup>
-        ```php expandable CalculateHMAC.php
-            $input = file_get_contents("php://input"); //raw input
-            $payload = json_decode($input, true); //decoded payload
+    <Note>
+       This code samples is supported in php 
+    </Note>
+    ```php expandable CalculateHMAC.php
+        <?php
 
-            $signatureKey = ""; //your signature key
+        function hooksCron2() {
+            try {
+                $payload = <<<JSON
+                {
+                "event_type": "payment_success",
+                "requestId": "45f2dc2d-d559-4773-bba3-2d5ec17b2e20",
+                "data": {
+                    "merchant": {
+                    "walletId": "6756ff80aafe04a795f18b38",
+                    "walletBalance": 6052,
+                    "userId": "b7b10e81-***-41d0-***-f4e23a132bbf"
+                    },
+                    "terminal": {},
+                    "transaction": {
+                    "aliasAccountNumber": "5343270516",
+                    "fee": 5,
+                    "sessionId": "IFAP-TRANSFER-46501-e0339485-1a2f-4b43-9bd5-fec9649e5928",
+                    "type": "vact_transfer",
+                    "transactionId": "API-VACT_TRA-B7B10-0435b274-807a-4bc7-8abe-9dbb4548fd7a",
+                    "aliasAccountName": "SAMPLE/JOHN DOE",
+                    "responseCode": "",
+                    "originatingFrom": "api",
+                    "transactionAmount": 10,
+                    "narration": "Joh Doe Transfer 10.00 To SAMPLE/JOHN DOE - Nomba",
+                    "time": "2025-09-29T10:51:44Z",
+                    "aliasAccountReference": "654f7c80b****510c90fb7f92",
+                    "aliasAccountType": "VIRTUAL"
+                    },
+                    "customer": {
+                    "bankCode": "090645",
+                    "senderName": "John Doe",
+                    "bankName": "Nombank",
+                    "accountNumber": "0000000000"
+                    }
+                }
+                }
+                JSON;
 
-            $timestamp = $_SERVER['HTTP_NOMBA_TIMESTAMP']; //timestamp
-            $signature = $_SERVER['HTTP_NOMBA_SIG_VALUE']; //signature
+                $signatureValue = "Kt9095hQxfgmVbx6iz7G2tPhHdbdXgLlyY/mf35sptw=";
+                $nombaTimeStamp = "2025-09-29T10:51:44Z";
+                $secret = "SampleSecret";
 
-            // The payload
-            $hashingPayload = $payload['event_type'] . ':' .
-                        $payload['requestId'] . ':' .
-                        $payload['data']['merchant']['userId'] . ':' .
-                        $payload['data']['merchant']['walletId'] . ':' .
-                        $payload['data']['transaction']['transactionId'] . ':' .
-                        $payload['data']['transaction']['type'] . ':' .
-                        $payload['data']['transaction']['time'] . ':' .
-                        $payload['data']['transaction']['responseCode'];
+                $mySig = generateSignature($payload, $secret, $nombaTimeStamp);
 
-            // Combine d payload with d timestamp
-            $message = $hashingPayload . ':' . $timestamp;
+                echo "Generated signature [{$mySig}]\n";
+                echo "Expected signature [{$signatureValue}]\n";
 
+                if (strcasecmp($signatureValue, $mySig) === 0) {
+                    echo ">>>>>>> Signatures match <<<<<<<<<\n";
+                } else {
+                    echo "<<<<<<<<< Signatures did not match >>>>>>>>>\n";
+                }
+            } catch (Exception $ex) {
+                echo "Error occurred while generating signature: {$ex->getMessage()}\n";
+            }
+        }
 
-            // Generate HMAC hash using SHA256
-            $calculatedSignature = hash_hmac('sha256', $message, $signatureKey,true);
+        function generateSignature($payload, $secret, $timeStamp) {
+            $requestPayload = json_decode($payload, true);
 
-            $encoded_data = base64_encode($calculatedSignature);
-        ```
-        ```php expandable compare.php
-            // Now compare the signature from header with the calculated one
-            if (!hash_equals($encoded_data, $signature)) {
-                // die
-            } 
-        ```
-    </CodeGroup> 
+            $data = $requestPayload['data'] ?? [];
+            $merchant = $data['merchant'] ?? [];
+            $transaction = $data['transaction'] ?? [];
+
+            $eventType = $requestPayload['event_type'] ?? '';
+            $requestId = $requestPayload['requestId'] ?? '';
+            $userId = $merchant['userId'] ?? '';
+            $walletId = $merchant['walletId'] ?? '';
+            $transactionId = $transaction['transactionId'] ?? '';
+            $transactionType = $transaction['type'] ?? '';
+            $transactionTime = $transaction['time'] ?? '';
+            $transactionResponseCode = $transaction['responseCode'] ?? '';
+
+            if ($transactionResponseCode === "null") {
+                $transactionResponseCode = '';
+            }
+
+            // Construct payload string same as Java's String.format(SIG_FORMAT, data, timeStamp)
+            $hashingPayload = sprintf(
+                "%s:%s:%s:%s:%s:%s:%s:%s:%s",
+                $eventType,
+                $requestId,
+                $userId,
+                $walletId,
+                $transactionId,
+                $transactionType,
+                $transactionTime,
+                $transactionResponseCode,
+                $timeStamp
+            );
+
+            echo "::: payload to hash --> [{$hashingPayload}] :::\n";
+
+            // Generate HMAC SHA256 and encode in Base64
+            $hash = hash_hmac('sha256', $hashingPayload, $secret, true);
+            return base64_encode($hash);
+        }
+
+        // Run
+        hooksCron2();
+    ```
   </Tab>
 </Tabs>
 
