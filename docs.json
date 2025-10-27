@@ -303,8 +303,7 @@
                   "group": "Developer Tools",
                   "pages": [
                     "/developer-resources/tools/overview",
-                    "/developer-resources/tools/plugins-and-sdks/",
-                    "/developer-resources/tools/code-samples"
+                    "/developer-resources/tools/plugins-and-sdks/"
                   ]
                 }
               ]
