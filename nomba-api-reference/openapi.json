@@ -2668,14 +2668,14 @@
             "required": true
           },
           {
-            "description": "The account reference of the virtual account to be updated.",
-            "example": "3UixJxjfeEZacxYbiNNAJa5R4e9DR",
+            "description": "The account reference of the virtual account to be updated. It can also be the new account ref you want to update to. The value pass will be what will appear on webhook  when next you use the virtual account for transaction",
+            "example": "INVOICE-20230823-0000",
             "in": "path",
             "name": "accountRef",
             "required": true,
             "schema": {
               "type": "string",
-              "example": "3UixJxjfeEZacxYbiNNAJa5R4e9DR"
+              "example": "INVOICE-20230823-0000"
             }
           }
         ],
@@ -13514,20 +13514,33 @@
       "UpdateVirtualAccountRequest": {
         "type": "object",
         "properties": {
+          "bankAccountNumber": {
+            "type": "string",
+            "description": "The virtual account number you want to update.",
+            "minLength":10,
+            "maxLength": 10,
+            "example": "0107841806"
+          },
           "accountName": {
             "type": "string",
-            "description": "Account holder's name",
+            "description": "Account holder's name you want to update to",
             "minLength": 8,
             "maxLength": 64,
             "example": "Daniel Scorsese"
           },
           "callbackUrl": {
             "type": "string",
-            "description": "Callback url",
+            "description": "Callback url you want to update to",
             "format": "url",
             "example": "https://webhook.site/98ef100f-5adc-4434-800a-0808h60bd8d7"
+          },
+          "expectedAmount": {
+            "type": "string",
+            "description": "If passed, the virtual account will only accept payments for this amount. Be careful as once being set this Virtual account can never take any amount again, thou you can always update the expected amount",
+            "example": "100.0"
           }
-        }
+        },
+        "required": ["bankAccountNumber"]
       },
       "UpdateVirtualAccountResponse": {
         "type": "object",
