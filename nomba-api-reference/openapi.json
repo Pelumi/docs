@@ -2640,7 +2640,7 @@
         "tags": ["Virtual Accounts"]
       }
     },
-    "/v1/accounts/virtual/{accountRef}": {
+    "/v1/accounts/virtual/{identifier}": {
       "put": {
         "description": "You can use this endpoint to update a virtual account.",
         "operationId": "Update a virtual account",
@@ -2668,14 +2668,16 @@
             "required": true
           },
           {
-            "description": "The account reference of the virtual account to be updated. It can also be the new account ref you want to update to. The value pass will be what will appear on webhook  when next you use the virtual account for transaction",
-            "example": "INVOICE-20230823-0000",
+            "description": "The account reference of the virtual account to be updated or 10 digit virtual accountNumber to be updated.",
+
+
+            "example": "INVOICE-20230823-0000 or 0107841806",
             "in": "path",
-            "name": "accountRef",
+            "name": "identifier",
             "required": true,
             "schema": {
               "type": "string",
-              "example": "INVOICE-20230823-0000"
+              "example": "INVOICE-20230823-0000 or 0107841806"
             }
           }
         ],
@@ -13514,16 +13516,16 @@
       "UpdateVirtualAccountRequest": {
         "type": "object",
         "properties": {
-          "bankAccountNumber": {
-            "type": "string",
-            "description": "The virtual account number you want to update.",
-            "minLength":10,
-            "maxLength": 10,
-            "example": "0107841806"
-          },
           "accountName": {
             "type": "string",
             "description": "Account holder's name you want to update to",
+            "minLength": 8,
+            "maxLength": 64,
+            "example": "Daniel Scorsese"
+          },
+          "newAccountRef": {
+            "type": "string",
+            "description": "The new accountRef you want to update to. This will be the accountReference that will come with the webhook post updating",
             "minLength": 8,
             "maxLength": 64,
             "example": "Daniel Scorsese"
@@ -13539,8 +13541,7 @@
             "description": "If passed, the virtual account will only accept payments for this amount. Be careful as once being set this Virtual account can never take any amount again, thou you can always update the expected amount",
             "example": "100.0"
           }
-        },
-        "required": ["bankAccountNumber"]
+        }
       },
       "UpdateVirtualAccountResponse": {
         "type": "object",
