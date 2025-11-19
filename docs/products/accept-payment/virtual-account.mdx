@@ -26,27 +26,59 @@ In Nomba, creating a virtual account falls under the broader category of Account
 
 Nomba supports different types of accounts:
 
-1. **Primary accounts** - Automatically created when you set up a business account.
+1. **Primary accounts** - Automatically created when you set up a business on Nomba. This is your main account, and all subsequently created accounts (virtual or sub-accounts) are linked to it.
 
-2. **Virtual accounts** - Created via API by merchants.
+2. **Virtual accounts** - Accounts created via API for receiving payments. Funds received through a virtual account are automatically routed to the parent (primary) account, as virtual accounts do not hold funds themselves. You can still view all virtual-account transactions on your dashboard.
 
-3. **Sub-accounts** - Created exclusively on Nomba dashboard as a separate pocket of money.
+3. **Sub-accounts** – Accounts created exclusively from the Nomba Dashboard. They act as separate “pockets” of money that you can use to segment funds for internal operations, teams, or business workflows.
 
 See this [guide](v2/guides/managing-accounts-with-nomba) for more details on managing accounts with Nomba.
 
+### Types of Virtual accounts
+
+Nomba supports two types of virtual accounts depending on how they behave after creation:
+
+#### **Static Virtual Accounts**
+
+Static virtual accounts are permanent account numbers assigned to a customer or business.  
+They do not expire, and can receive multiple payments over time.
+
+Use a static virtual account when:
+
+- You want the customer to have a dedicated account number.
+- You expect recurring deposits.
+- You don't want the account number to change or expire.
+
+#### Dynamic Virtual Accounts
+
+Dynamic virtual accounts are temporary or purpose-based account numbers typically used for:
+
+- One-time payments  
+- Time-bound transactions  
+
+They can be configured with `expiryDate` to defines when the account becomes invalid  
+
+Dynamic accounts are ideal for transaction-specific usage and reduce reconciliation errors
+
 ## Create a virtual account
 
-When creating a virtual account, you can optionally include the following fields in your request:
+When creating a virtual account, please not that this fields are optional:
 
-- `bvn`: If not provided, the virtual account will inherit the BVN of the parent account. Only include this if you want to assign a different BVN.
+- `accountRef` (required): A unique reference you assign to the virtual account.
 
-- `expectedAmount`: Restricts the account to accept only the specified amount. This is useful for exact payments such as invoice matching or controlled transfers. Any payment above or below the specified value will be rejected.
+- `accountName` (required): The name associated with the virtual account.
 
-- `expiryDate`: Sets how long the virtual account remains valid.
+- `currency` (required): Currency for the virtual account, e.g NGN.
+
+- `bvn` (optional): If not provided, the virtual account will inherit the BVN of the parent account. Only include this if you want to assign a different BVN.
+
+- `expectedAmount` (optional): Restricts the account to accept only the specified amount. This is useful for exact payments such as invoice matching or controlled transfers.  When omitted, the account will accept any amount since it is not restricted to a specific value.
 
 <Warning>
   Be cautious when setting the `expectedAmount`. Once set, the account will **only** accept that exact amount. Payments with any other amount will be rejected.
 </Warning>
+
+- `expiryDate` (optional): Sets how long the virtual account remains valid, this is useful if you intend to create a dynamic virtual account purposely for time-based transactions. If omitted, the virtual account functions as a static (permanent) account.
 
 To create a virtual account, send a [POST request](/nomba-api-reference/virtual-accounts/create-virtual-account) to this endpoint `/v1/accounts/virtual`.
 

@@ -12514,7 +12514,7 @@
           "bankName": {
             "type": "string",
             "description": "Bank name",
-            "example": "Amucha Mfb"
+            "example": "Nombank Mfb"
           }
         },
         "required": ["accountNumber", "accountName", "bankName"]
@@ -12670,7 +12670,7 @@
           },
           "beneficiaryAccountName": {
             "type": "string",
-            "description": "The account name associated with the Merchants Amucha account",
+            "description": "The account name associated with the Merchants Nombank account",
             "example": "Tope Fade"
           },
           "beneficiaryAccountNumber": {
@@ -13413,7 +13413,7 @@
           "bankName": {
             "type": "string",
             "description": "Bank name",
-            "example": "Amucha MFB"
+            "example": "Nombank MFB"
           },
           "bankAccountNumber": {
             "type": "string",
@@ -13603,7 +13603,7 @@
           "bankName": {
             "type": "string",
             "description": "Bank name",
-            "example": "Amucha MFB"
+            "example": "Nombank MFB"
           },
           "bankAccountNumber": {
             "type": "string",

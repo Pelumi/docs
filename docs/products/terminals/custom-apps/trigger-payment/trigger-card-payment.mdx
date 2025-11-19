@@ -4,7 +4,7 @@ description: 'Learn how to receive card payments from your customers'
 ---
 
 <Note>
-The aim of this document is to assist you in initiating card payment acceptance from your custom application running on the Nomba Android terminal. If you encounter any difficulties with this process, feel free to [reach out for support.](/support/reach-out) 
+ The aim of this document is to assist you in initiating card payment acceptance from your custom application running on the Nomba Android terminal. If you encounter any difficulties with this process, feel free to [reach out for support.](/support/reach-out) 
 </Note>
 
 <Tip>
@@ -98,6 +98,7 @@ intent.putExtra(RECEIPT_OPTIONS, receiptOptionsString);
 
 // Launch the intent
 paymentOptionLauncher.launch(intent);
+
 ```
 </CodeGroup>
 
@@ -111,6 +112,7 @@ The result of your payment action would be similar to this structure.
    We’ve migrated from using hash maps to json strings for more flexibility and usage.
 </Info>
 
+<CodeGroup>
 ```bash expandable 
 {
   "transactionResultType": "CARD_TRANSACTION",
@@ -145,7 +147,6 @@ The result of your payment action would be similar to this structure.
   "responseMessage": "Completed successfully"
 }
 ```
-
 This an old sample of payment actions using an hash map to represent the result. Kindly update your implementation if you’re running on v1.9.x+.
 
 ```bash expandable
@@ -166,11 +167,10 @@ This an old sample of payment actions using an hash map to represent the result.
     cardScheme="Debit Mastercard"
 }
 ```
-
 </CodeGroup>
 
 <Tip>
-Please note that the following details will make reference to the kotlin code snippet
+  Please note that the following details will make reference to the kotlin code snippet
 </Tip>
 
 #### Constants
