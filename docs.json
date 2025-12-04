@@ -1,7 +1,8 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "palm",
+  "theme": "aspen",
   "name": "Nomba Developers",
+  "styles": "style.css",
   "colors": {
     "primary": "#CCA300",
     "light": "#FFEB99",
@@ -37,6 +38,7 @@
                         "docs/products/accept-payment/overview",
                         {
                           "group": "Checkout",
+                          "expanded": true,
                           "pages": [
                             "docs/products/accept-payment/create-checkout-order",
                             "docs/products/accept-payment/verify-transactions",

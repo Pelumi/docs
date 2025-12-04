@@ -24,21 +24,29 @@ description: "Learn about creating virtual accounts"
 
 In Nomba, creating a virtual account falls under the broader category of Accounts. A virtual account can be created for a customer with the primary purpose of accepting payments. Once created, Nomba will generate a unique account number in which the customer can use to receive inflows.
 
-Nomba supports different types of accounts:
+### Types of accounts
 
-1. **Primary accounts** - Automatically created when you set up a business on Nomba. This is your main account, and all subsequently created accounts (virtual or sub-accounts) are linked to it.
+Nomba supports different types of accounts such as:
 
-2. **Virtual accounts** - Accounts created via API for receiving payments. Funds received through a virtual account are automatically routed to the parent (primary) account, as virtual accounts do not hold funds themselves. You can still view all virtual-account transactions on your dashboard.
+#### Primary Accounts
 
-3. **Sub-accounts** – Accounts created exclusively from the Nomba Dashboard. They act as separate “pockets” of money that you can use to segment funds for internal operations, teams, or business workflows.
+Automatically created when you set up a business on Nomba. This is your main account, and all subsequently created accounts (virtual or sub-accounts) are linked to it.
 
-See this [guide](v2/guides/managing-accounts-with-nomba) for more details on managing accounts with Nomba.
+#### Virtual accounts
+
+These accounts are created via API for receiving payments. Funds received through a virtual account are automatically routed to the parent (primary) account, as virtual accounts do not hold funds themselves. You can still view all virtual-account transactions on your dashboard.
+
+#### Sub-accounts 
+
+These accounts are created exclusively from the Nomba Dashboard. They act as separate “pockets” of money that you can use to segment funds for internal operations, teams, or business workflows.
+
+See this [guide](/docs/guides/managing-accounts-with-nomba) for more details on managing accounts with Nomba.
 
 ### Types of Virtual accounts
 
 Nomba supports two types of virtual accounts depending on how they behave after creation:
 
-#### **Static Virtual Accounts**
+#### Static Virtual Accounts
 
 Static virtual accounts are permanent account numbers assigned to a customer or business.  
 They do not expire, and can receive multiple payments over time.
@@ -62,7 +70,18 @@ Dynamic accounts are ideal for transaction-specific usage and reduce reconciliat
 
 ## Create a virtual account
 
-When creating a virtual account, please not that this fields are optional:
+We advise that you first create and test virtual accounts in the Sandbox environment before going live.
+When creating test virtual accounts in Sandbox, please note the following:
+
+- Each user can create a maximum of 2 Sandbox virtual accounts per account.
+
+- Sandbox virtual accounts can only receive ₦10 per transfer, and funds can be transferred from any Nigerian bank.
+
+- Sandbox virtual account transfers will trigger webhooks to the Sandbox webhook URL.
+
+- Expiration is not supported for Sandbox virtual accounts. Instead, a mocked response is returned to simulate an expired virtual account, even though it never actually expires.
+
+When creating a virtual account, please take note of the optional and required fields:
 
 - `accountRef` (required): A unique reference you assign to the virtual account.
 
