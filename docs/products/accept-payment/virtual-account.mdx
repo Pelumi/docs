@@ -73,15 +73,18 @@ Dynamic accounts are ideal for transaction-specific usage and reduce reconciliat
 We advise that you first create and test virtual accounts in the Sandbox environment before going live.
 When creating test virtual accounts in Sandbox, please note the following:
 
-- Each user can create a maximum of 2 Sandbox virtual accounts per account.
+<Note>
+  - Each user can create a maximum of 2 Sandbox virtual accounts per account.
 
-- Sandbox virtual accounts can only receive ₦10 per transfer, and funds can be transferred from any Nigerian bank.
+  - Sandbox virtual accounts can only receive ₦10 per transfer, and funds can be transferred from any Nigerian bank.
 
-- Sandbox virtual account transfers will trigger webhooks to the Sandbox webhook URL.
+  - Sandbox virtual account transfers will trigger webhooks to the Sandbox webhook URL.
 
-- Expiration is not supported for Sandbox virtual accounts. Instead, a mocked response is returned to simulate an expired virtual account, even though it never actually expires.
+  - Expiration is not supported for Sandbox virtual accounts. Instead, a mocked response is returned to simulate an expired virtual account, even though it never actually expires.
 
-When creating a virtual account, please take note of the optional and required fields:
+</Note>
+
+To create a virtual account, please take note of the optional and required fields:
 
 - `accountRef` (required): A unique reference you assign to the virtual account.
 
