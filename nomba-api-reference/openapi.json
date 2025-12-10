@@ -5805,10 +5805,10 @@
         "tags": ["Transfers"]
       }
     },
-    "/v1/transfers/bank": {
+    "/v2/transfers/bank": {
       "post": {
         "description": "You can use this endpoint to perform bank account transfer.",
-        "operationId": "Perform bank account transfer the parent account",
+        "operationId": "Perform bank account transfer from the parent account",
         "requestBody": {
           "content": {
             "application/json": {
@@ -5829,13 +5829,23 @@
                   "properties": {
                     "code": {
                       "type": "string",
-                      "example": "00",
+                      "example":"200",
                       "description": "Response Code"
                     },
                     "description": {
                       "type": "string",
-                      "example": "Success",
+                      "example": "SUCCESS",
                       "description": "Response description"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Success",
+                      "description": "Returned response message"
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "example": "true",
+                      "description": "Response status"
                     },
                     "data": {
                       "$ref": "#/components/schemas/BankAccountTransferResult"
@@ -12963,6 +12973,26 @@
       "BankAccountTransferMetaObject": {
         "type": "object",
         "properties": {
+          "api_rrn": {
+            "type": "string",
+            "description": "API RRN",
+            "example": "2309081xxxxxx"
+          },
+          "narration": {
+            "type": "string",
+            "description": "Transfer naration",
+            "example": "Testing"
+          },
+          "recipientName": {
+            "type": "string",
+            "description": "Fund recipient name",
+            "example": "John doe"
+          },
+          "sender_name": {
+            "type": "string",
+            "description": "Name of transfer initiator",
+            "example": "Nightly Post"
+          },
           "merchantTxRef": {
             "type": "string",
             "description": "Merchant transaction reference",
@@ -12973,15 +13003,100 @@
             "description": "API client ID",
             "example": "6a7bed88-7c93-4a1c-a445-f88edbca6489"
           },
-          "api_account_id": {
+          "currency": {
+            "type": "string",
+            "description": "Currency code",
+            "example": "NGN"
+          },
+          "hooksEligible": {
+            "type": "string",
+            "description": "Hooks eligible",
+            "example": "true"
+          },
+          "banking_entity_id": {
+            "type": "string",
+            "description": "API account ID",
+            "example": "842f2b4320f"
+          },
+          "banking_entity_user_id": {
             "type": "string",
             "description": "API account ID",
             "example": "01a10aeb-d989-460a-bbde-9842f2b4320f"
           },
-          "rrn": {
+          "banking_entity_type": {
             "type": "string",
-            "description": "RRN (Retrieval Reference Number)",
-            "example": "230908151711"
+            "description": "Bank entity type",
+            "example": "9842f2b4320f"
+          },
+          "self_transaction": {
+            "type": "string",
+            "description": "Self transaction",
+            "example": "true"
+          },
+          "transactionCategory": {
+            "type": "string",
+            "description": "Family and Kids",
+            "example": "128735648"
+          },
+          "accountNumber": {
+            "type": "string",
+            "description": "API account ID",
+            "example": "0127667384"
+          },
+          "bankName": {
+            "type": "string",
+            "description": "Recipient bank name",
+            "example": "GTbank"
+          },
+          "bankCode": {
+            "type": "string",
+            "description": "Bank code",
+            "example": "058"
+          },
+          "sessionId": {
+            "type": "string",
+            "description": "Session ID",
+            "example": ""
+          },
+          "user_referral_code": {
+            "type": "string",
+            "description": "Referral code",
+            "example": "HABI76745"
+          },
+          "amount_charged": {
+            "type": "string",
+            "description": "Amount charged",
+            "example": "21.0"
+          },
+          "paymentVendor": {
+            "type": "string",
+            "description": "Paytment vendor type",
+            "example": "Wallet"
+          },
+          "wallet_balance": {
+            "type": "string",
+            "description": "Wallet balance",
+            "example": "5.38"
+          },
+          "wallet_currency": {
+            "type": "string",
+            "description": "Currency code for the payment",
+            "example": "NGN"
+          },
+          "paymentVendorReference": {
+            "type": "string",
+            "description": "Payment vendor reference",
+            "example": "01a10aeb-d989-460a-bbde-9840f"
+          },
+          "agent_commission": {
+            "type": "string",
+            "description": "Agent commision",
+            "example": "0.0"
+          },
+          "useV2Fulfilment": {
+            "type": "string",
+            "description": "check fulfulment value",
+            "example": "true"
           }
         },
         "description": "Transaction meta data"
@@ -13042,10 +13157,29 @@
         "type": "object",
         "properties": {
           "amount": {
-            "type": "number",
-            "format": "double",
-            "description": "Transfer amount",
-            "example": 5502.0
+            "type": "string",
+            "description": "Amount to be transfer",
+            "example": "1.0"
+          },
+          "source": {
+            "type": "string",
+            "description": "Trnsfer source could be web, api etc..",
+            "example": "api"
+          },
+          "sourceUserId": {
+            "type": "string",
+            "description": "Source user ID",
+            "example": "11ec45a1-1fe5-44f5-8baf-cxxxxxxxxxx"
+          },
+          "customerBillerId": {
+            "type": "string",
+            "description": "Customer biller ID",
+            "example": "010784xxxx"
+          },
+          "productId": {
+            "type": "string",
+            "description": "A unique number for the product",
+            "example": "058"
           },
           "meta": {
             "$ref": "#/components/schemas/BankAccountTransferMetaObject"
