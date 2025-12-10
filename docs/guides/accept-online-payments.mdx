@@ -18,22 +18,22 @@ Embark on a 6-step journey to initiate payment acceptance
 <Steps titleSize="p">
   <Step title="Acquire your API key">
 
-    Prior to engaging with the Nomba API, it is imperative to [acquire an access token](/getting-started/authentication/obtaining-access-token) to ensure access to the available resources. Before obtaining an access_token, it is essential to complete the following steps:
+    Prior to engaging with the Nomba API, it is imperative to [acquire an access token](/docs/getting-started/get-api-keys) to ensure access to the available resources. Before obtaining an access_token, it is essential to complete the following steps:
     
-    - [Initialize your dashboard](/getting-started/dashboard-setup): Set up and configure your dashboard to establish a centralized control point.
+    - [Initialize your dashboard](/docs/getting-started/get-api-keys#setting-up-your-account): Set up and configure your dashboard to establish a centralized control point.
     
-    - [Retrieve your API Keys](/introduction/get-api-keys): Obtain the necessary API keys to authenticate and authorize your access to the API.
+    - [Retrieve your API Keys](/docs/getting-started/get-api-keys): Obtain the necessary API keys to authenticate and authorize your access to the API.
 
   </Step>
 
   <Step title="Configure your webhook">
     Webhooks are a way to send real-time notifications or events from one application to another. Nomba can send notifications to your application via a webhook interface after which you can carry out a business process inside your application such as updating the status of a payment or sending an email.
 
-    Please follow the [set up your webhook](/products/webhooks/introduction) guide to properly configure your webhooks
+    Please follow the [set up your webhook](/docs/api-basics/webhook) guide to properly configure your webhooks
   </Step>
 
   <Step title="Obtain an access token via the API">
-    As mentioned earlier, access to our APIs necessitates the use of an access token. Refer to the [guide on obtaining an access token](/getting-started/authentication/obtaining-access-token) for detailed instructions.
+    As mentioned earlier, access to our APIs necessitates the use of an access token. Refer to the [guide on obtaining an access token](/docs/getting-started/get-api-keys) for detailed instructions.
 
     `Sample request`
     ```bash
@@ -64,8 +64,7 @@ Embark on a 6-step journey to initiate payment acceptance
   </Step>
 
   <Step title="Retrieve a Nomba Checkout link using the API">
-    Once this link is loaded on a browser, your customer will be able to pay you via bank transfer or debit card. Please refer to the [guide on creating a checkout order](/products/checkout/create-checkout-order)
-
+    Once this link is loaded on a browser, your customer will be able to pay you via bank transfer or debit card. Please refer to the [guide on creating a checkout order](/docs/products/accept-payment/create-checkout-order)
 
     `Sample request`
     ```bash
@@ -215,12 +214,12 @@ Embark on a 6-step journey to initiate payment acceptance
     }
     ```
     
-    Please refer to [our webhooks documentation](/products/webhooks/introduction) to further understand how to work with them.
+    Please refer to [our webhooks documentation](/docs/api-basics/webhook) to further understand how to work with them.
   </Step>
 
   <Step title="Conduct transaction verification">
 
-  After you receive our webhook notification, we recommend you to verify the status of the transaction before performing your business process. Please refer to the [guide on verifying checkout transactions](/products/checkout/verify-transactions) to see how to perform transaction verification.
+  After you receive our webhook notification, we recommend you to verify the status of the transaction before performing your business process. Please refer to the [guide on verifying checkout transactions](/docs/products/accept-payment/verify-transactions) to see how to perform transaction verification.
 
   <Tip>
   Use the transaction reference Id (`data.transaction.transactionId`) in the webhook request body to perform the transaction verification.
