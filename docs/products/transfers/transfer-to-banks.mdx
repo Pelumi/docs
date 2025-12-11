@@ -17,7 +17,7 @@ description: 'Learn how to perform bank transfers using the Nomba API'
 <CodeGroup>
 ```bash Request
 curl --request POST \
-  --url https://api.nomba.com/v1/transfers/bank \
+  --url https://api.nomba.com/v2/transfers/bank \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
   --header 'accountId: <accountid>' \
@@ -34,21 +34,56 @@ curl --request POST \
 
 ```json Response
 {
-  "code": "00",
-  "description": "Success",
+  "code": "200",
+  "description": "SUCCESS",
+  "message": "Success",
+  "status": true,
   "data": {
-    "amount": 5502,
-    "meta": {
-      "merchantTxRef": "3JVW2xJCjj443oannREBuTaXDdji",
-      "api_client_id": "6a7bed88-7c93-4a1c-a445-f88edbca6489",
-      "api_account_id": "01a10aeb-d989-460a-bbde-9842f2b4320f",
-      "rrn": "230908151711"
-    },
-    "fee": 50,
-    "timeCreated": "2023-09-08T14:17:13.634Z",
-    "id": "API-TRANSFER-C24AD-a6443bf0-011c-4bc2-b739-4a2e33e2a27b",
+    "id": "API-TRANSFER-11EC4-45990eb5-7b0f-4845-87f8-xxxxxxxxxxxx",
+    "status": "PENDING_BILLING",
     "type": "transfer",
-    "status": "SUCCESS"
+    "amount": 1.0,
+    "source": "api",
+    "sourceUserId": "11ec45a1-1fe5-44f5-8baf-cxxxxxxxxxx",
+    "customerBillerId": "010784xxxx",
+    "productId": "058",
+    "meta": {
+      "api_rrn": "25120913xxxxx",
+      "narration": "Testing",
+      "recipientName": "John Doe",
+      "sender_name": "Nightly Post",
+      "rrn": "251209131319",
+      "api_account_id": "670353d1-158a-4257-8f0b-xxxxxxxxxxx",
+      "api_client_id": "651ab1c3-c703-4cc3-86ac-xxxxxxxxxxx",
+      "user_id": "670353d1-158a-4257-8f0b-xxxxxxxxxxx",
+      "merchantTxRef": "testingTxV2ForMerchant",
+      "allowDuplicate": true,
+      "idempotentKey": "670353d1-158a-4257-8f0b-d06d1fed3c35_testixxxxxxxxxxx",
+      "pos_withdrawal_id": "670353d1-158a-4257-8f0b-d06d1fed3c35_testingxxxxxxxxxxx",
+      "userName": "Code Trik Nigeria Enterprises",
+      "isCorporate": "true",
+      "currency": "NGN",
+      "hooksEligible": "true",
+      "banking_entity_id": 19787017,
+      "banking_entity_user_id": 19787014,
+      "banking_entity_type": "CORPORATE",
+      "self_transaction": true,
+      "transactionCategory": "Family & Kids",
+      "accountNumber": "0107841806",
+      "bankName": "GTBank",
+      "bankCode": "058",
+      "sessionId": "",
+      "user_referral_code": "HABI76702",
+      "amount_charged": "21.0",
+      "paymentVendor": "wallet",
+      "wallet_balance": "5.38",
+      "wallet_currency": "NGN",
+      "paymentVendorReference": "6938125f6e98e9ace8df850e",
+      "agent_commission": "0.0",
+      "useV2Fulfilment": "true"
+    },
+    "userId": "670353d1-158a-4257-8f0b-xxxxxxxxxx",
+    "timeCreated": "2025-12-09 12:13:19"
   }
 }
 ```
