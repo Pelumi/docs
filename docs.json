@@ -77,7 +77,7 @@
                               "group": "Trigger Payment",
                               "pages": [
                                 "docs/products/terminals/custom-apps/trigger-payment/introduction",
-                                "docs/products/terminals/custom-apps/trigger-payment/trigger-card-payments",
+                                "docs/products/terminals/custom-apps/trigger-payment/trigger-card-payment",
                                 "docs/products/terminals/custom-apps/trigger-payment/trigger-bank-transfer-payments"
                               ]
                             },
@@ -304,8 +304,8 @@
                 {
                   "group": "Developer Tools",
                   "pages": [
-                    "/developer-resources/tools/overview",
-                    "/developer-resources/tools/plugins-and-sdks/"
+                    "/developer-resources/overview",
+                    "/developer-resources/plugins-and-sdks/"
                   ]
                 }
               ]
