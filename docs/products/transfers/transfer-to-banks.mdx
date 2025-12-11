@@ -12,7 +12,7 @@ description: 'Learn how to perform bank transfers using the Nomba API'
   </Card>
 </CardGroup>
 
-# `POST /v1/transfers/bank`
+# `POST /v2/transfers/bank`
 
 <CodeGroup>
 ```bash Request
@@ -122,52 +122,70 @@ curl --request POST \
 
 #### Response body
 
-<ResponseField name="code" type="string" required>
-  Response code
+<ResponseField name="id" type="string" required>
+  The transfer ID.
 </ResponseField>
 
-<ResponseField name="description" type="string" required>
-  Response description
+<ResponseField name="status" type="string" required>
+  The transaction status.
 </ResponseField>
 
-<ResponseField name="data" type="object">
-  The transfer data.
-  <Expandable title="object"  defaultOpen="true">
-    <ResponseField name="amount" type="number" required>
-      The transfer amount.
+<ResponseField name="type" type="string" required>
+  The transaction type.
+</ResponseField>
+
+<ResponseField name="amount" type="number" required>
+  The transfer amount.
+</ResponseField>
+
+<ResponseField name="fee" type="number">
+  The transfer fee.
+</ResponseField>
+
+<ResponseField name="source" type="string">
+  Payment source (e.g., “api”).
+</ResponseField>
+
+<ResponseField name="sourceUserId" type="string">
+  The user who initiated the transfer.
+</ResponseField>
+
+<ResponseField name="customerBillerId" type="string">
+  The biller account ID.
+</ResponseField>
+
+<ResponseField name="productId" type="string">
+  Product code for the transfer.
+</ResponseField>
+
+<ResponseField name="meta" type="object" required>
+  Additional transaction metadata.
+
+  <Expandable title="object" defaultOpen="true">
+
+    <ResponseField name="merchantTxRef" type="string">
+      Merchant transaction reference.
     </ResponseField>
-    <ResponseField name="meta" type="string" required>
-      The transaction meta data.
-      <Expandable title="object"  defaultOpen="true">
-        <ResponseField name="merchantTxRef" type="string">
-            Merchant transaction reference.
-        </ResponseField>
-        <ResponseField name="api_client_id" type="string">
-            API client ID.
-        </ResponseField>
-        <ResponseField name="api_account_id" type="string">
-            API account ID.
-        </ResponseField>
-        <ResponseField name="rrn" type="string">
-            RRN (Retrieval Reference Number).
-        </ResponseField>
-      </Expandable>
+
+    <ResponseField name="api_client_id" type="string">
+      API client ID.
     </ResponseField>
-    <ResponseField name="fee" type="number" required>
-      The transfer fee.
+
+    <ResponseField name="api_account_id" type="string">
+      API account ID.
     </ResponseField>
-    <ResponseField name="timeCreated" type="string" required>
-      The creation timestamp.
+
+    <ResponseField name="rrn" type="string">
+      Retrieval Reference Number.
     </ResponseField>
-    <ResponseField name="id" type="string" required>
-      The transfer ID.
-    </ResponseField>
-    <ResponseField name="type" type="string" required>
-      The transaction type.
-    </ResponseField>
-    <ResponseField name="status" type="string" required>
-      The transaction status.
-    </ResponseField>
-    
+
   </Expandable>
+</ResponseField>
+
+<ResponseField name="userId" type="string">
+  Associated user ID.
+</ResponseField>
+
+<ResponseField name="timeCreated" type="string" required>
+  Creation timestamp.
 </ResponseField>
