@@ -333,7 +333,7 @@
     "strict": false
   },
   "banner": {
-    "content": "🚀 Direct Debit API, Verify Transaction API is now live! See our [changelog](/nomba-api-changelog/api/updates) for details.",
+    "content": " 🎉 **Update!** The expected virtual account amount limit has been updated from **₦10 to ₦100** for Sandbox virtual accounts.",
     "dismissible": true 
   },
   "navbar": {
