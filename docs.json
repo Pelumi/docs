@@ -161,6 +161,7 @@
                   "pages": [
                     "/docs/guides/introduction",
                     "/docs/guides/accept-online-payments",
+                    "/docs/guides/accept-payment-with-payment-links",
                     "/docs/guides/authentication-best-practises",
                     "/docs/guides/setting-up-webhooks",
                     "/docs/guides/shopify-nomba-integration",
