@@ -76,12 +76,15 @@ When creating test virtual accounts in Sandbox, please note the following:
 <Note>
   - Each user can create a maximum of 2 Sandbox virtual accounts per account.
 
-  - Sandbox virtual accounts can only receive ₦10 per transfer, and funds can be transferred from any Nigerian bank.
+  - Sandbox virtual accounts can only receive ₦100 per transfer, and funds can be transferred from any Nigerian bank.
+    All created account have also been updated from ₦10 old value to ₦100 
+ 
+  - Merchants can update the expected amount from ₦100 to any value not exceeding ₦150.  
+    Set the `expectedAmount` field when creating the virtual account to apply this change.
 
   - Sandbox virtual account transfers will trigger webhooks to the Sandbox webhook URL.
 
   - Expiration is not supported for Sandbox virtual accounts. Instead, a mocked response is returned to simulate an expired virtual account, even though it never actually expires.
-
 </Note>
 
 To create a virtual account, please take note of the optional and required fields:
