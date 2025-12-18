@@ -1,4 +1,76 @@
 ---
-title: 'Accept payments with Payment links'
+title: 'Accept Payments with Payment Links'
 description: 'Strategies for optimizing the authentication workflow with the Nomba API.'
 ---
+
+## Introduction
+
+Nomba provides numerous ways to accept payment between merchants and their customers. Payment solutions like POS terminals (point of sale), mobile banking for local and international payments, and Vendor API for businesses looking to integrate payment flow for their businesses. 
+
+All of these are excellent ways to accept payment. However, Nomba has also provided a payment link for accepting payment via a shareable unique URL that can be sent via email, social channel and any other means for convenience and ease of accepting payment.
+
+Payment links are a convenient way to accept online payment without hassle; the unique link shared with a customer will redirect to a payment page where they will complete the payment. 
+
+## Create a Payment link
+
+There are few things to take note of when creating a payment link on your Nomba dashboard. The list below highlights some of the important things to know so that merchants can get the best out of Nomba payment links. 
+
+- Payment links can only be created on your Nomba dashboard.
+
+- When creating a payment link, you have options to set a fixed amount or allow the customer to input a varying amount.
+
+- Payment links are reusable; this means that multiple customers can pay via the same link at different time intervals.
+
+- Payment links can be deactivated and reactivated at your convenience.
+
+- Payment links can be edited or deleted after creation.
+
+To get started, log in to your Nomba dashboard and navigate to the payment link page by clicking the payment link text on the side navigation. Click on the Create Link button on the page, and you will be redirected to a page containing a form where you can set up a payment link.
+
+
+
+<Frame caption="Create payment link">
+
+    <img src="/images/create-payment-link.png" style={{ borderRadius: '0.5rem' }} loading="lazy" />
+
+</Frame>
+
+While filling the form, you can configure the payment link to accept USD, EUR, NGN, and GBP. You can also allow tipping or varying amounts by toggling the radio button with the label "allow customer to set price."
+
+When set, the amount field will be disabled.
+
+<Note>
+
+To enable tipping, you must set an amount, as this feature does not work if you intend to allow your customer to set the price.
+
+</Note>
+
+When you click on the advanced setting dropdown icon, you may select the option that suits your needs, either allowing your customer to redirect to a website when they complete payment or enabling tipping if you added a fixed price.
+
+<Frame caption="Create Payment link Form">
+
+    <img src="/images/payment-link-det.png" style={{ borderRadius: '0.5rem' }} loading="lazy" />
+
+</Frame>
+
+## Share Created Payment Link
+
+After you have successfully created a payment link, click on the share button on the list to share it with your customer.
+
+<Frame caption="Share Payment Link">
+
+    <img src="/images/share-payment-link.png" style={{ borderRadius: '0.5rem' }} loading="lazy" />
+
+</Frame>
+
+## Complete Payment.
+
+When a customer opens this link, it redirects them to this view where they enter their name and email before completing the payment on the Nomba checkout page.
+
+<Frame caption="Payment Link View">
+
+    <img src="/images/payment-link-view.png" style={{ borderRadius: '0.5rem' }} loading="lazy" />
+
+</Frame>
+
+Payment link is a product built to ensure simplicity in payment collection. Whether you want to receive a one-time payment or reuse this payment channel for different customers, we've got you covered!
