@@ -149,6 +149,63 @@ curl --request POST \
         ],
         "pageToken": ""
     }
+
+    
 }
 ```
+</CodeGroup>
+
+
+
+## Webhook Replay
+
+Webhook replay allows you to **re-trigger previous webhook events** that were not successfully delivered or whose delivery outcome is uncertain within a timeframe.
+
+**Replay Eligibility**
+
+Only certain webhook log statuses are safe to replay.
+
+| Status | Replay Allowed | Meaning |
+|--------|--------------|---------|
+| `INITIATED` | ✅ Yes (safe)  | Webhook was logged to be delivered but delivery never completed |
+| `FAILED` | ✅ Yes (safe)  | Delivery attempt failed. We did not get a 2xx response status from your server, we got a 5xx or 4xx when we previously pushed the event |
+| `INCONCLUSIVE` | ⚠️ Yes (with caution)  | Delivery outcome is unknown; we didn't hear from your server when we previously pushed |
+| `PUSHED` | ‼️ Yes (only when needed)  | Delivery outcome was successful. Only use when needed |
+
+You can choose from any of the event types below:
+
+`PAYMENT_SUCCESS`, `PAYMENT_FAILED`, `PAYOUT_SUCCESS`, `PAYOUT_FAILED`, `ORDER_SUCCESS`, `PAYMENT_REVERSAL`, and `PAYOUT_REFUND`.
+
+
+<Note>
+We strongly recommend implementing **idempotency handling** on your webhook endpoint to prevent duplicate processing, especially when replaying `INCONCLUSIVE` and `PUSHED` events.
+</Note>
+
+Sample request
+
+<CodeGroup>
+```bash Request
+curl --request POST \ 
+--url https://api.nomba.com/v1/webhooks/replay \
+--header 'Authorization: Bearer <token>' \
+--header 'Content-Type: application/json' \
+--header 'accountId: <accountId>'\
+--data '{
+    "startDate": "2026-01-27T00:00:00Z",
+    "endDate": "2026-01-28T23:59:59Z",
+    "filter": {
+        "statuses": ["INITIATED", "FAILED", "INCONCLUSIVE"],
+        "eventTypes": ["PAYMENT_SUCCESS", "PAYMENT_FAILED", "PAYOUT_SUCCESS", "PAYOUT_FAILED", "ORDER_SUCCESS"]
+    }
+}'
+```
+
+```json Success
+{
+    "code": "200",
+    "description": "Webhook events replayed successfully"
+}
+```
+
+---
 </CodeGroup>
