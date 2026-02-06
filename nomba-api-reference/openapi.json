@@ -2652,7 +2652,7 @@
               }
             }
           },
-          "description": "The request payload required to update a virtual account",
+          "description": "The request payload required to update a virtual account. \n Please note that it might take a few seconds for the update to reflect in other banks depending on the bank's notification system.",
           "required": true
         },
         "parameters": [
