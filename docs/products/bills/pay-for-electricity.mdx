@@ -62,6 +62,21 @@ description: "This describes the process of paying for electricity"
         <ResponseField name="merchantTxRef" type="string">
           Merchant Transaction Reference
         </ResponseField>
+        <ResponseField name="phcnVendUnits" type="string">
+          Electricity Units
+        </ResponseField>
+        <ResponseField name="meterName" type="string">
+          Meter Name
+        </ResponseField>
+        <ResponseField name="phcnCustomerAddress" type="string">
+          Customer's Address
+        </ResponseField>
+        <ResponseField name="phcnVendToken" type="string">
+          Meter Token
+        </ResponseField>
+        <ResponseField name="meterType" type="string">
+          Prepaid or Postpaid
+        </ResponseField>
         <ResponseField name="rrn" type="string">
           Retrieval Reference Number (RRN)
         </ResponseField>
@@ -104,12 +119,17 @@ curl --location 'https://api.nomba.com/v1/bill/electricity' \
         "amount": 2000,
         "meta": {
             "merchantTxRef": "c006475e-a76f-4533-b2ff-59a67d5e6241",
+            "phcnCustomerAddress": "52, Ajose Street",
+            "phcnVendUnits": "23.5",
+            "phcnVendToken": "12345678909876543212",
+            "meterName": "John Doe",
+            "meterType": "PREPAID",
             "api_client_id": "10422171-9100-4e66-93e1-7f6da894ef89",
             "api_account_id": "01a10aeb-d989-460a-bbde-9842f2b4320f",
             "rrn": "240809060134"
         },
         "fee": "",
-        "timeCreated": "2024-08-09T05:01:35.014Z",
+        "timeCreated": "2026-02-06T05:01:35.014Z",
         "id": "API-PHCN-4B8C8-dcc5994c-e110-4035-9017-fc6e497a3baa",
         "type": "phcn",
         "status": "SUCCESS"

@@ -2652,7 +2652,7 @@
               }
             }
           },
-          "description": "The request payload required to update a virtual account",
+          "description": "The request payload required to update a virtual account. \n Please note that it might take a few seconds for the update to reflect in other banks depending on the bank's notification system.",
           "required": true
         },
         "parameters": [
@@ -12060,7 +12060,7 @@
           },
           "merchantTxRef": {
             "type": "string",
-            "description": "Merchant Transaction Identifier reference (Unique to merchant)",
+            "description": "Merchant Transaction Identifier reference (Unique to merchant) \n \n This is an idempotency key and must be unique per transaction.",
             "example": "3bvwhibh38220dsjakTwvb"
           },
           "senderName": {
@@ -13130,7 +13130,7 @@
           },
           "merchantTxRef": {
             "type": "string",
-            "description": "Unique reference used to track a transaction from an external process.",
+            "description": "Unique reference used to track a transaction from an external process. \n \nThis is an idempotency key and must be unique per transaction.",
             "example": "UNQ_123abGGhh5546"
           },
           "senderName": {
@@ -14315,7 +14315,7 @@
           },
           "merchantTxRef": {
             "type": "string",
-            "description": "Unique reference used to track a transaction from an external process.",
+            "description": "Unique reference used to track a transaction from an external process. \n \nThis is an idempotency key and must be unique per transaction.",
             "example": "UNQ_123abGGhh5546"
           },
           "narration": {
@@ -14891,6 +14891,7 @@
           },
           "merchantTxRef": {
             "type": "string",
+            "description": "This is an idempotency key and must be unique per transaction.",
             "example": "12345"
           },
           "payerName": {
@@ -14924,7 +14925,7 @@
             "type": "string",
             "description": "The Date and Time of transaction creation",
             "format": "date-time",
-            "example": "2023-09-04T07:09:06.900Z"
+            "example": "2026-02-06T07:09:06.900Z"
           },
           "type": {
             "type": "string",
@@ -14936,6 +14937,11 @@
             "description": "Extra information about this transaction",
             "example": {
               "merchantTxRef": "test1116",
+              "phcnCustomerAddress": "52, Ajose Street",
+              "phcnVendUnits": "23.5",
+              "phcnVendToken": "12345678909876543212",
+              "meterName": "John Doe",
+              "meterType": "PREPAID",
               "rrn": "240626232937",
               "api_client_id": "123456-9100-4e66-93e1-7f6da894ef89",
               "api_account_id": "0167288-d989-460a-bbde-9842f2b4320f"
@@ -14968,6 +14974,7 @@
           },
           "merchantTxRef": {
             "type": "string",
+            "description": "This is an idempotency key and must be unique per transaction.",
             "example": "12345"
           },
           "payerName": {
@@ -15041,6 +15048,7 @@
           },
           "merchantTxRef": {
             "type": "string",
+            "description": "This is an idempotency key and must be unique per transaction.",
             "example": "12345"
           },
           "phoneNumber": {

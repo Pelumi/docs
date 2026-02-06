@@ -14,6 +14,9 @@ description: 'Learn how to perform bank transfers using the Nomba API'
 
 # `POST /v2/transfers/bank`
 
+> ⚠️ **Rate Limit Notice:**  
+> Users are restricted to **5 bank transfers to the same recipient per minute**.
+
 <CodeGroup>
 ```bash Request
 curl --request POST \
@@ -109,8 +112,11 @@ curl --request POST \
 </ParamField>
 
 <ParamField body="merchantTxRef" type="string" required>
-  Unique reference used to track a transaction from an external process.
-</ParamField>
+<p>Unique reference used to track a transaction from an external process.</p>
+  <p>
+    This is an idempotency key and must be unique per transaction. It cannot be reused once a transfer has been initiated.
+  </p>
+  </ParamField>
 
 <ParamField body="senderName" type="string" required>
   The sender's name.

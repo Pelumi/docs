@@ -112,68 +112,70 @@ The content of the payload is a JSON object and it gives details about the event
 <CodeGroup>
 ```json expandable Payment Success 
 {
-    "event_type": "payment_success",
-    "requestId": "999111df-9f20-4cf8-8740-3XXXXXXXXX",
-    "data": {
-        "merchant": {
-            "walletId": "5f04b9ee600f1c03XXXXXXXXX",
-            "walletBalance": 732233.66,
-            "userId": "000000ab-154e-4a11-a0cf-23XXXXXXXXX"
-        },
-        "terminal": {},
-        "transaction": {
-            "aliasAccountNumber": "0010721887",
-            "fee": 150,
-            "sessionId": "100004240726191726003XXXXXXXXX",
-            "type": "vact_transfer",
-            "transactionId": "API-VACT_TRA-067fg-sdf78ghy-fd7f-4567-b404-313XXXXXXXXX",
-            "aliasAccountName": "Bestbrains-Kunle Oyetunji",
-            "responseCode": "",
-            "originatingFrom": "api",
-            "transactionAmount": 1000,
-            "narration": "Transfer from Kunle Nnaji",
-            "time": "2025-05-26T12:34:24Z",
-            "aliasAccountType": "VIRTUAL"
-        },
-        "customer": {
-            "bankCode": "305",
-            "senderName": "Kunle Nnaji",
-            "bankName": "Paycom (Opay)",
-            "accountNumber": "9035418377"
-        }
+  "event_type": "payment_success",
+  "requestId": "49e11b44-909b-4f83-82b4-9a83aXXXXXX",
+  "data": {
+    "merchant": {
+      "walletId": "693e907aad9ea59616XXXX",
+      "walletBalance": 539.4,
+      "userId": "613bb620-c8e5-45f6-9c00-XXXXXXXX"
+    },
+    "terminal": {},
+    "transaction": {
+      "aliasAccountNumber": "967913XXX",
+      "fee": 0.6,
+      "sessionId": "1000042602061021531516XXXXXX",
+      "type": "vact_transfer",
+      "transactionId": "API-VACT_TRA-613BB-eeae578a-cdd4-459c-8bd5-XXXXXX",
+      "aliasAccountName": "Peter/Peter Enterprise",
+      "responseCode": "",
+      "originatingFrom": "api",
+      "transactionAmount": 120,
+      "narration": "Transfer from JOHN GRASS",
+      "time": "2026-02-06T10:21:56Z",
+      "aliasAccountReference": "122320250916PM",
+      "aliasAccountType": "VIRTUAL"
+    },
+    "customer": {
+      "bankCode": "305",
+      "senderName": "JOHN GRASS",
+      "bankName": "Paycom (Opay)",
+      "accountNumber": "81689XXX"
     }
+  }
 }
 ```
 ```json expandable Payout Success
 {
-    "event_type": "payout_success",
-    "requestId": "69c9aebe-a4e6-4144-8248-bXXXXXXXX",
-    "data": {
-        "merchant": {
-            "walletId": "67a4e03745f1a049XXXXXX",
-            "walletBalance": 1000,
-            "userId": "8yanljbsXXXXX"
-        },
-        "terminal": {},
-        "transaction": {
-            "fee": 7,
-            "type": "transfer",
-            "transactionId": "API-TRANSFER-8A07F-d945b6f5-903c-4a5a-84bb-XXXXXXXX",
-            "responseCode": "",
-            "originatingFrom": "api",
-            "merchantTxRef": "EG17IJXXXX",
-            "transactionAmount": 370,
-            "narration": "From David O",
-            "time": "2025-10-11T21:25:42Z"
-        },
-        "customer": {
-            "bankCode": "305",
-            "senderName": "Faruk ",
-            "recipientName": "FARUK OSENI JOSEPH"
-            "bankName": "Paycom (Opay)",
-            "accountNumber": "9133647309"
-        }
+  "event_type": "payout_success",
+  "requestId": "76a7df87-4819-493c-90ee-XXXXXXX",
+  "data": {
+    "merchant": {
+      "walletId": "693e907aad9ea59XXXXX",
+      "walletBalance": 420,
+      "userId": "613bb620-c8e5-45f6-9c00-XXXXXXXX"
+    },
+    "terminal": {},
+    "transaction": {
+      "fee": 20,
+      "sessionId": "09FG260206111644XXXXXX",
+      "type": "transfer",
+      "transactionId": "API-TRANSFER-057A0-21e353c0-4168-4275-8355-XXXXXX",
+      "responseCode": "",
+      "originatingFrom": "api",
+      "merchantTxRef": "20260212130PM",
+      "transactionAmount": 50,
+      "narration": "For API Test ",
+      "time": "2026-02-06T10:16:30Z"
+    },
+    "customer": {
+      "bankCode": "011",
+      "senderName": "Peter Okins",
+      "recipientName": "JOHN GRASS",
+      "bankName": "First Bank of Nigeria",
+      "accountNumber": "31107XXXX"
     }
+  }
 }
 ```
 
