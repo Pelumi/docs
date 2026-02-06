@@ -66,7 +66,10 @@ curl --request POST \
 </ParamField>
 
 <ParamField body="merchantTxRef" type="string" required>
-  Unique reference used to track a transaction from an external process.
+  <p>Unique reference used to track a transaction from an external process.</p>
+  <p>
+    Please note that <code>merchantTxRef</code> is an idempotency key and must be unique per transaction. It cannot be reused once a transfer has been initiated.
+  </p>
 </ParamField>
 
 <ParamField body="senderName" type="string" required>

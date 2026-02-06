@@ -13130,7 +13130,7 @@
           },
           "merchantTxRef": {
             "type": "string",
-            "description": "Unique reference used to track a transaction from an external process.",
+            "description": "Unique reference used to track a transaction from an external process. \n \nPlease note that merchantTxRef is an idempotency key and must be unique per transaction.",
             "example": "UNQ_123abGGhh5546"
           },
           "senderName": {
@@ -14315,7 +14315,7 @@
           },
           "merchantTxRef": {
             "type": "string",
-            "description": "Unique reference used to track a transaction from an external process.",
+            "description": "Unique reference used to track a transaction from an external process. \n \nPlease note that merchantTxRef  is an idempotency key and must be unique per transaction.",
             "example": "UNQ_123abGGhh5546"
           },
           "narration": {
