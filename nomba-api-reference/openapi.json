@@ -5835,6 +5835,17 @@
                     "description": {
                       "type": "string",
                       "example": "SUCCESS",
+                      "enum": [
+                        "SUCCESS",
+                        "PROCESSING",
+                        "FAILED",
+                        "BAD_REQUEST",
+                        "INSUFFICIENT_BALANCE",
+                        "ACCOUNT_NOT_FOUND",
+                        "INVALID_TRANSACTION",
+                        "WALLET_NOT_FOUND",
+                        "BLACKLISTED"
+                    ],
                       "description": "Response description"
                     },
                     "message": {
@@ -13219,13 +13230,8 @@
             "type": "string",
             "description": "Transaction status",
             "enum": [
-              "NEW",
-              "PENDING_PAYMENT",
-              "PAYMENT_SUCCESSFUL",
-              "PAYMENT_FAILED",
-              "PENDING_BILLING",
               "SUCCESS",
-              "REFUND"
+              "PENDING_BILLING"
             ],
             "example": "SUCCESS"
           }
