@@ -44,7 +44,8 @@
                             "docs/products/accept-payment/verify-transactions",
                             "docs/products/accept-payment/recurring-payments",
                             "docs/products/accept-payment/server-to-server",
-                            "docs/products/accept-payment/payment-methods"
+                            "docs/products/accept-payment/payment-methods",
+                            "docs/products/accept-payment/refund-checkout-order"
                           ]
                         },
                         "docs/products/accept-payment/direct-debit",
