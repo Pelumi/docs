@@ -4022,6 +4022,154 @@
         "tags": ["Online Checkout"]
       }
     },
+    "/v1/checkout/refund": {
+      "post": {
+        "description": "You can use this endpoint to refund a checkout transaction.",
+        "operationId": "Refund checkout transaction",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefundCheckoutTransactionRequestDTO"
+              }
+            }
+          },
+          "description": "The request payload required to refund a checkout transaction.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00",
+                      "description": "Response Code"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Success",
+                      "description": "Refund successful"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/CheckoutDataResponseDTO"
+                    }
+                  },
+                  "required": ["code", "description", "data"]
+                }
+              }
+            },
+            "description": "OK - your request was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Refund checkout transaction",
+        "parameters": [
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          }
+        ],
+        "tags": ["Online Checkout"]
+      }
+    },
     "/v1/checkout/order/{orderReference}": {
       "get": {
         "description": "Use this endpoint to fetch a single checkout order, using the order reference that was returned when the Order was created",
@@ -12950,6 +13098,53 @@
             "example": "success"
           }
         }
+      },
+      "RefundCheckoutTransactionRequestDTO": {
+        "type": "object",
+        "description": "The request object for refunding a checkout transaction",
+        "properties": {
+          "transactionId": {
+            "type": "string",
+            "description": "The ID of the transaction to be refunded",
+            "example": "TXN-123456789"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "description": "The amount to be refunded",
+            "example": 5000.00
+          },
+          "accountNumber": {
+            "type": "string",
+            "description": "The account number for the refund",
+            "example": "0123456789",
+            "maxLength": 10,
+            "minLength": 10
+          },
+          "bankCode": {
+            "type": "string",
+            "description": "The bank code for the refund",
+            "example": "058"
+          }
+        },
+        "required": ["transactionId"]
+      },
+      "CheckoutDataResponseDTO": {
+        "type": "object",
+        "description": "The response object for checkout operations",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the operation was successful",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "description": "A message describing the result of the operation",
+            "example": "Refund processed successfully"
+          }
+        },
+        "required": ["success", "message"]
       },
       "TokenizedCardData": {
         "type": "object",
