@@ -14574,13 +14574,12 @@
             "type": "string",
             "description": "Transaction status",
             "enum": [
-              "NEW",
-              "PENDING_PAYMENT",
-              "PAYMENT_SUCCESSFUL",
+              "SUCCESS", 
+              "PENDING_BILLING", 
+              "REFUND", 
+              "CANCELLED",
               "PAYMENT_FAILED",
-              "PENDING_BILLING",
-              "SUCCESS",
-              "REFUND"
+              "REVERSED_BY_VENDOR"
             ],
             "example": "SUCCESS"
           }
@@ -14690,13 +14689,12 @@
             "type": "string",
             "description": "Status",
             "enum": [
-              "NEW",
-              "PENDING_PAYMENT",
-              "PAYMENT_SUCCESSFUL",
-              "PAYMENT_FAILED",
-              "PENDING_BILLING",
               "SUCCESS",
-              "REFUND"
+              "PENDING_BILLING",
+              "REFUND",
+              "CANCELLED",
+              "PAYMENT_FAILED",
+              "REVERSED_BY_VENDOR"
             ],
             "example": "SUCCESS"
           },
@@ -14729,7 +14727,7 @@
           "transactionType"
         ]
       },
-      "BankTransactionListResults": {
+    "BankTransactionListResults": {
         "type": "object",
         "properties": {
           "results": {
@@ -14826,7 +14824,13 @@
           "status": {
             "type": "string",
             "description": "Transaction status",
-            "example": "PAYMENT_FAILED"
+            "enum": ["SUCCESS", 
+            "PENDING_BILLING", 
+            "REFUND", 
+            "CANCELLED", 
+            "PAYMENT_FAILED",
+            "REVERSED_BY_VENDOR"],
+            "example": "SUCCESS"
           },
           "amount": {
             "type": "number",
@@ -14863,7 +14867,7 @@
           "gatewayMessage": {
             "type": "string",
             "description": "Gateway message",
-            "example": "Insufficient funds"
+            "example": "SUCCESS"
           },
           "customerBillerId": {
             "type": "string",
