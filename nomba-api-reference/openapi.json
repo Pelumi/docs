@@ -14629,7 +14629,12 @@
           "status": {
             "type": "string",
             "description": "Transaction status",
-            "enum": ["SUCCESS", "PENDING_BILLING", "REFUND", "CANCELLED", "REVERSED_BY_VENDOR"],
+            "enum": ["SUCCESS", 
+            "PENDING_BILLING", 
+            "REFUND", 
+            "CANCELLED", 
+            "PAYMENT_FAILED",
+            "REVERSED_BY_VENDOR"],
             "example": "SUCCESS"
           },
           "amount": {
