@@ -12874,6 +12874,17 @@
             "description": "If specified, this is the account where the funds will be deposited.",
             "example": "01a10aeb-d989-460a-bbde-9842f2b4320f"
           },
+
+          "allowedPaymentMethods": {
+            "type": "array",
+            "description": "Optional list of payment methods that will be displayed to the customer on the checkout page. If not provided, all supported payment methods will be available.",
+            "items": {
+              "type": "string",
+              "enum": ["Card", "Transfer", "Nomba QR", "USSD", "Buy Now Pay Later", "Apple Pay"]
+            },
+            "example": ["Card", "Transfer"]
+          },
+          
           "splitRequest": {
             "type": "object",
             "description": "Contains accounts where the inflow will be split into",

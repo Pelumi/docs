@@ -115,6 +115,40 @@ To enable this feature, include the optional `splitRequest` parameter when creat
 
 ```
 
+## Allowed Payment Methods
+
+You can control which payment methods are displayed to customers on the checkout page by specifying the optional `allowedPaymentMethods` field in the order object.
+
+This field accepts a list of payment methods that should be available during checkout.
+
+Supported values include:
+
+- `Card`
+- `Transfer`
+- `Nomba QR`
+- `USSD`
+- `Buy Now Pay Later`
+- `Apple Pay`
+
+If `allowedPaymentMethods` is not provided, all available payment methods will be displayed by default.
+
+### Example
+
+```json
+{
+  "order": {
+    "orderReference": "00000-bc14-4ebf-89c0-0003",
+    "customerId": "221220251907",
+    "callbackUrl": "https://new:port/merchant.com/callback",
+    "customerEmail": "abcdef@gmail.com",
+    "amount": "120.00",
+    "currency": "NGN",
+    "accountId": "01a10aeb-d989-460a-bbde-9**********",
+    "allowedPaymentMethods": ["Card", "Transfer"]
+  }
+}
+```
+
 ## Tokenize Card
 
 If you need to support recurring or subscription payments, set the optional parameter `tokenizeCard` to true when creating the order.
