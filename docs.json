@@ -335,10 +335,7 @@
     "default": "light",
     "strict": false
   },
-  "banner": {
-    "content": " 🎉 **Update!** The expected virtual account amount limit has been updated from **₦10 to ₦100** for Sandbox virtual accounts.",
-    "dismissible": true 
-  },
+
   "navbar": {
     "links": [
       {
