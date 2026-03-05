@@ -15470,7 +15470,11 @@
           },
           "narration": { "type": "string", "example": "test e mandate response" },
           "customerPhoneNumber": { "type": "string", "example": "0807882343" },
-          "merchantReference": { "type": "string", "example": "12003074001" },
+          "merchantReference": { 
+            "type": "string",
+            "description": "A NUMERIC string (0-9) used to track a transaction. It must be unique per transaction.",
+            "example": "120030740017"
+          },
           "startDate": { "type": "string", "format": "date-time", "example": "2025-08-29T14:58" },
           "endDate": { "type": "string", "format": "date-time", "example": "2025-08-30T10:40" },
           "customerEmail": { "type": "string", "example": "kolapo@gmail.com" },
