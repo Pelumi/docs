@@ -82,7 +82,7 @@ Embark on a 6-step journey to initiate payment acceptance
             "amount": "10000.00",
             "currency": "NGN"
         },
-        "tokenizeCard": "true"
+        "tokenizeCard": true
     }'
     ```
 
@@ -150,9 +150,12 @@ Embark on a 6-step journey to initiate payment acceptance
                 "accountId": "cb6778b6-207c-41ac-a7fd-c2d1969b6aa6",
                 "orderReference": "testingref185",
                 "callbackUrl": "https://www.nomba.com",
-                "customerEmail": "",
+                "customerEmail": "abcde@gmail.com",
                 "amount": 2400.0,
                 "currency": "NGN",
+                "paymentMethod": "card_payment",
+                "cardType": "Visa",
+                "cardLast4Digits": "8038",
                 "cardCurrency": "GBP",
                 "customerId": "identify123",
                 "isTokenizedCardPayment": "false"
@@ -166,11 +169,11 @@ Embark on a 6-step journey to initiate payment acceptance
     ```json
     {
         "event_type": "payment_success",
-        "requestId": "ddfadc29-d1c0-41d6-904d-a71a6740f1c4",
+        "requestId": "a8b2c3d4-e5f6-47a8-b9c0-d1e2f3a4b5c6",
         "data": {
             "merchant": {
-                "userId": "cb6778b6-207c-41ac-a7fd-c2d1969b6aa6",
-                "walletId": "6553834573357772379e03d1",
+                "userId": "cb6778b6-207c-41ac-a7fd-c2d196******",
+                "walletId": "6553834573357772379e****",
                 "walletBalance": 1000000000
             },
             "terminal": {
@@ -184,29 +187,33 @@ Embark on a 6-step journey to initiate payment acceptance
                 "cardPan": "N/A"
             },
             "transaction": {
-                "transactionId": "WEB-ONLINE_C-CB677-27b33599-9359-4aa3-b4d0-9c60f3b4a978",
+                "transactionId": "WEB-ONLINE_C-CB677-83a1b2c3-d4e5-6f7a-b8c9-0d1e2f3a4b56",
                 "type": "online_checkout",
                 "originatingFrom": "web",
                 "rrn": "",
                 "transactionAmount": 2400.0,
                 "fee": 93.6,
-                "time": "2024-01-11T16:33:04Z",
+                "time": "2024-01-11T16:40:12Z",
                 "terminalActionId": "",
                 "mcollectionsId": "",
                 "merchantTxRef": ""
             },
             "customer": {
-                "billerId": "465922 **** **** 8038",
-                "productId": "465922"
+                "billerId": "8022636522",
+                "productId": "305",
+                "senderName": "John Doe"
             },
             "order": {
-                "accountId": "cb6778b6-207c-41ac-a7fd-c2d1969b6aa6",
-                "orderReference": "testingref185",
+                "accountId": "cb6778b6-207c-41ac-a7fd-c2d196******",
+                "orderReference": "testingref186",
                 "callbackUrl": "https://www.nomba.com",
-                "customerEmail": "",
+                "customerEmail": "abcde@gmail.com",
                 "amount": 2400.0,
                 "currency": "NGN",
-                "cardCurrency": "GBP",
+                "paymentMethod": "bank_transfer",
+                "cardType": "N/A",
+                "cardLast4Digits": "N/A",
+                "cardCurrency": "N/A",
                 "customerId": "identify123",
                 "isTokenizedCardPayment": "false"
             }
@@ -227,47 +234,43 @@ Embark on a 6-step journey to initiate payment acceptance
 
     `Sample request`
     ```bash
-    curl --request POST \
-        --url https://api.nomba.com/v1/transactions/accounts \
+    curl --request GET \
+        --url 'https://api.nomba.com/v1/transactions/accounts/single?transactionRef=WEB-ONLINE_C-CB677-27b33599-9359-4aa3-b4d0-9c60f3b4a978' \
         --header 'Authorization: Bearer <token>' \
-        --header 'Content-Type: application/json' \
-        --header 'accountId: <accountid>' \
-        --data '{
-        "transactionRef": "POS-WITHDRAW-DFC05-693cd007-cd1e-4ea6-8b79-5f5c4d7a83ea"
-    }'
+        --header 'accountId: <accountid>'
     ```
 
     `Sample response`
     ```json
     {
         "code": "00",
-        "description": "Success",
+        "description": "SUCCESS",
         "data": {
-            "results": [
-            {
-                "id": "POS-WITHDRAW-DFC05-693cd007-cd1e-4ea6-8b79-5f5c4d7a83ea",
-                "status": "PAYMENT_FAILED",
-                "amount": 4000,
-                "fixedCharge": 123,
-                "source": "pos",
-                "type": "withdrawal",
-                "gatewayMessage": "Insufficient funds",
-                "customerBillerId": "539983 **** **** 5118",
-                "timeCreated": "2023-09-08T19:26:34.657000Z",
-                "posTid": "2KUD4AKB",
-                "terminalId": "2KUD4AKB",
-                "providerTerminalId": "2KUD4AKB",
-                "rrn": "230908202632",
-                "posSerialNumber": "91230309116826",
-                "posTerminalLabel": "KEB MUSA ABUBAKAR",
-                "stan": "556734",
-                "paymentVendorReference": "2KUD4AKB230908202632",
-                "userId": "dfc05ca1-4e75-41dd-8e41-2d362d565893",
-                "posRrn": "230908202632",
-                "merchantTxRef": "c90d-4b25-ad0f"
-            }
-            ],
-            "cursor": "xchbaVFsjdsbaADddd"
+            "id": "WEB-ONLINE_C-CB677-27b33599-9359-4aa3-b4d0-9c60f3b4a978",
+            "status": "SUCCESS",
+            "amount": "2400.0",
+            "fixedCharge": "93.6",
+            "source": "web",
+            "type": "online_checkout",
+            "gatewayMessage": "PAYMENT SUCCESSFUL",
+            "customerBillerId": "465922 **** **** 8038",
+            "timeCreated": "2024-01-11T16:33:04.000Z",
+            "timeUpdated": "2024-01-11T16:33:04.250Z",
+            "walletCurrency": "NGN",
+            "userId": "cb6778b6-207c-41ac-a7fd-c2d196******",
+            "onlineCheckoutOrderId": "a1b2c3d4-e5f6-47a8-b9c0-d1e2f3******",
+            "onlineCheckoutOrderReference": "testingref185",
+            "onlineCheckoutTokenizedCardPayment": "false",
+            "onlineCheckoutCardPan": "465922 **** **** 8038",
+            "onlineCheckoutCurrency": "NGN",
+            "onlineCheckoutCustomerEmail": "abcde@gmail.com",
+            "onlineCheckoutAmount": "2400.0",
+            "onlineCheckoutPaymentMethod": "card_payment",
+            "onlineCheckoutTokenKey": "N/A",
+            "onlineCheckoutCardType": "Visa",
+            "currency": "NGN",
+            "entryType": "CREDIT",
+            "merchantTxRef": ""
         }
     }
     ```
