@@ -5974,7 +5974,7 @@
         "tags": ["Transfers"]
       }
     },
-    "/v1/transfers/bank/{subAccountId}": {
+    "/v2/transfers/bank/{subAccountId}": {
       "post": {
         "description": "You can use this endpoint to perform bank account transfer using a sub account",
         "operationId": "Perform bank account transfer from account",
@@ -6105,7 +6105,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Perform bank account transfer from a sub account",
+        "summary": "Perform bank account transfer from the sub account",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -6119,7 +6119,7 @@
             "required": true
           },
           {
-            "description": "The accountId to transfer from.",
+            "description": "The sub accountId to transfer from.",
             "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
             "in": "path",
             "name": "subAccountId",
@@ -13216,7 +13216,7 @@
             "type": "string",
             "format": "date-time",
             "description": "Creation timestamp",
-            "example": "2023-09-08T14:17:13.634Z"
+            "example": "2026-03-08T14:17:13.634Z"
           },
           "id": {
             "type": "string",
@@ -14134,7 +14134,7 @@
             "type": "string",
             "format": "date-time",
             "description": "Account creation timestamp",
-            "example": "2023-08-30T14:56:59.000Z"
+            "example": "2026-03-08T14:56:59.000Z"
           }
         },
         "required": ["amount", "currency", "timeCreated"]
@@ -14694,7 +14694,7 @@
             "type": "string",
             "format": "date-time",
             "description": "Creation timestamp",
-            "example": "2023-09-08T19:26:34.657000Z"
+            "example": "2026-03-08T19:26:34.657000Z"
           },
           "posTid": {
             "type": "string",

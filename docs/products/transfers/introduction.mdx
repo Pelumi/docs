@@ -110,4 +110,63 @@ To successfully execute bank transfers using our endpoints, it is necessary to u
     ```
 
   </Step>
+
+  <Step title="Transfer from a sub-account">
+    If your integration requires transferring funds from a **specific sub-account**, you can use the sub-account transfer endpoint. This is useful for special use cases where you manage multiple balances or wallets under your main account.
+
+    Sub-accounts can be created directly from your **Nomba dashboard**.
+
+    Before using this feature, you will need to contact us to enable sub-account transfers for your account.
+
+    `Request`
+
+    ```bash
+    curl --location 'https://api.nomba.com/v2/transfers/bank/{subAccountId}' \
+        --header 'Authorization: Bearer <token>' \
+        --header 'Content-Type: application/json' \
+        --header 'accountId: <accountid>' \
+        --data '{
+        "amount": 50,
+        "accountNumber": "009114XXXX",
+        "accountName": "Myles Morales",
+        "bankCode": "232",
+        "merchantTxRef": "REF-03-03-2026-11:17",
+        "senderName": "Myles Morales Sub",
+        "narration": "To buy lolipop"
+    }'
+    ```
+
+    `Response`
+
+    ```json
+    {
+        "code": "00",
+        "description": "Success",
+        "data": {
+          "id": "API-TRANSFER-3F58E-a730e3e4-566d-47f2-bf07-XXXX",
+          "status": "SUCCESS",
+          "type": "transfer",
+          "amount": 2300.0,
+          "source": "api",
+            "meta": {
+            "merchantTxRef": "REF-03-03-2026-11:17",
+            "api_client_id": "6a7bed88-7c93-4a1c-XXXXXXX",
+            "api_account_id": "27648363-d989-460a-bbde-XXXXX",
+            "rrn": "230908151711",
+            "userName": "Myles Morales/Sub Acc",
+            "isCorporate": "true",
+            "customerParentId": "613bb620-c8e5-45f6-XXXXXXXX",
+            "currency": "NGN",
+            "hooksEligible": "true",
+            "accountNumber": "009114XXXX",
+            "bankName": "Sterling Bank Plc",
+            "bankCode": "232",
+            "sessionId": "09FG2603101704069XXXXX",
+            },
+            "timeCreated": "2026-03-03T11:17:13.634Z"
+        }
+    }
+    ```
+
+  </Step>
 </Steps>
