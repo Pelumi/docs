@@ -16,12 +16,12 @@ description: 'Learn how to use the Nomba API to move money between accounts'
 The movement of funds between accounts, commonly known as P2P, refers to the internal transfer of funds within the network. This direct transfer bypasses external processors, ensuring rapid and efficient handling solely by Nomba.
 </Tip>
 
-# `POST /v1/transfers/wallet`
+# `POST /v2/transfers/wallet`
 
 <CodeGroup>
 ```bash Request
 curl --request POST \
-  --url https://api.nomba.com/v1/transfers/wallet \
+  --url https://api.nomba.com/v2/transfers/wallet \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
   --header 'accountId: <accountid>' \

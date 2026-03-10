@@ -10,6 +10,13 @@ description: 'Learn how to perform bank transfers using the Nomba API'
     href="/nomba-api-reference/transfers/perform-bank-account-transfer-from-the-parent-account"
   >
   </Card>
+
+   <Card
+    title="Perform bank transfers from the sub-account"
+    icon="wallet"
+    href="/nomba-api-reference/transfers/perform-bank-account-transfer-from-the-sub-account"
+  >
+  </Card>
 </CardGroup>
 
 # `POST /v2/transfers/bank`
@@ -87,6 +94,90 @@ curl --request POST \
     },
     "userId": "670353d1-158a-4257-8f0b-xxxxxxxxxx",
     "timeCreated": "2025-12-09 12:13:19"
+  }
+}
+```
+</CodeGroup>
+
+
+# `POST /v2/transfers/bank/{subAccountId}`
+If your usecase requires transferring funds from a specific sub-account, you can use the sub-account transfer endpoint. 
+This is useful where you manage multiple balances or wallets under your main account.
+
+Sub-accounts can only be created from your Nomba dashboard.
+> 📢 **Feature Notice:**  
+> Sub-account transfers must be enabled by us before you can use this endpoint.
+
+<CodeGroup>
+```bash Request
+curl --request POST \
+  --url https://api.nomba.com/v2/transfers/bank/{subAccountId} \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountid>' \
+  --data '{
+    "amount": 3500,
+    "accountNumber": "055472814",
+    "accountName": "M.A Animashaun",
+    "bankCode": "058",
+    "merchantTxRef": "UNQ_123abGGhh5546",
+    "senderName": "Nightly Post",
+    "narration": "Nice One"
+  }'
+```
+
+```json Response
+{
+  "code": "200",
+  "description": "SUCCESS",
+  "message": "Success",
+  "status": true,
+  "data": {
+    "id": "API-TRANSFER-11EC4-45990eb5-7b0f-4845-87f8-xxxxxxxxxxxx",
+    "status": "PENDING_BILLING",
+    "type": "transfer",
+    "amount": 1.0,
+    "source": "api",
+    "sourceUserId": "11ec45a1-1fe5-44f5-8baf-cxxxxxxxxxx",
+    "customerBillerId": "010784xxxx",
+    "productId": "058",
+    "meta": {
+      "api_rrn": "25120913xxxxx",
+      "narration": "Testing",
+      "recipientName": "John Doe",
+      "sender_name": "Nightly Post",
+      "rrn": "251209131319",
+      "api_account_id": "670353d1-158a-4257-8f0b-xxxxxxxxxxx",
+      "api_client_id": "651ab1c3-c703-4cc3-86ac-xxxxxxxxxxx",
+      "user_id": "670353d1-158a-4257-8f0b-xxxxxxxxxxx",
+      "merchantTxRef": "testingTxV2ForMerchant",
+      "allowDuplicate": true,
+      "idempotentKey": "670353d1-158a-4257-8f0b-d06d1fed3c35_testixxxxxxxxxxx",
+      "pos_withdrawal_id": "670353d1-158a-4257-8f0b-d06d1fed3c35_testingxxxxxxxxxxx",
+      "userName": "Code Trik Nigeria Enterprises",
+      "isCorporate": "true",
+      "currency": "NGN",
+      "hooksEligible": "true",
+      "banking_entity_id": 19787017,
+      "banking_entity_user_id": 19787014,
+      "banking_entity_type": "CORPORATE",
+      "self_transaction": true,
+      "transactionCategory": "Family & Kids",
+      "accountNumber": "0107841806",
+      "bankName": "GTBank",
+      "bankCode": "058",
+      "sessionId": "",
+      "user_referral_code": "HABI76702",
+      "amount_charged": "21.0",
+      "paymentVendor": "wallet",
+      "wallet_balance": "5.38",
+      "wallet_currency": "NGN",
+      "paymentVendorReference": "6938125f6e98e9ace8df850e",
+      "agent_commission": "0.0",
+      "useV2Fulfilment": "true"
+    },
+    "userId": "670353d1-158a-4257-8f0b-xxxxxxxxxx",
+    "timeCreated": "2026-03-08T12:13:19Z"
   }
 }
 ```
@@ -195,3 +286,5 @@ curl --request POST \
 <ResponseField name="timeCreated" type="string" required>
   Creation timestamp.
 </ResponseField>
+
+

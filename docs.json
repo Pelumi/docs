@@ -195,6 +195,7 @@
                   "pages": [
                     "nomba-api-reference/accounts/fetch-parent-account-details",
                     "nomba-api-reference/accounts/fetch-parent-account-balance",
+                    "nomba-api-reference/accounts/fetch-sub-account-balance",
                     "nomba-api-reference/accounts/fetch-terminals-assigned-to-the-parent-account"
                   ]
                 },
@@ -252,6 +253,7 @@
                     "nomba-api-reference/transfers/fetch-bank-codes-and-names",
                     "nomba-api-reference/transfers/perform-bank-account-lookup",
                     "nomba-api-reference/transfers/perform-bank-account-transfer-from-the-parent-account",
+                    "nomba-api-reference/transfers/perform-bank-account-transfer-from-the-sub-account",
                     "nomba-api-reference/transfers/perform-wallet-transfer-from-the-parent-account"
                   ]
                 },
@@ -268,6 +270,7 @@
                   "pages": [
                     "nomba-api-reference/transactions/fetch-creditdebit-transactions-on-the-parent-account",
                     "nomba-api-reference/transactions/fetch-transactions-on-the-parent-account",
+                    "nomba-api-reference/transactions/fetch-transactions-on-the-sub-account",
                     "nomba-api-reference/transactions/filter-parent-account-transactions",
                     "nomba-api-reference/transactions/fetch-a-single-transaction-on-the-parent-account",
                     "nomba-api-reference/transactions/transaction-requery"
