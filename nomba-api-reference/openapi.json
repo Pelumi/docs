@@ -6132,7 +6132,7 @@
         "tags": ["Transfers"]
       }
     },
-    "/v1/transfers/wallet": {
+    "/v2/transfers/wallet": {
       "post": {
         "description": "You can use this endpoint to perform a wallet transfer.",
         "operationId": "Perform wallet transfer from the parent account",
