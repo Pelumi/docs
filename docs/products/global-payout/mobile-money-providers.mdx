@@ -1,0 +1,67 @@
+---
+title: 'List Mobile Money Providers'
+description: 'Retrieve the list of mobile money providers available for DRC (CD) transfers'
+---
+
+# `GET /v1/global-payout/mobile-money/providers`
+
+Returns the mobile money providers available for transfers to the Democratic Republic of Congo (CD). Use the values from this response to populate the `institutionCode` and `institutionName` fields when calling [Authorize Transfer](/docs/products/global-payout/authorize-transfer) with `paymentMethod: "MOBILE_MONEY"`.
+
+<CodeGroup>
+```bash Request
+curl --request GET \
+  --url https://api.nomba.com/v1/global-payout/mobile-money/providers \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountId>'
+```
+
+```json Response
+{
+  "code": "00",
+  "description": "Success",
+  "data": [
+    { "code": "mpesa", "displayName": "Mpesa" },
+    { "code": "airtel", "displayName": "Airtel Money" },
+    { "code": "orange", "displayName": "Orange Money" }
+  ]
+}
+```
+</CodeGroup>
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  Response code. `00` indicates success.
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Human-readable result description.
+</ResponseField>
+
+<ResponseField name="data" type="array" required>
+  List of available mobile money providers.
+  <Expandable title="Provider object">
+    <ResponseField name="code" type="string">
+      The provider code. Pass this value as `institutionCode` in the Authorize Transfer request.
+    </ResponseField>
+    <ResponseField name="displayName" type="string">
+      The provider's display name. Pass this value as `institutionName` in the Authorize Transfer request.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+## Using providers with Authorize Transfer
+
+Call this endpoint first to retrieve the list of providers, then use the `code` and `displayName` from the chosen provider as `institutionCode` and `institutionName` respectively in the Authorize Transfer request body.
+
+```json Example
+{
+  "paymentMethod": "MOBILE_MONEY",
+  "accountNumber": "+243812345678",
+  "institutionCode": "mpesa",
+  "institutionName": "Mpesa"
+}
+```
+
+---
+*Last updated: 2026-03-16*
