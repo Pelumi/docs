@@ -1,0 +1,78 @@
+---
+title: 'Fetch Mobile Money Transaction'
+description: 'Retrieve the status of an initiated mobile money collection'
+---
+
+<Card
+  title="Fetch Mobile Money Transaction"
+  icon="magnifying-glass"
+  href="/nomba-api-reference/global-collections/fetch-mobile-money-transaction"
+>
+</Card>
+
+# `GET /v1/global-collection/transactions/{transactionId}`
+
+Retrieve the status of any initiated mobile money transaction. Use this endpoint to confirm whether a collection was successful, pending, or failed — keeping your records accurate and your customers informed.
+
+<CodeGroup>
+```bash Request
+curl --request GET \
+  --url https://api.nomba.com/v1/global-collection/transactions/a822e327-4bcd-40ec-ac61-ed3622eac000 \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountId>'
+```
+
+```json Response
+{
+  "code": "00",
+  "description": "Successful",
+  "data": {
+    "transactionId": "a822e327-4bcd-40ec-ac61-ed3622eac000",
+    "coreUserId": "xxxx-xxxx-4402-97c0-6c3824cxxxxx",
+    "account": "0980802918",
+    "status": "APPROVED",
+    "amount": 10.00,
+    "currency": "CDF"
+  }
+}
+```
+</CodeGroup>
+
+#### Path parameters
+
+<ParamField path="transactionId" type="string" required>
+  The `transactionReference` returned when the inflow was initiated.
+</ParamField>
+
+#### Response body
+
+<ResponseField name="transactionId" type="string" required>
+  The unique collection transaction ID.
+</ResponseField>
+
+<ResponseField name="coreUserId" type="string">
+  The Nomba account ID that received the collection.
+</ResponseField>
+
+<ResponseField name="account" type="string">
+  The customer's mobile money account (phone number).
+</ResponseField>
+
+<ResponseField name="status" type="string" required>
+  The current status of the collection. Possible values:
+
+  | Value | Description |
+  |---|---|
+  | `PENDING` | The payment prompt has been sent; awaiting customer action. |
+  | `APPROVED` | The customer completed the payment successfully. |
+  | `FAILED` | The collection could not be completed. |
+  | `CANCELLED` | The transaction was cancelled by the customer or system. |
+</ResponseField>
+
+<ResponseField name="amount" type="number" required>
+  The collected amount.
+</ResponseField>
+
+<ResponseField name="currency" type="string" required>
+  The currency of the collection.
+</ResponseField>

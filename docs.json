@@ -105,6 +105,27 @@
                       ]
                     },
                     {
+                      "group": "Global Payout",
+                      "icon": "globe",
+                      "pages": [
+                        "docs/products/global-payout/introduction",
+                        "docs/products/global-payout/authorize-transfer",
+                        "docs/products/global-payout/convert-money",
+                        "docs/products/global-payout/fetch-exchange-rates",
+                        "docs/products/global-payout/fetch-transaction",
+                        "docs/products/global-payout/authorize-exchange"
+                      ]
+                    },
+                    {
+                      "group": "Global Collections",
+                      "icon": "hand-holding-dollar",
+                      "pages": [
+                        "docs/products/global-collections/introduction",
+                        "docs/products/global-collections/initiate-mobile-money-inflow",
+                        "docs/products/global-collections/fetch-mobile-money-transaction"
+                      ]
+                    },
+                    {
                       "group": "Airtime & Data Vending",
                       "icon": "money-bill",
                       "pages": [
@@ -274,6 +295,23 @@
                     "nomba-api-reference/transactions/filter-parent-account-transactions",
                     "nomba-api-reference/transactions/fetch-a-single-transaction-on-the-parent-account",
                     "nomba-api-reference/transactions/transaction-requery"
+                  ]
+                },
+                {
+                  "group": "Global Payout",
+                  "pages": [
+                    "nomba-api-reference/global-payout/authorize-transfer",
+                    "nomba-api-reference/global-payout/convert-money",
+                    "nomba-api-reference/global-payout/fetch-exchange-rates",
+                    "nomba-api-reference/global-payout/fetch-transaction",
+                    "nomba-api-reference/global-payout/authorize-exchange"
+                  ]
+                },
+                {
+                  "group": "Global Collections",
+                  "pages": [
+                    "nomba-api-reference/global-collections/initiate-mobile-money-inflow",
+                    "nomba-api-reference/global-collections/fetch-mobile-money-transaction"
                   ]
                 },
                 {

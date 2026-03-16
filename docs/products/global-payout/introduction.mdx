@@ -1,0 +1,63 @@
+---
+title: 'Overview'
+description: 'Learn how to process cross-border fund disbursements with the Nomba Global Payout API'
+---
+
+GlobalPayout enables cross-border fund disbursements, giving you full control over international transfers from initiation to completion. Whether you're sending funds via SWIFT, converting currencies between accounts, or tracking a payment in real time, GlobalPayout provides the tools to manage every step of the process.
+
+## Quick Actions
+
+<CardGroup cols={3}>
+  <Card
+    title="Authorize Transfer"
+    icon="paper-plane"
+    href="/docs/products/global-payout/authorize-transfer"
+  >
+    Initiate and authorize an international transfer end-to-end.
+  </Card>
+  <Card
+    title="Convert Money"
+    icon="arrows-rotate"
+    href="/docs/products/global-payout/convert-money"
+  >
+    Convert funds between currencies before disbursement.
+  </Card>
+  <Card
+    title="Fetch Exchange Rates"
+    icon="chart-line"
+    href="/docs/products/global-payout/fetch-exchange-rates"
+  >
+    Get the latest exchange rates for a currency pair.
+  </Card>
+  <Card
+    title="Fetch Transaction"
+    icon="magnifying-glass"
+    href="/docs/products/global-payout/fetch-transaction"
+  >
+    Track the status of any global payout transaction.
+  </Card>
+  <Card
+    title="Authorize Exchange"
+    icon="shuffle"
+    href="/docs/products/global-payout/authorize-exchange"
+  >
+    Transfer funds between your own accounts in different currencies.
+  </Card>
+</CardGroup>
+
+## How it works
+
+<Steps titleSize="p">
+  <Step title="Fetch the latest exchange rate">
+    Before initiating a cross-currency transfer, call the exchange rates endpoint to retrieve accurate, up-to-date conversion values. This ensures your customers see the correct rate before confirming a transaction.
+  </Step>
+  <Step title="Convert money">
+    Call the ConvertMoney endpoint to calculate the exact destination amount after conversion. This returns a locked exchange rate ID that you will reference in the next step.
+  </Step>
+  <Step title="Authorize the transfer">
+    Submit the full transfer details — recipient account, payment method, currencies, and auth code — to authorize and initiate the disbursement.
+  </Step>
+  <Step title="Track the transaction">
+    Use the FetchTransaction endpoint with the returned `wtTransactionId` to poll for the current status of the transfer at any point in its lifecycle.
+  </Step>
+</Steps>

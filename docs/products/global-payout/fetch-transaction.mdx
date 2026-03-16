@@ -1,0 +1,95 @@
+---
+title: 'Fetch Transaction'
+description: 'Track the status of a Global Payout transaction using its transaction ID'
+---
+
+<Card
+  title="Fetch Transaction"
+  icon="magnifying-glass"
+  href="/nomba-api-reference/global-payout/fetch-transaction"
+>
+</Card>
+
+# `GET /v1/global-payout/transactions/{transactionId}`
+
+Track the status of any transaction at any point in its lifecycle. FetchTransaction takes a transaction reference and returns its current state, giving you and your customers full visibility into where funds are at any given time.
+
+<CodeGroup>
+```bash Request
+curl --request GET \
+  --url https://api.nomba.com/v1/global-payout/transactions/01kj9ssfwqd4a97jhdx65gmyqy \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountId>'
+```
+
+```json Response
+{
+  "code": "00",
+  "description": "Successful",
+  "status": false,
+  "data": {
+    "wtTransactionId": "01kj9ssfwqd4a97jhdx65gmyqy",
+    "coreTransactionId": "API-FX_TX_DR-D4400-b0a438d7-891f-47cc-8f27-98f6b44c8fc4",
+    "status": "COMPLETED",
+    "coreStatus": "PAYMENT_SUCCESSFUL",
+    "type": "TRANSFER",
+    "meta": {
+      "sender_name": "SMILE IDENTITY NIGERIA LIMITED/James Doe",
+      "destination_currency": "EUR",
+      "recipientName": "John Doe",
+      "payment_method": "SWIFT",
+      "destination_country_name": "Belgium",
+      "source_currency": "USD",
+      "source_amount": "15.0",
+      "destination_amount": "12.72",
+      "purpose_of_payment": "PERSONAL_TRANSFER",
+      "narration": "Testing SWIFT"
+    },
+    "prettyStatus": "Successful"
+  }
+}
+```
+</CodeGroup>
+
+#### Path parameters
+
+<ParamField path="transactionId" type="string" required>
+  The `wtTransactionId` returned when the transfer was authorized.
+</ParamField>
+
+#### Response body
+
+<ResponseField name="wtTransactionId" type="string" required>
+  The GlobalPayout transaction ID.
+</ResponseField>
+
+<ResponseField name="coreTransactionId" type="string">
+  The internal core transaction reference.
+</ResponseField>
+
+<ResponseField name="status" type="string" required>
+  The current processing status of the transaction. Possible values:
+
+  | Value | Description |
+  |---|---|
+  | `PROCESSING` | The transfer is being processed. |
+  | `COMPLETED` | The transfer has been successfully delivered. |
+  | `FAILED` | The transfer could not be completed. |
+  | `PENDING` | The transfer is awaiting further action. |
+</ResponseField>
+
+<ResponseField name="coreStatus" type="string">
+  The core system status (e.g., `PAYMENT_SUCCESSFUL`).
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  Transaction type — `TRANSFER` or `EXCHANGE`.
+</ResponseField>
+
+<ResponseField name="prettyStatus" type="string">
+  A human-readable status label (e.g., `Successful`, `Processing`, `Failed`).
+</ResponseField>
+
+<ResponseField name="meta" type="object">
+  Additional metadata about the transaction including amounts, currencies, and routing details.
+</ResponseField>

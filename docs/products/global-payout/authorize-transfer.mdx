@@ -1,0 +1,181 @@
+---
+title: 'Authorize Transfer'
+description: 'Initiate and authorize a cross-border transfer using the Nomba Global Payout API'
+---
+
+<Card
+  title="Authorize Transfer"
+  icon="paper-plane"
+  href="/nomba-api-reference/global-payout/authorize-transfer"
+>
+</Card>
+
+# `POST /v1/global-payout/transfer/authorize`
+
+AuthTransfer manages the complete transfer lifecycle with a single endpoint. It walks through every required step — from initiating a transfer to final authorization — ensuring nothing is missed before funds are moved.
+
+<CodeGroup>
+```bash Request
+curl --request POST \
+  --url https://api.nomba.com/v1/global-payout/transfer/authorize \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountId>' \
+  --data '{
+    "amount": 15.0,
+    "sourceCurrency": "USD",
+    "destinationCurrency": "EUR",
+    "accountNumber": "NRA44050178120109412005",
+    "receiverName": "John Doe",
+    "sourceCountryIsoCode": "CD",
+    "destinationCountryIsoCode": "BE",
+    "authCode": "2580",
+    "narration": "Testing SWIFT CD",
+    "source": "api",
+    "doFormFieldValidation": true,
+    "consentGivenToAddBeneficiary": true,
+    "purposeOfPayment": "PERSONAL_TRANSFER",
+    "institute": {
+      "code": "PCBCCNBJGDZ"
+    },
+    "paymentInfo": {
+      "paymentMethod": "SWIFT"
+    },
+    "accountType": "CORPORATE"
+  }'
+```
+
+```json Response
+{
+  "code": "00",
+  "description": "Successful",
+  "status": false,
+  "data": {
+    "wtTransactionId": "01kj9ssfwqd4a97jhdx65gmyqy",
+    "coreTransactionId": "API-FX_TX_DR-D4400-b0a438d7-891f-47cc-8f27-98f6b44c8fc4",
+    "status": "PROCESSING",
+    "coreStatus": "PAYMENT_SUCCESSFUL",
+    "type": "TRANSFER",
+    "meta": {
+      "sender_name": "SMILE IDENTITY NIGERIA LIMITED/James Doe",
+      "destination_currency": "EUR",
+      "recipientName": "John Doe",
+      "payment_method": "SWIFT",
+      "destination_country_name": "Belgium",
+      "source_currency": "USD",
+      "source_amount": "15.0",
+      "destination_amount": "12.72",
+      "purpose_of_payment": "PERSONAL_TRANSFER",
+      "narration": "Testing SWIFT"
+    },
+    "prettyStatus": "Successful"
+  }
+}
+```
+</CodeGroup>
+
+#### Request body
+
+<ParamField body="amount" type="number" required>
+  The amount to transfer in the source currency.
+</ParamField>
+
+<ParamField body="sourceCurrency" type="string" required>
+  The ISO 4217 currency code of the source account (e.g., `USD`).
+</ParamField>
+
+<ParamField body="destinationCurrency" type="string" required>
+  The ISO 4217 currency code of the destination account (e.g., `EUR`).
+</ParamField>
+
+<ParamField body="accountNumber" type="string" required>
+  The recipient's account number or IBAN.
+</ParamField>
+
+<ParamField body="receiverName" type="string" required>
+  The full name of the recipient.
+</ParamField>
+
+<ParamField body="sourceCountryIsoCode" type="string" required>
+  ISO 3166-1 alpha-2 country code of the sender (e.g., `NG`).
+</ParamField>
+
+<ParamField body="destinationCountryIsoCode" type="string" required>
+  ISO 3166-1 alpha-2 country code of the recipient (e.g., `BE`).
+</ParamField>
+
+<ParamField body="authCode" type="string" required>
+  The authorization PIN/code to confirm the transaction.
+</ParamField>
+
+<ParamField body="narration" type="string">
+  A description or memo for the transfer.
+</ParamField>
+
+<ParamField body="source" type="string">
+  The originating source of the request. Use `api` for API-initiated transfers.
+</ParamField>
+
+<ParamField body="doFormFieldValidation" type="boolean">
+  When `true`, validates form fields for the selected payment method before processing.
+</ParamField>
+
+<ParamField body="consentGivenToAddBeneficiary" type="boolean">
+  When `true`, the recipient is added as a saved beneficiary.
+</ParamField>
+
+<ParamField body="purposeOfPayment" type="string" required>
+  The purpose of the transfer (e.g., `PERSONAL_TRANSFER`, `BUSINESS_PAYMENT`).
+</ParamField>
+
+<ParamField body="institute" type="object">
+  The financial institution details for the recipient.
+  <Expandable title="object">
+    <ParamField body="code" type="string" required>
+      The BIC/SWIFT code of the recipient's bank.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="paymentInfo" type="object">
+  Payment method details.
+  <Expandable title="object">
+    <ParamField body="paymentMethod" type="string" required>
+      The payment rail to use (e.g., `SWIFT`, `SEPA`).
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="accountType" type="string">
+  The type of the recipient account: `CORPORATE` or `INDIVIDUAL`.
+</ParamField>
+
+#### Response body
+
+<ResponseField name="wtTransactionId" type="string" required>
+  The unique GlobalPayout transaction ID. Use this to track the transfer via FetchTransaction.
+</ResponseField>
+
+<ResponseField name="coreTransactionId" type="string" required>
+  The internal core transaction reference.
+</ResponseField>
+
+<ResponseField name="status" type="string" required>
+  Current processing status of the transaction (e.g., `PROCESSING`, `COMPLETED`, `FAILED`).
+</ResponseField>
+
+<ResponseField name="coreStatus" type="string">
+  The core system status of the transaction (e.g., `PAYMENT_SUCCESSFUL`).
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  Transaction type. Will be `TRANSFER` for cross-border disbursements.
+</ResponseField>
+
+<ResponseField name="prettyStatus" type="string">
+  A human-readable status label (e.g., `Successful`, `Processing`).
+</ResponseField>
+
+<ResponseField name="meta" type="object">
+  Additional transaction metadata including currency details, amounts, and routing info.
+</ResponseField>

@@ -1,0 +1,42 @@
+---
+title: 'Overview'
+description: 'Learn how to collect funds from customers across supported mobile money networks with the Nomba Global Collections API'
+---
+
+GlobalCollections simplifies the process of receiving funds, giving you reliable tools to collect money from customers across supported mobile money networks. Whether you're triggering a payment prompt or checking the outcome of a collection, GlobalCollections keeps your inflow operations running smoothly.
+
+## Quick Actions
+
+<CardGroup cols={2}>
+  <Card
+    title="Initiate Mobile Money Inflow"
+    icon="mobile"
+    href="/docs/products/global-collections/initiate-mobile-money-inflow"
+  >
+    Trigger a mobile money collection request from your customer.
+  </Card>
+  <Card
+    title="Fetch Collection Transaction"
+    icon="magnifying-glass"
+    href="/docs/products/global-collections/fetch-mobile-money-transaction"
+  >
+    Check the status of an initiated mobile money collection.
+  </Card>
+</CardGroup>
+
+## How it works
+
+<Steps titleSize="p">
+  <Step title="Initiate a mobile money inflow">
+    Call the InitiateMobileMoneyInflow endpoint with the customer's phone number, the amount, and a callback URL. This sends a payment prompt to the customer on their mobile money network.
+  </Step>
+  <Step title="Customer completes payment">
+    The customer approves the payment on their end via their mobile money provider (e.g., M-Pesa, Airtel Money).
+  </Step>
+  <Step title="Receive webhook notification">
+    Nomba sends a webhook event to your callback URL when the transaction status changes. Set up your webhook handler to process the result.
+  </Step>
+  <Step title="Verify the transaction">
+    Use the FetchMobileMoneyTransaction endpoint with the returned transaction reference to confirm the final status of the collection.
+  </Step>
+</Steps>

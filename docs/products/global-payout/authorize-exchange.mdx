@@ -1,0 +1,131 @@
+---
+title: 'Authorize Exchange'
+description: 'Transfer funds between your own accounts in different currencies'
+---
+
+<Card
+  title="Authorize Exchange"
+  icon="shuffle"
+  href="/nomba-api-reference/global-payout/authorize-exchange"
+>
+</Card>
+
+# `POST /v1/global-payout/exchange/authorize`
+
+Move funds between your own accounts with ease. AuthExchange is designed for internal transfers, allowing you to shift balances across your accounts in different currencies without the overhead of an external disbursement flow.
+
+<CodeGroup>
+```bash Request
+curl --request POST \
+  --url https://api.nomba.com/v1/global-payout/exchange/authorize \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountId>' \
+  --data '{
+    "amount": 1,
+    "sourceCurrency": "USD",
+    "destinationCurrency": "CDF",
+    "senderName": "John Doe",
+    "receiverName": "John Doe",
+    "sourceCountryIsoCode": "CD",
+    "destinationCountryIsoCode": "CD",
+    "authCode": "5555",
+    "narration": "Transfer between own accounts",
+    "source": "api"
+  }'
+```
+
+```json Response
+{
+  "code": "00",
+  "description": "Successful",
+  "status": false,
+  "data": {
+    "wtTransactionId": "01kkk8cjk0fpw9jx2n01wd8yfw",
+    "coreTransactionId": "API-P2P-CB9EC-0c2d962e-4730-48e7-b522-d65cac511549",
+    "status": "PROCESSING",
+    "coreStatus": "SUCCESS",
+    "type": "EXCHANGE",
+    "meta": {
+      "destination_country": "CD",
+      "amount_charged": "1.0",
+      "sender_name": "Nomba DRC ACCOUNT",
+      "receiver_name": "John Doe",
+      "destination_currency": "CDF",
+      "source_currency": "USD",
+      "source_amount": "1.0",
+      "destination_amount": "2250.0",
+      "narration": "Transfer between own accounts"
+    }
+  }
+}
+```
+</CodeGroup>
+
+#### Request body
+
+<ParamField body="amount" type="number" required>
+  The amount to transfer in the source currency.
+</ParamField>
+
+<ParamField body="sourceCurrency" type="string" required>
+  The ISO 4217 currency code of the source account (e.g., `USD`).
+</ParamField>
+
+<ParamField body="destinationCurrency" type="string" required>
+  The ISO 4217 currency code of the destination account (e.g., `CDF`).
+</ParamField>
+
+<ParamField body="senderName" type="string" required>
+  The name of the sender (account holder initiating the exchange).
+</ParamField>
+
+<ParamField body="receiverName" type="string" required>
+  The name of the receiver. For own-account exchanges, this is typically the same as the sender.
+</ParamField>
+
+<ParamField body="sourceCountryIsoCode" type="string" required>
+  ISO 3166-1 alpha-2 country code of the source account (e.g., `CD`).
+</ParamField>
+
+<ParamField body="destinationCountryIsoCode" type="string" required>
+  ISO 3166-1 alpha-2 country code of the destination account (e.g., `CD`).
+</ParamField>
+
+<ParamField body="authCode" type="string" required>
+  The authorization PIN/code to confirm the exchange.
+</ParamField>
+
+<ParamField body="narration" type="string">
+  A description or memo for the exchange.
+</ParamField>
+
+<ParamField body="source" type="string">
+  The originating source. Use `api` for API-initiated exchanges.
+</ParamField>
+
+#### Response body
+
+<ResponseField name="wtTransactionId" type="string" required>
+  The unique GlobalPayout transaction ID. Use this to track the exchange via FetchTransaction.
+</ResponseField>
+
+<ResponseField name="coreTransactionId" type="string" required>
+  The internal core transaction reference.
+</ResponseField>
+
+<ResponseField name="status" type="string" required>
+  Current processing status (e.g., `PROCESSING`, `COMPLETED`, `FAILED`).
+</ResponseField>
+
+<ResponseField name="coreStatus" type="string">
+  The core system status (e.g., `SUCCESS`).
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  Transaction type. Will be `EXCHANGE` for own-account transfers.
+</ResponseField>
+
+<ResponseField name="meta" type="object">
+  Additional metadata about the exchange including currency pair details and amounts.
+</ResponseField>
