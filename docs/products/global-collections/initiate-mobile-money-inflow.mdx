@@ -10,14 +10,14 @@ description: 'Trigger a mobile money collection request from a customer'
 >
 </Card>
 
-# `POST /v1/global-collection/inflow/initiate`
+# `POST /v1/global-collection/mobile-money/initiate`
 
 Trigger a mobile money collection from your customer. This endpoint initiates an inflow request through the supported mobile money flow, prompting the customer to complete the payment on their end.
 
 <CodeGroup>
 ```bash Request
 curl --request POST \
-  --url https://api.nomba.com/v1/global-collection/inflow/initiate \
+  --url https://api.nomba.com/v1/global-collection/mobile-money/initiate \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
   --header 'accountId: <accountId>' \
@@ -47,7 +47,7 @@ curl --request POST \
 #### Request body
 
 <ParamField body="phoneNumber" type="string" required>
-  The customer's mobile money phone number in international format (e.g., `+243XXXXXXXXX`).
+  The customer's mobile money phone number.
 </ParamField>
 
 <ParamField body="pin" type="string" required>
@@ -63,17 +63,17 @@ curl --request POST \
 </ParamField>
 
 <ParamField body="currency" type="string" required>
-  The ISO 4217 currency code for the collection (e.g., `CDF`, `KES`, `UGX`).
+  ISO 4217 currency code for the collection (e.g., `CDF`).
 </ParamField>
 
 <ParamField body="topupVendor" type="string" required>
-  The mobile money network provider to use (e.g., `AIRTEL`, `MPESA`).
+  The mobile money network provider (e.g., `AIRTEL`, `MPESA`).
 </ParamField>
 
 #### Response body
 
 <ResponseField name="transactionReference" type="string" required>
-  The unique reference for this collection. Use this with the FetchMobileMoneyTransaction endpoint to check the status.
+  Unique reference for this collection. Use this with [Fetch Collection Transaction](/docs/products/global-collections/fetch-mobile-money-transaction) to check the status.
 </ResponseField>
 
 <ResponseField name="status" type="string" required>
@@ -81,5 +81,5 @@ curl --request POST \
 </ResponseField>
 
 <ResponseField name="message" type="string">
-  A human-readable message describing the outcome.
+  A message describing the outcome.
 </ResponseField>

@@ -25,13 +25,12 @@ curl --request POST \
     "amount": 1,
     "sourceCurrency": "USD",
     "destinationCurrency": "CDF",
-    "senderName": "John Doe",
-    "receiverName": "John Doe",
+    "senderName": "ADEBUKOLA AKANJI",
+    "receiverName": "ADEBUKOLA AKANJI",
     "sourceCountryIsoCode": "CD",
     "destinationCountryIsoCode": "CD",
     "authCode": "5555",
-    "narration": "Transfer between own accounts",
-    "source": "api"
+    "narration": "Transfer between my accounts"
   }'
 ```
 
@@ -47,15 +46,20 @@ curl --request POST \
     "coreStatus": "SUCCESS",
     "type": "EXCHANGE",
     "meta": {
-      "destination_country": "CD",
-      "amount_charged": "1.0",
-      "sender_name": "Nomba DRC ACCOUNT",
-      "receiver_name": "John Doe",
-      "destination_currency": "CDF",
-      "source_currency": "USD",
+      "wt_transaction_id": "01kkk8cjk0fpw9jx2n01wd8yfw",
       "source_amount": "1.0",
       "destination_amount": "2250.0",
-      "narration": "Transfer between own accounts"
+      "source_currency": "USD",
+      "destination_currency": "CDF",
+      "amount_charged": "1.0",
+      "currency_pair_name": "USD/CDF",
+      "destination_country": "CD",
+      "source_country": "CD",
+      "narration": "Transfer between my accounts",
+      "trade_side": "BUY",
+      "spread_amount": "250.0",
+      "spread_currency": "CDF",
+      "transactionCategory": "General"
     }
   }
 }
@@ -65,23 +69,23 @@ curl --request POST \
 #### Request body
 
 <ParamField body="amount" type="number" required>
-  The amount to transfer in the source currency.
+  Amount to transfer in the source currency.
 </ParamField>
 
 <ParamField body="sourceCurrency" type="string" required>
-  The ISO 4217 currency code of the source account (e.g., `USD`).
+  ISO 4217 currency code of the source account (e.g., `USD`).
 </ParamField>
 
 <ParamField body="destinationCurrency" type="string" required>
-  The ISO 4217 currency code of the destination account (e.g., `CDF`).
+  ISO 4217 currency code of the destination account (e.g., `CDF`).
 </ParamField>
 
 <ParamField body="senderName" type="string" required>
-  The name of the sender (account holder initiating the exchange).
+  Name of the account holder initiating the exchange.
 </ParamField>
 
 <ParamField body="receiverName" type="string" required>
-  The name of the receiver. For own-account exchanges, this is typically the same as the sender.
+  Name of the receiving account holder. For own-account exchanges this is typically the same as the sender.
 </ParamField>
 
 <ParamField body="sourceCountryIsoCode" type="string" required>
@@ -93,33 +97,33 @@ curl --request POST \
 </ParamField>
 
 <ParamField body="authCode" type="string" required>
-  The authorization PIN/code to confirm the exchange.
+  Authorization PIN to confirm the exchange.
 </ParamField>
 
 <ParamField body="narration" type="string">
-  A description or memo for the exchange.
+  Description or memo for the exchange.
 </ParamField>
 
-<ParamField body="source" type="string">
-  The originating source. Use `api` for API-initiated exchanges.
+<ParamField body="lockedExchangeRateId" type="string">
+  The `exchangeRateId` from a prior [Fetch Exchange Rates](/docs/products/global-payout/fetch-exchange-rates) call. When provided, the exchange is fulfilled at that exact rate.
 </ParamField>
 
 #### Response body
 
 <ResponseField name="wtTransactionId" type="string" required>
-  The unique GlobalPayout transaction ID. Use this to track the exchange via FetchTransaction.
+  Unique GlobalPayout transaction ID. Use this to track the exchange via [Fetch Transaction](/docs/products/global-payout/fetch-transaction).
 </ResponseField>
 
-<ResponseField name="coreTransactionId" type="string" required>
-  The internal core transaction reference.
+<ResponseField name="coreTransactionId" type="string">
+  Internal core transaction reference.
 </ResponseField>
 
 <ResponseField name="status" type="string" required>
-  Current processing status (e.g., `PROCESSING`, `COMPLETED`, `FAILED`).
+  Processing status. One of: `PROCESSING`, `COMPLETED`, `FAILED`, `PENDING`.
 </ResponseField>
 
 <ResponseField name="coreStatus" type="string">
-  The core system status (e.g., `SUCCESS`).
+  Core system status (e.g., `SUCCESS`).
 </ResponseField>
 
 <ResponseField name="type" type="string">
@@ -127,5 +131,5 @@ curl --request POST \
 </ResponseField>
 
 <ResponseField name="meta" type="object">
-  Additional metadata about the exchange including currency pair details and amounts.
+  Transaction metadata including currency pair details, amounts, and spread info.
 </ResponseField>

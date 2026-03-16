@@ -1,11 +1,20 @@
 ---
 title: 'List Mobile Money Providers'
-description: 'Retrieve the list of mobile money providers available for DRC (CD) transfers'
+description: 'Retrieve the available mobile money providers for DRC transfers'
 ---
+
+<Card
+  title="List Mobile Money Providers"
+  icon="mobile"
+  href="/nomba-api-reference/global-payout/mobile-money-providers"
+>
+</Card>
 
 # `GET /v1/global-payout/mobile-money/providers`
 
-Returns the mobile money providers available for transfers to the Democratic Republic of Congo (CD). Use the values from this response to populate the `institutionCode` and `institutionName` fields when calling [Authorize Transfer](/docs/products/global-payout/authorize-transfer) with `paymentMethod: "MOBILE_MONEY"`.
+Returns the available mobile money providers for your region. Use this endpoint to populate a provider selector in your UI before initiating a `MOBILE_MONEY` transfer.
+
+The `code` from this response maps to `institutionCode` and the `displayName` maps to `institutionName` in the [Authorize Transfer](/docs/products/global-payout/authorize-transfer) request.
 
 <CodeGroup>
 ```bash Request
@@ -30,38 +39,15 @@ curl --request GET \
 
 #### Response body
 
-<ResponseField name="code" type="string" required>
-  Response code. `00` indicates success.
-</ResponseField>
-
-<ResponseField name="description" type="string" required>
-  Human-readable result description.
-</ResponseField>
-
 <ResponseField name="data" type="array" required>
   List of available mobile money providers.
-  <Expandable title="Provider object">
+
+  <Expandable title="provider object" defaultOpen="true">
     <ResponseField name="code" type="string">
-      The provider code. Pass this value as `institutionCode` in the Authorize Transfer request.
+      The provider code. Use this as `institutionCode` in the Authorize Transfer request.
     </ResponseField>
     <ResponseField name="displayName" type="string">
-      The provider's display name. Pass this value as `institutionName` in the Authorize Transfer request.
+      Human-readable provider name. Use this as `institutionName` in the Authorize Transfer request.
     </ResponseField>
   </Expandable>
 </ResponseField>
-
-## Using providers with Authorize Transfer
-
-Call this endpoint first to retrieve the list of providers, then use the `code` and `displayName` from the chosen provider as `institutionCode` and `institutionName` respectively in the Authorize Transfer request body.
-
-```json Example
-{
-  "paymentMethod": "MOBILE_MONEY",
-  "accountNumber": "+243812345678",
-  "institutionCode": "mpesa",
-  "institutionName": "Mpesa"
-}
-```
-
----
-*Last updated: 2026-03-16*

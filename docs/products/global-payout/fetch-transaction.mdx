@@ -28,24 +28,11 @@ curl --request GET \
   "description": "Successful",
   "status": false,
   "data": {
-    "wtTransactionId": "01kj9ssfwqd4a97jhdx65gmyqy",
-    "coreTransactionId": "API-FX_TX_DR-D4400-b0a438d7-891f-47cc-8f27-98f6b44c8fc4",
-    "status": "COMPLETED",
+    "transactionId": "01kj9ssfwqd4a97jhdx65gmyqy",
+    "status": "PROCESSING",
     "coreStatus": "PAYMENT_SUCCESSFUL",
     "type": "TRANSFER",
-    "meta": {
-      "sender_name": "SMILE IDENTITY NIGERIA LIMITED/James Doe",
-      "destination_currency": "EUR",
-      "recipientName": "John Doe",
-      "payment_method": "SWIFT",
-      "destination_country_name": "Belgium",
-      "source_currency": "USD",
-      "source_amount": "15.0",
-      "destination_amount": "12.72",
-      "purpose_of_payment": "PERSONAL_TRANSFER",
-      "narration": "Testing SWIFT"
-    },
-    "prettyStatus": "Successful"
+    "createdAt": "2026-03-13T09:15:57.161946"
   }
 }
 ```
@@ -54,21 +41,17 @@ curl --request GET \
 #### Path parameters
 
 <ParamField path="transactionId" type="string" required>
-  The `wtTransactionId` returned when the transfer was authorized.
+  The `wtTransactionId` returned when the transfer or exchange was authorized.
 </ParamField>
 
 #### Response body
 
-<ResponseField name="wtTransactionId" type="string" required>
+<ResponseField name="transactionId" type="string" required>
   The GlobalPayout transaction ID.
 </ResponseField>
 
-<ResponseField name="coreTransactionId" type="string">
-  The internal core transaction reference.
-</ResponseField>
-
 <ResponseField name="status" type="string" required>
-  The current processing status of the transaction. Possible values:
+  Current processing status of the transaction.
 
   | Value | Description |
   |---|---|
@@ -79,17 +62,13 @@ curl --request GET \
 </ResponseField>
 
 <ResponseField name="coreStatus" type="string">
-  The core system status (e.g., `PAYMENT_SUCCESSFUL`).
+  Core system status (e.g., `PAYMENT_SUCCESSFUL`).
 </ResponseField>
 
 <ResponseField name="type" type="string">
   Transaction type — `TRANSFER` or `EXCHANGE`.
 </ResponseField>
 
-<ResponseField name="prettyStatus" type="string">
-  A human-readable status label (e.g., `Successful`, `Processing`, `Failed`).
-</ResponseField>
-
-<ResponseField name="meta" type="object">
-  Additional metadata about the transaction including amounts, currencies, and routing details.
+<ResponseField name="createdAt" type="string">
+  ISO 8601 timestamp of when the transaction was created.
 </ResponseField>

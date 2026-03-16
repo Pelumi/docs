@@ -84,8 +84,9 @@
                           "pages": [
                             "docs/products/global-payout/introduction",
                             "docs/products/global-payout/supported-countries",
-                            "docs/products/global-payout/authorize-transfer",
+                            "docs/products/global-payout/payment-methods",
                             "docs/products/global-payout/mobile-money-providers",
+                            "docs/products/global-payout/authorize-transfer",
                             "docs/products/global-payout/convert-money",
                             "docs/products/global-payout/fetch-exchange-rates",
                             "docs/products/global-payout/fetch-transaction",
@@ -310,6 +311,8 @@
                 {
                   "group": "Global Payout",
                   "pages": [
+                    "nomba-api-reference/global-payout/payment-methods",
+                    "nomba-api-reference/global-payout/mobile-money-providers",
                     "nomba-api-reference/global-payout/authorize-transfer",
                     "nomba-api-reference/global-payout/convert-money",
                     "nomba-api-reference/global-payout/fetch-exchange-rates",

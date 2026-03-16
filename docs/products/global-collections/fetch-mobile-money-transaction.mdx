@@ -1,23 +1,23 @@
 ---
-title: 'Fetch Mobile Money Transaction'
+title: 'Fetch Collection Transaction'
 description: 'Retrieve the status of an initiated mobile money collection'
 ---
 
 <Card
-  title="Fetch Mobile Money Transaction"
+  title="Fetch Collection Transaction"
   icon="magnifying-glass"
   href="/nomba-api-reference/global-collections/fetch-mobile-money-transaction"
 >
 </Card>
 
-# `GET /v1/global-collection/transactions/{transactionId}`
+# `GET /v1/global-collection/mobile-money/transaction/{transactionId}`
 
 Retrieve the status of any initiated mobile money transaction. Use this endpoint to confirm whether a collection was successful, pending, or failed — keeping your records accurate and your customers informed.
 
 <CodeGroup>
 ```bash Request
 curl --request GET \
-  --url https://api.nomba.com/v1/global-collection/transactions/a822e327-4bcd-40ec-ac61-ed3622eac000 \
+  --url https://api.nomba.com/v1/global-collection/mobile-money/transaction/a822e327-4bcd-40ec-ac61-ed3622eac000 \
   --header 'Authorization: Bearer <token>' \
   --header 'accountId: <accountId>'
 ```
@@ -59,12 +59,12 @@ curl --request GET \
 </ResponseField>
 
 <ResponseField name="status" type="string" required>
-  The current status of the collection. Possible values:
+  Current status of the collection.
 
   | Value | Description |
   |---|---|
-  | `PENDING` | The payment prompt has been sent; awaiting customer action. |
-  | `APPROVED` | The customer completed the payment successfully. |
+  | `PENDING` | Payment prompt sent; awaiting customer action. |
+  | `APPROVED` | Customer completed the payment successfully. |
   | `FAILED` | The collection could not be completed. |
   | `CANCELLED` | The transaction was cancelled by the customer or system. |
 </ResponseField>

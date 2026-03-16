@@ -12663,7 +12663,7 @@
     },
     "/v1/global-payout/transfer/authorize": {
       "post": {
-        "description": "Initiate and authorize a cross-border transfer. Manages the complete transfer lifecycle from initiation to final authorization.",
+        "description": "Initiate and authorize a cross-border transfer. Manages the complete transfer lifecycle from initiation to final authorization. Supports BANK, MOBILE_MONEY, INTERAC, FASTER_PAYMENTS, and SEPA payment methods.",
         "operationId": "Authorize Transfer",
         "parameters": [
           {
@@ -12698,101 +12698,98 @@
                   "amount",
                   "sourceCurrency",
                   "destinationCurrency",
-                  "accountNumber",
                   "receiverName",
                   "sourceCountryIsoCode",
                   "destinationCountryIsoCode",
                   "authCode",
-                  "purposeOfPayment"
+                  "paymentMethod"
                 ],
                 "properties": {
                   "amount": {
                     "type": "number",
-                    "example": 15.0,
-                    "description": "The amount to transfer in the source currency."
+                    "example": 500.0
                   },
                   "sourceCurrency": {
                     "type": "string",
-                    "example": "USD",
-                    "description": "ISO 4217 currency code of the source account."
+                    "example": "USD"
                   },
                   "destinationCurrency": {
                     "type": "string",
-                    "example": "EUR",
-                    "description": "ISO 4217 currency code of the destination account."
-                  },
-                  "accountNumber": {
-                    "type": "string",
-                    "example": "NRA44050178120109412005",
-                    "description": "The recipient account number or IBAN."
+                    "example": "USD"
                   },
                   "receiverName": {
                     "type": "string",
-                    "example": "John Doe",
-                    "description": "Full name of the recipient."
+                    "example": "John Cena"
                   },
                   "sourceCountryIsoCode": {
                     "type": "string",
-                    "example": "CD",
-                    "description": "ISO 3166-1 alpha-2 country code of the sender."
+                    "example": "NG"
                   },
                   "destinationCountryIsoCode": {
                     "type": "string",
-                    "example": "BE",
-                    "description": "ISO 3166-1 alpha-2 country code of the recipient."
+                    "example": "CD"
                   },
                   "authCode": {
                     "type": "string",
-                    "example": "2580",
-                    "description": "Authorization PIN to confirm the transaction."
+                    "example": "2580"
+                  },
+                  "paymentMethod": {
+                    "type": "string",
+                    "enum": [
+                      "BANK",
+                      "MOBILE_MONEY",
+                      "INTERAC",
+                      "FASTER_PAYMENTS",
+                      "SEPA"
+                    ],
+                    "example": "BANK",
+                    "description": "Payment rail. Determines which additional fields are required."
+                  },
+                  "accountNumber": {
+                    "type": "string",
+                    "example": "CD1234567890123456",
+                    "description": "Account number, IBAN, or phone number for MOBILE_MONEY. Required for BANK, MOBILE_MONEY, FASTER_PAYMENTS, SEPA."
+                  },
+                  "institutionCode": {
+                    "type": "string",
+                    "example": "204514",
+                    "description": "Routing code. Sort code for FASTER_PAYMENTS, SWIFT/BIC for SEPA, institution number for BANK (Canada)."
+                  },
+                  "institutionName": {
+                    "type": "string",
+                    "example": "Mpesa",
+                    "description": "Bank or provider display name. Use displayName from List Mobile Money Providers for MOBILE_MONEY."
                   },
                   "narration": {
                     "type": "string",
-                    "example": "Testing SWIFT CD",
-                    "description": "Description or memo for the transfer."
+                    "example": "Business payment"
                   },
-                  "source": {
+                  "lockedExchangeRateId": {
                     "type": "string",
-                    "example": "api",
-                    "description": "Originating source. Use api for API-initiated transfers."
+                    "example": "01kkk4b7rh8pcvtw1s1nxs144s",
+                    "description": "exchangeRateId from Fetch Exchange Rates. Locks the rate for this transfer."
                   },
-                  "doFormFieldValidation": {
-                    "type": "boolean",
-                    "example": true
-                  },
-                  "consentGivenToAddBeneficiary": {
-                    "type": "boolean",
-                    "example": true
-                  },
-                  "purposeOfPayment": {
-                    "type": "string",
-                    "example": "PERSONAL_TRANSFER",
-                    "description": "Purpose of the transfer."
-                  },
-                  "institute": {
+                  "beneficiary": {
                     "type": "object",
+                    "description": "Required for INTERAC; partially required for BANK (Canada).",
                     "properties": {
-                      "code": {
+                      "beneficiaryEmail": {
                         "type": "string",
-                        "example": "PCBCCNBJGDZ",
-                        "description": "BIC/SWIFT code of the recipient bank."
+                        "example": "jane.doe@email.com"
+                      },
+                      "securityQuestion": {
+                        "type": "string",
+                        "example": "What is your pets name?"
+                      },
+                      "securityQuestionAnswer": {
+                        "type": "string",
+                        "example": "Fluffy"
+                      },
+                      "transitNumber": {
+                        "type": "string",
+                        "description": "Bank transit number (Canada only)."
                       }
                     }
-                  },
-                  "paymentInfo": {
-                    "type": "object",
-                    "properties": {
-                      "paymentMethod": {
-                        "type": "string",
-                        "example": "SWIFT",
-                        "description": "Payment rail to use (e.g. SWIFT, SEPA)."
-                      }
-                    }
-                  },
-                  "accountType": {
-                    "type": "string",
-                    "example": "CORPORATE",
-                    "description": "Recipient account type: CORPORATE or INDIVIDUAL."
                   }
                 }
               }
@@ -12820,7 +12817,8 @@
                       "properties": {
                         "wtTransactionId": {
                           "type": "string",
-                          "example": "01kj9ssfwqd4a97jhdx65gmyqy"
+                          "example": "01kj9ssfwqd4a97jhdx65gmyqy",
+                          "description": "Unique GlobalPayout transaction ID. Use to track via Fetch Transaction."
                         },
                         "coreTransactionId": {
                           "type": "string",
@@ -12828,7 +12826,13 @@
                         },
                         "status": {
                           "type": "string",
-                          "example": "PROCESSING"
+                          "example": "PROCESSING",
+                          "enum": [
+                            "PROCESSING",
+                            "COMPLETED",
+                            "FAILED",
+                            "PENDING"
+                          ]
                         },
                         "coreStatus": {
                           "type": "string",
@@ -12841,6 +12845,68 @@
                         "prettyStatus": {
                           "type": "string",
                           "example": "Successful"
+                        },
+                        "meta": {
+                          "type": "object",
+                          "description": "Transaction metadata including currency details, amounts, and routing info.",
+                          "properties": {
+                            "source_amount": {
+                              "type": "string",
+                              "example": "15.0"
+                            },
+                            "destination_amount": {
+                              "type": "string",
+                              "example": "12.72"
+                            },
+                            "source_currency": {
+                              "type": "string",
+                              "example": "USD"
+                            },
+                            "destination_currency": {
+                              "type": "string",
+                              "example": "EUR"
+                            },
+                            "amount_charged": {
+                              "type": "string",
+                              "example": "35.0"
+                            },
+                            "currency_pair_name": {
+                              "type": "string",
+                              "example": "EUR/USD"
+                            },
+                            "payment_method": {
+                              "type": "string",
+                              "example": "SWIFT"
+                            },
+                            "destination_country": {
+                              "type": "string",
+                              "example": "BE"
+                            },
+                            "destination_country_name": {
+                              "type": "string",
+                              "example": "Belgium"
+                            },
+                            "source_country": {
+                              "type": "string",
+                              "example": "NG"
+                            },
+                            "narration": {
+                              "type": "string",
+                              "example": "Testing SWIFT"
+                            },
+                            "trade_side": {
+                              "type": "string",
+                              "example": "SELL"
+                            },
+                            "spread_amount": {
+                              "type": "string",
+                              "example": "0.01"
+                            },
+                            "spread_currency": {
+                              "type": "string",
+                              "example": "EUR"
+                            }
+                          }
                         }
                       }
                     }
@@ -12935,6 +13001,11 @@
                   "source": {
                     "type": "string",
                     "example": "api"
+                  },
+                  "lockedExchangeRateId": {
+                    "type": "string",
+                    "example": "01kkk4b7rh8pcvtw1s1nxs144s",
+                    "description": "The exchangeRateId from a prior Fetch Exchange Rates call. When provided, the exchange is fulfilled at that exact rate."
                   }
                 }
               }
@@ -13306,17 +13377,13 @@
                     "data": {
                       "type": "object",
                       "properties": {
-                        "wtTransactionId": {
+                        "transactionId": {
                           "type": "string",
                           "example": "01kj9ssfwqd4a97jhdx65gmyqy"
                         },
-                        "coreTransactionId": {
-                          "type": "string",
-                          "example": "API-FX_TX_DR-D4400-b0a438d7-891f-47cc-8f27-98f6b44c8fc4"
-                        },
                         "status": {
                           "type": "string",
-                          "example": "COMPLETED",
+                          "example": "PROCESSING",
                           "enum": [
                             "PROCESSING",
                             "COMPLETED",
@@ -13332,9 +13399,9 @@
                           "type": "string",
                           "example": "TRANSFER"
                         },
-                        "prettyStatus": {
+                        "createdAt": {
                           "type": "string",
-                          "example": "Successful"
+                          "example": "2026-03-13T09:15:57.161946"
                         }
                       }
                     }
@@ -13346,7 +13413,139 @@
         }
       }
     },
-    "/v1/global-collection/inflow/initiate": {
+    "/v1/global-payout/payment-methods": {
+      "get": {
+        "description": "Returns the list of supported payment method codes and display names.",
+        "operationId": "Fetch Payment Methods",
+        "parameters": [
+          {
+            "description": "Bearer token for authentication.",
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "example": "Bearer <token>"
+            },
+            "required": true
+          },
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payment methods retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Successful"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "code": {
+                            "type": "string",
+                            "example": "BANK"
+                          },
+                          "displayName": {
+                            "type": "string",
+                            "example": "Bank Transfer"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/global-payout/mobile-money/providers": {
+      "get": {
+        "description": "Returns available mobile money providers for the user's region. Use code as institutionCode and displayName as institutionName in Authorize Transfer.",
+        "operationId": "List Mobile Money Providers",
+        "parameters": [
+          {
+            "description": "Bearer token for authentication.",
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "example": "Bearer <token>"
+            },
+            "required": true
+          },
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Providers retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "code": {
+                            "type": "string",
+                            "example": "mpesa"
+                          },
+                          "displayName": {
+                            "type": "string",
+                            "example": "Mpesa"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/global-collection/mobile-money/initiate": {
       "post": {
         "description": "Trigger a mobile money collection request from a customer.",
         "operationId": "Initiate Mobile Money Inflow",
@@ -13374,7 +13573,6 @@
         ],
         "requestBody": {
           "required": true,
-          "description": "Mobile money inflow payload",
           "content": {
             "application/json": {
               "schema": {
@@ -13390,18 +13588,15 @@
                 "properties": {
                   "phoneNumber": {
                     "type": "string",
-                    "example": "0980802xxx",
-                    "description": "Customer's mobile money phone number."
+                    "example": "0980802xxx"
                   },
                   "pin": {
                     "type": "string",
-                    "example": "0000",
-                    "description": "Customer's mobile money PIN."
+                    "example": "0000"
                   },
                   "callbackUrl": {
                     "type": "string",
-                    "example": "https://your-server.com/webhook/collection",
-                    "description": "URL Nomba will POST to when status changes."
+                    "example": "https://your-server.com/webhook/collection"
                   },
                   "amount": {
                     "type": "number",
@@ -13462,7 +13657,7 @@
         }
       }
     },
-    "/v1/global-collection/transactions/{transactionId}": {
+    "/v1/global-collection/mobile-money/transaction/{transactionId}": {
       "get": {
         "description": "Retrieve the status of an initiated mobile money collection.",
         "operationId": "Fetch Collection Transaction",

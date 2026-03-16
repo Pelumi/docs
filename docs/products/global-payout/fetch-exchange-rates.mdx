@@ -46,6 +46,10 @@ curl --request GET \
 ```
 </CodeGroup>
 
+<Note>
+  The `exchangeRateId` in the response is a locked rate identifier. Pass it as `lockedExchangeRateId` in your [Authorize Transfer](/docs/products/global-payout/authorize-transfer) request to guarantee the transaction is fulfilled at the exact rate you quoted to your customer. Exchange rates are updated periodically — locking the rate prevents any movement between quote time and execution.
+</Note>
+
 #### Query parameters
 
 <ParamField query="from" type="string" required>
