@@ -93,7 +93,11 @@
                       "$ref": "#/components/schemas/IssueTokenResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -197,7 +201,9 @@
             "required": true
           }
         ],
-        "tags": ["Authenticate"]
+        "tags": [
+          "Authenticate"
+        ]
       }
     },
     "/v1/auth/token/refresh": {
@@ -236,7 +242,11 @@
                       "$ref": "#/components/schemas/IssueTokenResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -345,7 +355,9 @@
             "required": true
           }
         ],
-        "tags": ["Authenticate"]
+        "tags": [
+          "Authenticate"
+        ]
       }
     },
     "/v1/auth/token/revoke": {
@@ -459,7 +471,9 @@
           }
         },
         "summary": "Revoke an access_token",
-        "tags": ["Authenticate"]
+        "tags": [
+          "Authenticate"
+        ]
       }
     },
     "/v1/accounts": {
@@ -551,7 +565,10 @@
                           "type": {
                             "type": "string",
                             "description": "Type of the account.",
-                            "enum": ["virtual", "physical"],
+                            "enum": [
+                              "virtual",
+                              "physical"
+                            ],
                             "example": "physical"
                           },
                           "accountName": {
@@ -598,13 +615,20 @@
                           "status": {
                             "type": "string",
                             "description": "Status of the account.",
-                            "enum": ["active", "pnd", "fraudulent", "suspend"],
+                            "enum": [
+                              "active",
+                              "pnd",
+                              "fraudulent",
+                              "suspend"
+                            ],
                             "example": "active"
                           },
                           "currency": {
                             "type": "string",
-                            "description": "Primary currency on the account (Only supported at the moment is “NGN”).",
-                            "enum": ["NGN"],
+                            "description": "Primary currency on the account (Only supported at the moment is \u201cNGN\u201d).",
+                            "enum": [
+                              "NGN"
+                            ],
                             "example": "NGN",
                             "maxLength": 3,
                             "minLength": 3
@@ -616,12 +640,12 @@
                           },
                           "createdAt": {
                             "type": "string",
-                            "description": "The date and time this entity was created. This value uses Coordinated Universal Time (UTC) and ISO 8601 format – `YYYY-MM-DDThh:mm:ssZ`.",
+                            "description": "The date and time this entity was created. This value uses Coordinated Universal Time (UTC) and ISO 8601 format \u2013 `YYYY-MM-DDThh:mm:ssZ`.",
                             "example": "2022-07-08T14:33:00Z"
                           },
                           "updatedAt": {
                             "type": "string",
-                            "description": "The date and time this entity was updated. This value uses Coordinated Universal Time (UTC) and ISO 8601 format – `YYYY-MM-DDThh:mm:ssZ`.",
+                            "description": "The date and time this entity was updated. This value uses Coordinated Universal Time (UTC) and ISO 8601 format \u2013 `YYYY-MM-DDThh:mm:ssZ`.",
                             "example": "2022-07-08T14:33:00Z"
                           }
                         }
@@ -729,7 +753,9 @@
           }
         ],
         "summary": "List all sub accounts",
-        "tags": ["Accounts"]
+        "tags": [
+          "Accounts"
+        ]
       },
       "post": {
         "description": "You can use this endpoint to create a sub account that is part of your business.",
@@ -766,7 +792,11 @@
                       "$ref": "#/components/schemas/CreateAccountResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -875,7 +905,9 @@
             "required": true
           }
         ],
-        "tags": ["Accounts"]
+        "tags": [
+          "Accounts"
+        ]
       }
     },
     "/v1/accounts/sub-account-details": {
@@ -938,7 +970,11 @@
                       "$ref": "#/components/schemas/AccountDetailsResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -1034,7 +1070,9 @@
           }
         ],
         "summary": "Fetch details of a sub account",
-        "tags": ["Accounts"]
+        "tags": [
+          "Accounts"
+        ]
       }
     },
     "/v1/accounts/parent": {
@@ -1074,7 +1112,11 @@
                       "$ref": "#/components/schemas/AccountDetailsResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -1170,7 +1212,9 @@
           }
         ],
         "summary": "Fetch parent account details",
-        "tags": ["Accounts"]
+        "tags": [
+          "Accounts"
+        ]
       }
     },
     "/v1/accounts/{subAccountId}/balance": {
@@ -1222,7 +1266,11 @@
                       "$ref": "#/components/schemas/AccountBalanceResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -1318,7 +1366,9 @@
           }
         ],
         "summary": "Fetch sub account balance",
-        "tags": ["Accounts"]
+        "tags": [
+          "Accounts"
+        ]
       }
     },
     "/v1/accounts/balance": {
@@ -1359,7 +1409,11 @@
                       "$ref": "#/components/schemas/AccountBalanceResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -1455,7 +1509,9 @@
           }
         ],
         "summary": "Fetch parent account balance",
-        "tags": ["Accounts"]
+        "tags": [
+          "Accounts"
+        ]
       }
     },
     "/v1/accounts/suspend/{subAccountId}": {
@@ -1509,7 +1565,11 @@
                       "example": true
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -1605,7 +1665,9 @@
           }
         ],
         "summary": "Suspend a sub account",
-        "tags": ["Accounts"]
+        "tags": [
+          "Accounts"
+        ]
       }
     },
     "/v1/accounts/reactivate/{subAccountId}": {
@@ -1659,7 +1721,11 @@
                       "example": true
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -1755,7 +1821,9 @@
           }
         ],
         "summary": "Reactivate a sub account",
-        "tags": ["Accounts"]
+        "tags": [
+          "Accounts"
+        ]
       }
     },
     "/v1/accounts/{subAccountId}/terminals": {
@@ -1867,7 +1935,11 @@
                       "$ref": "#/components/schemas/TerminalListResults"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -1963,7 +2035,9 @@
           }
         ],
         "summary": "Fetch terminals assigned to a sub account",
-        "tags": ["Accounts"]
+        "tags": [
+          "Accounts"
+        ]
       }
     },
     "/v1/accounts/terminals": {
@@ -2065,7 +2139,11 @@
                       "$ref": "#/components/schemas/TerminalListResults"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -2161,7 +2239,9 @@
           }
         ],
         "summary": "Fetch terminals assigned to the parent account",
-        "tags": ["Accounts"]
+        "tags": [
+          "Accounts"
+        ]
       }
     },
     "/v1/accounts/{subAccountId}/access": {
@@ -2224,7 +2304,11 @@
                       "$ref": "#/components/schemas/GenericObjectResult"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -2320,7 +2404,9 @@
           }
         ],
         "summary": "Update access to account",
-        "tags": ["Accounts"]
+        "tags": [
+          "Accounts"
+        ]
       }
     },
     "/v1/accounts/virtual": {
@@ -2359,7 +2445,11 @@
                       "$ref": "#/components/schemas/CreateVirtualAccountResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -2468,7 +2558,9 @@
             "required": true
           }
         ],
-        "tags": ["Virtual Accounts"]
+        "tags": [
+          "Virtual Accounts"
+        ]
       }
     },
     "/v1/accounts/virtual/list": {
@@ -2507,7 +2599,11 @@
                       "$ref": "#/components/schemas/VirtualAccountListResults"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -2637,7 +2733,9 @@
             "required": false
           }
         ],
-        "tags": ["Virtual Accounts"]
+        "tags": [
+          "Virtual Accounts"
+        ]
       }
     },
     "/v1/accounts/virtual/{identifier}": {
@@ -2700,7 +2798,11 @@
                       "$ref": "#/components/schemas/UpdateVirtualAccountResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -2796,7 +2898,9 @@
           }
         ],
         "summary": "Update a virtual account",
-        "tags": ["Virtual Accounts"]
+        "tags": [
+          "Virtual Accounts"
+        ]
       },
       "get": {
         "description": "You can use this endpoint to fetch a virtual account.",
@@ -2846,7 +2950,11 @@
                       "$ref": "#/components/schemas/VirtualAccountObject"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -2942,7 +3050,9 @@
           }
         ],
         "summary": "Fetch a virtual account",
-        "tags": ["Virtual Accounts"]
+        "tags": [
+          "Virtual Accounts"
+        ]
       },
       "delete": {
         "description": "You can use this endpoint to expire a virtual account.",
@@ -2992,7 +3102,11 @@
                       "$ref": "#/components/schemas/ExpireVirtualAccountResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -3088,7 +3202,9 @@
           }
         ],
         "summary": "Expire a virtual account",
-        "tags": ["Virtual Accounts"]
+        "tags": [
+          "Virtual Accounts"
+        ]
       }
     },
     "/v1/checkout/order": {
@@ -3127,7 +3243,11 @@
                       "$ref": "#/components/schemas/CreateOrderResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -3236,7 +3356,9 @@
             "required": true
           }
         ],
-        "tags": ["Online Checkout"]
+        "tags": [
+          "Online Checkout"
+        ]
       }
     },
     "/v1/checkout/tokenized-card-payment": {
@@ -3275,7 +3397,11 @@
                       "$ref": "#/components/schemas/TokenizedCardPaymentResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -3384,7 +3510,9 @@
             "required": true
           }
         ],
-        "tags": ["Online Checkout"]
+        "tags": [
+          "Online Checkout"
+        ]
       }
     },
     "/v1/checkout/tokenized-card-data": {
@@ -3572,7 +3700,9 @@
           }
         ],
         "summary": "List tokenized cards",
-        "tags": ["Online Checkout"]
+        "tags": [
+          "Online Checkout"
+        ]
       },
       "post": {
         "description": "Update a tokenized card details",
@@ -3609,7 +3739,11 @@
                       "$ref": "#/components/schemas/UpdateTokenizedCardDataResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -3718,7 +3852,9 @@
             "required": true
           }
         ],
-        "tags": ["Online Checkout"]
+        "tags": [
+          "Online Checkout"
+        ]
       },
       "delete": {
         "description": "Delete a tokenized card details",
@@ -3755,7 +3891,11 @@
                       "$ref": "#/components/schemas/DeleteTokenizedCardDataResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -3864,7 +4004,9 @@
             "required": true
           }
         ],
-        "tags": ["Online Checkout"]
+        "tags": [
+          "Online Checkout"
+        ]
       }
     },
     "/v1/checkout/transaction": {
@@ -3890,7 +4032,10 @@
             "name": "idType",
             "schema": {
               "type": "string",
-              "enum": ["ORDER_ID", "ORDER_REFERENCE"]
+              "enum": [
+                "ORDER_ID",
+                "ORDER_REFERENCE"
+              ]
             }
           },
           {
@@ -4019,7 +4164,9 @@
           }
         ],
         "summary": "Fetch checkout transaction",
-        "tags": ["Online Checkout"]
+        "tags": [
+          "Online Checkout"
+        ]
       }
     },
     "/v1/checkout/refund": {
@@ -4058,7 +4205,11 @@
                       "$ref": "#/components/schemas/CheckoutDataResponseDTO"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -4167,7 +4318,9 @@
             "required": true
           }
         ],
-        "tags": ["Online Checkout"]
+        "tags": [
+          "Online Checkout"
+        ]
       }
     },
     "/v1/checkout/order/{orderReference}": {
@@ -4207,7 +4360,11 @@
                       "$ref": "#/components/schemas/GetOrderDetails"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -4303,7 +4460,9 @@
           }
         ],
         "summary": "Get Order details based on the generated Order reference",
-        "tags": ["Charge"]
+        "tags": [
+          "Charge"
+        ]
       }
     },
     "/v1/checkout/checkout-card-detail": {
@@ -4342,7 +4501,11 @@
                       "$ref": "#/components/schemas/SubmitCardDetailsResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -4438,7 +4601,9 @@
           }
         ],
         "summary": "Submit customer card details",
-        "tags": ["Charge"]
+        "tags": [
+          "Charge"
+        ]
       }
     },
     "/v1/checkout/checkout-card-otp": {
@@ -4477,7 +4642,11 @@
                       "$ref": "#/components/schemas/SubmitCardOTPResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -4573,7 +4742,9 @@
           }
         ],
         "summary": "Submit customer card OTP",
-        "tags": ["Charge"]
+        "tags": [
+          "Charge"
+        ]
       }
     },
     "/v1/checkout/resend-otp": {
@@ -4612,7 +4783,11 @@
                       "$ref": "#/components/schemas/CheckoutDataResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -4708,7 +4883,9 @@
           }
         ],
         "summary": "Resend OTP to customer's phone",
-        "tags": ["Charge"]
+        "tags": [
+          "Charge"
+        ]
       }
     },
     "/v1/checkout/confirm-transaction-receipt": {
@@ -4747,7 +4924,11 @@
                       "$ref": "#/components/schemas/CheckoutTransactionDetailsResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -4843,7 +5024,9 @@
           }
         ],
         "summary": "Fetch checkout transaction details",
-        "tags": ["Charge"]
+        "tags": [
+          "Charge"
+        ]
       }
     },
     "/v1/checkout/get-checkout-kta/{orderReference}": {
@@ -4883,7 +5066,11 @@
                       "$ref": "#/components/schemas/CheckoutAccountNumberResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -4979,7 +5166,9 @@
           }
         ],
         "summary": "Fetch checkout Flash account number for transfer payment",
-        "tags": ["Charge"]
+        "tags": [
+          "Charge"
+        ]
       }
     },
     "/v1/checkout/user-card/auth": {
@@ -5018,7 +5207,11 @@
                       "$ref": "#/components/schemas/CheckoutDataResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -5114,7 +5307,9 @@
           }
         ],
         "summary": "Request OTP before saving a user's card",
-        "tags": ["Charge"]
+        "tags": [
+          "Charge"
+        ]
       }
     },
     "/v1/checkout/user-card/saved-card/auth": {
@@ -5153,7 +5348,11 @@
                       "$ref": "#/components/schemas/CheckoutDataResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -5249,7 +5448,9 @@
           }
         ],
         "summary": "Request OTP to validate a user before fetching saved cards",
-        "tags": ["Charge"]
+        "tags": [
+          "Charge"
+        ]
       }
     },
     "/v1/checkout/user-card": {
@@ -5288,7 +5489,11 @@
                       "$ref": "#/components/schemas/CheckoutDataResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -5384,7 +5589,9 @@
           }
         ],
         "summary": "Submit user OTP",
-        "tags": ["Charge"]
+        "tags": [
+          "Charge"
+        ]
       }
     },
     "/v1/checkout/user-card/{orderReference}": {
@@ -5434,7 +5641,11 @@
                       "$ref": "#/components/schemas/TokenizedCardDataList"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -5530,7 +5741,9 @@
           }
         ],
         "summary": "Get user saved cards",
-        "tags": ["Charge"]
+        "tags": [
+          "Charge"
+        ]
       }
     },
     "/v1/checkout/transaction/cancel": {
@@ -5569,7 +5782,11 @@
                       "$ref": "#/components/schemas/CheckoutDataResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -5665,7 +5882,9 @@
           }
         ],
         "summary": "Cancel Checkout transaction",
-        "tags": ["Charge"]
+        "tags": [
+          "Charge"
+        ]
       }
     },
     "/v1/transfers/banks": {
@@ -5706,7 +5925,11 @@
                       "$ref": "#/components/schemas/BanksListResults"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -5802,7 +6025,9 @@
           }
         ],
         "summary": "Fetch bank codes and names",
-        "tags": ["Transfers"]
+        "tags": [
+          "Transfers"
+        ]
       }
     },
     "/v1/transfers/bank/lookup": {
@@ -5841,7 +6066,11 @@
                       "$ref": "#/components/schemas/BankAccountLookupResult"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -5950,7 +6179,9 @@
             "required": true
           }
         ],
-        "tags": ["Transfers"]
+        "tags": [
+          "Transfers"
+        ]
       }
     },
     "/v2/transfers/bank": {
@@ -5977,7 +6208,7 @@
                   "properties": {
                     "code": {
                       "type": "string",
-                      "example":"200",
+                      "example": "200",
                       "description": "Response Code"
                     },
                     "description": {
@@ -5993,7 +6224,7 @@
                         "INVALID_TRANSACTION",
                         "WALLET_NOT_FOUND",
                         "BLACKLISTED"
-                    ],
+                      ],
                       "description": "Response description"
                     },
                     "message": {
@@ -6010,7 +6241,11 @@
                       "$ref": "#/components/schemas/BankAccountTransferResult"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -6119,7 +6354,9 @@
             "required": true
           }
         ],
-        "tags": ["Transfers"]
+        "tags": [
+          "Transfers"
+        ]
       }
     },
     "/v2/transfers/bank/{subAccountId}": {
@@ -6158,7 +6395,11 @@
                       "$ref": "#/components/schemas/BankAccountTransferResult"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -6277,7 +6518,9 @@
             }
           }
         ],
-        "tags": ["Transfers"]
+        "tags": [
+          "Transfers"
+        ]
       }
     },
     "/v2/transfers/wallet": {
@@ -6316,7 +6559,11 @@
                       "$ref": "#/components/schemas/WalletTransferResult"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -6425,7 +6672,9 @@
             "required": true
           }
         ],
-        "tags": ["Transfers"]
+        "tags": [
+          "Transfers"
+        ]
       }
     },
     "/v1/transfers/wallet/{subAccountId}": {
@@ -6464,7 +6713,11 @@
                       "$ref": "#/components/schemas/WalletTransferResult"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -6583,7 +6836,9 @@
             }
           }
         ],
-        "tags": ["Transfers"]
+        "tags": [
+          "Transfers"
+        ]
       }
     },
     "/v1/terminals/assign/{subAccountId}": {
@@ -6622,7 +6877,11 @@
                       "$ref": "#/components/schemas/TerminalResult"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -6741,7 +7000,9 @@
             }
           }
         ],
-        "tags": ["Terminals"]
+        "tags": [
+          "Terminals"
+        ]
       }
     },
     "/v1/terminals/assign": {
@@ -6780,7 +7041,11 @@
                       "$ref": "#/components/schemas/TerminalResult"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -6889,7 +7154,9 @@
             "required": true
           }
         ],
-        "tags": ["Terminals"]
+        "tags": [
+          "Terminals"
+        ]
       }
     },
     "/v1/terminals/unassign/{subAccountId}": {
@@ -6928,7 +7195,11 @@
                       "$ref": "#/components/schemas/TerminalResult"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -7047,7 +7318,9 @@
             }
           }
         ],
-        "tags": ["Terminals"]
+        "tags": [
+          "Terminals"
+        ]
       }
     },
     "/v1/terminals/unassign": {
@@ -7086,7 +7359,11 @@
                       "$ref": "#/components/schemas/TerminalResult"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -7195,7 +7472,9 @@
             "required": true
           }
         ],
-        "tags": ["Terminals"]
+        "tags": [
+          "Terminals"
+        ]
       }
     },
     "/v1/terminals/payment-request/{terminalId}": {
@@ -7214,7 +7493,7 @@
           "required": true
         },
         "responses": {
-        "200": {
+          "200": {
             "content": {
               "application/json": {
                 "schema": {
@@ -7234,7 +7513,11 @@
                       "$ref": "#/components/schemas/TerminalPaymentResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -7324,14 +7607,15 @@
             "description": "Downstream system error."
           }
         },
-
         "security": [
           {
             "BearerAuth": []
           }
         ],
         "summary": "Send payment request to terminal",
-        "tags": ["Terminals"]
+        "tags": [
+          "Terminals"
+        ]
       }
     },
     "/v1/transactions/bank/{subAccountId}": {
@@ -7423,7 +7707,11 @@
                       "$ref": "#/components/schemas/BankTransactionListResults"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -7519,7 +7807,9 @@
           }
         ],
         "summary": "Fetch credit/debit transactions on a sub account",
-        "tags": ["Transactions"]
+        "tags": [
+          "Transactions"
+        ]
       }
     },
     "/v1/transactions/bank": {
@@ -7601,7 +7891,11 @@
                       "$ref": "#/components/schemas/BankTransactionListResults"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -7697,7 +7991,9 @@
           }
         ],
         "summary": "Fetch credit/debit transactions on the parent account",
-        "tags": ["Transactions"]
+        "tags": [
+          "Transactions"
+        ]
       }
     },
     "/v1/transactions/accounts/{subAccountId}": {
@@ -7789,7 +8085,11 @@
                       "$ref": "#/components/schemas/TransactionListResults"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -7885,7 +8185,9 @@
           }
         ],
         "summary": "Fetch transactions on a sub account",
-        "tags": ["Transactions"]
+        "tags": [
+          "Transactions"
+        ]
       },
       "post": {
         "description": "You can use this endpoint to filter transactions on an account.",
@@ -7922,7 +8224,11 @@
                       "$ref": "#/components/schemas/TransactionListResults"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -8082,7 +8388,9 @@
             "required": false
           }
         ],
-        "tags": ["Transactions"]
+        "tags": [
+          "Transactions"
+        ]
       }
     },
     "/v1/transactions/accounts": {
@@ -8164,7 +8472,11 @@
                       "$ref": "#/components/schemas/TransactionListResults"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -8260,7 +8572,9 @@
           }
         ],
         "summary": "Fetch transactions on the parent account",
-        "tags": ["Transactions"]
+        "tags": [
+          "Transactions"
+        ]
       },
       "post": {
         "description": "You can use this endpoint to filter transactions on the parent account.",
@@ -8297,7 +8611,11 @@
                       "$ref": "#/components/schemas/TransactionListResults"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -8447,7 +8765,9 @@
             "required": false
           }
         ],
-        "tags": ["Transactions"]
+        "tags": [
+          "Transactions"
+        ]
       }
     },
     "/v1/transactions/accounts/{subAccountId}/single": {
@@ -8538,7 +8858,11 @@
                       "$ref": "#/components/schemas/TransactionResult"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -8634,7 +8958,9 @@
           }
         ],
         "summary": "Fetch a single transaction on a sub account",
-        "tags": ["Transactions"]
+        "tags": [
+          "Transactions"
+        ]
       }
     },
     "/v1/transactions/accounts/single": {
@@ -8715,7 +9041,11 @@
                       "$ref": "#/components/schemas/TransactionResult"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -8811,7 +9141,9 @@
           }
         ],
         "summary": "Fetch a single transaction on the parent account",
-        "tags": ["Transactions"]
+        "tags": [
+          "Transactions"
+        ]
       }
     },
     "/v1/transactions/requery/{sessionId}": {
@@ -8862,7 +9194,11 @@
                       "$ref": "#/components/schemas/TransactionResult"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -8958,7 +9294,9 @@
           }
         ],
         "summary": "Confirm a transaction's status by sessionId",
-        "tags": ["Transactions"]
+        "tags": [
+          "Transactions"
+        ]
       }
     },
     "/v1/bill/data-plan/{telco}": {
@@ -9009,7 +9347,11 @@
                       "$ref": "#/components/schemas/DataPlanList"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -9115,7 +9457,9 @@
           }
         ],
         "summary": "Fetch data plans available on a telco (network provider)",
-        "tags": ["Airtime and Data Vending"]
+        "tags": [
+          "Airtime and Data Vending"
+        ]
       }
     },
     "/v1/bill/topup": {
@@ -9154,7 +9498,11 @@
                       "$ref": "#/components/schemas/AirtimePurchaseResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -9273,7 +9621,9 @@
             "required": true
           }
         ],
-        "tags": ["Airtime and Data Vending"]
+        "tags": [
+          "Airtime and Data Vending"
+        ]
       }
     },
     "/v1/bill/topup/{subAccountId}": {
@@ -9312,7 +9662,11 @@
                       "$ref": "#/components/schemas/AirtimePurchaseResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -9442,7 +9796,9 @@
             "required": true
           }
         ],
-        "tags": ["Airtime and Data Vending"]
+        "tags": [
+          "Airtime and Data Vending"
+        ]
       }
     },
     "/v1/bill/data": {
@@ -9481,7 +9837,11 @@
                       "$ref": "#/components/schemas/DataVendingResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -9600,7 +9960,9 @@
             "required": true
           }
         ],
-        "tags": ["Airtime and Data Vending"]
+        "tags": [
+          "Airtime and Data Vending"
+        ]
       }
     },
     "/v1/bill/data/{subAccountId}": {
@@ -9639,7 +10001,11 @@
                       "$ref": "#/components/schemas/DataVendingResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -9769,7 +10135,9 @@
             "required": true
           }
         ],
-        "tags": ["Airtime and Data Vending"]
+        "tags": [
+          "Airtime and Data Vending"
+        ]
       }
     },
     "/v1/bill/cabletv/lookup": {
@@ -9830,7 +10198,11 @@
                       "description": "The name of the customer"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -9926,7 +10298,9 @@
           }
         ],
         "summary": "Fetch customer information from a cable tv provider",
-        "tags": ["CableTV Subscription"]
+        "tags": [
+          "CableTV Subscription"
+        ]
       }
     },
     "/v1/bill/cabletv": {
@@ -9965,7 +10339,11 @@
                       "$ref": "#/components/schemas/CableTvSubscriptionResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -10084,7 +10462,9 @@
             "required": true
           }
         ],
-        "tags": ["CableTV Subscription"]
+        "tags": [
+          "CableTV Subscription"
+        ]
       }
     },
     "/v1/bill/cabletv/{subAccountId}": {
@@ -10123,7 +10503,11 @@
                       "$ref": "#/components/schemas/CableTvSubscriptionResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -10252,7 +10636,9 @@
             }
           }
         ],
-        "tags": ["CableTV Subscription"]
+        "tags": [
+          "CableTV Subscription"
+        ]
       }
     },
     "/v1/bill/electricity/discos": {
@@ -10293,7 +10679,11 @@
                       "$ref": "#/components/schemas/DiscoList"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -10399,7 +10789,9 @@
           }
         ],
         "summary": "Fetch discos/electricity providers",
-        "tags": ["Electricity Vending"]
+        "tags": [
+          "Electricity Vending"
+        ]
       }
     },
     "/v1/bill/electricity/lookup": {
@@ -10460,7 +10852,11 @@
                       "description": "The name of the customer"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -10556,7 +10952,9 @@
           }
         ],
         "summary": "Fetch customer information from an electricity provider",
-        "tags": ["Electricity Vending"]
+        "tags": [
+          "Electricity Vending"
+        ]
       }
     },
     "/v1/bill/electricity": {
@@ -10595,7 +10993,11 @@
                       "$ref": "#/components/schemas/ElectricityVendingResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -10714,7 +11116,9 @@
             "required": true
           }
         ],
-        "tags": ["Electricity Vending"]
+        "tags": [
+          "Electricity Vending"
+        ]
       }
     },
     "/v1/bill/electricity/{subAccountId}": {
@@ -10753,7 +11157,11 @@
                       "$ref": "#/components/schemas/ElectricityVendingResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -10882,7 +11290,9 @@
             }
           }
         ],
-        "tags": ["Electricity Vending"]
+        "tags": [
+          "Electricity Vending"
+        ]
       }
     },
     "/v1/bill/betting/providers": {
@@ -10928,7 +11338,11 @@
                       "description": "Response message"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -11034,7 +11448,9 @@
           }
         ],
         "summary": "Fetch betting providers",
-        "tags": ["Betting Vending"]
+        "tags": [
+          "Betting Vending"
+        ]
       }
     },
     "/v1/bill/betting/lookup": {
@@ -11100,7 +11516,11 @@
                       "description": "Response message"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -11196,7 +11616,9 @@
           }
         ],
         "summary": "Fetch customer information from a betting provider",
-        "tags": ["Betting Vending"]
+        "tags": [
+          "Betting Vending"
+        ]
       }
     },
     "/v1/bill/betting": {
@@ -11235,7 +11657,11 @@
                       "$ref": "#/components/schemas/BettingVendingResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -11354,7 +11780,9 @@
             "required": true
           }
         ],
-        "tags": ["Betting Vending"]
+        "tags": [
+          "Betting Vending"
+        ]
       }
     },
     "/v1/bill/betting/{subAccountId}": {
@@ -11393,7 +11821,11 @@
                       "$ref": "#/components/schemas/BettingVendingResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -11522,12 +11954,16 @@
             }
           }
         ],
-        "tags": ["Betting Vending"]
+        "tags": [
+          "Betting Vending"
+        ]
       }
     },
     "/v1/direct-debits/mandates": {
       "get": {
-        "tags": ["Direct Debits"],
+        "tags": [
+          "Direct Debits"
+        ],
         "summary": "Get mandates by filters",
         "parameters": [
           {
@@ -11545,13 +11981,17 @@
             "name": "page",
             "in": "query",
             "required": true,
-            "schema": { "type": "integer", "example": 0 }
+            "schema": {
+              "type": "integer",
+              "example": 0
+            }
           },
           {
             "name": "pageSize",
             "in": "query",
             "required": true,
-            "schema": { "type": "integer",
+            "schema": {
+              "type": "integer",
               "example": 20
             }
           },
@@ -11559,19 +11999,27 @@
             "name": "from",
             "in": "query",
             "required": false,
-            "schema": { "type": "string", "format": "date" }
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
           },
           {
             "name": "to",
             "in": "query",
             "required": false,
-            "schema": { "type": "string", "format": "date" }
+            "schema": {
+              "type": "string",
+              "format": "date"
+            }
           },
           {
             "name": "status",
             "in": "query",
             "required": false,
-            "schema": { "type": "string" }
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -11665,7 +12113,9 @@
     },
     "/v1/direct-debits/update-status": {
       "put": {
-        "tags": ["Direct Debits"],
+        "tags": [
+          "Direct Debits"
+        ],
         "summary": "Update mandate status",
         "description": "Updates the status of a direct debit mandate (e.g., SUSPEND, ACTIVE).",
         "security": [
@@ -11784,7 +12234,9 @@
     },
     "/v1/direct-debits/debit-mandate": {
       "post": {
-        "tags": ["Direct Debits"],
+        "tags": [
+          "Direct Debits"
+        ],
         "summary": "Debit a mandate",
         "description": "Debits a customer's account using an active mandate.",
         "security": [
@@ -11851,7 +12303,9 @@
     },
     "/v1/direct-debits/status?mandateId={mandateId}": {
       "get": {
-        "tags": ["Direct Debits"],
+        "tags": [
+          "Direct Debits"
+        ],
         "summary": "Get Mandate Status",
         "description": "Fetches the status of a specific mandate by mandateId.",
         "security": [
@@ -11915,7 +12369,9 @@
     },
     "/v1/direct-debits/{mandateId}": {
       "get": {
-        "tags": ["Direct Debits"],
+        "tags": [
+          "Direct Debits"
+        ],
         "summary": "Get Mandate by ID",
         "description": "Fetches full details of a specific direct debit mandate using its mandateId.",
         "security": [
@@ -11966,8 +12422,20 @@
                     "customerPhoneNumber": "08033234423",
                     "merchantReference": "120033124001",
                     "frequency": "VARIABLE",
-                    "startDate": [2025, 8, 13, 15, 30],
-                    "endDate": [2025, 8, 30, 10, 40],
+                    "startDate": [
+                      2025,
+                      8,
+                      13,
+                      15,
+                      30
+                    ],
+                    "endDate": [
+                      2025,
+                      8,
+                      30,
+                      10,
+                      40
+                    ],
                     "mandateAdviceStatus": null,
                     "mandateId": "e50b7835-502c-4cfe-9893-47657633d7a2"
                   },
@@ -12052,7 +12520,9 @@
     },
     "/v1/direct-debits": {
       "post": {
-        "tags": ["Direct Debits"],
+        "tags": [
+          "Direct Debits"
+        ],
         "summary": "Create a Direct Debit Mandate",
         "description": "Creates a new direct debit mandate for a customer.",
         "security": [
@@ -12190,6 +12660,902 @@
           }
         }
       }
+    },
+    "/v1/global-payout/transfer/authorize": {
+      "post": {
+        "description": "Initiate and authorize a cross-border transfer. Manages the complete transfer lifecycle from initiation to final authorization.",
+        "operationId": "Authorize Transfer",
+        "parameters": [
+          {
+            "description": "Bearer token for authentication.",
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "example": "Bearer <token>"
+            },
+            "required": true
+          },
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Transfer authorization payload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "amount",
+                  "sourceCurrency",
+                  "destinationCurrency",
+                  "accountNumber",
+                  "receiverName",
+                  "sourceCountryIsoCode",
+                  "destinationCountryIsoCode",
+                  "authCode",
+                  "purposeOfPayment"
+                ],
+                "properties": {
+                  "amount": {
+                    "type": "number",
+                    "example": 15.0,
+                    "description": "The amount to transfer in the source currency."
+                  },
+                  "sourceCurrency": {
+                    "type": "string",
+                    "example": "USD",
+                    "description": "ISO 4217 currency code of the source account."
+                  },
+                  "destinationCurrency": {
+                    "type": "string",
+                    "example": "EUR",
+                    "description": "ISO 4217 currency code of the destination account."
+                  },
+                  "accountNumber": {
+                    "type": "string",
+                    "example": "NRA44050178120109412005",
+                    "description": "The recipient account number or IBAN."
+                  },
+                  "receiverName": {
+                    "type": "string",
+                    "example": "John Doe",
+                    "description": "Full name of the recipient."
+                  },
+                  "sourceCountryIsoCode": {
+                    "type": "string",
+                    "example": "CD",
+                    "description": "ISO 3166-1 alpha-2 country code of the sender."
+                  },
+                  "destinationCountryIsoCode": {
+                    "type": "string",
+                    "example": "BE",
+                    "description": "ISO 3166-1 alpha-2 country code of the recipient."
+                  },
+                  "authCode": {
+                    "type": "string",
+                    "example": "2580",
+                    "description": "Authorization PIN to confirm the transaction."
+                  },
+                  "narration": {
+                    "type": "string",
+                    "example": "Testing SWIFT CD",
+                    "description": "Description or memo for the transfer."
+                  },
+                  "source": {
+                    "type": "string",
+                    "example": "api",
+                    "description": "Originating source. Use api for API-initiated transfers."
+                  },
+                  "doFormFieldValidation": {
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "consentGivenToAddBeneficiary": {
+                    "type": "boolean",
+                    "example": true
+                  },
+                  "purposeOfPayment": {
+                    "type": "string",
+                    "example": "PERSONAL_TRANSFER",
+                    "description": "Purpose of the transfer."
+                  },
+                  "institute": {
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "string",
+                        "example": "PCBCCNBJGDZ",
+                        "description": "BIC/SWIFT code of the recipient bank."
+                      }
+                    }
+                  },
+                  "paymentInfo": {
+                    "type": "object",
+                    "properties": {
+                      "paymentMethod": {
+                        "type": "string",
+                        "example": "SWIFT",
+                        "description": "Payment rail to use (e.g. SWIFT, SEPA)."
+                      }
+                    }
+                  },
+                  "accountType": {
+                    "type": "string",
+                    "example": "CORPORATE",
+                    "description": "Recipient account type: CORPORATE or INDIVIDUAL."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Transfer authorized successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Successful"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "wtTransactionId": {
+                          "type": "string",
+                          "example": "01kj9ssfwqd4a97jhdx65gmyqy"
+                        },
+                        "coreTransactionId": {
+                          "type": "string",
+                          "example": "API-FX_TX_DR-D4400-b0a438d7-891f-47cc-8f27-98f6b44c8fc4"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "PROCESSING"
+                        },
+                        "coreStatus": {
+                          "type": "string",
+                          "example": "PAYMENT_SUCCESSFUL"
+                        },
+                        "type": {
+                          "type": "string",
+                          "example": "TRANSFER"
+                        },
+                        "prettyStatus": {
+                          "type": "string",
+                          "example": "Successful"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/global-payout/exchange/authorize": {
+      "post": {
+        "description": "Transfer funds between your own accounts in different currencies.",
+        "operationId": "Authorize Exchange",
+        "parameters": [
+          {
+            "description": "Bearer token for authentication.",
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "example": "Bearer <token>"
+            },
+            "required": true
+          },
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Exchange authorization payload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "amount",
+                  "sourceCurrency",
+                  "destinationCurrency",
+                  "senderName",
+                  "receiverName",
+                  "sourceCountryIsoCode",
+                  "destinationCountryIsoCode",
+                  "authCode"
+                ],
+                "properties": {
+                  "amount": {
+                    "type": "number",
+                    "example": 1
+                  },
+                  "sourceCurrency": {
+                    "type": "string",
+                    "example": "USD"
+                  },
+                  "destinationCurrency": {
+                    "type": "string",
+                    "example": "CDF"
+                  },
+                  "senderName": {
+                    "type": "string",
+                    "example": "John Doe"
+                  },
+                  "receiverName": {
+                    "type": "string",
+                    "example": "John Doe"
+                  },
+                  "sourceCountryIsoCode": {
+                    "type": "string",
+                    "example": "CD"
+                  },
+                  "destinationCountryIsoCode": {
+                    "type": "string",
+                    "example": "CD"
+                  },
+                  "authCode": {
+                    "type": "string",
+                    "example": "5555"
+                  },
+                  "narration": {
+                    "type": "string",
+                    "example": "Transfer between own accounts"
+                  },
+                  "source": {
+                    "type": "string",
+                    "example": "api"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Exchange authorized successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Successful"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "wtTransactionId": {
+                          "type": "string",
+                          "example": "01kkk8cjk0fpw9jx2n01wd8yfw"
+                        },
+                        "coreTransactionId": {
+                          "type": "string",
+                          "example": "API-P2P-CB9EC-0c2d962e-4730-48e7-b522-d65cac511549"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "PROCESSING"
+                        },
+                        "coreStatus": {
+                          "type": "string",
+                          "example": "SUCCESS"
+                        },
+                        "type": {
+                          "type": "string",
+                          "example": "EXCHANGE"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/global-payout/money/convert": {
+      "post": {
+        "description": "Calculate a currency conversion and lock an exchange rate before initiating a transfer.",
+        "operationId": "Convert Money",
+        "parameters": [
+          {
+            "description": "Bearer token for authentication.",
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "example": "Bearer <token>"
+            },
+            "required": true
+          },
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Currency conversion payload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "amount",
+                  "currency",
+                  "destinationCurrency",
+                  "transactionType",
+                  "sourceCountryIsoCode"
+                ],
+                "properties": {
+                  "amount": {
+                    "type": "number",
+                    "example": 15
+                  },
+                  "currency": {
+                    "type": "string",
+                    "example": "USD",
+                    "description": "ISO 4217 source currency code."
+                  },
+                  "destinationCurrency": {
+                    "type": "string",
+                    "example": "EUR",
+                    "description": "ISO 4217 destination currency code."
+                  },
+                  "transactionType": {
+                    "type": "string",
+                    "example": "EXCHANGE"
+                  },
+                  "sourceCountryIsoCode": {
+                    "type": "string",
+                    "example": "NG"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Conversion calculated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Successful"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "fromAmount": {
+                          "type": "number",
+                          "example": 15.0
+                        },
+                        "fromCurrency": {
+                          "type": "string",
+                          "example": "USD"
+                        },
+                        "fromFormatted": {
+                          "type": "string",
+                          "example": "$15.00"
+                        },
+                        "toAmount": {
+                          "type": "number",
+                          "example": 13.04
+                        },
+                        "toCurrency": {
+                          "type": "string",
+                          "example": "EUR"
+                        },
+                        "toFormatted": {
+                          "type": "string",
+                          "example": "13,04 \u20ac"
+                        },
+                        "spreadAmount": {
+                          "type": "number",
+                          "example": 0.12
+                        },
+                        "spreadCurrency": {
+                          "type": "string",
+                          "example": "EUR"
+                        },
+                        "exchangeRateId": {
+                          "type": "string",
+                          "example": "01kkk4b7rh8pcvtw1s1nxs144s"
+                        },
+                        "currencyPairName": {
+                          "type": "string",
+                          "example": "EUR/USD"
+                        },
+                        "feeAmount": {
+                          "type": "number",
+                          "example": 0.0
+                        },
+                        "feeCurrency": {
+                          "type": "string",
+                          "example": "USD"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/global-payout/exchange-rates": {
+      "get": {
+        "description": "Retrieve the latest exchange rates for a currency pair before initiating a transfer.",
+        "operationId": "Fetch Exchange Rates",
+        "parameters": [
+          {
+            "description": "Bearer token for authentication.",
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "example": "Bearer <token>"
+            },
+            "required": true
+          },
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "required": true,
+            "description": "ISO 4217 currency code to convert from.",
+            "schema": {
+              "type": "string",
+              "example": "EUR"
+            }
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "required": true,
+            "description": "ISO 4217 currency code to convert to.",
+            "schema": {
+              "type": "string",
+              "example": "USD"
+            }
+          },
+          {
+            "name": "region",
+            "in": "query",
+            "required": false,
+            "description": "Optional trade region filter.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Exchange rates retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Successful"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "rates": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "exchangeRateId": {
+                                "type": "string",
+                                "example": "01kkk7pab9mjt70wvk6pzk8mzx"
+                              },
+                              "currencyPairName": {
+                                "type": "string",
+                                "example": "EUR/USD"
+                              },
+                              "bidRate": {
+                                "type": "string",
+                                "example": "$1.13"
+                              },
+                              "askRate": {
+                                "type": "string",
+                                "example": "$1.14"
+                              },
+                              "midRate": {
+                                "type": "string",
+                                "example": "$1.14"
+                              },
+                              "createdAt": {
+                                "type": "string",
+                                "example": "2026-03-13T09:15:57.161946"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/global-payout/transactions/{transactionId}": {
+      "get": {
+        "description": "Track the status of any Global Payout transaction using its transaction ID.",
+        "operationId": "Fetch Global Payout Transaction",
+        "parameters": [
+          {
+            "description": "Bearer token for authentication.",
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "example": "Bearer <token>"
+            },
+            "required": true
+          },
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          },
+          {
+            "name": "transactionId",
+            "in": "path",
+            "required": true,
+            "description": "The wtTransactionId returned when the transfer was authorized.",
+            "schema": {
+              "type": "string",
+              "example": "01kj9ssfwqd4a97jhdx65gmyqy"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transaction retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Successful"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "wtTransactionId": {
+                          "type": "string",
+                          "example": "01kj9ssfwqd4a97jhdx65gmyqy"
+                        },
+                        "coreTransactionId": {
+                          "type": "string",
+                          "example": "API-FX_TX_DR-D4400-b0a438d7-891f-47cc-8f27-98f6b44c8fc4"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "COMPLETED",
+                          "enum": [
+                            "PROCESSING",
+                            "COMPLETED",
+                            "FAILED",
+                            "PENDING"
+                          ]
+                        },
+                        "coreStatus": {
+                          "type": "string",
+                          "example": "PAYMENT_SUCCESSFUL"
+                        },
+                        "type": {
+                          "type": "string",
+                          "example": "TRANSFER"
+                        },
+                        "prettyStatus": {
+                          "type": "string",
+                          "example": "Successful"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/global-collection/inflow/initiate": {
+      "post": {
+        "description": "Trigger a mobile money collection request from a customer.",
+        "operationId": "Initiate Mobile Money Inflow",
+        "parameters": [
+          {
+            "description": "Bearer token for authentication.",
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "example": "Bearer <token>"
+            },
+            "required": true
+          },
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "description": "Mobile money inflow payload",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "phoneNumber",
+                  "pin",
+                  "callbackUrl",
+                  "amount",
+                  "currency",
+                  "topupVendor"
+                ],
+                "properties": {
+                  "phoneNumber": {
+                    "type": "string",
+                    "example": "0980802xxx",
+                    "description": "Customer's mobile money phone number."
+                  },
+                  "pin": {
+                    "type": "string",
+                    "example": "0000",
+                    "description": "Customer's mobile money PIN."
+                  },
+                  "callbackUrl": {
+                    "type": "string",
+                    "example": "https://your-server.com/webhook/collection",
+                    "description": "URL Nomba will POST to when status changes."
+                  },
+                  "amount": {
+                    "type": "number",
+                    "example": 10
+                  },
+                  "currency": {
+                    "type": "string",
+                    "example": "CDF"
+                  },
+                  "topupVendor": {
+                    "type": "string",
+                    "example": "AIRTEL",
+                    "description": "Mobile money network provider (e.g. AIRTEL, MPESA)."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Inflow initiated successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Successful"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "transactionReference": {
+                          "type": "string",
+                          "example": "a822e327-4bcd-40ec-ac61-ed3622eac000"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "PENDING"
+                        },
+                        "message": {
+                          "type": "string",
+                          "example": "success"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/global-collection/transactions/{transactionId}": {
+      "get": {
+        "description": "Retrieve the status of an initiated mobile money collection.",
+        "operationId": "Fetch Collection Transaction",
+        "parameters": [
+          {
+            "description": "Bearer token for authentication.",
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "example": "Bearer <token>"
+            },
+            "required": true
+          },
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          },
+          {
+            "name": "transactionId",
+            "in": "path",
+            "required": true,
+            "description": "The transactionReference returned when the inflow was initiated.",
+            "schema": {
+              "type": "string",
+              "example": "a822e327-4bcd-40ec-ac61-ed3622eac000"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Transaction retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Successful"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "transactionId": {
+                          "type": "string",
+                          "example": "a822e327-4bcd-40ec-ac61-ed3622eac000"
+                        },
+                        "coreUserId": {
+                          "type": "string",
+                          "example": "xxxx-xxxx-4402-97c0-6c3824cxxxxx"
+                        },
+                        "account": {
+                          "type": "string",
+                          "example": "0980802918"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "APPROVED",
+                          "enum": [
+                            "PENDING",
+                            "APPROVED",
+                            "FAILED",
+                            "CANCELLED"
+                          ]
+                        },
+                        "amount": {
+                          "type": "number",
+                          "example": 10.0
+                        },
+                        "currency": {
+                          "type": "string",
+                          "example": "CDF"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -12214,7 +13580,12 @@
             "type": "string",
             "description": "Recipient network (telco). It can also come as lowercased values e.g. glo, mtn etc.",
             "minLength": 3,
-            "enum": ["GLO", "MTN", "9MOBILE", "AIRTEL"],
+            "enum": [
+              "GLO",
+              "MTN",
+              "9MOBILE",
+              "AIRTEL"
+            ],
             "example": "GLO"
           },
           "merchantTxRef": {
@@ -12228,7 +13599,12 @@
             "example": "John Doe"
           }
         },
-        "required": ["amount", "phoneNumber", "network", "merchantTxRef"]
+        "required": [
+          "amount",
+          "phoneNumber",
+          "network",
+          "merchantTxRef"
+        ]
       },
       "AirtimePurchaseResponse": {
         "type": "object",
@@ -12264,7 +13640,12 @@
             "example": "Processing"
           }
         },
-        "required": ["amount", "timeCreated", "type", "status"]
+        "required": [
+          "amount",
+          "timeCreated",
+          "type",
+          "status"
+        ]
       },
       "DataVendingRequest": {
         "type": "object",
@@ -12286,7 +13667,12 @@
             "type": "string",
             "description": "Recipient network (telco). It can also come as lowercased values e.g. glo, mtn etc.",
             "minLength": 3,
-            "enum": ["GLO", "MTN", "9MOBILE", "AIRTEL"],
+            "enum": [
+              "GLO",
+              "MTN",
+              "9MOBILE",
+              "AIRTEL"
+            ],
             "example": "GLO"
           },
           "merchantTxRef": {
@@ -12300,7 +13686,12 @@
             "example": "John Doe"
           }
         },
-        "required": ["amount", "phoneNumber", "network", "merchantTxRef"]
+        "required": [
+          "amount",
+          "phoneNumber",
+          "network",
+          "merchantTxRef"
+        ]
       },
       "DataVendingResponse": {
         "type": "object",
@@ -12336,7 +13727,12 @@
             "example": "Processing"
           }
         },
-        "required": ["amount", "timeCreated", "type", "status"]
+        "required": [
+          "amount",
+          "timeCreated",
+          "type",
+          "status"
+        ]
       },
       "CheckoutTransaction": {
         "type": "object",
@@ -12407,7 +13803,9 @@
           "currency": {
             "type": "string",
             "description": "Currency of the money",
-            "enum": ["NGN"],
+            "enum": [
+              "NGN"
+            ],
             "example": "NGN"
           },
           "businessName": {
@@ -12603,7 +14001,11 @@
             "example": "c4307d58-2513-41d8-b7f7-dfecd5f9fdbe"
           }
         },
-        "required": ["otp", "orderReference", "transactionId"]
+        "required": [
+          "otp",
+          "orderReference",
+          "transactionId"
+        ]
       },
       "SubmitCardOTPResponse": {
         "type": "object",
@@ -12619,7 +14021,10 @@
             "example": "success"
           }
         },
-        "required": ["status", "message"]
+        "required": [
+          "status",
+          "message"
+        ]
       },
       "CheckoutDataRequest": {
         "type": "object",
@@ -12630,7 +14035,9 @@
             "example": "c4307d58-2513-41d8-b7f7-dfecd5f9fdbe"
           }
         },
-        "required": ["orderReference"]
+        "required": [
+          "orderReference"
+        ]
       },
       "CheckoutDataResponse": {
         "type": "object",
@@ -12646,7 +14053,10 @@
             "example": "success"
           }
         },
-        "required": ["success", "message"]
+        "required": [
+          "success",
+          "message"
+        ]
       },
       "CheckoutTransactionDetailsResponse": {
         "type": "object",
@@ -12665,7 +14075,10 @@
             "$ref": "#/components/schemas/OrderDetailsObject"
           }
         },
-        "required": ["status", "message"]
+        "required": [
+          "status",
+          "message"
+        ]
       },
       "CheckoutAccountNumberResponse": {
         "type": "object",
@@ -12686,7 +14099,11 @@
             "example": "Nombank Mfb"
           }
         },
-        "required": ["accountNumber", "accountName", "bankName"]
+        "required": [
+          "accountNumber",
+          "accountName",
+          "bankName"
+        ]
       },
       "CheckoutAuthenticateUserRequest": {
         "type": "object",
@@ -12702,7 +14119,10 @@
             "example": "08012345678"
           }
         },
-        "required": ["orderReference", "phoneNumber"]
+        "required": [
+          "orderReference",
+          "phoneNumber"
+        ]
       },
       "CheckoutSubmitUserOTPRequest": {
         "type": "object",
@@ -12723,7 +14143,11 @@
             "example": "1234"
           }
         },
-        "required": ["orderReference", "phoneNumber", "otp"]
+        "required": [
+          "orderReference",
+          "phoneNumber",
+          "otp"
+        ]
       },
       "CheckoutCancelTransactionRequest": {
         "type": "object",
@@ -12739,7 +14163,10 @@
             "example": "false"
           }
         },
-        "required": ["transactionId", "forceCancel"]
+        "required": [
+          "transactionId",
+          "forceCancel"
+        ]
       },
       "TokenizedCardDataList": {
         "type": "object",
@@ -12793,7 +14220,9 @@
           "currency": {
             "type": "string",
             "description": "Currency of the money",
-            "enum": ["NGN"],
+            "enum": [
+              "NGN"
+            ],
             "example": "NGN"
           }
         }
@@ -12908,7 +14337,9 @@
             "example": "5844858382"
           }
         },
-        "required": ["tokenKey"]
+        "required": [
+          "tokenKey"
+        ]
       },
       "DeleteTokenizedCardDataResponse": {
         "type": "object",
@@ -12944,7 +14375,11 @@
             "example": "email@email.com"
           }
         },
-        "required": ["tokenKey", "currentEmailAddress", "newEmailAddress"]
+        "required": [
+          "tokenKey",
+          "currentEmailAddress",
+          "newEmailAddress"
+        ]
       },
       "UpdateTokenizedCardDataResponse": {
         "type": "object",
@@ -12980,7 +14415,10 @@
             "example": "90e81e8a-bc14-4ebf-89c0-57da752cca58"
           }
         },
-        "required": ["checkoutLink", "orderReference"]
+        "required": [
+          "checkoutLink",
+          "orderReference"
+        ]
       },
       "Order": {
         "type": "object",
@@ -13014,7 +14452,9 @@
           "currency": {
             "type": "string",
             "description": "currency of the money",
-            "enum": ["NGN"],
+            "enum": [
+              "NGN"
+            ],
             "example": "NGN"
           },
           "accountId": {
@@ -13022,40 +14462,51 @@
             "description": "If specified, this is the account where the funds will be deposited.",
             "example": "01a10aeb-d989-460a-bbde-9842f2b4320f"
           },
-
           "allowedPaymentMethods": {
             "type": "array",
             "description": "Optional list of payment methods that will be displayed to the customer on the checkout page. If not provided, all supported payment methods will be available.",
             "items": {
               "type": "string",
-              "enum": ["Card", "Transfer", "Nomba QR", "USSD", "Buy Now Pay Later", "Apple Pay"]
+              "enum": [
+                "Card",
+                "Transfer",
+                "Nomba QR",
+                "USSD",
+                "Buy Now Pay Later",
+                "Apple Pay"
+              ]
             },
-            "example": ["Card", "Transfer"]
+            "example": [
+              "Card",
+              "Transfer"
+            ]
           },
-          
           "splitRequest": {
             "type": "object",
             "description": "Contains accounts where the inflow will be split into",
-            "properties":{
+            "properties": {
               "splitType": {
-                "type":"string",
-                "description":"The type fo split to use, either PERCENTAGE or AMOUNT",
-                "enum":["PERCENTAGE", "AMOUNT"]
+                "type": "string",
+                "description": "The type fo split to use, either PERCENTAGE or AMOUNT",
+                "enum": [
+                  "PERCENTAGE",
+                  "AMOUNT"
+                ]
               },
               "splitList": {
                 "type": "array",
-                "items":{
-                  "type":"object",
-                  "properties":{
-                    "accountId":{
-                      "type":"string",
-                      "description":"The account Id whose wallet will be credited when the order is paid",
-                      "example":"01a10aeb-d989-460a-bbde-9842f2b4320f"
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "accountId": {
+                      "type": "string",
+                      "description": "The account Id whose wallet will be credited when the order is paid",
+                      "example": "01a10aeb-d989-460a-bbde-9842f2b4320f"
                     },
-                    "value":{
-                      "type":"number",
-                      "description":"The percentage or the order amount or the actual value to credit to this account.",
-                      "example":"65.45"
+                    "value": {
+                      "type": "number",
+                      "description": "The percentage or the order amount or the actual value to credit to this account.",
+                      "example": "65.45"
                     }
                   }
                 }
@@ -13063,7 +14514,12 @@
             }
           }
         },
-        "required": ["callbackUrl", "customerEmail", "amount", "currency"]
+        "required": [
+          "callbackUrl",
+          "customerEmail",
+          "amount",
+          "currency"
+        ]
       },
       "CreateOrderRequest": {
         "type": "object",
@@ -13078,7 +14534,9 @@
             "example": "true"
           }
         },
-        "required": ["order"]
+        "required": [
+          "order"
+        ]
       },
       "TokenizedCardPaymentRequest": {
         "type": "object",
@@ -13093,7 +14551,9 @@
             "example": "7628788443"
           }
         },
-        "required": ["tokenKey"]
+        "required": [
+          "tokenKey"
+        ]
       },
       "TokenizedCardPaymentResponse": {
         "type": "object",
@@ -13123,7 +14583,7 @@
             "type": "number",
             "format": "double",
             "description": "The amount to be refunded",
-            "example": 5000.00
+            "example": 5000.0
           },
           "accountNumber": {
             "type": "string",
@@ -13138,7 +14598,9 @@
             "example": "058"
           }
         },
-        "required": ["transactionId"]
+        "required": [
+          "transactionId"
+        ]
       },
       "CheckoutDataResponseDTO": {
         "type": "object",
@@ -13155,7 +14617,10 @@
             "example": "Refund processed successfully"
           }
         },
-        "required": ["success", "message"]
+        "required": [
+          "success",
+          "message"
+        ]
       },
       "TokenizedCardData": {
         "type": "object",
@@ -13470,7 +14935,10 @@
             "example": "053"
           }
         },
-        "required": ["accountNumber", "bankCode"]
+        "required": [
+          "accountNumber",
+          "bankCode"
+        ]
       },
       "BankAccountLookupResult": {
         "type": "object",
@@ -13569,7 +15037,9 @@
             "description": "Currency code",
             "minLength": 3,
             "maxLength": 3,
-            "enum": ["NGN"],
+            "enum": [
+              "NGN"
+            ],
             "example": "NGN"
           },
           "callbackUrl": {
@@ -13648,13 +15118,22 @@
           "status": {
             "type": "string",
             "description": "Account status",
-            "enum": ["ACTIVE", "INACTIVE", "SUSPENDED", "PND", "BLACKLISTED"],
+            "enum": [
+              "ACTIVE",
+              "INACTIVE",
+              "SUSPENDED",
+              "PND",
+              "BLACKLISTED"
+            ],
             "example": "ACTIVE"
           },
           "type": {
             "type": "string",
             "description": "Account type",
-            "enum": ["virtual", "outlet"],
+            "enum": [
+              "virtual",
+              "outlet"
+            ],
             "example": "virtual"
           },
           "accountName": {
@@ -13669,7 +15148,9 @@
             "description": "Currency code",
             "minLength": 3,
             "maxLength": 3,
-            "enum": ["NGN"],
+            "enum": [
+              "NGN"
+            ],
             "example": "NGN"
           },
           "callbackUrl": {
@@ -13717,7 +15198,10 @@
             "example": "Daniel Scorsese"
           }
         },
-        "required": ["accountRef", "accountName"]
+        "required": [
+          "accountRef",
+          "accountName"
+        ]
       },
       "CreateVirtualAccountResponse": {
         "type": "object",
@@ -13776,7 +15260,9 @@
             "description": "Currency code",
             "minLength": 3,
             "maxLength": 3,
-            "enum": ["NGN"],
+            "enum": [
+              "NGN"
+            ],
             "example": "NGN"
           },
           "callbackUrl": {
@@ -13896,7 +15382,9 @@
             "example": true
           }
         },
-        "required": ["updated"]
+        "required": [
+          "updated"
+        ]
       },
       "ExpireVirtualAccountResponse": {
         "type": "object",
@@ -13907,7 +15395,9 @@
             "example": true
           }
         },
-        "required": ["expired"]
+        "required": [
+          "expired"
+        ]
       },
       "VirtualAccountObject": {
         "type": "object",
@@ -13966,7 +15456,9 @@
             "description": "Currency code",
             "minLength": 3,
             "maxLength": 3,
-            "enum": ["NGN"],
+            "enum": [
+              "NGN"
+            ],
             "example": "NGN"
           },
           "callbackUrl": {
@@ -14098,7 +15590,10 @@
           "grant_type": {
             "type": "string",
             "description": "The grant type of the authentication.",
-            "enum": ["client_credentials", "refresh_token"],
+            "enum": [
+              "client_credentials",
+              "refresh_token"
+            ],
             "example": "client_credentials"
           },
           "client_id": {
@@ -14116,7 +15611,11 @@
             "minLength": 44
           }
         },
-        "required": ["grant_type", "client_id", "client_secret"]
+        "required": [
+          "grant_type",
+          "client_id",
+          "client_secret"
+        ]
       },
       "IssueTokenResponse": {
         "type": "object",
@@ -14143,11 +15642,16 @@
           },
           "expiresAt": {
             "type": "string",
-            "description": "The date and time this entity was created. This value uses Coordinated Universal Time (UTC) and ISO 8601 format – `YYYY-MM-DDThh:mm:ssZ`.",
+            "description": "The date and time this entity was created. This value uses Coordinated Universal Time (UTC) and ISO 8601 format \u2013 `YYYY-MM-DDThh:mm:ssZ`.",
             "example": "2022-07-08T14:33:00Z"
           }
         },
-        "required": ["businessId", "access_token", "refresh_token", "expiresAt"]
+        "required": [
+          "businessId",
+          "access_token",
+          "refresh_token",
+          "expiresAt"
+        ]
       },
       "RefreshTokenRequest": {
         "type": "object",
@@ -14156,7 +15660,10 @@
           "grant_type": {
             "type": "string",
             "description": "The grant type of the authentication.",
-            "enum": ["client_credentials", "refresh_token"],
+            "enum": [
+              "client_credentials",
+              "refresh_token"
+            ],
             "example": "refresh_token"
           },
           "refresh_token": {
@@ -14167,7 +15674,10 @@
             "minLength": 30
           }
         },
-        "required": ["grant_type", "refresh_token"]
+        "required": [
+          "grant_type",
+          "refresh_token"
+        ]
       },
       "RevokeTokenRequest": {
         "type": "object",
@@ -14188,7 +15698,10 @@
             "minLength": 300
           }
         },
-        "required": ["clientId", "access_token"]
+        "required": [
+          "clientId",
+          "access_token"
+        ]
       },
       "RevokeTokenResponse": {
         "type": "object",
@@ -14246,13 +15759,22 @@
           "status": {
             "type": "string",
             "description": "Account status",
-            "enum": ["ACTIVE", "INACTIVE", "SUSPENDED", "PND", "BLACKLISTED"],
+            "enum": [
+              "ACTIVE",
+              "INACTIVE",
+              "SUSPENDED",
+              "PND",
+              "BLACKLISTED"
+            ],
             "example": "ACTIVE"
           },
           "type": {
             "type": "string",
             "description": "Account type",
-            "enum": ["virtual", "outlet"],
+            "enum": [
+              "virtual",
+              "outlet"
+            ],
             "example": "virtual"
           },
           "accountName": {
@@ -14267,7 +15789,9 @@
             "description": "Currency code",
             "minLength": 3,
             "maxLength": 3,
-            "enum": ["NGN"],
+            "enum": [
+              "NGN"
+            ],
             "example": "NGN"
           },
           "banks": {
@@ -14292,7 +15816,11 @@
                   "example": "Nomba/Ifeoluwa Adeboye"
                 }
               },
-              "required": ["bankAccountNumber", "bankName", "bankAccountName"]
+              "required": [
+                "bankAccountNumber",
+                "bankName",
+                "bankAccountName"
+              ]
             }
           }
         },
@@ -14322,7 +15850,9 @@
             "minLength": 3,
             "maxLength": 3,
             "description": "Currency code",
-            "enum": ["NGN"],
+            "enum": [
+              "NGN"
+            ],
             "example": "NGN"
           },
           "timeCreated": {
@@ -14332,7 +15862,11 @@
             "example": "2026-03-08T14:56:59.000Z"
           }
         },
-        "required": ["amount", "currency", "timeCreated"]
+        "required": [
+          "amount",
+          "currency",
+          "timeCreated"
+        ]
       },
       "TerminalAssignmentRequest": {
         "type": "object",
@@ -14348,7 +15882,9 @@
             "example": "Testing"
           }
         },
-        "required": ["serialNumber"]
+        "required": [
+          "serialNumber"
+        ]
       },
       "TerminalPaymentRequest": {
         "type": "object",
@@ -14369,11 +15905,19 @@
             "minLength": 3,
             "maxLength": 3,
             "description": "Currency code based on the ISO4217 standard",
-            "enum": ["NGN", "USD", "CDF"],
+            "enum": [
+              "NGN",
+              "USD",
+              "CDF"
+            ],
             "example": "NGN"
           }
         },
-        "required": ["merchantTxRef", "amount", "currency"]
+        "required": [
+          "merchantTxRef",
+          "amount",
+          "currency"
+        ]
       },
       "TerminalPaymentResponse": {
         "type": "object",
@@ -14387,7 +15931,11 @@
           "status": {
             "type": "string",
             "description": "Current status of the payment",
-            "enum": ["pending", "completed", "failed"],
+            "enum": [
+              "pending",
+              "completed",
+              "failed"
+            ],
             "example": "pending"
           },
           "amount": {
@@ -14407,7 +15955,13 @@
             "example": "2023-08-30T14:56:59.000Z"
           }
         },
-        "required": ["paymentId", "status", "amount", "currency", "createdAt"]
+        "required": [
+          "paymentId",
+          "status",
+          "amount",
+          "currency",
+          "createdAt"
+        ]
       },
       "TerminalResult": {
         "type": "object",
@@ -14536,7 +16090,11 @@
             "example": "Testing Payment"
           }
         },
-        "required": ["amount", "receiverAccountId", "merchantTxRef"]
+        "required": [
+          "amount",
+          "receiverAccountId",
+          "merchantTxRef"
+        ]
       },
       "WalletTransferResult": {
         "type": "object",
@@ -14585,9 +16143,9 @@
             "type": "string",
             "description": "Transaction status",
             "enum": [
-              "SUCCESS", 
-              "PENDING_BILLING", 
-              "REFUND", 
+              "SUCCESS",
+              "PENDING_BILLING",
+              "REFUND",
               "CANCELLED",
               "PAYMENT_FAILED",
               "REVERSED_BY_VENDOR"
@@ -14690,7 +16248,9 @@
           "currency": {
             "type": "string",
             "description": "Currency",
-            "enum": ["NGN"],
+            "enum": [
+              "NGN"
+            ],
             "example": "NGN"
           },
           "meta": {
@@ -14724,7 +16284,10 @@
           "transactionType": {
             "type": "string",
             "description": "Transaction type",
-            "enum": ["CREDIT", "DEBIT"],
+            "enum": [
+              "CREDIT",
+              "DEBIT"
+            ],
             "example": "DEBIT"
           }
         },
@@ -14738,7 +16301,7 @@
           "transactionType"
         ]
       },
-    "BankTransactionListResults": {
+      "BankTransactionListResults": {
         "type": "object",
         "properties": {
           "results": {
@@ -14780,7 +16343,13 @@
           "source": {
             "type": "string",
             "description": "Transaction source",
-            "enum": ["api", "pos", "web", "android_app", "ios_app"],
+            "enum": [
+              "api",
+              "pos",
+              "web",
+              "android_app",
+              "ios_app"
+            ],
             "example": "pos"
           },
           "type": {
@@ -14835,12 +16404,14 @@
           "status": {
             "type": "string",
             "description": "Transaction status",
-            "enum": ["SUCCESS", 
-            "PENDING_BILLING", 
-            "REFUND", 
-            "CANCELLED", 
-            "PAYMENT_FAILED",
-            "REVERSED_BY_VENDOR"],
+            "enum": [
+              "SUCCESS",
+              "PENDING_BILLING",
+              "REFUND",
+              "CANCELLED",
+              "PAYMENT_FAILED",
+              "REVERSED_BY_VENDOR"
+            ],
             "example": "SUCCESS"
           },
           "amount": {
@@ -14858,7 +16429,13 @@
           "source": {
             "type": "string",
             "description": "Transaction source",
-            "enum": ["api", "pos", "web", "android_app", "ios_app"],
+            "enum": [
+              "api",
+              "pos",
+              "web",
+              "android_app",
+              "ios_app"
+            ],
             "example": "pos"
           },
           "type": {
@@ -14998,7 +16575,10 @@
           "grantType": {
             "type": "string",
             "description": "The action to perform on the access",
-            "enum": ["allow", "deny"],
+            "enum": [
+              "allow",
+              "deny"
+            ],
             "example": "allow"
           },
           "clientId": {
@@ -15009,12 +16589,19 @@
           "role": {
             "type": "string",
             "description": "The role to assume within the account",
-            "enum": ["ACCOUNT_WRITER", "ACCOUNT_READER"],
+            "enum": [
+              "ACCOUNT_WRITER",
+              "ACCOUNT_READER"
+            ],
             "default": "ACCOUNT_WRITER",
             "example": "ACCOUNT_WRITER"
           }
         },
-        "required": ["grantType", "clientId", "role"]
+        "required": [
+          "grantType",
+          "clientId",
+          "role"
+        ]
       },
       "GenericObjectResult": {
         "type": "object",
@@ -15034,7 +16621,9 @@
             }
           }
         },
-        "required": ["message"]
+        "required": [
+          "message"
+        ]
       },
       "DataPlanList": {
         "type": "object",
@@ -15179,7 +16768,14 @@
             "example": "0.0"
           }
         },
-        "required": ["amount", "timeCreated", "type", "status", "meta", "id"]
+        "required": [
+          "amount",
+          "timeCreated",
+          "type",
+          "status",
+          "meta",
+          "id"
+        ]
       },
       "CableTvSubscriptionRequest": {
         "type": "object",
@@ -15253,7 +16849,14 @@
             "example": "0.0"
           }
         },
-        "required": ["amount", "timeCreated", "type", "status", "meta", "id"]
+        "required": [
+          "amount",
+          "timeCreated",
+          "type",
+          "status",
+          "meta",
+          "id"
+        ]
       },
       "BettingVendingRequest": {
         "type": "object",
@@ -15331,7 +16934,14 @@
             "example": "0.0"
           }
         },
-        "required": ["amount", "timeCreated", "type", "status", "meta", "id"]
+        "required": [
+          "amount",
+          "timeCreated",
+          "type",
+          "status",
+          "meta",
+          "id"
+        ]
       },
       "PageResult": {
         "type": "object",
@@ -15339,35 +16949,76 @@
           "data": {
             "type": "object",
             "properties": {
-              "items": { "$ref": "#/components/schemas/DirectDebitMandateData"
+              "items": {
+                "$ref": "#/components/schemas/DirectDebitMandateData"
               },
-              "page": { "type": "integer" },
-              "pageSize": { "type": "integer" },
-              "totalItems": { "type": "integer" },
-              "totalPages": { "type": "integer" },
-              "hasMore": { "type": "boolean" }
+              "page": {
+                "type": "integer"
+              },
+              "pageSize": {
+                "type": "integer"
+              },
+              "totalItems": {
+                "type": "integer"
+              },
+              "totalPages": {
+                "type": "integer"
+              },
+              "hasMore": {
+                "type": "boolean"
+              }
             }
           },
-          "message": { "type": "string" },
-          "code": { "type": "string" },
-          "description": { "type": "string" },
-          "status": { "type": "boolean" }
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "status": {
+            "type": "boolean"
+          }
         }
       },
       "DirectDebitMandateData": {
         "type": "object",
         "properties": {
-          "status": { "type": "string" },
-          "customerAccountNumber": { "type": "string" },
-          "customerAccountName": { "type": "string" },
-          "bankCode": { "type": "string" },
-          "amount": { "type": "number" },
-          "customerName": { "type": "string" },
-          "customerAddress": { "type": "string" },
-          "customerEmail": { "type": "string" },
-          "customerPhoneNumber": { "type": "string" },
-          "merchantReference": { "type": "string" },
-          "frequency": { "type": "string" },
+          "status": {
+            "type": "string"
+          },
+          "customerAccountNumber": {
+            "type": "string"
+          },
+          "customerAccountName": {
+            "type": "string"
+          },
+          "bankCode": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "customerName": {
+            "type": "string"
+          },
+          "customerAddress": {
+            "type": "string"
+          },
+          "customerEmail": {
+            "type": "string"
+          },
+          "customerPhoneNumber": {
+            "type": "string"
+          },
+          "merchantReference": {
+            "type": "string"
+          },
+          "frequency": {
+            "type": "string"
+          },
           "startDate": {
             "type": "string",
             "format": "date-time"
@@ -15376,8 +17027,12 @@
             "type": "string",
             "format": "date-time"
           },
-          "mandateAdviceStatus": { "type": "string" },
-          "mandateId": { "type": "string" }
+          "mandateAdviceStatus": {
+            "type": "string"
+          },
+          "mandateId": {
+            "type": "string"
+          }
         }
       },
       "UpdateMandateStatusRequest": {
@@ -15389,11 +17044,18 @@
           },
           "status": {
             "type": "string",
-            "enum": ["SUSPEND", "ACTIVE", "DELETE"],
+            "enum": [
+              "SUSPEND",
+              "ACTIVE",
+              "DELETE"
+            ],
             "description": "New status of the mandate"
           }
         },
-        "required": ["mandateId", "status"]
+        "required": [
+          "mandateId",
+          "status"
+        ]
       },
       "UpdateMandateStatusResponse": {
         "type": "object",
@@ -15428,7 +17090,13 @@
             "example": true
           }
         },
-        "required": ["code", "description", "data", "message", "status"]
+        "required": [
+          "code",
+          "description",
+          "data",
+          "message",
+          "status"
+        ]
       },
       "DebitMandateRequest": {
         "type": "object",
@@ -15442,7 +17110,10 @@
             "description": "Amount to be debited"
           }
         },
-        "required": ["mandateId", "amount"]
+        "required": [
+          "mandateId",
+          "amount"
+        ]
       },
       "DebitMandateResponse": {
         "type": "object",
@@ -15485,7 +17156,13 @@
             "example": true
           }
         },
-        "required": ["code", "description", "data", "message", "status"]
+        "required": [
+          "code",
+          "description",
+          "data",
+          "message",
+          "status"
+        ]
       },
       "GetMandateStatusResponse": {
         "type": "object",
@@ -15542,7 +17219,13 @@
             "example": true
           }
         },
-        "required": ["code", "description", "data", "message", "status"]
+        "required": [
+          "code",
+          "description",
+          "data",
+          "message",
+          "status"
+        ]
       },
       "GetMandateByIdResponse": {
         "type": "object",
@@ -15608,14 +17291,26 @@
                 "items": {
                   "type": "integer"
                 },
-                "example": [2025, 8, 13, 15, 30]
+                "example": [
+                  2025,
+                  8,
+                  13,
+                  15,
+                  30
+                ]
               },
               "endDate": {
                 "type": "array",
                 "items": {
                   "type": "integer"
                 },
-                "example": [2025, 8, 30, 10, 40]
+                "example": [
+                  2025,
+                  8,
+                  30,
+                  10,
+                  40
+                ]
               },
               "mandateAdviceStatus": {
                 "type": "string",
@@ -15649,19 +17344,50 @@
             "example": true
           }
         },
-        "required": ["code", "description", "data", "message", "status"]
+        "required": [
+          "code",
+          "description",
+          "data",
+          "message",
+          "status"
+        ]
       },
       "CreateMandateRequest": {
         "type": "object",
         "properties": {
-          "customerAccountNumber": { "type": "string", "example": "0174534423" },
-          "bankCode": { "type": "string", "example": "101" },
-          "customerName": { "type": "string", "example": "Kolapo Ojo" },
-          "customerAddress": { "type": "string", "example": "maryland Ikeja computer village" },
-          "customerAccountName": { "type": "string", "example": "Kolapo Ojo" },
-          "amount": { "type": "number", "format": "double", "example": 100 },
-          "frequency": { "type": "string",
-            "enum" : ["VARIABLE", "WEEKLY", "EVERY_TWO_WEEKS", "MONTHLY", "EVERY_TWO_MONTHS",
+          "customerAccountNumber": {
+            "type": "string",
+            "example": "0174534423"
+          },
+          "bankCode": {
+            "type": "string",
+            "example": "101"
+          },
+          "customerName": {
+            "type": "string",
+            "example": "Kolapo Ojo"
+          },
+          "customerAddress": {
+            "type": "string",
+            "example": "maryland Ikeja computer village"
+          },
+          "customerAccountName": {
+            "type": "string",
+            "example": "Kolapo Ojo"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "example": 100
+          },
+          "frequency": {
+            "type": "string",
+            "enum": [
+              "VARIABLE",
+              "WEEKLY",
+              "EVERY_TWO_WEEKS",
+              "MONTHLY",
+              "EVERY_TWO_MONTHS",
               "EVERY_THREE_MONTHS",
               "EVERY_FOUR_MONTHS",
               "EVERY_FIVE_MONTHS",
@@ -15671,20 +17397,41 @@
               "EVERY_NINE_MONTHS",
               "EVERY_TEN_MONTHS",
               "EVERY_ELEVEN_MONTHS",
-              "EVERY_TWELVE_MONTHS"],
+              "EVERY_TWELVE_MONTHS"
+            ],
             "example": "WEEKLY"
           },
-          "narration": { "type": "string", "example": "test e mandate response" },
-          "customerPhoneNumber": { "type": "string", "example": "0807882343" },
-          "merchantReference": { 
+          "narration": {
+            "type": "string",
+            "example": "test e mandate response"
+          },
+          "customerPhoneNumber": {
+            "type": "string",
+            "example": "0807882343"
+          },
+          "merchantReference": {
             "type": "string",
             "description": "A NUMERIC string (0-9) used to track a transaction. It must be unique per transaction.",
             "example": "120030740017"
           },
-          "startDate": { "type": "string", "format": "date-time", "example": "2025-08-29T14:58" },
-          "endDate": { "type": "string", "format": "date-time", "example": "2025-08-30T10:40" },
-          "customerEmail": { "type": "string", "example": "kolapo@gmail.com" },
-          "startImmediately": { "type": "boolean", "example": true }
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-08-29T14:58"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2025-08-30T10:40"
+          },
+          "customerEmail": {
+            "type": "string",
+            "example": "kolapo@gmail.com"
+          },
+          "startImmediately": {
+            "type": "boolean",
+            "example": true
+          }
         },
         "required": [
           "customerAccountNumber",
@@ -15702,20 +17449,47 @@
       "CreateMandateResponse": {
         "type": "object",
         "properties": {
-          "responseMessage": { "type": "string", "example": "Success" },
-          "responseCode": { "type": "string", "example": "00" },
+          "responseMessage": {
+            "type": "string",
+            "example": "Success"
+          },
+          "responseCode": {
+            "type": "string",
+            "example": "00"
+          },
           "data": {
             "type": "object",
             "properties": {
-              "mandateId": { "type": "string", "example": "e50b7835-502c-4cfe-9893-47657633d7a2" },
-              "merchantReference": { "type": "string", "example": "12003074001" },
-              "phoneNumber": { "type": "string", "example": "08073345562" },
-              "description": { "type": "string", "example": "Welcome to NIBSS e-mandate authentication service, a seamless and convenient authentication experience. Kindly proceed with a token payment of N50.00..." }
+              "mandateId": {
+                "type": "string",
+                "example": "e50b7835-502c-4cfe-9893-47657633d7a2"
+              },
+              "merchantReference": {
+                "type": "string",
+                "example": "12003074001"
+              },
+              "phoneNumber": {
+                "type": "string",
+                "example": "08073345562"
+              },
+              "description": {
+                "type": "string",
+                "example": "Welcome to NIBSS e-mandate authentication service, a seamless and convenient authentication experience. Kindly proceed with a token payment of N50.00..."
+              }
             },
-            "required": ["mandateId", "merchantReference", "phoneNumber", "description"]
+            "required": [
+              "mandateId",
+              "merchantReference",
+              "phoneNumber",
+              "description"
+            ]
           }
         },
-        "required": ["responseMessage", "responseCode", "data"]
+        "required": [
+          "responseMessage",
+          "responseCode",
+          "data"
+        ]
       }
     },
     "securitySchemes": {
