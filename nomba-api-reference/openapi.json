@@ -12723,7 +12723,7 @@
                   },
                   "sourceCountryIsoCode": {
                     "type": "string",
-                    "example": "NG"
+                    "example": "CD"
                   },
                   "destinationCountryIsoCode": {
                     "type": "string",
@@ -12738,37 +12738,47 @@
                     "type": "string",
                     "enum": [
                       "BANK",
-                      "MOBILE_MONEY",
+                      "MobileMoney",
                       "INTERAC",
                       "FASTER_PAYMENTS",
                       "SEPA"
                     ],
-                    "example": "BANK",
+                    "example": "MobileMoney",
                     "description": "Payment rail. Determines which additional fields are required."
                   },
                   "accountNumber": {
                     "type": "string",
-                    "example": "CD1234567890123456",
-                    "description": "Account number, IBAN, or phone number for MOBILE_MONEY. Required for BANK, MOBILE_MONEY, FASTER_PAYMENTS, SEPA."
+                    "example": "0903086112",
+                    "description": "Account number, IBAN, or phone number for MobileMoney. Required for BANK, MobileMoney, FASTER_PAYMENTS, SEPA."
                   },
                   "institutionCode": {
                     "type": "string",
-                    "example": "204514",
-                    "description": "Routing code. Sort code for FASTER_PAYMENTS, SWIFT/BIC for SEPA, institution number for BANK (Canada)."
+                    "example": "access_bank",
+                    "description": "Routing code. Bank code from /bank/providers for BANK (DRC). Sort code for FASTER_PAYMENTS, SWIFT/BIC for SEPA, institution number for BANK (Canada)."
                   },
                   "institutionName": {
                     "type": "string",
                     "example": "Mpesa",
-                    "description": "Bank or provider display name. Use displayName from List Mobile Money Providers for MOBILE_MONEY."
+                    "description": "Bank or provider display name. Use displayName from List Institution Providers."
+                  },
+                  "accountType": {
+                    "type": "string",
+                    "example": "Individual",
+                    "description": "Account type of the recipient. Pass Individual or Corporate. Optional for FASTER_PAYMENTS and SEPA."
+                  },
+                  "purposeOfPayment": {
+                    "type": "string",
+                    "example": "Family Support",
+                    "description": "Reason for the transfer. Optional for most corridors; required by some (e.g. SEPA corporate transfers)."
                   },
                   "narration": {
                     "type": "string",
-                    "example": "Business payment"
+                    "example": "Family support"
                   },
                   "lockedExchangeRateId": {
                     "type": "string",
-                    "example": "01kkk4b7rh8pcvtw1s1nxs144s",
-                    "description": "exchangeRateId from Fetch Exchange Rates. Locks the rate for this transfer."
+                    "example": "01k7pcakf0t8g03rvny3z5mr1p",
+                    "description": "exchangeRateId from Fetch Exchange Rates or Convert Money. Locks the rate for this transfer."
                   },
                   "beneficiary": {
                     "type": "object",
@@ -12818,12 +12828,12 @@
                       "properties": {
                         "wtTransactionId": {
                           "type": "string",
-                          "example": "01kj9ssfwqd4a97jhdx65gmyqy",
+                          "example": "01kky197w3xc6wyjenpc5r0tnp",
                           "description": "Unique GlobalPayout transaction ID. Use to track via Fetch Transaction."
                         },
                         "coreTransactionId": {
                           "type": "string",
-                          "example": "API-FX_TX_DR-D4400-b0a438d7-891f-47cc-8f27-98f6b44c8fc4"
+                          "example": "API-FX_TX_DR-08A1B-6add611a-e538-4e67-bcf9-661c77a16804"
                         },
                         "status": {
                           "type": "string",
@@ -12853,11 +12863,11 @@
                           "properties": {
                             "source_amount": {
                               "type": "string",
-                              "example": "15.0"
+                              "example": "250.0"
                             },
                             "destination_amount": {
                               "type": "string",
-                              "example": "12.72"
+                              "example": "250.0"
                             },
                             "source_currency": {
                               "type": "string",
@@ -12865,47 +12875,67 @@
                             },
                             "destination_currency": {
                               "type": "string",
-                              "example": "EUR"
+                              "example": "USD"
                             },
                             "amount_charged": {
                               "type": "string",
-                              "example": "35.0"
+                              "example": "255.0"
                             },
                             "currency_pair_name": {
                               "type": "string",
-                              "example": "EUR/USD"
+                              "example": "USD/USD"
                             },
                             "payment_method": {
                               "type": "string",
-                              "example": "SWIFT"
+                              "example": "MobileMoney"
                             },
                             "destination_country": {
                               "type": "string",
-                              "example": "BE"
+                              "example": "CD"
                             },
                             "destination_country_name": {
                               "type": "string",
-                              "example": "Belgium"
+                              "example": "Congo DR"
                             },
                             "source_country": {
                               "type": "string",
-                              "example": "NG"
+                              "example": "CD"
                             },
                             "narration": {
                               "type": "string",
-                              "example": "Testing SWIFT"
+                              "example": "Family support"
                             },
                             "trade_side": {
                               "type": "string",
-                              "example": "SELL"
+                              "example": "BUY"
                             },
                             "spread_amount": {
                               "type": "string",
-                              "example": "0.01"
+                              "example": "0.0"
                             },
                             "spread_currency": {
                               "type": "string",
-                              "example": "EUR"
+                              "example": "USD"
+                            },
+                            "wt_transaction_id": {
+                              "type": "string",
+                              "example": "01kky197w3xc6wyjenpc5r0tnp"
+                            },
+                            "trade_context": {
+                              "type": "string",
+                              "example": "default"
+                            },
+                            "transactionCategory": {
+                              "type": "string",
+                              "example": "General"
+                            },
+                            "payment_destination_type": {
+                              "type": "string",
+                              "example": "Account"
+                            },
+                            "tradeType": {
+                              "type": "string",
+                              "example": "FIXED_TRADE"
                             }
                           }
                         }
@@ -12998,11 +13028,7 @@
                   },
                   "narration": {
                     "type": "string",
-                    "example": "Transfer between own accounts"
-                  },
-                  "source": {
-                    "type": "string",
-                    "example": "api"
+                    "example": "Transfer between my accounts"
                   },
                   "lockedExchangeRateId": {
                     "type": "string",
@@ -13608,6 +13634,7 @@
                   },
                   "pin": {
                     "type": "string",
+                    "format": "password",
                     "example": "0000"
                   },
                   "callbackUrl": {
