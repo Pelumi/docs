@@ -24,31 +24,31 @@ The `paymentMethod` field determines which additional fields are required:
 
 | `paymentMethod` | Required fields | Optional fields |
 |---|---|---|
-| `BANK` (non-Canada) | `accountNumber`, `receiverName`, `institutionName` | `narration` |
-| `BANK` (Canada) | `accountNumber`, `receiverName`, `institutionCode`, `beneficiary.beneficiaryEmail` | `beneficiary.securityQuestion`, `beneficiary.securityQuestionAnswer`, `beneficiary.transitNumber`, `narration` |
-| `MOBILE_MONEY` | `accountNumber` (recipient phone number), `receiverName`, `institutionName` | `narration` |
+| `BANK` (non-Canada, e.g. DRC) | `accountNumber`, `receiverName`, `institutionName` (bank display name), `institutionCode` (bank code from `/bank/providers`) | `narration` |
+| `BANK` (Canada) | `accountNumber`, `receiverName`, `institutionCode` (institution number), `beneficiary.beneficiaryEmail` | `beneficiary.securityQuestion`, `beneficiary.securityQuestionAnswer`, `beneficiary.transitNumber`, `narration` |
+| `MobileMoney` | `accountNumber` (recipient phone number), `receiverName`, `institutionName` (provider display name) | `narration` |
 | `INTERAC` | `receiverName`, `beneficiary.beneficiaryEmail` | `beneficiary.securityQuestion`, `beneficiary.securityQuestionAnswer` |
-| `FASTER_PAYMENTS` | `accountNumber`, `receiverName`, `institutionCode` (sort code, 6 digits) | `narration` |
-| `SEPA` | `accountNumber` (IBAN), `receiverName`, `institutionCode` (SWIFT/BIC) | `narration` |
+| `FASTER_PAYMENTS` | `accountNumber`, `receiverName`, `institutionCode` (sort code, 6 digits) | `accountType` (e.g. `Individual`, `Corporate`), `narration` |
+| `SEPA` | `accountNumber` (IBAN), `receiverName`, `institutionCode` (SWIFT/BIC) | `accountType` (e.g. `Individual`, `Corporate`), `purposeOfPayment`, `narration` |
 
 <CodeGroup>
-```bash MOBILE_MONEY (DRC)
+```bash MobileMoney (DRC)
 curl --request POST \
   --url https://api.nomba.com/v1/global-payout/transfer/authorize \
   --header 'Authorization: Bearer <token>' \
   --header 'Content-Type: application/json' \
   --header 'accountId: <accountId>' \
   --data '{
-    "amount": 100.0,
+    "amount": 250.0,
     "sourceCurrency": "USD",
     "destinationCurrency": "USD",
     "receiverName": "John Cena",
-    "accountNumber": "+243812345678",
+    "accountNumber": "0903086112",
     "institutionName": "Mpesa",
-    "sourceCountryIsoCode": "NG",
+    "sourceCountryIsoCode": "CD",
     "destinationCountryIsoCode": "CD",
     "authCode": "2580",
-    "paymentMethod": "MOBILE_MONEY",
+    "paymentMethod": "MobileMoney",
     "narration": "Family support"
   }'
 ```
@@ -60,15 +60,17 @@ curl --request POST \
   --header 'Content-Type: application/json' \
   --header 'accountId: <accountId>' \
   --data '{
-    "amount": 500.0,
+    "amount": 2.0,
     "sourceCurrency": "USD",
-    "destinationCurrency": "USD",
-    "accountNumber": "CD1234567890123456",
-    "receiverName": "John Cena",
-    "sourceCountryIsoCode": "NG",
+    "destinationCurrency": "CDF",
+    "accountNumber": "00444555555",
+    "receiverName": "John Doe",
+    "institutionName": "Access Bank",
+    "institutionCode": "access_bank",
+    "sourceCountryIsoCode": "CD",
     "destinationCountryIsoCode": "CD",
     "authCode": "2580",
-    "paymentMethod": "BANK",
+    "paymentMethod": "Bank",
     "narration": "Business payment"
   }'
 ```
@@ -80,18 +82,20 @@ curl --request POST \
   --header 'Content-Type: application/json' \
   --header 'accountId: <accountId>' \
   --data '{
-    "amount": 250.0,
-    "sourceCurrency": "CAD",
+    "amount": 21.0,
+    "sourceCurrency": "USD",
     "destinationCurrency": "CAD",
-    "receiverName": "Jane Doe",
-    "sourceCountryIsoCode": "NG",
+    "receiverName": "Thomas Doe",
+    "sourceCountryIsoCode": "CD",
     "destinationCountryIsoCode": "CA",
     "authCode": "2580",
-    "paymentMethod": "INTERAC",
+    "narration": "Ted",
+    "paymentMethod": "Interac",
+    "lockedExchangeRateId": "01k7pcakf0t8g03rvny3z5mr1p",
     "beneficiary": {
-      "beneficiaryEmail": "jane.doe@email.com",
-      "securityQuestion": "What is your pets name?",
-      "securityQuestionAnswer": "Fluffy"
+      "beneficiaryEmail": "testtt@yahoo.com",
+      "securityQuestion": "Test",
+      "securityQuestionAnswer": "Test"
     }
   }'
 ```
@@ -103,18 +107,20 @@ curl --request POST \
   --header 'Content-Type: application/json' \
   --header 'accountId: <accountId>' \
   --data '{
-    "amount": 250.0,
-    "sourceCurrency": "CAD",
+    "amount": 2.0,
+    "sourceCurrency": "USD",
     "destinationCurrency": "CAD",
-    "accountNumber": "1234567890",
+    "accountNumber": "234543245433",
     "receiverName": "Jane Doe",
-    "institutionCode": "001",
-    "sourceCountryIsoCode": "NG",
+    "institutionCode": "34444",
+    "sourceCountryIsoCode": "CD",
     "destinationCountryIsoCode": "CA",
     "authCode": "2580",
-    "paymentMethod": "BANK",
+    "paymentMethod": "Bank",
+    "lockedExchangeRateId": "01k7pcakf0t8g03rvny3z5mr1p",
     "beneficiary": {
-      "beneficiaryEmail": "jane.doe@email.com"
+      "beneficiaryEmail": "test@yoop.com",
+      "securityQuestion": "353333"
     }
   }'
 ```
@@ -126,17 +132,19 @@ curl --request POST \
   --header 'Content-Type: application/json' \
   --header 'accountId: <accountId>' \
   --data '{
-    "amount": 1000.0,
-    "sourceCurrency": "GBP",
+    "amount": 23.0,
+    "sourceCurrency": "USD",
     "destinationCurrency": "GBP",
-    "accountNumber": "12345678",
-    "receiverName": "James Smith",
-    "institutionCode": "204514",
-    "sourceCountryIsoCode": "NG",
+    "accountNumber": "404130729909118",
+    "receiverName": "Ayodeji Abimbola",
+    "institutionCode": "433333",
+    "sourceCountryIsoCode": "CD",
     "destinationCountryIsoCode": "GB",
     "authCode": "2580",
+    "narration": "Ted Thomos",
     "paymentMethod": "FASTER_PAYMENTS",
-    "narration": "Invoice payment"
+    "accountType": "Individual",
+    "lockedExchangeRateId": "01k4a8rfrngw76yfcj3ak1rw71"
   }'
 ```
 
@@ -147,54 +155,64 @@ curl --request POST \
   --header 'Content-Type: application/json' \
   --header 'accountId: <accountId>' \
   --data '{
-    "amount": 500.0,
-    "sourceCurrency": "EUR",
-    "destinationCurrency": "EUR",
-    "accountNumber": "DE89370400440532013000",
-    "receiverName": "Hans Muller",
-    "institutionCode": "DEUTDEDB",
-    "sourceCountryIsoCode": "NG",
-    "destinationCountryIsoCode": "DE",
+    "amount": 23.0,
+    "sourceCurrency": "USD",
+    "destinationCurrency": "GBP",
+    "accountNumber": "GB41CLJU04130729909118",
+    "receiverName": "trfff tttt",
+    "institutionCode": "CLJUGB21",
+    "sourceCountryIsoCode": "CD",
+    "destinationCountryIsoCode": "GB",
     "authCode": "2580",
+    "narration": "Ted",
     "paymentMethod": "SEPA",
-    "narration": "Service fee"
+    "accountType": "Individual",
+    "purposeOfPayment": "Family Support",
+    "lockedExchangeRateId": "01k4a8rfrngw76yfcj3ak1rw71"
   }'
 ```
 
-```json Response
+```json Response (MobileMoney DRC)
 {
   "code": "00",
   "description": "Successful",
   "status": false,
   "data": {
-    "wtTransactionId": "01kj9ssfwqd4a97jhdx65gmyqy",
-    "coreTransactionId": "API-FX_TX_DR-D4400-b0a438d7-891f-47cc-8f27-98f6b44c8fc4",
+    "wtTransactionId": "01kky197w3xc6wyjenpc5r0tnp",
+    "coreTransactionId": "API-FX_TX_DR-08A1B-6add611a-e538-4e67-bcf9-661c77a16804",
     "status": "PROCESSING",
     "coreStatus": "PAYMENT_SUCCESSFUL",
     "type": "TRANSFER",
     "meta": {
-      "wt_transaction_id": "01kj9ssfwqd4a97jhdx65gmyqy",
-      "source_amount": "15.0",
-      "destination_amount": "12.72",
       "source_currency": "USD",
-      "destination_currency": "EUR",
-      "amount_charged": "35.0",
-      "currency_pair_name": "EUR/USD",
-      "payment_method": "SWIFT",
-      "destination_country": "BE",
-      "destination_country_name": "Belgium",
-      "source_country": "NG",
-      "narration": "Testing SWIFT",
-      "trade_side": "SELL",
-      "spread_amount": "0.01",
-      "spread_currency": "EUR",
-      "transactionCategory": "General"
+      "destination_country": "CD",
+      "amount_charged": "255.0",
+      "source_amount": "250.0",
+      "wt_transaction_id": "01kky197w3xc6wyjenpc5r0tnp",
+      "spread_currency": "USD",
+      "trade_context": "default",
+      "destination_country_name": "Congo DR",
+      "source_country": "CD",
+      "destination_amount": "250.0",
+      "spread_amount": "0.0",
+      "narration": "Family support",
+      "transactionCategory": "General",
+      "payment_destination_type": "Account",
+      "trade_side": "BUY",
+      "destination_currency": "USD",
+      "currency_pair_name": "USD/USD",
+      "payment_method": "MobileMoney",
+      "tradeType": "FIXED_TRADE"
     },
     "prettyStatus": "Successful"
   }
 }
 ```
 </CodeGroup>
+
+<Tip>
+  For DRC transfers, call [List Institution Providers](/docs/products/global-payout/mobile-money-providers) first to get valid `institutionCode` and `institutionName` values. Use `isMobileMoney=true` for mobile money providers and `isMobileMoney=false` for banks.
+</Tip>
 
 #### Request body
 
@@ -207,7 +225,7 @@ curl --request POST \
 </ParamField>
 
 <ParamField body="destinationCurrency" type="string" required>
-  ISO 4217 currency code of the destination account (e.g., `USD`, `EUR`).
+  ISO 4217 currency code of the destination account (e.g., `USD`, `CDF`, `EUR`, `GBP`, `CAD`).
 </ParamField>
 
 <ParamField body="receiverName" type="string" required>
@@ -215,11 +233,11 @@ curl --request POST \
 </ParamField>
 
 <ParamField body="sourceCountryIsoCode" type="string" required>
-  ISO 3166-1 alpha-2 country code of the sender (e.g., `NG`).
+  ISO 3166-1 alpha-2 country code of the sender (e.g., `CD`).
 </ParamField>
 
 <ParamField body="destinationCountryIsoCode" type="string" required>
-  ISO 3166-1 alpha-2 country code of the recipient (e.g., `CD`, `GB`, `DE`).
+  ISO 3166-1 alpha-2 country code of the recipient (e.g., `CD`, `GB`, `DE`, `CA`).
 </ParamField>
 
 <ParamField body="authCode" type="string" required>
@@ -227,19 +245,27 @@ curl --request POST \
 </ParamField>
 
 <ParamField body="paymentMethod" type="string" required>
-  Payment rail to use. One of: `BANK`, `MOBILE_MONEY`, `INTERAC`, `FASTER_PAYMENTS`, `SEPA`.
+  Payment rail to use. One of: `BANK`, `MobileMoney`, `INTERAC`, `FASTER_PAYMENTS`, `SEPA`.
 </ParamField>
 
 <ParamField body="accountNumber" type="string">
-  Recipient account number, IBAN, or phone number (for `MOBILE_MONEY`). Required for `BANK`, `MOBILE_MONEY`, `FASTER_PAYMENTS`, and `SEPA`.
+  Recipient account number, IBAN, or phone number (for `MobileMoney`). Required for `BANK`, `MobileMoney`, `FASTER_PAYMENTS`, and `SEPA`.
 </ParamField>
 
 <ParamField body="institutionCode" type="string">
-  Bank or institution routing code. For `FASTER_PAYMENTS`: sort code (6 digits). For `SEPA`: SWIFT/BIC code. For `BANK` (Canada): institution number.
+  Bank or institution routing code. For `BANK` (DRC): bank code from [List Institution Providers](/docs/products/global-payout/mobile-money-providers). For `BANK` (Canada): institution number. For `FASTER_PAYMENTS`: sort code (6 digits). For `SEPA`: SWIFT/BIC code.
 </ParamField>
 
 <ParamField body="institutionName" type="string">
-  Bank or provider display name. For `BANK`: the bank name. For `MOBILE_MONEY`: the provider name (e.g., `Mpesa`). Use the `displayName` from [List Mobile Money Providers](/docs/products/global-payout/mobile-money-providers).
+  Bank or provider display name. For `BANK`: the bank display name. For `MobileMoney`: the provider display name (e.g., `Mpesa`). Use the `displayName` from [List Institution Providers](/docs/products/global-payout/mobile-money-providers).
+</ParamField>
+
+<ParamField body="accountType" type="string">
+  Account type of the recipient. Pass `Individual` or `Corporate`. Required by some corridors — optional for `FASTER_PAYMENTS` and `SEPA`.
+</ParamField>
+
+<ParamField body="purposeOfPayment" type="string">
+  Reason for the transfer. Optional for most corridors; required by some (e.g., SEPA corporate transfers).
 </ParamField>
 
 <ParamField body="narration" type="string">
@@ -247,7 +273,7 @@ curl --request POST \
 </ParamField>
 
 <ParamField body="lockedExchangeRateId" type="string">
-  The `exchangeRateId` from a prior [Fetch Exchange Rates](/docs/products/global-payout/fetch-exchange-rates) call. Guarantees the transfer is fulfilled at that exact rate regardless of any subsequent market movement.
+  The `exchangeRateId` from a prior [Fetch Exchange Rates](/docs/products/global-payout/fetch-exchange-rates) or [Convert Money](/docs/products/global-payout/convert-money) call. Guarantees the transfer is fulfilled at that exact rate regardless of any subsequent market movement.
 </ParamField>
 
 <ParamField body="beneficiary" type="object">
@@ -295,5 +321,5 @@ curl --request POST \
 </ResponseField>
 
 <ResponseField name="meta" type="object">
-  Transaction metadata containing currency details, amounts, and routing info.
+  Transaction metadata containing currency details, amounts, and routing info. This is a JSON object — only transaction-relevant fields are present.
 </ResponseField>

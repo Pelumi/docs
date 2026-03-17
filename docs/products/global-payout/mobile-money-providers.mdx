@@ -1,53 +1,88 @@
 ---
-title: 'List Mobile Money Providers'
-description: 'Retrieve the available mobile money providers for DRC transfers'
+title: 'List Institution Providers'
+description: 'Retrieve available banks and mobile money providers for Global Payout transfers'
 ---
 
 <Card
-  title="List Mobile Money Providers"
-  icon="mobile"
+  title="List Institution Providers"
+  icon="building-columns"
   href="/nomba-api-reference/global-payout/mobile-money-providers"
 >
 </Card>
 
-# `GET /v1/global-payout/mobile-money/providers`
+# `GET /v1/global-payout/bank/providers`
 
-Returns the available mobile money providers for your region. Use this endpoint to populate a provider selector in your UI before initiating a `MOBILE_MONEY` transfer.
+Returns the available banks or mobile money providers for your region (derived from your JWT). Use the `isMobileMoney` query parameter to switch between bank and mobile money listings.
 
-The `code` from this response maps to `institutionCode` and the `displayName` maps to `institutionName` in the [Authorize Transfer](/docs/products/global-payout/authorize-transfer) request.
+Use the `code` from the response as `institutionCode` and `displayName` as `institutionName` in the [Authorize Transfer](/docs/products/global-payout/authorize-transfer) request.
+
+#### Query parameters
+
+<ParamField query="isMobileMoney" type="boolean">
+  `false` (default) returns bank providers. `true` returns mobile money providers.
+</ParamField>
 
 <CodeGroup>
-```bash Request
+```bash Banks (isMobileMoney=false)
 curl --request GET \
-  --url https://api.nomba.com/v1/global-payout/mobile-money/providers \
+  --url 'https://api.nomba.com/v1/global-payout/bank/providers?isMobileMoney=false' \
   --header 'Authorization: Bearer <token>' \
   --header 'accountId: <accountId>'
 ```
 
-```json Response
+```bash Mobile Money (isMobileMoney=true)
+curl --request GET \
+  --url 'https://api.nomba.com/v1/global-payout/bank/providers?isMobileMoney=true' \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountId>'
+```
+
+```json Response — Banks
 {
   "code": "00",
   "description": "Success",
+  "status": false,
   "data": [
-    { "code": "mpesa", "displayName": "Mpesa" },
+    { "code": "access_bank", "displayName": "Access Bank" },
+    { "code": "bank_of_africa", "displayName": "Bank Of Africa" },
+    { "code": "eco_bank", "displayName": "Eco Bank" },
+    { "code": "equity_bank", "displayName": "Equity Bank" },
+    { "code": "raw_bank", "displayName": "Raw Bank" },
+    { "code": "uba", "displayName": "United Bank of Africa" }
+  ]
+}
+```
+
+```json Response — Mobile Money Providers
+{
+  "code": "00",
+  "description": "Success",
+  "status": false,
+  "data": [
+    { "code": "nomba", "displayName": "Nomba" },
     { "code": "airtel", "displayName": "Airtel Money" },
-    { "code": "orange", "displayName": "Orange Money" }
+    { "code": "mpesa", "displayName": "Mpesa" },
+    { "code": "orange", "displayName": "Orange" }
   ]
 }
 ```
 </CodeGroup>
 
+<Tip>
+  `code` from this endpoint → `institutionCode` in the transfer request. `displayName` → `institutionName`.
+</Tip>
+
 #### Response body
 
 <ResponseField name="data" type="array" required>
-  List of available mobile money providers.
+  List of available institutions.
 
-  <Expandable title="provider object" defaultOpen="true">
+  <Expandable title="institution object" defaultOpen="true">
     <ResponseField name="code" type="string">
-      The provider code. Use this as `institutionCode` in the Authorize Transfer request.
+      The institution code. Use this as `institutionCode` in the [Authorize Transfer](/docs/products/global-payout/authorize-transfer) request.
     </ResponseField>
     <ResponseField name="displayName" type="string">
-      Human-readable provider name. Use this as `institutionName` in the Authorize Transfer request.
+      Human-readable institution name. Use this as `institutionName` in the [Authorize Transfer](/docs/products/global-payout/authorize-transfer) request.
     </ResponseField>
   </Expandable>
 </ResponseField>
