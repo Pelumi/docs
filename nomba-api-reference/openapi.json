@@ -12731,6 +12731,7 @@
                   },
                   "authCode": {
                     "type": "string",
+                    "format": "password",
                     "example": "2580"
                   },
                   "paymentMethod": {
@@ -12992,6 +12993,7 @@
                   },
                   "authCode": {
                     "type": "string",
+                    "format": "password",
                     "example": "5555"
                   },
                   "narration": {
