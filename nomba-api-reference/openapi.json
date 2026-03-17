@@ -13481,10 +13481,10 @@
         }
       }
     },
-    "/v1/global-payout/mobile-money/providers": {
+    "/v1/global-payout/bank/providers": {
       "get": {
-        "description": "Returns available mobile money providers for the user's region. Use code as institutionCode and displayName as institutionName in Authorize Transfer.",
-        "operationId": "List Mobile Money Providers",
+        "description": "Returns available banks or mobile money providers for the user's region. Use isMobileMoney=false for banks, isMobileMoney=true for mobile money providers. Use code as institutionCode and displayName as institutionName in Authorize Transfer.",
+        "operationId": "List Institution Providers",
         "parameters": [
           {
             "description": "Bearer token for authentication.",
@@ -13505,6 +13505,16 @@
               "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
             },
             "required": true
+          },
+          {
+            "description": "Set to true to return mobile money providers. Set to false (default) to return banks.",
+            "in": "query",
+            "name": "isMobileMoney",
+            "schema": {
+              "type": "boolean",
+              "example": false
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -13523,6 +13533,10 @@
                       "type": "string",
                       "example": "Success"
                     },
+                    "status": {
+                      "type": "boolean",
+                      "example": false
+                    },
                     "data": {
                       "type": "array",
                       "items": {
@@ -13530,11 +13544,11 @@
                         "properties": {
                           "code": {
                             "type": "string",
-                            "example": "mpesa"
+                            "example": "access_bank"
                           },
                           "displayName": {
                             "type": "string",
-                            "example": "Mpesa"
+                            "example": "Access Bank"
                           }
                         }
                       }
