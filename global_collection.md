@@ -1,18 +1,19 @@
-Initiate Mobile Money Inflow 
-— POST `/global-collection/inflow/initiate`
-Sample Payload
+## Initiate Mobile Money Inflow
+**Endpoint:** `POST /v1/global-collection/mobile-money/initiate`
+
+**Sample Payload:**
 ```json
 {
   "phoneNumber": "0980802xxx",
   "pin": "0000",
-  "callbackUrl": "https://webhook.site/95f4b996-922e-42c0-9167-1f88e29561c1",
+  "callbackUrl": "https://your-app.com/callback",
   "amount": 10,
   "currency": "CDF",
   "topupVendor": "AIRTEL"
 }
 ```
 
-Sample Response:
+**Sample Response:**
 ```json
 {
   "code": "00",
@@ -26,9 +27,11 @@ Sample Response:
 ```
 
 ---
+
 ## Fetch Collection Transaction
-Fetch Collection Transaction — GET 
-Endpoint: `global-collection/transactions/a822e327-4bcd-40ec-ac61-ed3622eac000`
+**Endpoint:** `GET /v1/global-collection/mobile-money/transaction/{transactionId}`
+
+**Sample Response:**
 ```json
 {
   "code": "00",

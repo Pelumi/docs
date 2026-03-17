@@ -9,11 +9,13 @@ The docs live in `/Users/nombauser/nomba/docs/`. Use the existing structure ther
 ## Context
 
 The API has been refactored. The request DTOs are now cleaner and more API-user-friendly. The key changes:
-- `paymentMethod` is now a top-level string field (enum value: `BANK`, `MOBILE_MONEY`, `INTERAC`, `FASTER_PAYMENTS`, `SEPA`)
+- `paymentMethod` is now a top-level string field (enum value: `BANK`, `MobileMoney`, `INTERAC`, `FASTER_PAYMENTS`, `SEPA`)
 - `source`, `doFormFieldValidation`, `consentGivenToAddBeneficiary` are all handled server-side — not needed in the request
-- `institute` object, `paymentInfo` object, `purposeOfPayment`, `accountType` are removed from the request
+- `institute` object and `paymentInfo` object are removed from the request — handled server-side
+- `accountType` is now a top-level optional string field (e.g. `Individual`, `Corporate`) — required by some corridors (FASTER_PAYMENTS, SEPA)
+- `purposeOfPayment` is now a top-level optional string field — pass it when required by the corridor (e.g. SEPA corporate transfers)
 - For bank routing codes use `institutionCode` (sort code for FASTER_PAYMENTS, SWIFT/BIC for SEPA, institution number for Canada Bank)
-- For bank/provider names use `institutionName` (bank name for BANK, provider display name for MOBILE_MONEY)
+- For bank/provider names use `institutionName` (bank name for BANK, provider display name for MobileMoney)
 - `phoneNumber` field is removed — for MOBILE_MONEY, put the recipient phone number in `accountNumber`
 - `meta` in the response is now a clean JSON object containing only transaction-relevant info — no vendor, user, or internal system data
 
@@ -58,11 +60,11 @@ This is a new endpoint. Include it in the GlobalPayout docs.
 ```json
 {
   "code": "00",
-  "description": "Successful",
+  "description": "Success",
   "status": false,
   "data": [
     { "code": "BANK", "displayName": "Bank Transfer" },
-    { "code": "MOBILE_MONEY", "displayName": "Mobile Money" },
+    { "code": "MobileMoney", "displayName": "Mobile Money" },
     { "code": "INTERAC", "displayName": "Interac" },
     { "code": "FASTER_PAYMENTS", "displayName": "Faster Payments" },
     { "code": "SEPA", "displayName": "SEPA" }
@@ -83,119 +85,29 @@ The `paymentMethod` field drives what additional fields are required:
 
 | Payment Method   | Required fields                          | Optional fields         |
 |-----------------|------------------------------------------|-------------------------|
-| `BANK` (non-Canada) | `accountNumber`, `receiverName`, `institutionName` (bank name) | `narration` |
+| `BANK` (non-Canada, e.g. DRC) | `accountNumber`, `receiverName`, `institutionName` (bank display name), `institutionCode` (bank code from `/bank/providers`) | `narration` |
 | `BANK` (Canada) | `accountNumber`, `receiverName`, `institutionCode` (institution number), `beneficiary.beneficiaryEmail` | `beneficiary.securityQuestion`, `beneficiary.securityQuestionAnswer`, `beneficiary.transitNumber`, `narration` |
-| `MOBILE_MONEY`  | `accountNumber` (recipient phone number), `receiverName`, `institutionName` (provider display name, e.g. "Mpesa") | `narration` |
+| `MobileMoney`   | `accountNumber` (recipient phone number), `receiverName`, `institutionName` (provider display name, e.g. "Mpesa") | `narration` |
 | `INTERAC`       | `receiverName`, `beneficiary.beneficiaryEmail` | `beneficiary.securityQuestion`, `beneficiary.securityQuestionAnswer` |
-| `FASTER_PAYMENTS` | `accountNumber`, `receiverName`, `institutionCode` (sort code, 6 digits) | `narration` |
-| `SEPA`          | `accountNumber` (IBAN), `receiverName`, `institutionCode` (SWIFT/BIC code) | `narration` |
+| `FASTER_PAYMENTS` | `accountNumber`, `receiverName`, `institutionCode` (sort code, 6 digits) | `accountType` (e.g. `Individual`, `Corporate`), `narration` |
+| `SEPA`          | `accountNumber` (IBAN), `receiverName`, `institutionCode` (SWIFT/BIC code) | `accountType` (e.g. `Individual`, `Corporate`), `purposeOfPayment`, `narration` |
 
 **Sample Payloads:**
 
-MOBILE_MONEY (DRC):
+MobileMoney (DRC):
 ```json
 {
-  "amount": 100.0,
+  "amount": 250.0,
   "sourceCurrency": "USD",
   "destinationCurrency": "USD",
   "receiverName": "John Cena",
-  "accountNumber": "+243812345678",
+  "accountNumber": "0903086112",
   "institutionName": "Mpesa",
-  "sourceCountryIsoCode": "NG",
+  "sourceCountryIsoCode": "CD",
   "destinationCountryIsoCode": "CD",
   "authCode": "2580",
-  "paymentMethod": "MOBILE_MONEY",
+  "paymentMethod": "MobileMoney",
   "narration": "Family support"
-}
-```
-
-> **Tip:** Call `GET /v1/global-payout/mobile-money/providers` to get the available providers and their `code`/`displayName`. Use `displayName` as `institutionName`.
-
-BANK (DRC):
-```json
-{
-  "amount": 500.0,
-  "sourceCurrency": "USD",
-  "destinationCurrency": "USD",
-  "accountNumber": "CD1234567890123456",
-  "receiverName": "John Cena",
-  "sourceCountryIsoCode": "NG",
-  "destinationCountryIsoCode": "CD",
-  "authCode": "2580",
-  "paymentMethod": "BANK",
-  "narration": "Business payment"
-}
-```
-
-INTERAC (Canada):
-```json
-{
-  "amount": 250.0,
-  "sourceCurrency": "CAD",
-  "destinationCurrency": "CAD",
-  "receiverName": "Jane Doe",
-  "sourceCountryIsoCode": "NG",
-  "destinationCountryIsoCode": "CA",
-  "authCode": "2580",
-  "paymentMethod": "INTERAC",
-  "beneficiary": {
-    "beneficiaryEmail": "jane.doe@email.com",
-    "securityQuestion": "What is your pet's name?",
-    "securityQuestionAnswer": "Fluffy"
-  }
-}
-```
-
-BANK (Canada):
-```json
-{
-  "amount": 250.0,
-  "sourceCurrency": "CAD",
-  "destinationCurrency": "CAD",
-  "accountNumber": "1234567890",
-  "receiverName": "Jane Doe",
-  "institutionCode": "001",
-  "sourceCountryIsoCode": "NG",
-  "destinationCountryIsoCode": "CA",
-  "authCode": "2580",
-  "paymentMethod": "BANK",
-  "beneficiary": {
-    "beneficiaryEmail": "jane.doe@email.com"
-  }
-}
-```
-
-FASTER_PAYMENTS (UK):
-```json
-{
-  "amount": 1000.0,
-  "sourceCurrency": "GBP",
-  "destinationCurrency": "GBP",
-  "accountNumber": "12345678",
-  "receiverName": "James Smith",
-  "institutionCode": "204514",
-  "sourceCountryIsoCode": "NG",
-  "destinationCountryIsoCode": "GB",
-  "authCode": "2580",
-  "paymentMethod": "FASTER_PAYMENTS",
-  "narration": "Invoice payment"
-}
-```
-
-SEPA (Europe):
-```json
-{
-  "amount": 500.0,
-  "sourceCurrency": "EUR",
-  "destinationCurrency": "EUR",
-  "accountNumber": "DE89370400440532013000",
-  "receiverName": "Hans Müller",
-  "institutionCode": "DEUTDEDB",
-  "sourceCountryIsoCode": "NG",
-  "destinationCountryIsoCode": "DE",
-  "authCode": "2580",
-  "paymentMethod": "SEPA",
-  "narration": "Service fee"
 }
 ```
 
@@ -206,29 +118,323 @@ SEPA (Europe):
   "description": "Successful",
   "status": false,
   "data": {
-    "wtTransactionId": "01kj9ssfwqd4a97jhdx65gmyqy",
-    "coreTransactionId": "API-FX_TX_DR-D4400-b0a438d7-891f-47cc-8f27-98f6b44c8fc4",
+    "wtTransactionId": "01kky197w3xc6wyjenpc5r0tnp",
+    "coreTransactionId": "API-FX_TX_DR-08A1B-6add611a-e538-4e67-bcf9-661c77a16804",
     "status": "PROCESSING",
     "coreStatus": "PAYMENT_SUCCESSFUL",
     "type": "TRANSFER",
     "meta": {
-      "wt_transaction_id": "01kj9ssfwqd4a97jhdx65gmyqy",
-      "source_amount": "15.0",
-      "destination_amount": "12.72",
       "source_currency": "USD",
-      "destination_currency": "EUR",
-      "amount_charged": "35.0",
-      "currency_pair_name": "EUR/USD",
-      "payment_method": "SWIFT",
-      "destination_country": "BE",
-      "destination_country_name": "Belgium",
-      "source_country": "NG",
-      "narration": "Testing SWIFT",
+      "destination_country": "CD",
+      "amount_charged": "255.0",
+      "source_amount": "250.0",
+      "wt_transaction_id": "01kky197w3xc6wyjenpc5r0tnp",
+      "spread_currency": "USD",
+      "trade_context": "default",
+      "destination_country_name": "Congo DR",
+      "source_country": "CD",
+      "destination_amount": "250.0",
+      "spread_amount": "0.0",
+      "narration": "Family support",
+      "transactionCategory": "General",
+      "payment_destination_type": "Account",
+      "trade_side": "BUY",
+      "destination_currency": "USD",
+      "currency_pair_name": "USD/USD",
+      "payment_method": "MobileMoney",
+      "tradeType": "FIXED_TRADE"
+    },
+    "prettyStatus": "Successful"
+  }
+}
+```
+
+> **Tip:** Call `GET /v1/global-payout/bank/providers?isMobileMoney=true` to get available mobile money providers. Use `displayName` as `institutionName`.
+
+BANK (DRC):
+> **Note:** For DRC bank transfers, `institutionCode` and `institutionName` are required. Get them from `GET /v1/global-payout/bank/providers`. The `destinationCurrency` should be `CDF` (Congolese Franc).
+```json
+{
+  "amount": 2.0,
+  "sourceCurrency": "USD",
+  "destinationCurrency": "CDF",
+  "accountNumber": "00444555555",
+  "receiverName": "John Doe",
+  "institutionName": "Access Bank",
+  "institutionCode": "access_bank",
+  "sourceCountryIsoCode": "CD",
+  "destinationCountryIsoCode": "CD",
+  "authCode": "2580",
+  "paymentMethod": "Bank",
+  "narration": "Business payment"
+}
+```
+
+**Sample Response (DRC BANK):**
+```json
+{
+  "code": "00",
+  "description": "Successful",
+  "status": false,
+  "data": {
+    "wtTransactionId": "01kkx3p9abc4d12ef56gh7ij8k",
+    "coreTransactionId": "API-FX_TX_DR-1A2B3-a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "status": "PROCESSING",
+    "coreStatus": "PAYMENT_SUCCESSFUL",
+    "type": "TRANSFER",
+    "meta": {
+      "source_currency": "USD",
+      "destination_country": "CD",
+      "amount_charged": "2.0",
+      "source_amount": "2.0",
+      "wt_transaction_id": "01kkx3p9abc4d12ef56gh7ij8k",
+      "spread_currency": "USD",
+      "trade_context": "default",
+      "destination_country_name": "Congo DR",
+      "source_country": "CD",
+      "destination_amount": "4500.0",
+      "spread_amount": "0.0",
+      "narration": "Business payment",
+      "transactionCategory": "General",
+      "payment_destination_type": "Account",
+      "trade_side": "BUY",
+      "destination_currency": "CDF",
+      "currency_pair_name": "USD/CDF",
+      "payment_method": "BANK",
+      "tradeType": "FIXED_TRADE"
+    },
+    "prettyStatus": "Successful"
+  }
+}
+```
+
+INTERAC (Canada):
+```json
+{
+  "amount": 21.0,
+  "sourceCurrency": "USD",
+  "destinationCurrency": "CAD",
+  "receiverName": "Thomas Doe",
+  "sourceCountryIsoCode": "CD",
+  "destinationCountryIsoCode": "CA",
+  "authCode": "2580",
+  "narration": "Ted",
+  "paymentMethod": "Interac",
+  "lockedExchangeRateId": "01k7pcakf0t8g03rvny3z5mr1p",
+  "beneficiary": {
+    "beneficiaryEmail": "testtt@yahoo.com",
+    "securityQuestion": "Test",
+    "securityQuestionAnswer": "Test"
+  }
+}
+```
+
+**Sample Response (Canada INTERAC):**
+```json
+{
+  "code": "00",
+  "description": "Successful",
+  "status": false,
+  "data": {
+    "wtTransactionId": "01kkyc0emx2117681kmvhwzxyg",
+    "coreTransactionId": "API-FX_TX_DR-08A1B-ce488d5e-c88f-4486-9da5-e7201feb66d4",
+    "status": "PROCESSING",
+    "coreStatus": "PAYMENT_SUCCESSFUL",
+    "type": "TRANSFER",
+    "meta": {
+      "source_currency": "USD",
+      "destination_country": "CA",
+      "amount_charged": "41.0",
+      "source_amount": "21.0",
+      "wt_transaction_id": "01kkyc0emx2117681kmvhwzxyg",
+      "spread_currency": "CAD",
+      "trade_context": "default",
+      "destination_country_name": "Canada",
+      "source_country": "CD",
+      "destination_amount": "28.98",
+      "spread_amount": "0.042",
+      "narration": "Ted",
+      "transactionCategory": "General",
+      "payment_destination_type": "Account",
+      "trade_side": "BUY",
+      "destination_currency": "CAD",
+      "currency_pair_name": "USD/CAD",
+      "payment_method": "INTERAC",
+      "tradeType": "FIXED_TRADE"
+    },
+    "prettyStatus": "Successful"
+  }
+}
+```
+
+BANK (Canada):
+```json
+{
+  "amount": 2.0,
+  "sourceCurrency": "USD",
+  "destinationCurrency": "CAD",
+  "accountNumber": "234543245433",
+  "receiverName": "Jane Doe",
+  "institutionCode": "34444",
+  "sourceCountryIsoCode": "CD",
+  "destinationCountryIsoCode": "CA",
+  "authCode": "2580",
+  "paymentMethod": "Bank",
+  "lockedExchangeRateId": "01k7pcakf0t8g03rvny3z5mr1p",
+  "beneficiary": {
+    "beneficiaryEmail": "test@yoop.com",
+    "securityQuestion": "353333"
+  }
+}
+```
+
+**Sample Response (Canada BANK):**
+```json
+{
+  "code": "00",
+  "description": "Successful",
+  "status": false,
+  "data": {
+    "wtTransactionId": "01kkyaqbv4jn3w35a0njkhk7pe",
+    "coreTransactionId": "API-FX_TX_DR-08A1B-a17e5b7d-959c-4893-a715-1f5f4dbfb1e4",
+    "status": "PROCESSING",
+    "coreStatus": "PAYMENT_SUCCESSFUL",
+    "type": "TRANSFER",
+    "meta": {
+      "source_currency": "USD",
+      "destination_country": "CA",
+      "amount_charged": "22.0",
+      "source_amount": "2.0",
+      "wt_transaction_id": "01kkyaqbv4jn3w35a0njkhk7pe",
+      "spread_currency": "CAD",
+      "trade_context": "default",
+      "destination_country_name": "Canada",
+      "source_country": "CD",
+      "destination_amount": "2.76",
+      "spread_amount": "0.004",
+      "narration": "Sent from Nomba",
+      "transactionCategory": "General",
+      "payment_destination_type": "Account",
+      "trade_side": "BUY",
+      "destination_currency": "CAD",
+      "currency_pair_name": "USD/CAD",
+      "payment_method": "BANK",
+      "tradeType": "FIXED_TRADE"
+    },
+    "prettyStatus": "Successful"
+  }
+}
+```
+
+FASTER_PAYMENTS (UK):
+```json
+{
+  "amount": 23.0,
+  "sourceCurrency": "USD",
+  "destinationCurrency": "GBP",
+  "accountNumber": "404130729909118",
+  "receiverName": "Ayodeji Abimbola",
+  "institutionCode": "433333",
+  "sourceCountryIsoCode": "CD",
+  "destinationCountryIsoCode": "GB",
+  "authCode": "2580",
+  "narration": "Ted Thomos",
+  "paymentMethod": "FASTER_PAYMENTS",
+  "accountType": "Individual",
+  "lockedExchangeRateId": "01k4a8rfrngw76yfcj3ak1rw71"
+}
+```
+
+**Sample Response (Faster Payments UK):**
+```json
+{
+  "code": "00",
+  "description": "Successful",
+  "status": false,
+  "data": {
+    "wtTransactionId": "01kkyf2smfe1zw37dhs472ep14",
+    "coreTransactionId": "API-FX_TX_DR-08A1B-ce2a2dbf-5650-40fd-a171-4f69cd15d302",
+    "status": "PROCESSING",
+    "coreStatus": "PAYMENT_SUCCESSFUL",
+    "type": "TRANSFER",
+    "meta": {
+      "source_currency": "USD",
+      "destination_country": "GB",
+      "amount_charged": "43.0",
+      "source_amount": "23.0",
+      "wt_transaction_id": "01kkyf2smfe1zw37dhs472ep14",
+      "spread_currency": "GBP",
+      "trade_context": "default",
+      "destination_country_name": "United Kingdom",
+      "source_country": "CD",
+      "destination_amount": "15.85",
+      "spread_amount": "1.17",
+      "narration": "Ted Thomos",
+      "transactionCategory": "General",
+      "payment_destination_type": "Account",
       "trade_side": "SELL",
-      "spread_amount": "0.01",
-      "spread_currency": "EUR",
-      "client_callback_url": "https://your-app.com/callback",
-      "transactionCategory": "General"
+      "destination_currency": "GBP",
+      "currency_pair_name": "GBP/USD",
+      "payment_method": "Faster Payments",
+      "tradeType": "FIXED_TRADE"
+    },
+    "prettyStatus": "Successful"
+  }
+}
+```
+
+SEPA (Europe):
+```json
+{
+  "amount": 23.0,
+  "sourceCurrency": "USD",
+  "destinationCurrency": "GBP",
+  "accountNumber": "GB41CLJU04130729909118",
+  "receiverName": "trfff tttt",
+  "institutionCode": "CLJUGB21",
+  "sourceCountryIsoCode": "CD",
+  "destinationCountryIsoCode": "GB",
+  "authCode": "2580",
+  "narration": "Ted",
+  "paymentMethod": "SEPA",
+  "accountType": "Individual",
+  "purposeOfPayment": "Family Support",
+  "lockedExchangeRateId": "01k4a8rfrngw76yfcj3ak1rw71"
+}
+```
+
+**Sample Response (SEPA):**
+```json
+{
+  "code": "00",
+  "description": "Successful",
+  "status": false,
+  "data": {
+    "wtTransactionId": "01kkyffhqbgpfxh68chnpmheyg",
+    "coreTransactionId": "API-FX_TX_DR-08A1B-4e1f0e68-bc94-4dc0-aa83-f070f62eab00",
+    "status": "PROCESSING",
+    "coreStatus": "PAYMENT_SUCCESSFUL",
+    "type": "TRANSFER",
+    "meta": {
+      "source_currency": "USD",
+      "destination_country": "GB",
+      "amount_charged": "43.0",
+      "source_amount": "23.0",
+      "wt_transaction_id": "01kkyffhqbgpfxh68chnpmheyg",
+      "spread_currency": "GBP",
+      "trade_context": "default",
+      "destination_country_name": "United Kingdom",
+      "source_country": "CD",
+      "destination_amount": "15.85",
+      "spread_amount": "1.17",
+      "narration": "Ted",
+      "transactionCategory": "General",
+      "payment_destination_type": "Account",
+      "trade_side": "SELL",
+      "destination_currency": "GBP",
+      "currency_pair_name": "GBP/USD",
+      "payment_method": "SEPA",
+      "tradeType": "FIXED_TRADE"
     },
     "prettyStatus": "Successful"
   }
@@ -387,23 +593,66 @@ Returns the list of supported payment method codes and display names. Destinatio
 
 ---
 
-### 7. Fetch Mobile Money Providers
-**Endpoint:** `GET /v1/global-payout/mobile-money/providers`
+### 7. Fetch Institution Providers (Banks & Mobile Money)
+**Endpoint:** `GET /v1/global-payout/bank/providers?isMobileMoney={true|false}`
 
-Returns the available mobile money providers for the user's region. The response `code` maps to `institutionCode` and `displayName` maps to `institutionName` in the authorize-transfer request.
+| Query Param | Type | Default | Description |
+|---|---|---|---|
+| `isMobileMoney` | boolean | `false` | `false` returns banks, `true` returns mobile money providers |
 
-**Sample Response:**
+Returns institutions for the user's region (derived from JWT). Use `code` as `institutionCode` and `displayName` as `institutionName` in the authorize-transfer request.
+
+**Sample Response — Banks (`isMobileMoney=false`):**
 ```json
 {
   "code": "00",
   "description": "Success",
+  "status": false,
   "data": [
-    { "code": "mpesa", "displayName": "Mpesa" },
-    { "code": "airtel", "displayName": "Airtel Money" },
-    { "code": "orange", "displayName": "Orange Money" }
+    { "code": "access_bank", "displayName": "Access Bank" },
+    { "code": "bank_of_africa", "displayName": "Bank Of Africa" },
+    { "code": "eco_bank", "displayName": "Eco Bank" },
+    { "code": "equity_bank", "displayName": "Equity Bank" },
+    { "code": "raw_bank", "displayName": "Raw Bank" },
+    { "code": "uba", "displayName": "United Bank of Africa" }
   ]
 }
 ```
+
+**Sample Response — Mobile Money Providers (`isMobileMoney=true`):**
+```json
+{
+  "code": "00",
+  "description": "Success",
+  "status": false,
+  "data": [
+    { "code": "nomba", "displayName": "Nomba" },
+    { "code": "airtel", "displayName": "Airtel Money" },
+    { "code": "mpesa", "displayName": "Mpesa" },
+    { "code": "orange", "displayName": "Orange" }
+  ]
+}
+```
+
+**Using providers in a transfer request:**
+```json
+{
+  "amount": 2.0,
+  "sourceCurrency": "USD",
+  "destinationCurrency": "CDF",
+  "accountNumber": "00444555555",
+  "receiverName": "John Doe",
+  "institutionName": "Access Bank",
+  "institutionCode": "access_bank",
+  "sourceCountryIsoCode": "CD",
+  "destinationCountryIsoCode": "CD",
+  "authCode": "2255",
+  "paymentMethod": "Bank",
+  "narration": "Business payment"
+}
+```
+
+> **Tip:** `code` from this endpoint → `institutionCode` in the transfer. `displayName` → `institutionName`.
 
 ---
 
@@ -427,5 +676,9 @@ For more details, see the GlobalCollections implementation referenced above.
 - The `meta` field in transfer/exchange responses is now a **JSON object** (not a stringified JSON). Only safe, transaction-relevant keys are present — no vendor names, user IDs, internal references, or wallet balances.
 - The `source`, `doFormFieldValidation`, and `consentGivenToAddBeneficiary` fields have been removed from the AuthTransfer request — they are now handled server-side.
 - `AuthExchange` (exchange between own accounts) does NOT require a `source` field in the request anymore.
-- Payment method values are uppercase strings matching the enum: `BANK`, `MOBILE_MONEY`, `INTERAC`, `FASTER_PAYMENTS`, `SEPA`.
-- `SWIFT` is implemented but not exposed in `GET /payment-methods` — it may be added in a future release.
+- Payment method values: `BANK`, `MobileMoney`, `INTERAC`, `FASTER_PAYMENTS`, `SEPA`. The `paymentMethod` field is case-insensitive on the server, but use the canonical casing shown above.
+- `SWIFT` is implemented but not exposed in `GET /payment-methods` — may be added in a future release.
+- `accountType` is an optional top-level field. Pass `Individual` or `Corporate` where required by the corridor (FASTER_PAYMENTS, SEPA).
+- `purposeOfPayment` is an optional top-level field. Pass it for SEPA or any corridor that requires a transfer reason.
+- `lockedExchangeRateId` is optional. When provided, locks in the exchange rate from a prior `ConvertMoney` call. Recommended for all cross-currency transfers to guarantee the rate shown to the user.
+- For DRC BANK transfers, always call `GET /v1/global-payout/bank/providers` first to get valid `institutionCode` and `institutionName` values.
