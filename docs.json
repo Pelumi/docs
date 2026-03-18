@@ -255,7 +255,8 @@
                     "nomba-api-reference/transfers/perform-bank-account-lookup",
                     "nomba-api-reference/transfers/perform-bank-account-transfer-from-the-parent-account",
                     "nomba-api-reference/transfers/perform-bank-account-transfer-from-the-sub-account",
-                    "nomba-api-reference/transfers/perform-wallet-transfer-from-the-parent-account"
+                    "nomba-api-reference/transfers/perform-wallet-transfer-from-the-parent-account",
+                    "nomba-api-reference/transfers/perform-wallet-transfer-from-a-sub-account"
                   ]
                 },
                 {
@@ -263,6 +264,7 @@
                   "pages": [
                     "nomba-api-reference/terminals/assign-a-terminal-to-the-parent-account",
                     "nomba-api-reference/terminals/un-assign-a-terminal-from-the-parent-account",
+                    "nomba-api-reference/terminals/un-assign-a-terminal-from-the-sub-account",
                     "nomba-api-reference/terminals/push-payment-request"
                   ]
                 },
@@ -273,7 +275,9 @@
                     "nomba-api-reference/transactions/fetch-transactions-on-the-parent-account",
                     "nomba-api-reference/transactions/fetch-transactions-on-the-sub-account",
                     "nomba-api-reference/transactions/filter-parent-account-transactions",
+                    "nomba-api-reference/transactions/filter-sub-account-transactions",
                     "nomba-api-reference/transactions/fetch-a-single-transaction-on-the-parent-account",
+                    "nomba-api-reference/transactions/fetch-a-single-transaction-on-a-sub-account",
                     "nomba-api-reference/transactions/transaction-requery"
                   ]
                 },

@@ -6648,7 +6648,7 @@
         "tags": ["Transfers"]
       }
     },
-    "/v1/transfers/wallet/{subAccountId}": {
+    "/v2/transfers/wallet/{subAccountId}": {
       "post": {
         "description": "You can use this endpoint to perform a wallet transfer from a sub account",
         "operationId": "Perform wallet transfer from a sub account",
@@ -6951,7 +6951,7 @@
             "required": true
           },
           {
-            "description": "The accountId whose terminals are to be fetched.",
+            "description": "The sub accountId whose terminals are to be fetched.",
             "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
             "in": "path",
             "name": "subAccountId",
@@ -7257,7 +7257,7 @@
             "required": true
           },
           {
-            "description": "The accountId whose terminals are to be fetched.",
+            "description": "The sub accountId of the business.",
             "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
             "in": "path",
             "name": "subAccountId",
@@ -7571,7 +7571,7 @@
             "required": true
           },
           {
-            "description": "The accountId whose terminals are to be fetched.",
+            "description": "The sub accountId of the business.",
             "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
             "in": "path",
             "name": "subAccountId",
@@ -7937,7 +7937,7 @@
             "required": true
           },
           {
-            "description": "The accountId whose terminals are to be fetched.",
+            "description": "The sub accountId of the business.",
             "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
             "in": "path",
             "name": "subAccountId",
@@ -8108,8 +8108,8 @@
         "tags": ["Transactions"]
       },
       "post": {
-        "description": "You can use this endpoint to filter transactions on an account.",
-        "operationId": "Filter account transactions",
+        "description": "You can use this endpoint to filter transactions on a sub account.",
+        "operationId": "Filter sub account transactions",
         "requestBody": {
           "content": {
             "application/json": {
@@ -8237,7 +8237,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Filter account transactions",
+        "summary": "Filter sub account transactions",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -8251,10 +8251,10 @@
             "required": true
           },
           {
-            "description": "The accountId whose terminals are to be fetched.",
-            "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
+            "description": "The sub accountId of the business.",
+            "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0e",
             "in": "path",
-            "name": "accountId",
+            "name": "subAccountId",
             "required": true,
             "schema": {
               "type": "string"
@@ -8670,6 +8670,7 @@
         "tags": ["Transactions"]
       }
     },
+   
     "/v1/transactions/accounts/{subAccountId}/single": {
       "get": {
         "description": "You can use this endpoint to fetch a single transaction on a sub account",
@@ -8687,7 +8688,7 @@
             "required": true
           },
           {
-            "description": "The accountId whose transactions are to be fetched.",
+            "description": "The sub accountId whose transactions are to be fetched.",
             "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
             "in": "path",
             "name": "subAccountId",
