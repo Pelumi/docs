@@ -1,0 +1,37 @@
+---
+title: 'Supported Countries'
+description: 'View all destination countries, payment methods, limits, and delivery timelines supported by the Nomba Global Payout API'
+---
+
+Global Payout supports cross-border fund disbursements to a growing list of countries. Each destination has specific payment methods, currency options, transaction limits, and processing timelines. Review the table below before initiating a transfer to ensure the corridor you need is available.
+
+<Note>
+  For the complete list of supported European Countries refer to the [Supported Countries sheet](https://docs.google.com/spreadsheets/d/1HigahLa7eTfDbFJfgkSyiy3y2FZG4JFK0cL19ZInU9Q/edit?gid=0#gid=0).
+</Note>
+
+## Supported Destinations
+
+| Destination Country | Destination Currency | Payment Method | Minimum | Maximum | Delivery Timeline |
+|---|---|---|---|---|---|
+| Democratic Republic of Congo | USD | Mobile Money | $1 | $2,500 | Instant |
+| Democratic Republic of Congo | USD | Bank | $1 | $50,000 | Same day, subject to cut-off at 5pm (UTC +1) |
+| Democratic Republic of Congo | CDF | Mobile Money | FC 1 | FC 7,500,000 | Instant |
+| Democratic Republic of Congo | CDF | Bank | FC 3,000 | FC 22,768,634 | Same day, subject to cut-off at 5pm (UTC +1) |
+| Canada | CAD | Bank | $1 | $25,000 | Processed within 1 to 3 business days |
+| Canada | CAD | Interac | $1 | $25,000 | Instant |
+| United Kingdom | GBP | Faster Payments | £1 | £1,000,000 | Processed within 1 to 3 hours |
+| Europe | EUR | SEPA | €1 | €100,000 | Processed within 1 hour |
+
+## Using Exchange Rates
+
+Before initiating any cross-currency transfer, use the [Fetch Exchange Rates](/docs/products/global-payout/fetch-exchange-rates) endpoint to get the latest rates for your currency pair. This ensures your customers see accurate conversion values before confirming a transaction.
+
+Exchange rates are published periodically by the system. To guarantee that the rate shown to your customer is the exact rate used to fulfil the transaction, pass the `exchangeRateId` returned from the Fetch Exchange Rates response as the `lockedExchangeRateId` field in your Authorize Transfer request. This locks the rate at 5 minutes time and prevents any rate movement from affecting the transaction.
+
+```
+Fetch Exchange Rates → receive exchangeRateId → pass as lockedExchangeRateId in Authorize Transfer
+```
+
+## Need Help?
+
+If you need a country or corridor that isn't listed, reach out to [transactiondesk@nomba.com](mailto:transactiondesk@nomba.com).

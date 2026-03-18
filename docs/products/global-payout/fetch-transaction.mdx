@@ -1,0 +1,74 @@
+---
+title: 'Fetch Transaction'
+description: 'Track the status of a Global Payout transaction using its transaction ID'
+---
+
+<Card
+  title="Fetch Transaction"
+  icon="magnifying-glass"
+  href="/nomba-api-reference/global-payout/fetch-transaction"
+>
+</Card>
+
+# `GET /v1/global-payout/transactions/{transactionId}`
+
+Track the status of any transaction at any point in its lifecycle. FetchTransaction takes a transaction reference and returns its current state, giving you and your customers full visibility into where funds are at any given time.
+
+<CodeGroup>
+```bash Request
+curl --request GET \
+  --url https://api.nomba.com/v1/global-payout/transactions/01kj9ssfwqd4a97jhdx65gmyqy \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountId>'
+```
+
+```json Response
+{
+  "code": "00",
+  "description": "Successful",
+  "status": false,
+  "data": {
+    "transactionId": "01kj9ssfwqd4a97jhdx65gmyqy",
+    "status": "PROCESSING",
+    "coreStatus": "PAYMENT_SUCCESSFUL",
+    "type": "TRANSFER",
+    "createdAt": "2026-03-13T09:15:57.161946"
+  }
+}
+```
+</CodeGroup>
+
+#### Path parameters
+
+<ParamField path="transactionId" type="string" required>
+  The `wtTransactionId` returned when the transfer or exchange was authorized.
+</ParamField>
+
+#### Response body
+
+<ResponseField name="transactionId" type="string" required>
+  The GlobalPayout transaction ID.
+</ResponseField>
+
+<ResponseField name="status" type="string" required>
+  Current processing status of the transaction.
+
+  | Value | Description |
+  |---|---|
+  | `PROCESSING` | The transfer is being processed. |
+  | `COMPLETED` | The transfer has been successfully delivered. |
+  | `FAILED` | The transfer could not be completed. |
+  | `PENDING` | The transfer is awaiting further action. |
+</ResponseField>
+
+<ResponseField name="coreStatus" type="string">
+  Core system status (e.g., `PAYMENT_SUCCESSFUL`).
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  Transaction type — `TRANSFER` or `EXCHANGE`.
+</ResponseField>
+
+<ResponseField name="createdAt" type="string">
+  ISO 8601 timestamp of when the transaction was created.
+</ResponseField>

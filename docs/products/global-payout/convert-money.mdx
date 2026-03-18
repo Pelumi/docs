@@ -1,0 +1,127 @@
+---
+title: 'Convert Money'
+description: 'Calculate a currency conversion and lock an exchange rate before initiating a transfer'
+---
+
+<Card
+  title="Convert Money"
+  icon="arrows-rotate"
+  href="/nomba-api-reference/global-payout/convert-money"
+>
+</Card>
+
+# `POST /v1/global-payout/money/convert`
+
+When moving funds across currencies, ConvertMoney handles the conversion for you. Call this endpoint whenever a transaction requires a currency switch, and it will return the converted amount and a locked exchange rate ID to use when authorizing the transfer.
+
+<CodeGroup>
+```bash Request
+curl --request POST \
+  --url https://api.nomba.com/v1/global-payout/money/convert \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountId>' \
+  --data '{
+    "amount": 15,
+    "currency": "USD",
+    "destinationCurrency": "EUR",
+    "transactionType": "EXCHANGE",
+    "sourceCountryIsoCode": "NG"
+  }'
+```
+
+```json Response
+{
+  "code": "00",
+  "description": "Successful",
+  "status": false,
+  "data": {
+    "fromAmount": 15.0,
+    "fromCurrency": "USD",
+    "fromFormatted": "$15.00",
+    "toAmount": 13.04,
+    "toCurrency": "EUR",
+    "toFormatted": "13,04 €",
+    "spreadAmount": 0.12,
+    "spreadCurrency": "EUR",
+    "exchangeRateId": "01kkk4b7rh8pcvtw1s1nxs144s",
+    "currencyPairName": "EUR/USD",
+    "feeAmount": 0.0,
+    "feeCurrency": "USD",
+    "feeExpression": ""
+  }
+}
+```
+</CodeGroup>
+
+#### Request body
+
+<ParamField body="amount" type="number" required>
+  The amount to convert in the source currency.
+</ParamField>
+
+<ParamField body="currency" type="string" required>
+  The ISO 4217 currency code of the source amount (e.g., `USD`).
+</ParamField>
+
+<ParamField body="destinationCurrency" type="string" required>
+  The ISO 4217 currency code to convert into (e.g., `EUR`).
+</ParamField>
+
+<ParamField body="transactionType" type="string" required>
+  The type of transaction. Use `EXCHANGE` for currency conversions.
+</ParamField>
+
+<ParamField body="sourceCountryIsoCode" type="string" required>
+  ISO 3166-1 alpha-2 country code of the sender (e.g., `NG`).
+</ParamField>
+
+#### Response body
+
+<ResponseField name="fromAmount" type="number" required>
+  The original amount in the source currency.
+</ResponseField>
+
+<ResponseField name="fromCurrency" type="string" required>
+  The source currency code.
+</ResponseField>
+
+<ResponseField name="fromFormatted" type="string">
+  The source amount formatted as a display string (e.g., `$15.00`).
+</ResponseField>
+
+<ResponseField name="toAmount" type="number" required>
+  The converted amount in the destination currency.
+</ResponseField>
+
+<ResponseField name="toCurrency" type="string" required>
+  The destination currency code.
+</ResponseField>
+
+<ResponseField name="toFormatted" type="string">
+  The destination amount formatted as a display string.
+</ResponseField>
+
+<ResponseField name="spreadAmount" type="number">
+  The spread amount applied to the conversion.
+</ResponseField>
+
+<ResponseField name="spreadCurrency" type="string">
+  The currency the spread is denominated in.
+</ResponseField>
+
+<ResponseField name="exchangeRateId" type="string" required>
+  A locked exchange rate ID. Pass this when authorizing the transfer to guarantee the quoted rate.
+</ResponseField>
+
+<ResponseField name="currencyPairName" type="string">
+  The currency pair notation (e.g., `EUR/USD`).
+</ResponseField>
+
+<ResponseField name="feeAmount" type="number">
+  Any applicable transaction fee.
+</ResponseField>
+
+<ResponseField name="feeCurrency" type="string">
+  The currency the fee is charged in.
+</ResponseField>
