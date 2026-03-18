@@ -226,15 +226,18 @@
                   "group": "Accounts",
                   "pages": [
                     "nomba-api-reference/accounts/fetch-parent-account-details",
+                    "nomba-api-reference/accounts/fetch-sub-account-details",
                     "nomba-api-reference/accounts/fetch-parent-account-balance",
                     "nomba-api-reference/accounts/fetch-sub-account-balance",
-                    "nomba-api-reference/accounts/fetch-terminals-assigned-to-the-parent-account"
+                    "nomba-api-reference/accounts/fetch-terminals-assigned-to-the-parent-account",
+                    "nomba-api-reference/accounts/fetch-terminals-assigned-to-a-sub-account"
                   ]
                 },
                 {
                   "group": "Virtual Accounts",
                   "pages": [
                     "nomba-api-reference/virtual-accounts/create-virtual-account",
+                    "nomba-api-reference/virtual-accounts/create-virtual-account-for-sub-account",
                     "nomba-api-reference/virtual-accounts/filter-virtual-accounts",
                     "nomba-api-reference/virtual-accounts/fetch-a-virtual-account",
                     "nomba-api-reference/virtual-accounts/update-a-virtual-account",
@@ -286,14 +289,17 @@
                     "nomba-api-reference/transfers/perform-bank-account-lookup",
                     "nomba-api-reference/transfers/perform-bank-account-transfer-from-the-parent-account",
                     "nomba-api-reference/transfers/perform-bank-account-transfer-from-the-sub-account",
-                    "nomba-api-reference/transfers/perform-wallet-transfer-from-the-parent-account"
+                    "nomba-api-reference/transfers/perform-wallet-transfer-from-the-parent-account",
+                    "nomba-api-reference/transfers/perform-wallet-transfer-from-a-sub-account"
                   ]
                 },
                 {
                   "group": "Terminals",
                   "pages": [
                     "nomba-api-reference/terminals/assign-a-terminal-to-the-parent-account",
+                    "nomba-api-reference/terminals/assign-a-terminal-to-a-sub-account",
                     "nomba-api-reference/terminals/un-assign-a-terminal-from-the-parent-account",
+                    "nomba-api-reference/terminals/un-assign-a-terminal-from-the-sub-account",
                     "nomba-api-reference/terminals/push-payment-request"
                   ]
                 },
@@ -304,7 +310,9 @@
                     "nomba-api-reference/transactions/fetch-transactions-on-the-parent-account",
                     "nomba-api-reference/transactions/fetch-transactions-on-the-sub-account",
                     "nomba-api-reference/transactions/filter-parent-account-transactions",
+                    "nomba-api-reference/transactions/filter-sub-account-transactions",
                     "nomba-api-reference/transactions/fetch-a-single-transaction-on-the-parent-account",
+                    "nomba-api-reference/transactions/fetch-a-single-transaction-on-a-sub-account",
                     "nomba-api-reference/transactions/transaction-requery"
                   ]
                 },

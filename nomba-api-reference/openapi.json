@@ -1069,10 +1069,8 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Fetch details of a sub account",
-        "tags": [
-          "Accounts"
-        ]
+        "summary": "Fetch sub account details",
+        "tags": ["Accounts"]
       }
     },
     "/v1/accounts/parent": {
@@ -2239,11 +2237,218 @@
           }
         ],
         "summary": "Fetch terminals assigned to the parent account",
-        "tags": [
-          "Accounts"
-        ]
+        "tags": ["Accounts"]
       }
-    },
+    }, 
+    "/v1/accounts/{accountId}terminals": {
+      "get": {
+        "description": "You can use this endpoint to fetch terminals linked to a sub account.",
+        "operationId": "Fetch terminals assigned to a sub account",
+        "parameters": [
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          },
+          {
+            "description": "The sub accountId of the business.",
+            "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0f",
+            "in": "path",
+            "name": "accountId",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "description": "This endpoint is paginated. `limit` describes the size of the page you are querying",
+            "example": 10,
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "required": false
+          },
+          {
+            "description": "The `cursor` is used to scroll to the next page. When making the first call to list all accounts, there is no need to pass in any cursor since the API has not returned any cursor back to you. Only use cursor when the API provides it",
+            "example": "xchbaVFsjdsbaADddd",
+            "in": "query",
+            "name": "cursor",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "description": "Terminal ID",
+            "example": "2KUD1234",
+            "in": "query",
+            "name": "terminalId",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "description": "Terminal ID",
+            "example": "91235335668790",
+            "in": "query",
+            "name": "serialNumber",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "description": "Terminal Label",
+            "example": "M.A.Terminal",
+            "in": "query",
+            "name": "terminalLabel",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "description": "Merchant Name",
+            "example": "Daniel. Sc",
+            "in": "query",
+            "name": "merchantName",
+            "schema": {
+              "type": "string"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00",
+                      "description": "Response Code"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Success",
+                      "description": "Response description"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/TerminalListResults"
+                    }
+                  },
+                  "required": ["code", "description", "data"]
+                }
+              }
+            },
+            "description": "OK - your request was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Fetch terminals assigned to a sub account",
+        "tags": ["Accounts"]
+      }
+    }, 
     "/v1/accounts/{subAccountId}/access": {
       "put": {
         "description": "You can use this endpoint to update the access of an api client within an account.",
@@ -2558,11 +2763,168 @@
             "required": true
           }
         ],
-        "tags": [
-          "Virtual Accounts"
-        ]
+        "tags": ["Virtual Accounts"]
       }
     },
+    "/v1/accounts/virtual/{subAccountId}": {
+      "post": {
+        "description": "You can use this endpoint to create a virtual account to receive payments for a sub account.",
+        "operationId": "Create virtual account for a sub Account",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateVirtualAccountRequest"
+              }
+            }
+          },
+          "description": "The request payload required to create a virtual account",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00",
+                      "description": "Response Code"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Success",
+                      "description": "Response description"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/CreateVirtualAccountResponse"
+                    }
+                  },
+                  "required": ["code", "description", "data"]
+                }
+              }
+            },
+            "description": "Virtual account creation successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Create virtual account for a sub account",
+        "parameters": [
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          },
+          {
+            "description": "The sub accountId of the business.",
+            "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0e",
+            "in": "path",
+            "name": "subAccountId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": ["Virtual Accounts"]
+      }
+    },
+    
     "/v1/accounts/virtual/list": {
       "post": {
         "description": "You can use this endpoint to filter your virtual accounts.",
@@ -2918,7 +3280,7 @@
             "required": true
           },
           {
-            "description": "The account reference of the virtual account to be fetched.",
+            "description": "The account reference or virtual account number of the virtual account to be fetched.",
             "example": "3UixJxjfeEZacxYbiNNAJa5R4e9DR",
             "in": "path",
             "name": "identifier",
@@ -6677,7 +7039,7 @@
         ]
       }
     },
-    "/v1/transfers/wallet/{subAccountId}": {
+    "/v2/transfers/wallet/{subAccountId}": {
       "post": {
         "description": "You can use this endpoint to perform a wallet transfer from a sub account",
         "operationId": "Perform wallet transfer from a sub account",
@@ -6990,7 +7352,7 @@
             "required": true
           },
           {
-            "description": "The accountId whose terminals are to be fetched.",
+            "description": "The sub accountId whose terminals are to be fetched.",
             "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
             "in": "path",
             "name": "subAccountId",
@@ -7308,7 +7670,7 @@
             "required": true
           },
           {
-            "description": "The accountId whose terminals are to be fetched.",
+            "description": "The sub accountId of the business.",
             "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
             "in": "path",
             "name": "subAccountId",
@@ -7635,7 +7997,7 @@
             "required": true
           },
           {
-            "description": "The accountId whose terminals are to be fetched.",
+            "description": "The sub accountId of the business.",
             "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
             "in": "path",
             "name": "subAccountId",
@@ -8013,7 +8375,7 @@
             "required": true
           },
           {
-            "description": "The accountId whose terminals are to be fetched.",
+            "description": "The sub accountId of the business.",
             "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
             "in": "path",
             "name": "subAccountId",
@@ -8190,8 +8552,8 @@
         ]
       },
       "post": {
-        "description": "You can use this endpoint to filter transactions on an account.",
-        "operationId": "Filter account transactions",
+        "description": "You can use this endpoint to filter transactions on a sub account.",
+        "operationId": "Filter sub account transactions",
         "requestBody": {
           "content": {
             "application/json": {
@@ -8323,7 +8685,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Filter account transactions",
+        "summary": "Filter sub account transactions",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -8337,10 +8699,10 @@
             "required": true
           },
           {
-            "description": "The accountId whose terminals are to be fetched.",
-            "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
+            "description": "The sub accountId of the business.",
+            "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0e",
             "in": "path",
-            "name": "accountId",
+            "name": "subAccountId",
             "required": true,
             "schema": {
               "type": "string"
@@ -8770,6 +9132,7 @@
         ]
       }
     },
+   
     "/v1/transactions/accounts/{subAccountId}/single": {
       "get": {
         "description": "You can use this endpoint to fetch a single transaction on a sub account",
@@ -8787,7 +9150,7 @@
             "required": true
           },
           {
-            "description": "The accountId whose transactions are to be fetched.",
+            "description": "The sub accountId whose transactions are to be fetched.",
             "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
             "in": "path",
             "name": "subAccountId",
