@@ -1,0 +1,56 @@
+---
+title: 'Fetch Payment Methods'
+description: 'Retrieve the list of supported payment method codes and display names'
+---
+
+<Card
+  title="Fetch Payment Methods"
+  icon="credit-card"
+  href="/nomba-api-reference/global-payout/payment-methods"
+>
+</Card>
+
+# `GET /v1/global-payout/payment-methods`
+
+Returns the list of supported payment method codes and display names. Use this to dynamically populate a payment method selector in your UI.
+
+Destination countries, transaction limits, and delivery timelines are documented in the [Supported Countries](/docs/products/global-payout/supported-countries) page — they are not part of this response.
+
+<CodeGroup>
+```bash Request
+curl --request GET \
+  --url https://api.nomba.com/v1/global-payout/payment-methods \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountId>'
+```
+
+```json Response
+{
+  "code": "00",
+  "description": "Successful",
+  "status": false,
+  "data": [
+    { "code": "BANK", "displayName": "Bank Transfer" },
+    { "code": "MobileMoney", "displayName": "Mobile Money" },
+    { "code": "INTERAC", "displayName": "Interac" },
+    { "code": "FASTER_PAYMENTS", "displayName": "Faster Payments" },
+    { "code": "SEPA", "displayName": "SEPA" }
+  ]
+}
+```
+</CodeGroup>
+
+#### Response body
+
+<ResponseField name="data" type="array" required>
+  List of supported payment methods.
+
+  <Expandable title="payment method object" defaultOpen="true">
+    <ResponseField name="code" type="string">
+      The payment method code. Use this as the `paymentMethod` value in the [Authorize Transfer](/docs/products/global-payout/authorize-transfer) request.
+    </ResponseField>
+    <ResponseField name="displayName" type="string">
+      Human-readable label suitable for displaying in a UI selector.
+    </ResponseField>
+  </Expandable>
+</ResponseField>

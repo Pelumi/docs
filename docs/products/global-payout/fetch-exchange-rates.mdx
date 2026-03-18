@@ -1,0 +1,97 @@
+---
+title: 'Fetch Exchange Rates'
+description: 'Retrieve the latest exchange rates for a currency pair before initiating a transfer'
+---
+
+<Card
+  title="Fetch Exchange Rates"
+  icon="chart-line"
+  href="/nomba-api-reference/global-payout/fetch-exchange-rates"
+>
+</Card>
+
+# `GET /v1/global-payout/exchange-rates`
+
+Before sending funds in a currency different from your base currency, use this endpoint to retrieve the latest exchange rates. This ensures your customers always see accurate, up-to-date conversion values before a transaction is confirmed.
+
+<CodeGroup>
+```bash Request
+curl --request GET \
+  --url 'https://api.nomba.com/v1/global-payout/exchange-rates?from=EUR&to=USD' \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountId>'
+```
+
+```json Response
+{
+  "code": "00",
+  "description": "Successful",
+  "status": false,
+  "data": {
+    "rates": [
+      {
+        "exchangeRateId": "01kkk7pab9mjt70wvk6pzk8mzx",
+        "currencyPairName": "EUR/USD",
+        "bidRate": "$1.13",
+        "askRate": "$1.14",
+        "midRate": "$1.14",
+        "tradeRegion": "",
+        "tradeContext": "",
+        "createdAt": "2026-03-13T09:15:57.161946",
+        "updatedAt": ""
+      }
+    ]
+  }
+}
+```
+</CodeGroup>
+
+<Note>
+  The `exchangeRateId` in the response is a locked rate identifier. Pass it as `lockedExchangeRateId` in your [Authorize Transfer](/docs/products/global-payout/authorize-transfer) request to guarantee the transaction is fulfilled at the exact rate you quoted to your customer. Exchange rates are updated periodically — locking the rate prevents any movement between quote time and execution.
+</Note>
+
+#### Query parameters
+
+<ParamField query="from" type="string" required>
+  The ISO 4217 currency code to convert from (e.g., `EUR`).
+</ParamField>
+
+<ParamField query="to" type="string" required>
+  The ISO 4217 currency code to convert to (e.g., `USD`).
+</ParamField>
+
+<ParamField query="region" type="string">
+  Optional trade region filter. Defaults to the account's configured region.
+</ParamField>
+
+#### Response body
+
+<ResponseField name="rates" type="array" required>
+  A list of exchange rate objects for the requested currency pair.
+
+  <Expandable title="rate object" defaultOpen="true">
+    <ResponseField name="exchangeRateId" type="string">
+      The unique ID of this exchange rate snapshot.
+    </ResponseField>
+
+    <ResponseField name="currencyPairName" type="string">
+      The currency pair in standard notation (e.g., `EUR/USD`).
+    </ResponseField>
+
+    <ResponseField name="bidRate" type="string">
+      The rate at which Nomba buys the base currency.
+    </ResponseField>
+
+    <ResponseField name="askRate" type="string">
+      The rate at which Nomba sells the base currency.
+    </ResponseField>
+
+    <ResponseField name="midRate" type="string">
+      The mid-market rate between the bid and ask.
+    </ResponseField>
+
+    <ResponseField name="createdAt" type="string">
+      The timestamp when this rate was recorded.
+    </ResponseField>
+  </Expandable>
+</ResponseField>

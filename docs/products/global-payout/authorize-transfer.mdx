@@ -1,0 +1,325 @@
+---
+title: 'Authorize Transfer'
+description: 'Initiate and authorize a cross-border transfer using the Nomba Global Payout API'
+---
+
+<Card
+  title="Authorize Transfer"
+  icon="paper-plane"
+  href="/nomba-api-reference/global-payout/authorize-transfer"
+>
+</Card>
+
+# `POST /v1/global-payout/transfer/authorize`
+
+Manage the complete transfer lifecycle with a single endpoint. AuthTransfer walks you through every required step from initiating a transfer to final authorization, ensuring nothing is missed before funds are moved.
+
+<Tip>
+  Before calling this endpoint, use [Fetch Exchange Rates](/docs/products/global-payout/fetch-exchange-rates) to get the latest rate for your currency pair. Pass the returned `exchangeRateId` as `lockedExchangeRateId` to guarantee that the rate shown to your customer is the rate used to fulfil the transaction.
+</Tip>
+
+## Payment methods
+
+The `paymentMethod` field determines which additional fields are required:
+
+| `paymentMethod` | Required fields | Optional fields |
+|---|---|---|
+| `BANK` (non-Canada, e.g. DRC) | `accountNumber`, `receiverName`, `institutionName` (bank display name), `institutionCode` (bank code from `/bank/providers`) | `narration` |
+| `BANK` (Canada) | `accountNumber`, `receiverName`, `institutionCode` (institution number), `beneficiary.beneficiaryEmail` | `beneficiary.securityQuestion`, `beneficiary.securityQuestionAnswer`, `beneficiary.transitNumber`, `narration` |
+| `MobileMoney` | `accountNumber` (recipient phone number), `receiverName`, `institutionName` (provider display name) | `narration` |
+| `INTERAC` | `receiverName`, `beneficiary.beneficiaryEmail` | `beneficiary.securityQuestion`, `beneficiary.securityQuestionAnswer` |
+| `FASTER_PAYMENTS` | `accountNumber`, `receiverName`, `institutionCode` (sort code, 6 digits) | `accountType` (e.g. `Individual`, `Corporate`), `narration` |
+| `SEPA` | `accountNumber` (IBAN), `receiverName`, `institutionCode` (SWIFT/BIC) | `accountType` (e.g. `Individual`, `Corporate`), `purposeOfPayment`, `narration` |
+
+<CodeGroup>
+```bash MobileMoney (DRC)
+curl --request POST \
+  --url https://api.nomba.com/v1/global-payout/transfer/authorize \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountId>' \
+  --data '{
+    "amount": 250.0,
+    "sourceCurrency": "USD",
+    "destinationCurrency": "USD",
+    "receiverName": "John Cena",
+    "accountNumber": "0903086112",
+    "institutionName": "Mpesa",
+    "sourceCountryIsoCode": "CD",
+    "destinationCountryIsoCode": "CD",
+    "authCode": "2580",
+    "paymentMethod": "MobileMoney",
+    "narration": "Family support"
+  }'
+```
+
+```bash BANK (DRC)
+curl --request POST \
+  --url https://api.nomba.com/v1/global-payout/transfer/authorize \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountId>' \
+  --data '{
+    "amount": 2.0,
+    "sourceCurrency": "USD",
+    "destinationCurrency": "CDF",
+    "accountNumber": "00444555555",
+    "receiverName": "John Doe",
+    "institutionName": "Access Bank",
+    "institutionCode": "access_bank",
+    "sourceCountryIsoCode": "CD",
+    "destinationCountryIsoCode": "CD",
+    "authCode": "2580",
+    "paymentMethod": "Bank",
+    "narration": "Business payment"
+  }'
+```
+
+```bash INTERAC (Canada)
+curl --request POST \
+  --url https://api.nomba.com/v1/global-payout/transfer/authorize \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountId>' \
+  --data '{
+    "amount": 21.0,
+    "sourceCurrency": "USD",
+    "destinationCurrency": "CAD",
+    "receiverName": "Thomas Doe",
+    "sourceCountryIsoCode": "CD",
+    "destinationCountryIsoCode": "CA",
+    "authCode": "2580",
+    "narration": "Ted",
+    "paymentMethod": "Interac",
+    "lockedExchangeRateId": "01k7pcakf0t8g03rvny3z5mr1p",
+    "beneficiary": {
+      "beneficiaryEmail": "testtt@yahoo.com",
+      "securityQuestion": "Test",
+      "securityQuestionAnswer": "Test"
+    }
+  }'
+```
+
+```bash BANK (Canada)
+curl --request POST \
+  --url https://api.nomba.com/v1/global-payout/transfer/authorize \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountId>' \
+  --data '{
+    "amount": 2.0,
+    "sourceCurrency": "USD",
+    "destinationCurrency": "CAD",
+    "accountNumber": "234543245433",
+    "receiverName": "Jane Doe",
+    "institutionCode": "34444",
+    "sourceCountryIsoCode": "CD",
+    "destinationCountryIsoCode": "CA",
+    "authCode": "2580",
+    "paymentMethod": "Bank",
+    "lockedExchangeRateId": "01k7pcakf0t8g03rvny3z5mr1p",
+    "beneficiary": {
+      "beneficiaryEmail": "test@yoop.com",
+      "securityQuestion": "353333"
+    }
+  }'
+```
+
+```bash FASTER_PAYMENTS (UK)
+curl --request POST \
+  --url https://api.nomba.com/v1/global-payout/transfer/authorize \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountId>' \
+  --data '{
+    "amount": 23.0,
+    "sourceCurrency": "USD",
+    "destinationCurrency": "GBP",
+    "accountNumber": "404130729909118",
+    "receiverName": "Ayodeji Abimbola",
+    "institutionCode": "433333",
+    "sourceCountryIsoCode": "CD",
+    "destinationCountryIsoCode": "GB",
+    "authCode": "2580",
+    "narration": "Ted Thomos",
+    "paymentMethod": "FASTER_PAYMENTS",
+    "accountType": "Individual",
+    "lockedExchangeRateId": "01k4a8rfrngw76yfcj3ak1rw71"
+  }'
+```
+
+```bash SEPA (Europe)
+curl --request POST \
+  --url https://api.nomba.com/v1/global-payout/transfer/authorize \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountId>' \
+  --data '{
+    "amount": 23.0,
+    "sourceCurrency": "USD",
+    "destinationCurrency": "GBP",
+    "accountNumber": "GB41CLJU04130729909118",
+    "receiverName": "trfff tttt",
+    "institutionCode": "CLJUGB21",
+    "sourceCountryIsoCode": "CD",
+    "destinationCountryIsoCode": "GB",
+    "authCode": "2580",
+    "narration": "Ted",
+    "paymentMethod": "SEPA",
+    "accountType": "Individual",
+    "purposeOfPayment": "Family Support",
+    "lockedExchangeRateId": "01k4a8rfrngw76yfcj3ak1rw71"
+  }'
+```
+
+```json Response (MobileMoney DRC)
+{
+  "code": "00",
+  "description": "Successful",
+  "status": false,
+  "data": {
+    "wtTransactionId": "01kky197w3xc6wyjenpc5r0tnp",
+    "coreTransactionId": "API-FX_TX_DR-08A1B-6add611a-e538-4e67-bcf9-661c77a16804",
+    "status": "PROCESSING",
+    "coreStatus": "PAYMENT_SUCCESSFUL",
+    "type": "TRANSFER",
+    "meta": {
+      "source_currency": "USD",
+      "destination_country": "CD",
+      "amount_charged": "255.0",
+      "source_amount": "250.0",
+      "wt_transaction_id": "01kky197w3xc6wyjenpc5r0tnp",
+      "spread_currency": "USD",
+      "trade_context": "default",
+      "destination_country_name": "Congo DR",
+      "source_country": "CD",
+      "destination_amount": "250.0",
+      "spread_amount": "0.0",
+      "narration": "Family support",
+      "transactionCategory": "General",
+      "payment_destination_type": "Account",
+      "trade_side": "BUY",
+      "destination_currency": "USD",
+      "currency_pair_name": "USD/USD",
+      "payment_method": "MobileMoney",
+      "tradeType": "FIXED_TRADE"
+    },
+    "prettyStatus": "Successful"
+  }
+}
+```
+</CodeGroup>
+
+<Tip>
+  For DRC transfers, call [List Institution Providers](/docs/products/global-payout/mobile-money-providers) first to get valid `institutionCode` and `institutionName` values. Use `isMobileMoney=true` for mobile money providers and `isMobileMoney=false` for banks.
+</Tip>
+
+#### Request body
+
+<ParamField body="amount" type="number" required>
+  The amount to transfer in the source currency.
+</ParamField>
+
+<ParamField body="sourceCurrency" type="string" required>
+  ISO 4217 currency code of the source account (e.g., `USD`).
+</ParamField>
+
+<ParamField body="destinationCurrency" type="string" required>
+  ISO 4217 currency code of the destination account (e.g., `USD`, `CDF`, `EUR`, `GBP`, `CAD`).
+</ParamField>
+
+<ParamField body="receiverName" type="string" required>
+  Full name of the recipient.
+</ParamField>
+
+<ParamField body="sourceCountryIsoCode" type="string" required>
+  ISO 3166-1 alpha-2 country code of the sender (e.g., `CD`).
+</ParamField>
+
+<ParamField body="destinationCountryIsoCode" type="string" required>
+  ISO 3166-1 alpha-2 country code of the recipient (e.g., `CD`, `GB`, `DE`, `CA`).
+</ParamField>
+
+<ParamField body="authCode" type="string" required>
+  Authorization PIN to confirm the transaction.
+</ParamField>
+
+<ParamField body="paymentMethod" type="string" required>
+  Payment rail to use. One of: `BANK`, `MobileMoney`, `INTERAC`, `FASTER_PAYMENTS`, `SEPA`.
+</ParamField>
+
+<ParamField body="accountNumber" type="string">
+  Recipient account number, IBAN, or phone number (for `MobileMoney`). Required for `BANK`, `MobileMoney`, `FASTER_PAYMENTS`, and `SEPA`.
+</ParamField>
+
+<ParamField body="institutionCode" type="string">
+  Bank or institution routing code. For `BANK` (DRC): bank code from [List Institution Providers](/docs/products/global-payout/mobile-money-providers). For `BANK` (Canada): institution number. For `FASTER_PAYMENTS`: sort code (6 digits). For `SEPA`: SWIFT/BIC code.
+</ParamField>
+
+<ParamField body="institutionName" type="string">
+  Bank or provider display name. For `BANK`: the bank display name. For `MobileMoney`: the provider display name (e.g., `Mpesa`). Use the `displayName` from [List Institution Providers](/docs/products/global-payout/mobile-money-providers).
+</ParamField>
+
+<ParamField body="accountType" type="string">
+  Account type of the recipient. Pass `Individual` or `Corporate`. Required by some corridors — optional for `FASTER_PAYMENTS` and `SEPA`.
+</ParamField>
+
+<ParamField body="purposeOfPayment" type="string">
+  Reason for the transfer. Optional for most corridors; required by some (e.g., SEPA corporate transfers).
+</ParamField>
+
+<ParamField body="narration" type="string">
+  Description or memo for the transfer.
+</ParamField>
+
+<ParamField body="lockedExchangeRateId" type="string">
+  The `exchangeRateId` from a prior [Fetch Exchange Rates](/docs/products/global-payout/fetch-exchange-rates) or [Convert Money](/docs/products/global-payout/convert-money) call. Guarantees the transfer is fulfilled at that exact rate regardless of any subsequent market movement.
+</ParamField>
+
+<ParamField body="beneficiary" type="object">
+  Beneficiary details. Required for `INTERAC`; partially required for `BANK` (Canada).
+  <Expandable title="object">
+    <ParamField body="beneficiaryEmail" type="string">
+      Recipient email address.
+    </ParamField>
+    <ParamField body="securityQuestion" type="string">
+      Security question for Interac e-Transfer.
+    </ParamField>
+    <ParamField body="securityQuestionAnswer" type="string">
+      Answer to the security question.
+    </ParamField>
+    <ParamField body="transitNumber" type="string">
+      Bank transit number (Canada only).
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+#### Response body
+
+<ResponseField name="wtTransactionId" type="string" required>
+  Unique GlobalPayout transaction ID. Use this to track the transfer via [Fetch Transaction](/docs/products/global-payout/fetch-transaction).
+</ResponseField>
+
+<ResponseField name="coreTransactionId" type="string">
+  Internal core transaction reference.
+</ResponseField>
+
+<ResponseField name="status" type="string" required>
+  Processing status. One of: `PROCESSING`, `COMPLETED`, `FAILED`, `PENDING`.
+</ResponseField>
+
+<ResponseField name="coreStatus" type="string">
+  Core system status (e.g., `PAYMENT_SUCCESSFUL`).
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  Transaction type. Will be `TRANSFER` for cross-border disbursements.
+</ResponseField>
+
+<ResponseField name="prettyStatus" type="string">
+  Human-readable status label (e.g., `Successful`, `Processing`).
+</ResponseField>
+
+<ResponseField name="meta" type="object">
+  Transaction metadata containing currency details, amounts, and routing info. This is a JSON object — only transaction-relevant fields are present.
+</ResponseField>

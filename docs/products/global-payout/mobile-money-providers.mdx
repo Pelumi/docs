@@ -1,0 +1,88 @@
+---
+title: 'List Institution Providers'
+description: 'Retrieve available banks and mobile money providers for Global Payout transfers'
+---
+
+<Card
+  title="List Institution Providers"
+  icon="building-columns"
+  href="/nomba-api-reference/global-payout/mobile-money-providers"
+>
+</Card>
+
+# `GET /v1/global-payout/bank/providers`
+
+Returns the available banks or mobile money providers for your region (derived from your JWT). Use the `isMobileMoney` query parameter to switch between bank and mobile money listings.
+
+Use the `code` from the response as `institutionCode` and `displayName` as `institutionName` in the [Authorize Transfer](/docs/products/global-payout/authorize-transfer) request.
+
+#### Query parameters
+
+<ParamField query="isMobileMoney" type="boolean">
+  `false` (default) returns bank providers. `true` returns mobile money providers.
+</ParamField>
+
+<CodeGroup>
+```bash Banks (isMobileMoney=false)
+curl --request GET \
+  --url 'https://api.nomba.com/v1/global-payout/bank/providers?isMobileMoney=false' \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountId>'
+```
+
+```bash Mobile Money (isMobileMoney=true)
+curl --request GET \
+  --url 'https://api.nomba.com/v1/global-payout/bank/providers?isMobileMoney=true' \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountId>'
+```
+
+```json Response — Banks
+{
+  "code": "00",
+  "description": "Success",
+  "status": false,
+  "data": [
+    { "code": "access_bank", "displayName": "Access Bank" },
+    { "code": "bank_of_africa", "displayName": "Bank Of Africa" },
+    { "code": "eco_bank", "displayName": "Eco Bank" },
+    { "code": "equity_bank", "displayName": "Equity Bank" },
+    { "code": "raw_bank", "displayName": "Raw Bank" },
+    { "code": "uba", "displayName": "United Bank of Africa" }
+  ]
+}
+```
+
+```json Response — Mobile Money Providers
+{
+  "code": "00",
+  "description": "Success",
+  "status": false,
+  "data": [
+    { "code": "nomba", "displayName": "Nomba" },
+    { "code": "airtel", "displayName": "Airtel Money" },
+    { "code": "mpesa", "displayName": "Mpesa" },
+    { "code": "orange", "displayName": "Orange" }
+  ]
+}
+```
+</CodeGroup>
+
+<Tip>
+  `code` from this endpoint → `institutionCode` in the transfer request. `displayName` → `institutionName`.
+</Tip>
+
+#### Response body
+
+<ResponseField name="data" type="array" required>
+  List of available institutions.
+
+  <Expandable title="institution object" defaultOpen="true">
+    <ResponseField name="code" type="string">
+      The institution code. Use this as `institutionCode` in the [Authorize Transfer](/docs/products/global-payout/authorize-transfer) request.
+    </ResponseField>
+    <ResponseField name="displayName" type="string">
+      Human-readable institution name. Use this as `institutionName` in the [Authorize Transfer](/docs/products/global-payout/authorize-transfer) request.
+    </ResponseField>
+  </Expandable>
+</ResponseField>

@@ -1,0 +1,85 @@
+---
+title: 'Initiate Mobile Money Inflow'
+description: 'Trigger a mobile money collection request from a customer'
+---
+
+<Card
+  title="Initiate Mobile Money Inflow"
+  icon="mobile"
+  href="/nomba-api-reference/global-collections/initiate-mobile-money-inflow"
+>
+</Card>
+
+# `POST /v1/global-collection/mobile-money/initiate`
+
+Trigger a mobile money collection from your customer. This endpoint initiates an inflow request through the supported mobile money flow, prompting the customer to complete the payment on their end.
+
+<CodeGroup>
+```bash Request
+curl --request POST \
+  --url https://api.nomba.com/v1/global-collection/mobile-money/initiate \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountId>' \
+  --data '{
+    "phoneNumber": "0980802xxx",
+    "pin": "0000",
+    "callbackUrl": "https://your-server.com/webhook/collection",
+    "amount": 10,
+    "currency": "CDF",
+    "topupVendor": "AIRTEL"
+  }'
+```
+
+```json Response
+{
+  "code": "00",
+  "description": "Successful",
+  "data": {
+    "transactionReference": "a822e327-4bcd-40ec-ac61-ed3622eac000",
+    "status": "PENDING",
+    "message": "success"
+  }
+}
+```
+</CodeGroup>
+
+#### Request body
+
+<ParamField body="phoneNumber" type="string" required>
+  The customer's mobile money phone number.
+</ParamField>
+
+<ParamField body="pin" type="string" required>
+  The customer's mobile money PIN to authorize the collection.
+</ParamField>
+
+<ParamField body="callbackUrl" type="string" required>
+  The URL Nomba will POST to when the transaction status changes. Must be publicly accessible.
+</ParamField>
+
+<ParamField body="amount" type="number" required>
+  The amount to collect from the customer.
+</ParamField>
+
+<ParamField body="currency" type="string" required>
+  ISO 4217 currency code for the collection (e.g., `CDF`).
+</ParamField>
+
+<ParamField body="topupVendor" type="string" required>
+  The mobile money network provider (e.g., `AIRTEL`, `MPESA`).
+</ParamField>
+
+#### Response body
+
+<ResponseField name="transactionReference" type="string" required>
+  Unique reference for this collection. Use this with [Fetch Collection Transaction](/docs/products/global-collections/fetch-mobile-money-transaction) to check the status.
+</ResponseField>
+
+<ResponseField name="status" type="string" required>
+  Initial status of the inflow request (e.g., `PENDING`).
+</ResponseField>
+
+<ResponseField name="message" type="string">
+  A message describing the outcome.
+</ResponseField>
