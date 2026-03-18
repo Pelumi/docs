@@ -297,6 +297,7 @@
                   "group": "Terminals",
                   "pages": [
                     "nomba-api-reference/terminals/assign-a-terminal-to-the-parent-account",
+                    "nomba-api-reference/terminals/assign-a-terminal-to-a-sub-account",
                     "nomba-api-reference/terminals/un-assign-a-terminal-from-the-parent-account",
                     "nomba-api-reference/terminals/un-assign-a-terminal-from-the-sub-account",
                     "nomba-api-reference/terminals/push-payment-request"
