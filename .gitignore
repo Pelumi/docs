@@ -2,3 +2,5 @@ node_modules
 package-lock.json
 .DS_Store
 *.patch
+global_collection.md
+global_payout_doc.md

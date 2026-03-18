@@ -35,31 +35,64 @@
                       "group": "Accept Payments",
                       "icon": "cart-shopping",
                       "pages": [
-                        "docs/products/accept-payment/overview",
                         {
-                          "group": "Checkout",
-                          "expanded": true,
+                          "group": "Nigeria Collection",
                           "pages": [
-                            "docs/products/accept-payment/create-checkout-order",
-                            "docs/products/accept-payment/verify-transactions",
-                            "docs/products/accept-payment/recurring-payments",
-                            "docs/products/accept-payment/server-to-server",
-                            "docs/products/accept-payment/payment-methods"
+                            "docs/products/accept-payment/overview",
+                            {
+                              "group": "Checkout",
+                              "expanded": true,
+                              "pages": [
+                                "docs/products/accept-payment/create-checkout-order",
+                                "docs/products/accept-payment/verify-transactions",
+                                "docs/products/accept-payment/recurring-payments",
+                                "docs/products/accept-payment/server-to-server",
+                                "docs/products/accept-payment/payment-methods",
+                                "docs/products/accept-payment/refund-checkout-order"
+                              ]
+                            },
+                            "docs/products/accept-payment/direct-debit",
+                            "docs/products/accept-payment/virtual-account"
                           ]
                         },
-                        "docs/products/accept-payment/direct-debit",
-                        "docs/products/accept-payment/virtual-account"
+                        {
+                          "group": "DRC Collection",
+                          "pages": [
+                            "docs/products/global-collections/introduction",
+                            "docs/products/global-collections/initiate-mobile-money-inflow",
+                            "docs/products/global-collections/fetch-mobile-money-transaction"
+                          ]
+                        }
                       ]
                     },
                     {
                       "group": "Transfers",
                       "icon": "shuffle",
                       "pages": [
-                        "docs/products/transfers/introduction",
-                        "docs/products/transfers/bank-account-lookup",
-                        "docs/products/transfers/fetch-bank-codes-and-names",
-                        "docs/products/transfers/transfer-to-banks",
-                        "docs/products/transfers/transfer-between-accounts"
+                        {
+                          "group": "Nigeria Payout",
+                          "pages": [
+                            "docs/products/transfers/introduction",
+                            "docs/products/transfers/bank-account-lookup",
+                            "docs/products/transfers/fetch-bank-codes-and-names",
+                            "docs/products/transfers/transfer-to-banks",
+                            "docs/products/transfers/transfer-between-accounts"
+                          ]
+                        },
+                        {
+                          "group": "Global Payout",
+                          "pages": [
+                            "docs/products/global-payout/introduction",
+                            "docs/products/global-payout/supported-countries",
+                            "docs/products/global-payout/payment-methods",
+                            "docs/products/global-payout/mobile-money-providers",
+                            "docs/products/global-payout/authorize-transfer",
+                            "docs/products/global-payout/convert-money",
+                            "docs/products/global-payout/fetch-exchange-rates",
+                            "docs/products/global-payout/fetch-transaction",
+                            "docs/products/global-payout/authorize-exchange"
+                          ]
+                        }
                       ]
                     },
                     {
@@ -219,7 +252,8 @@
                     "nomba-api-reference/online-checkout/list-tokenized-cards",
                     "nomba-api-reference/online-checkout/update-tokenized-card-data",
                     "nomba-api-reference/online-checkout/delete-tokenized-card-data",
-                    "nomba-api-reference/online-checkout/fetch-checkout-transaction"
+                    "nomba-api-reference/online-checkout/fetch-checkout-transaction",
+                    "nomba-api-reference/online-checkout/refund-checkout-transaction"
                   ]
                 },
                 {
@@ -279,6 +313,25 @@
                     "nomba-api-reference/transactions/fetch-a-single-transaction-on-the-parent-account",
                     "nomba-api-reference/transactions/fetch-a-single-transaction-on-a-sub-account",
                     "nomba-api-reference/transactions/transaction-requery"
+                  ]
+                },
+                {
+                  "group": "Global Payout",
+                  "pages": [
+                    "nomba-api-reference/global-payout/payment-methods",
+                    "nomba-api-reference/global-payout/mobile-money-providers",
+                    "nomba-api-reference/global-payout/authorize-transfer",
+                    "nomba-api-reference/global-payout/convert-money",
+                    "nomba-api-reference/global-payout/fetch-exchange-rates",
+                    "nomba-api-reference/global-payout/fetch-transaction",
+                    "nomba-api-reference/global-payout/authorize-exchange"
+                  ]
+                },
+                {
+                  "group": "DRC Collection",
+                  "pages": [
+                    "nomba-api-reference/global-collections/initiate-mobile-money-inflow",
+                    "nomba-api-reference/global-collections/fetch-mobile-money-transaction"
                   ]
                 },
                 {

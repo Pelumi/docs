@@ -1,0 +1,169 @@
+---
+title: 'Refund a Checkout Order'
+description: 'Learn how to refund checkout transactions using the Nomba API'
+---
+
+<CardGroup cols={2}>
+  <Card
+    title="Refund Checkout Transaction"
+    icon="rotate-left"
+    href="/nomba-api-reference/online-checkout/refund-checkout-transaction"
+  >
+    Process full or partial refunds for checkout transactions
+  </Card>
+</CardGroup>
+
+## Overview
+
+The Refund API allows you to return funds to your customers for completed checkout transactions. You can process full refunds, partial refunds, or refund directly to a customer's bank account via transfer.
+
+<Warning>
+  This API is only available in the **production environment**
+</Warning>
+
+## Refund Types
+
+The Nomba API supports three types of refunds depending on the parameters you provide:
+
+### 1. Full Refund
+
+When you provide only the `transactionId`, the system automatically processes a **full refund** for the entire transaction amount.
+
+```json
+{
+  "transactionId": "WEB-ONLINE_C-69923-2e102708-ee34-4a29-b713-a826ca928a12"
+}
+```
+
+### 2. Partial Refund
+
+To refund a portion of the transaction amount, include the `amount` parameter alongside the `transactionId`. The amount must be less than the original transaction amount.
+
+```json
+{
+  "transactionId": "WEB-ONLINE_C-69923-2e102708-ee34-4a29-b713-a826ca928a12",
+  "amount": 5000.00
+}
+```
+
+### 3. Refund via Bank Transfer
+
+For instant refunds or when card refunds are not supported, you can refund directly to the customer's bank account by providing `accountNumber` and `bankCode`.
+
+```json
+{
+  "transactionId": "WEB-ONLINE_C-69923-2e102708-ee34-4a29-b713-a826ca928a12",
+  "accountNumber": "0123456789",
+  "bankCode": "058"
+}
+```
+
+<Tip>
+  You can combine the transfer method with partial refunds by including the `amount` parameter
+</Tip>
+
+## Process a Refund
+
+To process a refund, send a [POST request](/nomba-api-reference/online-checkout/refund-checkout-transaction) to `/v1/checkout/refund`.
+
+<CodeGroup>
+  ```bash Full Refund Request
+    curl --request POST \
+      --url https://api.nomba.com/v1/checkout/refund \
+      --header 'Authorization: Bearer <token>' \
+      --header 'Content-Type: application/json' \
+      --header 'accountId: <accountid>' \
+      --data '{
+        "transactionId": "WEB-ONLINE_C-69923-2e102708-ee34-4a29-b713-a826ca928a12"
+      }'
+  ```
+
+  ```bash Partial Refund Request
+    curl --request POST \
+      --url https://api.nomba.com/v1/checkout/refund \
+      --header 'Authorization: Bearer <token>' \
+      --header 'Content-Type: application/json' \
+      --header 'accountId: <accountid>' \
+      --data '{
+        "transactionId": "WEB-ONLINE_C-69923-2e102708-ee34-4a29-b713-a826ca928a12",
+        "amount": 5000.00
+      }'
+  ```
+
+  ```bash Transfer Refund Request
+    curl --request POST \
+      --url https://api.nomba.com/v1/checkout/refund \
+      --header 'Authorization: Bearer <token>' \
+      --header 'Content-Type: application/json' \
+      --header 'accountId: <accountid>' \
+      --data '{
+        "transactionId": "WEB-ONLINE_C-69923-2e102708-ee34-4a29-b713-a826ca928a12",
+        "amount": 5000.00,
+        "accountNumber": "0123456789",
+        "bankCode": "058"
+      }'
+  ```
+
+  ```json Response
+    {
+      "code": "00",
+      "description": "Success",
+      "data": {
+        "success": true,
+        "message": "Refund processed successfully"
+      }
+    }
+  ```
+</CodeGroup>
+
+## Important Considerations
+
+### Card Refund Timing
+
+<Note>
+  Card refunds typically take **T+7 days** (7 business days) for fulfillment. The actual time may vary depending on the customer's card issuer and their processing times.
+</Note>
+
+### Vendor Limitations
+
+Some card vendors and issuers do not support automated refunds through their systems. In such cases, the refund request may fail or require manual intervention.
+
+### Recommended Approach
+
+<Tip>
+  For **faster and more reliable refunds**, we recommend using the **bank transfer method** by providing the customer's account number and bank code. This ensures immediate processing and avoids potential vendor limitations.
+</Tip>
+
+## Best Practices
+
+1. **Verify Before Refunding**: Always verify that the original transaction was successful before processing a refund.
+
+2. **Keep Records**: Store refund transaction IDs and responses for reconciliation and customer support purposes.
+
+3. **Communicate with Customers**:
+   - For card refunds, inform customers about the T+7 days processing time
+   - For transfer refunds, confirm the account details are correct before processing
+
+4. **Use Transfer for Urgent Refunds**: When customers need immediate refunds, use the bank transfer method instead of card refunds.
+
+5. **Handle Partial Refunds Carefully**: Ensure the refund amount does not exceed the original transaction amount.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Verify Transactions"
+    icon="magnifying-glass"
+    href="/docs/products/accept-payment/verify-transactions"
+  >
+    Learn how to verify transaction status before processing refunds
+  </Card>
+
+  <Card
+    title="List Bank Codes"
+    icon="building-columns"
+    href="/nomba-api-reference/transfers/fetch-bank-codes-and-names"
+  >
+    Get the list of bank codes for transfer refunds
+  </Card>
+</CardGroup>

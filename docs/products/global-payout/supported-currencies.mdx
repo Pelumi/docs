@@ -1,0 +1,34 @@
+---
+title: 'Supported Currencies'
+description: 'View all currencies and corridors supported by the Nomba Global Payout API'
+---
+
+Global Payout supports cross-border fund disbursements across a range of currencies and payment corridors. Before initiating a transfer, confirm that your source and destination currencies are supported for your intended corridor.
+
+<Note>
+  For the full list of supported currencies, corridors, and payment methods, refer to the [Supported Currencies sheet](https://docs.google.com/spreadsheets/d/1HigahLa7eTfDbFJfgkSyiy3y2FZG4JFK0cL19ZInU9Q/edit?gid=0#gid=0).
+</Note>
+
+## Supported Currencies
+
+| Currency | Code | Supported As |
+|---|---|---|
+| US Dollar | USD | Source & Destination |
+| Congolese Franc | CDF | Destination |
+| Canadian Dollar | CAD | Destination |
+| British Pound | GBP | Destination |
+| Euro | EUR | Destination |
+
+## Using Exchange Rates
+
+Before initiating any cross-currency transfer, use the [Fetch Exchange Rates](/docs/products/global-payout/fetch-exchange-rates) endpoint to get the latest rates for your currency pair. This ensures your customers see accurate conversion values before confirming a transaction.
+
+Exchange rates are published periodically by the system. To guarantee that the rate shown to your customer is the exact rate used to fulfil the transaction, pass the `exchangeRateId` returned from the Fetch Exchange Rates response as the `lockedExchangeRateId` field in your Authorize Transfer request. This locks the rate at quote time and prevents any rate movement from affecting the transaction.
+
+```
+Fetch Exchange Rates → receive exchangeRateId → pass as lockedExchangeRateId in Authorize Transfer
+```
+
+## Need Help?
+
+If you need a currency or corridor that isn't listed, reach out to [docs@nomba.com](mailto:docs@nomba.com).

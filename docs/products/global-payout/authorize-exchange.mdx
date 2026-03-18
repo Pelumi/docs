@@ -1,0 +1,135 @@
+---
+title: 'Authorize Exchange'
+description: 'Transfer funds between your own accounts in different currencies'
+---
+
+<Card
+  title="Authorize Exchange"
+  icon="shuffle"
+  href="/nomba-api-reference/global-payout/authorize-exchange"
+>
+</Card>
+
+# `POST /v1/global-payout/exchange/authorize`
+
+Move funds between your own accounts with ease. AuthExchange is designed for internal transfers, allowing you to shift balances across your accounts in different currencies without the overhead of an external disbursement flow.
+
+<CodeGroup>
+```bash Request
+curl --request POST \
+  --url https://api.nomba.com/v1/global-payout/exchange/authorize \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountId>' \
+  --data '{
+    "amount": 1,
+    "sourceCurrency": "USD",
+    "destinationCurrency": "CDF",
+    "senderName": "ADEBUKOLA AKANJI",
+    "receiverName": "ADEBUKOLA AKANJI",
+    "sourceCountryIsoCode": "CD",
+    "destinationCountryIsoCode": "CD",
+    "authCode": "5555",
+    "narration": "Transfer between my accounts"
+  }'
+```
+
+```json Response
+{
+  "code": "00",
+  "description": "Successful",
+  "status": false,
+  "data": {
+    "wtTransactionId": "01kkk8cjk0fpw9jx2n01wd8yfw",
+    "coreTransactionId": "API-P2P-CB9EC-0c2d962e-4730-48e7-b522-d65cac511549",
+    "status": "PROCESSING",
+    "coreStatus": "SUCCESS",
+    "type": "EXCHANGE",
+    "meta": {
+      "wt_transaction_id": "01kkk8cjk0fpw9jx2n01wd8yfw",
+      "source_amount": "1.0",
+      "destination_amount": "2250.0",
+      "source_currency": "USD",
+      "destination_currency": "CDF",
+      "amount_charged": "1.0",
+      "currency_pair_name": "USD/CDF",
+      "destination_country": "CD",
+      "source_country": "CD",
+      "narration": "Transfer between my accounts",
+      "trade_side": "BUY",
+      "spread_amount": "250.0",
+      "spread_currency": "CDF",
+      "transactionCategory": "General"
+    }
+  }
+}
+```
+</CodeGroup>
+
+#### Request body
+
+<ParamField body="amount" type="number" required>
+  Amount to transfer in the source currency.
+</ParamField>
+
+<ParamField body="sourceCurrency" type="string" required>
+  ISO 4217 currency code of the source account (e.g., `USD`).
+</ParamField>
+
+<ParamField body="destinationCurrency" type="string" required>
+  ISO 4217 currency code of the destination account (e.g., `CDF`).
+</ParamField>
+
+<ParamField body="senderName" type="string" required>
+  Name of the account holder initiating the exchange.
+</ParamField>
+
+<ParamField body="receiverName" type="string" required>
+  Name of the receiving account holder. For own-account exchanges this is typically the same as the sender.
+</ParamField>
+
+<ParamField body="sourceCountryIsoCode" type="string" required>
+  ISO 3166-1 alpha-2 country code of the source account (e.g., `CD`).
+</ParamField>
+
+<ParamField body="destinationCountryIsoCode" type="string" required>
+  ISO 3166-1 alpha-2 country code of the destination account (e.g., `CD`).
+</ParamField>
+
+<ParamField body="authCode" type="string" required>
+  Authorization PIN to confirm the exchange.
+</ParamField>
+
+<ParamField body="narration" type="string">
+  Description or memo for the exchange.
+</ParamField>
+
+<ParamField body="lockedExchangeRateId" type="string">
+  The `exchangeRateId` from a prior [Fetch Exchange Rates](/docs/products/global-payout/fetch-exchange-rates) call. When provided, the exchange is fulfilled at that exact rate.
+</ParamField>
+
+#### Response body
+
+<ResponseField name="wtTransactionId" type="string" required>
+  Unique GlobalPayout transaction ID. Use this to track the exchange via [Fetch Transaction](/docs/products/global-payout/fetch-transaction).
+</ResponseField>
+
+<ResponseField name="coreTransactionId" type="string">
+  Internal core transaction reference.
+</ResponseField>
+
+<ResponseField name="status" type="string" required>
+  Processing status. One of: `PROCESSING`, `COMPLETED`, `FAILED`, `PENDING`.
+</ResponseField>
+
+<ResponseField name="coreStatus" type="string">
+  Core system status (e.g., `SUCCESS`).
+</ResponseField>
+
+<ResponseField name="type" type="string">
+  Transaction type. Will be `EXCHANGE` for own-account transfers.
+</ResponseField>
+
+<ResponseField name="meta" type="object">
+  Transaction metadata including currency pair details, amounts, and spread info.
+</ResponseField>

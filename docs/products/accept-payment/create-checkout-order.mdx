@@ -19,13 +19,13 @@ href="/nomba-api-reference/online-checkout/create-an-online-checkout-order">
 
 ## Create a checkout order
 
-To create a checkout order, you need to authenticate with Nomba to get your [access token](). If you don't know how to do this, see the getting started section to learn how to obtain API keys and obtain access tokens. Customers can make payments with their Mastercard, Visa or Verve cards; when they do, Nomba sends a payment receipt to the customer email provided when you created the order.
+To create a checkout order, you need to authenticate with Nomba to get your [access token](/docs/getting-started/authentication). If you don't know how to do this, see the getting started section to learn how to obtain API keys and obtain access tokens. Customers can make payments with their Mastercard, Visa or Verve cards; when they do, Nomba sends a payment receipt to the customer email provided when you created the order.
 
 To generate a [checkout order link](/nomba-api-reference/online-checkout/create-an-online-checkout-order), make a `POST` call to `/checkout/order`. The Nomba API responds with a success message containing the checkout link, which your app will display to the customer for them to make payment.
 
 Here are a few things to take note of when creating a checkout order.
 
-- Kindly be aware that the optional boolean value `tokenizedCard` should be included or set to true only if you intend to tokenize your customer's card for the purpose of attempting card payments at a later time.
+- Kindly be aware that the optional boolean value `tokenizeCard` should be included or set to true only if you intend to tokenize your customer's card for the purpose of attempting card payments at a later time.
 
 - Please pass the `accountId` inside the order request object if you wish to generate a checkout link for a subaccount.
 
@@ -65,7 +65,7 @@ To create a checkout, send a [POST request](/nomba-api-reference/online-checkout
           ]
         }
       },
-      "tokenizeCard": "true"
+      "tokenizeCard": true
     }'
   ```
 
