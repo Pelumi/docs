@@ -39,6 +39,7 @@
                           "group": "Nigeria Collection",
                           "pages": [
                             "docs/products/accept-payment/overview",
+                            "docs/products/accept-payment/virtual-account",
                             {
                               "group": "Checkout",
                               "expanded": true,
@@ -51,8 +52,7 @@
                                 "docs/products/accept-payment/refund-checkout-order"
                               ]
                             },
-                            "docs/products/accept-payment/direct-debit",
-                            "docs/products/accept-payment/virtual-account"
+                            "docs/products/accept-payment/direct-debit"
                           ]
                         },
                         {
@@ -399,12 +399,6 @@
   },
 
   "navbar": {
-    "links": [
-      {
-        "label": "Guides",
-        "href": "https://docs.nomba.com/support/guides/introduction"
-      }
-    ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
@@ -418,15 +412,7 @@
       "linkedin": "https://www.linkedin.com/company/nombahq"
     },
     "links": [
-      {
-        "header": "Community",
-        "items": [
-          {
-            "label": "Join Slack Community",
-            "href": "https://join.slack.com/t/nombadevelope-6l32082/shared_invite/zt-350byydhe-m5aQJtyHpRG9Y7Kmg43a5w"
-          }
-        ]
-      },
+   
       {
         "header": "Need Help?",
         "items": [

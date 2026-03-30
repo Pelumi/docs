@@ -2768,7 +2768,7 @@
     },
     "/v1/accounts/virtual/{subAccountId}": {
       "post": {
-        "description": "You can use this endpoint to create a virtual account to receive payments for a sub account.",
+        "description": "You can use this endpoint to create a virtual account to receive payments for a sub account. Funds sent to the virtual account is collected in the sub account specified",
         "operationId": "Create virtual account for a sub Account",
         "requestBody": {
           "content": {
@@ -6340,6 +6340,16 @@
             },
             "description": "The access_token provided to access the resource is missing or invalid."
           },
+          "202": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
           "403": {
             "content": {
               "application/json": {
@@ -6666,6 +6676,16 @@
             },
             "description": "The client does not have the permissions to access this resource"
           },
+          "202":{
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Processing"
+                }
+              }
+            },
+            "description": "The transfer is processing."
+          },
           "404": {
             "content": {
               "application/json": {
@@ -6723,7 +6743,7 @@
     },
     "/v2/transfers/bank/{subAccountId}": {
       "post": {
-        "description": "You can use this endpoint to perform bank account transfer using a sub account",
+        "description": "You can use this endpoint to perform bank account transfer using a sub account. \n To use this, please reach out to us to profile you for sub account transfer.",
         "operationId": "Perform bank account transfer from account",
         "requestBody": {
           "content": {
@@ -6799,6 +6819,16 @@
               }
             },
             "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "202":{
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Processing"
+                }
+              }
+            },
+            "description": "The transfer is processing."
           },
           "401": {
             "content": {
@@ -6964,6 +6994,16 @@
             },
             "description": "The request body sent by merchant did not pass the validation checks"
           },
+          "202":{
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Processing"
+                }
+              }
+            },
+            "description": "The transfer is processing."
+          },
           "401": {
             "content": {
               "application/json": {
@@ -7127,6 +7167,16 @@
               }
             },
             "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "202":{
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Processing"
+                }
+              }
+            },
+            "description": "The transfer is processing."
           },
           "403": {
             "content": {
@@ -16184,6 +16234,68 @@
           }
         }
       },
+
+      "Processing": {
+        "type": "object",
+        "description": "Processing response.",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "Prcessing response.",
+            "example": "202"
+          },
+          "description": {
+            "type": "string",
+            "description": "Additional details while it is processing.",
+            "example": "Processing"
+          },
+          "message": {
+            "type": "string",
+            "description": "Processing message",
+            "example": "Processing..."
+          },
+          "status": {
+            "type": "boolean",
+            "description": "status of the transaction",
+            "example": "false"
+          },
+        "data": {
+            "type": "object",
+            "properties": {
+              "amount": {
+                "type": "string",
+                "example": "2500"
+              },
+              "meta": {
+                "type": "object",
+                "properties": {
+                  "merchantTxRef": {
+                    "type": "string",
+                    "example": "ref-2026-02-20-08-51AM"
+                  },
+                  "rrn": {
+                  "type": "string",
+                  "example": "223454678655"
+                  }
+                }
+              },
+              "timeCreated": {
+                "type": "string",
+                "example": "2026-02-20T08:51:02.218356523"
+              },
+              "type": {
+                "type": "string",
+                "example": "transfer"
+              },
+              "status": {
+                "type": "string",
+                "example": "Processing"
+              }
+            }
+          }
+        }
+      },
+      
       "IssueTokenRequest": {
         "type": "object",
         "description": "A structure representing an authentication request.",
