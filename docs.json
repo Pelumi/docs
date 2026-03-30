@@ -399,12 +399,6 @@
   },
 
   "navbar": {
-    "links": [
-      {
-        "label": "Guides",
-        "href": "https://docs.nomba.com/support/guides/introduction"
-      }
-    ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
@@ -418,15 +412,7 @@
       "linkedin": "https://www.linkedin.com/company/nombahq"
     },
     "links": [
-      {
-        "header": "Community",
-        "items": [
-          {
-            "label": "Join Slack Community",
-            "href": "https://join.slack.com/t/nombadevelope-6l32082/shared_invite/zt-350byydhe-m5aQJtyHpRG9Y7Kmg43a5w"
-          }
-        ]
-      },
+   
       {
         "header": "Need Help?",
         "items": [

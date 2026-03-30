@@ -4,8 +4,29 @@ description: "Learn how to re-push or debug a webhook"
 icon: "bug"
 ---
 
-## Get Deliver Logs
-Nomba offers a smooth method for tracking down or debugging earlier webhooks that were sent to your system. The URL or event type of webhooks sent within a given timeframe can be obtained by querying the event log API if you wish to verify whether a webhook was actually sent to your system. When a problem occurs and you need to go back and confirm that you have received notifications of all payment events via webhooks, this can be helpful.
+## Get Delivered Events
+Nomba offers a smooth method for tracking down or debugging earlier webhooks that were sent to your system.
+
+This is useful:
+- When you wish to verify whether a webhook was actually sent to your system. 
+- When a problem occurs and you need to go back and confirm that you have received notifications of all payment events via webhooks.
+
+You can access webhook delivery logs in two ways:
+### From the Nomba Dashboard
+
+This is the easiest way to debug webhooks. You can view webhook logs, inspect responses from your server, and monitor delivery attempts directly from the dashboard.
+
+- Navigate to **Developer** → **Webhook Repush**.  
+
+<Frame caption="Webhook repush">
+  <img src="/images/Webhook-repush.png" style={{ borderRadius: '0.5rem' }} loading="lazy" />
+</Frame>
+
+### Programmatically via API
+
+You can query the event logs endpoint to retrieve webhook delivery details for automated monitoring or debugging.
+
+By specifying parameters such as the event type or date range, you can fetch webhooks sent within a given timeframe and verify their delivery status.
 
 To do this, send a `POST`request to this``; this will return a detailed list of events that have been sent to your system.
 
@@ -47,7 +68,8 @@ curl --request POST \
 ```
 </CodeGroup>
 
-## Repush
+---
+#### Repush
 
 After carefully reviewing the webhook via the event log API, you may want to do a single webhook repush or bulk repush; this will trigger a resend of the event back to your system.
 
@@ -74,8 +96,9 @@ curl --request POST \
 }
 ```
 </CodeGroup>
+---
 
-## Bulk Repush
+#### Bulk Repush
 
 Trigger a bulk webhook repush by passing an array of `hooksRequestIds` selected from your delivery logs. 
 
@@ -105,9 +128,9 @@ curl --request POST \
 ```
 </CodeGroup>
 
+---
 
-
-## Webhook Events
+#### Webhook Events
 
 You can also query all events that were sent to your system.
 
@@ -155,9 +178,9 @@ curl --request POST \
 ```
 </CodeGroup>
 
+---
 
-
-## Webhook Replay
+#### Webhook Replay
 
 Webhook replay allows you to **re-trigger previous webhook events** that were not successfully delivered or whose delivery outcome is uncertain within a timeframe.
 

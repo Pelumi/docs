@@ -22,69 +22,72 @@ description: "Learn about creating virtual accounts"
 
 ## Introduction
 
-In Nomba, creating a virtual account falls under the broader category of Accounts. A virtual account can be created for a customer with the primary purpose of accepting payments. Once created, Nomba will generate a unique account number in which the customer can use to receive inflows.
+At Nomba, virtual accounts are part of the broader Accounts system. A virtual account can be created for a customer primarily to receive payments.
+Once created, Nomba generates a unique account number that customers can use to receive bank transfers.
 
 ### Types of accounts
 
-Nomba supports different types of accounts such as:
+Nomba supports the following account types:
 
 #### Primary Accounts
 
-Automatically created when you set up a business on Nomba. This is your main account, and all subsequently created accounts (virtual or sub-accounts) are linked to it.
+A primary account is automatically created when you set up your business on Nomba.
+- This is your main account.
+- All other accounts (virtual or sub-accounts) are linked to it.
 
 #### Virtual accounts
 
-These accounts are created via API for receiving payments. Funds received through a virtual account are automatically routed to the parent (primary) account, as virtual accounts do not hold funds themselves. You can still view all virtual-account transactions on your dashboard.
+Virtual accounts are created via API for receiving payments.
+Funds received are automatically routed to the parent (primary) account.
+- Virtual accounts do not hold balances themselves
+- If required, virtual accounts can be linked to a sub-account instead of the primary account
+- You can view all virtual account transactions on your dashboard.
 
 #### Sub-accounts 
 
-These accounts are created exclusively from the Nomba Dashboard. They act as separate “pockets” of money that you can use to segment funds for internal operations, teams, or business workflows.
+Sub-accounts are created from the Nomba Dashboard
+- They act as separate “pockets” for managing funds
+- Useful for segmenting funds across teams, operations, or workflows.
 
 See this [guide](/docs/guides/managing-accounts-with-nomba) for more details on managing accounts with Nomba.
 
 ### Types of Virtual accounts
 
-Nomba supports two types of virtual accounts depending on how they behave after creation:
+Nomba supports two types of virtual accounts based on their behavior:
 
 #### Static Virtual Accounts
 
-Static virtual accounts are permanent account numbers assigned to a customer or business.  
-They do not expire, and can receive multiple payments over time.
+Static virtual accounts are permanent account numbers assigned to a customer or business.
 
 Use a static virtual account when:
+- You do not want the account to expire
+- You want your customers to receive multiple payments over time.
 
-- You want the customer to have a dedicated account number.
-- You expect recurring deposits.
-- You don't want the account number to change or expire.
+**Use cases:**
+- Assigning a dedicated account number to a customer
+- Supporting recurring payments
+- When you need a stable, non-expiring account number
 
 #### Dynamic Virtual Accounts
 
-Dynamic virtual accounts are temporary or purpose-based account numbers typically used for:
-
-- One-time payments  
-- Time-bound transactions  
-
-They can be configured with `expiryDate` to defines when the account becomes invalid  
-
-Dynamic accounts are ideal for transaction-specific usage and reduce reconciliation errors
+Dynamic virtual accounts are temporary, purpose-specific account numbers.
+- Typically used for one-time or time-bound payments
+- Can be configured with an `expiryDate` to define validity
+- Dynamic accounts help reduce reconciliation errors for transaction-specific payments.
 
 ## Create a virtual account
 
-We advise that you first create and test virtual accounts in the Sandbox environment before going live.
-When creating test virtual accounts in Sandbox, please note the following:
+We recommend testing virtual account creation in the Sandbox environment before going live.
 
 <Note>
-  - Each user can create a maximum of 2 Sandbox virtual accounts per account.
-
-  - Sandbox virtual accounts can only receive ₦100 per transfer, and funds can be transferred from any Nigerian bank.
- 
-  - Merchants can update the expected amount from ₦100 to any value not exceeding ₦150.  
-    Set the `expectedAmount` field when creating the virtual account to apply this change.
-
-  - Sandbox virtual account transfers will trigger webhooks to the Sandbox webhook URL.
-
-  - Expiration is not supported for Sandbox virtual accounts. Instead, a mocked response is returned to simulate an expired virtual account, even though it never actually expires.
+  - Each user can create a maximum of **2 virtual accounts**
+  - Each account can receive transfers up to ₦150
+  - Transfers can be made from any Nigerian bank. 
+  - You can update the expected amount (up to ₦150) using the `expectedAmount` field.
 </Note>
+
+- All transfers will trigger webhooks to the Sandbox webhook URL.
+- Virtual account expiration is not supported in Sandbox.
 
 To create a virtual account, please take note of the optional and required fields:
 
@@ -98,7 +101,9 @@ To create a virtual account, please take note of the optional and required field
 
 - `expectedAmount` (optional): Restricts the account to accept only the specified amount. This is useful for exact payments such as invoice matching or controlled transfers.  When omitted, the account will accept any amount since it is not restricted to a specific value. 
 
-  If a sender attempts to transfer an amount different from the expected value, the transaction may be declined by the sender’s bank or automatically reversed, depending on the bank’s handling of such transfers.
+If a sender transfers an amount different from the expectedAmount:
+- The transaction may be declined by the sender’s bank, or
+- Automatically reversed, depending on the bank’s handling logic
 
 <Warning>
   Be cautious when setting the `expectedAmount`. Once set, the account will **only** accept that exact amount. Payments with any other amount will be rejected.
