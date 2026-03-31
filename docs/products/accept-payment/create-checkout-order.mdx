@@ -50,7 +50,7 @@ To create a checkout, send a [POST request](/nomba-api-reference/online-checkout
     "order": {
         "orderReference": "90e81e8a-bc14-4ebf-89c0-57**********",
         "customerId": "762878332454",
-        "callbackUrl": "https://ip:port/merchant.com/callback",
+        "callbackUrl": "https://merchant.com/callback",
         "customerEmail": "abcde@gmail.com",
         "amount": "10000.00",
         "currency": "NGN",
@@ -73,14 +73,59 @@ To create a checkout, send a [POST request](/nomba-api-reference/online-checkout
     {
       "code": "00",
       "description": "Success",
-      "data": 
-      {
-        "checkoutLink": "https://ip:port/checkout/78388899***8",
-        "orderReference": "fd3002af-d48b-40a0-adba-0b**********"
+      "data": {
+        "checkoutLink": "https://checkout.nomba.com/pay/78388899***8",
+        "orderReference": "90e81e8a-bc14-4ebf-89c0-57**********"
       }
     }
-```
+  ```
+
+  ```json Error Response
+    {
+      "code": "02",
+      "description": "amount can not be null",
+      "data": null
+    }
+  ```
 </CodeGroup>
+
+## Request Fields
+
+### Top-level fields
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `order` | object | Yes | The order object. See fields below. |
+| `tokenizeCard` | boolean | No | Set to `true` to save the customer's card for future charges. Returns a `tokenKey` in the webhook payload on successful payment. |
+| `meta` | object | No | Arbitrary key-value metadata attached to the order. Not used for payment processing. |
+
+### `order` object fields
+
+| Field | Type | Required | Description |
+|---|---|---|---|
+| `amount` | string | **Yes** | The order amount as a string (e.g. `"10000.00"`). |
+| `currency` | string | **Yes** | ISO 4217 currency code. For Nigerian checkout use `"NGN"`. |
+| `orderReference` | string | No | A unique identifier you assign to this order. If omitted, Nomba generates one and returns it in the response. Must be unique per merchant — reusing a reference may result in an error. Recommended format: UUID v4. |
+| `callbackUrl` | string | No | The URL Nomba redirects the customer to after payment is completed or abandoned. Nomba appends the `orderReference` as a query parameter. Must be a valid HTTPS URL. |
+| `customerEmail` | string | No | Customer's email address. Nomba sends a payment receipt to this address on successful payment. Must be a valid email format. |
+| `customerId` | string | No | Your internal identifier for the customer. Stored on the order and returned in webhooks. |
+| `accountId` | string | No | The Nomba sub-account ID to credit for this order. If omitted, the authenticated parent account is credited. |
+| `splitRequest` | object | No | Split payment configuration. See [Split payment](#split-payment) section. |
+| `orderMetaData` | object | No | Arbitrary key-value metadata to attach to the order. Both keys and values must be strings (e.g. `{"productName": "Premium Plan", "internalRef": "INV-001"}`). Stored on the order and returned in webhook payloads. |
+| `allowedPaymentMethods` | array | No | List of payment methods to display on the checkout page. If omitted, all available methods are shown. |
+
+<Note>
+  The `orderReference` in the response is the same value you passed in the request. If you did not provide one, the `orderReference` in the response is the Nomba-generated reference — use this for all downstream calls (verification, cancellation, etc.).
+</Note>
+
+## Checkout Link Lifecycle
+
+After creating an order, Nomba returns a `checkoutLink`. Display or redirect your customer to this URL to complete payment.
+
+- The link remains active until the customer completes payment or the order is explicitly cancelled via [Cancel Order](/docs/products/accept-payment/cancel-checkout-order).
+- After a successful or failed payment, Nomba redirects the customer to your `callbackUrl` (if provided).
+- The `orderReference` is appended as a query parameter on redirect, e.g. `https://merchant.com/callback?orderReference=90e81e8a-...`.
+- Nomba also sends a `payment_success` webhook event to your configured webhook URL upon successful payment.
 
 ## Split payment
 The Checkout service allows you to distribute a single payment across multiple accounts. You can define how the order value is shared either as a percentage of the total or as a fixed amount.

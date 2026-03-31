@@ -1,48 +1,61 @@
 ---
 title: 'Verify Transactions'
-description: 'Learn how to retrieve and filter through your transactions with the Nomba API'
+description: 'Learn how to verify checkout transactions using the Nomba API'
 ---
 
 <CardGroup cols={2}>
   <Card
-    title="Filter Transactions (Parent Account)"
-    icon="layer-group"
+    title="Verify by Order Reference"
+    icon="magnifying-glass"
     href="/nomba-api-reference/transactions/filter-parent-account-transactions"
   >
-    Search and filter through all transactions associated with your parent account.
+    Look up a transaction using your order reference or the Nomba transaction ID.
   </Card>
 
   <Card
-    title="Fetch Checkout Transaction"
+    title="Fetch Checkout Transaction (Production)"
     icon="file-invoice-dollar"
     href="/nomba-api-reference/online-checkout/fetch-checkout-transaction"
   >
-    Retrieve details of a single transaction using its reference or order ID.
+    Retrieve full checkout order details including card and transfer info.
   </Card>
 </CardGroup>
 
-## Verify a Transaction
+## Which endpoint should I use?
 
-The **Verify Transactions** endpoint allows you to confirm the status of a specific transaction by using either the `orderReference` or the `orderId` or Nomba transaction reference.  
-This is important for ensuring that payments are successfully completed before providing value to your customers.
+There are two ways to verify a checkout transaction. Choose based on your environment and what you need:
+
+| Endpoint | Method | Environment | Use when |
+|---|---|---|---|
+| `/v1/transactions/accounts/single` | GET | Sandbox + Production | You want to confirm `status: SUCCESS` before delivering value. Works with both `orderReference` and `transactionRef` as query params. |
+| `/v1/checkout/transaction` | GET | **Production only** | You need full checkout order details (card info, transfer details, order metadata). |
 
 <Tip>
-  You can use this API to verify sandbox transactions or live transactions 
+  Always verify transactions before providing goods or services to your customer — even if you received a webhook.
 </Tip>
 
-To verify a transaction, send a GET request to this endpoint `/v1/transactions/accounts/single`.
+## Option 1: Verify via `/v1/transactions/accounts/single`
 
-The Payment statuses are SUCCESS or FAILED.
+This endpoint works in both sandbox and production. Pass the `orderReference` (the reference on the order) or the `transactionRef` (the Nomba transaction ID from the webhook) as a query parameter.
+
+The key field to check in the response is `data.status`. A successful payment returns `"status": "SUCCESS"`.
 
 <CodeGroup>
-  ```bash Request
+  ```bash Verify by orderReference
     curl --request GET \
-      --url https://api.nomba.com/v1/transactions/accounts/single?orderReference=90e81e8a-bc14-4ebf-828c0-57da801cca68 \
+      --url 'https://api.nomba.com/v1/transactions/accounts/single?orderReference=90e81e8a-bc14-4ebf-89c0-57da801cca68' \
       --header 'Authorization: Bearer <token>' \
       --header 'accountId: <accountid>'
   ```
 
-  ```bash expandable Response
+  ```bash Verify by transactionRef
+    curl --request GET \
+      --url 'https://api.nomba.com/v1/transactions/accounts/single?transactionRef=WEB-ONLINE_C-69923-ae0f2688-12b1-45b6-9972-06261aa65ef1' \
+      --header 'Authorization: Bearer <token>' \
+      --header 'accountId: <accountid>'
+  ```
+
+  ```json expandable Response (Success)
   {
     "code": "00",
     "description": "SUCCESS",
@@ -60,48 +73,39 @@ The Payment statuses are SUCCESS or FAILED.
         "walletCurrency": "NGN",
         "walletBalance": "478.97",
         "billingVendorReference": "68d5e736e414b032b3******",
-        "paymentVendorReference": "09064525092601065923059812******
+        "paymentVendorReference": "09064525092601065923059812******",
         "userId": "69923f4d-963f-4a2b-b0f5-4da074d0a461",
-        "ktaSenderName": "Oluwafemi Makanju",
-        "ktaSenderAccountNumber": "7373019705",
-        "senderName": "Oluwafemi Makanju",
-        "merchantTxRef": "IFAP-TRANSFER-34863-c4e36a8f-ea19-4355-a0e2-151b3******",
         "onlineCheckoutOrderId": "9adcbf44-8cca-4fc6-b3a7-ac2758******",
-        "onlineCheckoutCardPanLast4Digits": "N/A",
         "onlineCheckoutOrderReference": "90e81e8a-bc14-4ebf-89c0-57da801c******",
-        "onlineCheckoutTokenizedCardPayment": "false",
-        "onlineCheckoutCardPan": "N/A",
         "onlineCheckoutCurrency": "NGN",
         "onlineCheckoutCustomerEmail": "make@gmail.com",
         "currency": "NGN",
         "onlineCheckoutAmount": "202.8",
         "onlineCheckoutPaymentMethod": "bank_transfer",
-        "onlineCheckoutTokenKey": "N/A",
-        "onlineCheckoutTokenExpiryMonth": "N/A",
-        "onlineCheckoutTokenExpiryYear": "N/A",
-        "onlineCheckoutCardType": "N/A",
-        "productId": "090645",
-        "isAgentTransaction": true,
-        "isInternational": false,
-        "customerCommission": "0.00",
-        "accountNumber": "7373019825",
-        "entryType": "CREDIT",
-        "transactionCategory": "General",
-        "loyaltyAction": "UNKOWN",
-        "customerType": "UNKOWN"
-    },
-    "status": false
+        "entryType": "CREDIT"
+    }
+  }
+  ```
+
+  ```json Response (Failed / Not Found)
+  {
+    "code": "01",
+    "description": "Transaction not found",
+    "data": null
   }
   ```
 </CodeGroup>
 
+<Note>
+  For sandbox transactions, use the sandbox base URL: `https://sandbox.nomba.com/v1/transactions/accounts/single`. See [Sandbox Testing](/docs/products/accept-payment/sandbox-testing) for details on looking up sandbox transactions.
+</Note>
 
-## Get Checkout Transaction
+## Option 2: Get Checkout Transaction (Production only)
 
-This endpoint allows you to retrieve the details of a checkout transaction using either the `ORDER_REFERENCE` or `ORDER_ID`. It is especially useful for verifying transaction status in case you miss a webhook notification or want to double-check the transaction details sent to you via webhook.
+This endpoint returns full checkout order details including card information, transfer details, and order metadata. It is useful when you need richer data than the basic transaction lookup provides — for example, to display order details on a receipt page.
 
 <Warning>
-  This API is only available in production environment
+  This endpoint is only available in the **production** environment. For sandbox verification, use `POST /v1/transactions/accounts` with the transaction reference — see [Sandbox Testing](/docs/products/accept-payment/sandbox-testing).
 </Warning>
 
 To fetch a checkout transaction, send a [GET request](/nomba-api-reference/online-checkout/fetch-checkout-transaction) to this endpoint `/v1/checkout/transaction`.

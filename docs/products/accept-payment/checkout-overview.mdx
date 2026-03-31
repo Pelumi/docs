@@ -1,0 +1,121 @@
+---
+title: 'Checkout Overview'
+description: 'Accept card and bank transfer payments from your customers using Nomba Checkout'
+---
+
+Nomba Checkout is a hosted payment page that lets your customers pay you via card, bank transfer, USSD, QR code, Buy Now Pay Later, or Apple Pay — without you building a payment UI. You create an order via API, display the checkout link to your customer, and Nomba handles the rest.
+
+## How it works
+
+<Steps>
+  <Step title="Get your API keys">
+    Create an account and retrieve your `clientId` and `clientSecret` from the [Nomba dashboard](https://dashboard.nomba.com). Both sandbox and production credentials are issued when you create an API key.
+  </Step>
+
+  <Step title="Authenticate">
+    Exchange your credentials for a short-lived access token. Use the sandbox base URL (`https://sandbox.nomba.com`) during development and `https://api.nomba.com` in production.
+  </Step>
+
+  <Step title="Create a checkout order">
+    Call `POST /v1/checkout/order` with the amount, currency, and optional customer details. Nomba returns a `checkoutLink` and an `orderReference`.
+  </Step>
+
+  <Step title="Display the checkout link">
+    Redirect your customer to the `checkoutLink` or embed it in an iframe. The customer completes payment on the Nomba-hosted page.
+  </Step>
+
+  <Step title="Handle the webhook">
+    Nomba sends a `payment_success` event to your configured webhook URL when payment is completed. The webhook payload contains the transaction details and order reference.
+  </Step>
+
+  <Step title="Verify and deliver">
+    Verify the transaction using `/v1/transactions/accounts/single` before delivering goods or services. Never rely solely on the webhook without server-side verification.
+  </Step>
+</Steps>
+
+## Supported payment methods
+
+| Method | Description |
+|---|---|
+| Card | Mastercard, Visa, and Verve debit/credit cards |
+| Bank Transfer | Customer transfers directly to a dynamically generated account number |
+| USSD | Payment via USSD shortcode on mobile |
+| Nomba QR | QR code scan-to-pay |
+| Buy Now Pay Later | Deferred payment option |
+| Apple Pay | On supported Apple devices |
+
+You can restrict which methods appear on the checkout page using the `allowedPaymentMethods` field when creating an order.
+
+## Quick links
+
+<CardGroup cols={2}>
+  <Card
+    title="Create a Checkout Order"
+    icon="cart-plus"
+    href="/docs/products/accept-payment/create-checkout-order"
+  >
+    Full field reference, code examples, split payments, and tokenization
+  </Card>
+
+  <Card
+    title="Verify Transactions"
+    icon="magnifying-glass"
+    href="/docs/products/accept-payment/verify-transactions"
+  >
+    Confirm payment status before delivering value
+  </Card>
+
+  <Card
+    title="Sandbox Testing"
+    icon="flask"
+    href="/docs/products/accept-payment/sandbox-testing"
+  >
+    End-to-end walkthrough for testing your integration
+  </Card>
+
+  <Card
+    title="Refund an Order"
+    icon="rotate-left"
+    href="/docs/products/accept-payment/refund-checkout-order"
+  >
+    Process full or partial refunds for completed transactions
+  </Card>
+
+  <Card
+    title="Cancel an Order"
+    icon="xmark"
+    href="/docs/products/accept-payment/cancel-checkout-order"
+  >
+    Cancel a pending order before payment is made
+  </Card>
+
+  <Card
+    title="Payment Methods"
+    icon="credit-card"
+    href="/docs/products/accept-payment/payment-methods"
+  >
+    See all supported card networks and payment options
+  </Card>
+</CardGroup>
+
+## SDKs and integrations
+
+For web and mobile integrations, using an SDK reduces boilerplate and handles token management for you.
+
+<CardGroup cols={2}>
+  <Card
+    title="React / Web"
+    icon="react"
+    href="/sdk"
+  >
+    Use the Nomba React SDK to embed checkout in your web app
+  </Card>
+
+  <Card
+    title="Mobile (iOS / Android)"
+    icon="mobile"
+    href="/sdk"
+  >
+    Native SDKs for iOS and Android integrations
+  </Card>
+</CardGroup>
