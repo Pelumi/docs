@@ -47,25 +47,11 @@ To create a checkout, send a [POST request](/nomba-api-reference/online-checkout
       --header 'Content-Type: application/json' \
       --header 'accountId: <accountid>' \
       --data '{
-    "order": {
-        "orderReference": "90e81e8a-bc14-4ebf-89c0-57**********",
-        "customerId": "762878332454",
-        "callbackUrl": "https://merchant.com/callback",
-        "customerEmail": "abcde@gmail.com",
+      "order": {
         "amount": "10000.00",
         "currency": "NGN",
-        "accountId": "01a10aeb-d989-460a-bbde-9**********",
-        "splitRequest": {
-          "splitType": "PERCENTAGE",
-          "splitList": [
-            {
-              "accountId": "01a10aeb-d989-460a-bbde-98**********",
-              "value": "65.45"
-            }
-          ]
-        }
-      },
-      "tokenizeCard": true
+        "callbackUrl": "https://merchant.com/callback"
+      }
     }'
   ```
 
@@ -117,6 +103,23 @@ To create a checkout, send a [POST request](/nomba-api-reference/online-checkout
 <Note>
   The `orderReference` in the response is the same value you passed in the request. If you did not provide one, the `orderReference` in the response is the Nomba-generated reference — use this for all downstream calls (verification, cancellation, etc.).
 </Note>
+
+## Supported Currencies
+
+| Currency | Code | Availability |
+|---|---|---|
+| Nigerian Naira | `NGN` | Available to all merchants by default |
+| US Dollar | `USD` | Activated on demand |
+| Euro | `EUR` | Activated on demand |
+| British Pound | `GBP` | Activated on demand |
+
+`NGN` is the default currency and requires no additional setup. To accept payments in `USD`, `EUR`, or `GBP`, your account must be enabled for foreign currency checkout. Nomba screens merchants and activates these currencies only after the required compliance obligations are met.
+
+To request foreign currency activation, contact [Nomba support](https://nomba.com/contact) or reach out to your account manager.
+
+<Warning>
+  Passing a currency that has not been activated on your account will result in an error. Always confirm your enabled currencies before going live with multi-currency checkout.
+</Warning>
 
 ## Checkout Link Lifecycle
 
@@ -175,7 +178,7 @@ Supported values include:
 - `Buy Now Pay Later`
 - `Apple Pay`
 
-If `allowedPaymentMethods` is not provided, all available payment methods will be displayed by default.
+If `allowedPaymentMethods` is not provided, all enabled payment methods on your account will be displayed.
 
 ### Example
 

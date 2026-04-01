@@ -9,7 +9,11 @@ Nomba Checkout is a hosted payment page that lets your customers pay you via car
 
 <Steps>
   <Step title="Get your API keys">
-    Create an account and retrieve your `clientId` and `clientSecret` from the [Nomba dashboard](https://dashboard.nomba.com). Both sandbox and production credentials are issued when you create an API key.
+    Create an account and retrieve your `clientId`, `clientSecret`, and `accountId` from the [Nomba dashboard](https://dashboard.nomba.com). See [Get API Keys](/docs/getting-started/get-api-keys) for a step-by-step guide.
+
+    <Warning>
+      Always use **sandbox credentials** with `https://sandbox.nomba.com` and **production credentials** with `https://api.nomba.com`. Mixing credentials across environments will result in authentication errors.
+    </Warning>
   </Step>
 
   <Step title="Authenticate">
