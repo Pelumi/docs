@@ -183,6 +183,94 @@ curl --request POST \
 ```
 </CodeGroup>
 
+## **Understanding Transfer Responses & Lifecycle**
+When you call the transfer endpoint ```POST /v2/transfers/bank```, you will immediately receive a response if your request is valid (e.g., sufficient balance, correct payload structure, etc.).
+
+####  **Immediate Response Status**
+You will receive a successful API response with one of the following values in ``data.status``
+
+**Example 1 — Transfer immediately successful**
+```json
+{
+   "successful": true,
+  "status": "SUCCESS",
+  "message": "Success",
+  "data": {
+    "id": "API-TRANSFER-02145-XXXXX-8857-417f-a954-1234",
+    "status": "SUCCESS"
+  }
+}
+```
+
+**Example 2 — Transfer processing**
+```json
+{
+  "successful": true,
+  "status": "SUCCESS",
+  "message": "Success",
+  "data": {
+    "id": "API-TRANSFER-02415-XXXX-8857-417f-1234",
+    "status": "PENDING_BILLING"
+  }
+}
+```
+
+####  **What `data.status` Means**
+- SUCCESS: Transfer completed successfully
+- PENDING_BILLING: Transfer is being processed and will soon be completed
+
+####  **Tracking Transaction Status**
+
+<Steps> 
+<Step title="Wait for Webhook (Recommended)"> Once the transaction is completed, a webhook notification will be sent to your system. </Step> 
+<Step title="Poll for Status (Optional)"> If you prefer polling, use the transaction ID (`data.id`) returned in the response to query the transaction status. </Step>
+</Steps>
+
+#### Requery Endpoints
+- If you are transferring from a parent account, use [this](/nomba-api-reference/transactions/fetch-a-single-transaction-on-the-parent-account)
+``` bash 
+GET /v1/transactions/accounts/single?transactionRef=API-TRANSFER-XXX-XXX
+ ```
+
+- If you are transferring from a sub account, use [this](/nomba-api-reference/transactions/fetch-a-single-transaction-on-a-sub-account)
+``` bash 
+GET /v1/transactions/accounts/{subAccountId}/single?transactionRef=API-TRANSFER-XXX-XXX
+
+ ```
+- If you use both parent and sub account to carry out transfers, use [this](/nomba-api-reference/transactions/transaction-requery)
+``` bash 
+GET /v1/transactions/transaction-requery/{sessionId}
+ ```
+
+<Info title="Additional Information">
+ - Transactions **may not** be immediately available to requery (e.g., within 1 second).
+- Some transactions may take up to **3 minutes** due to NIBSS processing delays.
+- If you love polling, use **interval-based retries (up to ~3 minutes and few secs)**.
+- Nomba-to-Nomba transfers **do not include a sessionId** use the parent or sub-account endpoints for requery.
+</Info>
+
+
+####  **Handling Failed Transactions**
+- If a transaction fails, your account will be automatically refunded and a refund webhook notification will be sent.
+- If you love polling, query the endpoint like we previously discussed, look out for `data.status = REFUND`. It means the transaction failed and has been refunded.
+- You can safely retry the transaction after a refund.
+
+```json
+{
+  "code": "00",
+  "description": "SUCCESS",
+  "status": false,
+  "data": {
+    "id": "API-TRANSFER-02415-XXXX-8857-417f-1234",
+    "status": "REFUND"
+  }
+}
+```
+
+####  **Summary**
+- Every transaction is being processed
+- We have a retry mechanism to ensure it is successful
+- A refund will happen immediately it fails.
 
 #### Request body
 
