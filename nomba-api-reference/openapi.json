@@ -2243,8 +2243,8 @@
           "Accounts"
         ]
       }
-    },
-    "/v1/accounts/{accountId}terminals": {
+    }, 
+    "/v1/accounts/{accountId}/terminals": {
       "get": {
         "description": "You can use this endpoint to fetch terminals linked to a sub account.",
         "operationId": "Fetch terminals assigned to a sub account",
@@ -6693,16 +6693,6 @@
             },
             "description": "The client does not have the permissions to access this resource"
           },
-          "202":{
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Processing"
-                }
-              }
-            },
-            "description": "The transfer is processing."
-          },
           "404": {
             "content": {
               "application/json": {
@@ -6836,16 +6826,6 @@
               }
             },
             "description": "The request body sent by merchant did not pass the validation checks"
-          },
-          "202":{
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Processing"
-                }
-              }
-            },
-            "description": "The transfer is processing."
           },
           "401": {
             "content": {
@@ -7011,16 +6991,6 @@
             },
             "description": "The request body sent by merchant did not pass the validation checks"
           },
-          "202":{
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Processing"
-                }
-              }
-            },
-            "description": "The transfer is processing."
-          },
           "401": {
             "content": {
               "application/json": {
@@ -7184,16 +7154,6 @@
               }
             },
             "description": "The access_token provided to access the resource is missing or invalid."
-          },
-          "202":{
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/Processing"
-                }
-              }
-            },
-            "description": "The transfer is processing."
           },
           "403": {
             "content": {
@@ -16010,6 +15970,22 @@
             "minLength": 8,
             "maxLength": 64,
             "example": "Daniel Scorsese"
+          },
+          "bvn": {
+            "type": "string",
+            "description": "Account holder's BVN. Optional.",
+            "example": "12345678"
+          },
+          "expiryDate": {
+            "type": "string",
+            "description": "Account expiry date. Optional. ⚠️Be careful with this.",
+            "example": "2026-01-30 12:15:00"
+          },
+           "expectedAmount": {
+            "type": "number",
+            "format": "double",
+            "description": "Amount the account can receive. Optional.",
+            "example": "200.00"
           }
         },
         "required": [
