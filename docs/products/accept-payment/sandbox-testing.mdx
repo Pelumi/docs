@@ -60,7 +60,7 @@ curl --request POST \
   --data '{
     "order": {
       "orderReference": "test-order-001",
-      "amount": "4000.00",
+      "amount": "400000.00",
       "currency": "NGN",
       "customerEmail": "test@example.com",
       "callbackUrl": "https://merchant.com/callback"
@@ -93,17 +93,11 @@ Orders and their data are stored for **48 hours** before expiring.
 
 Submit the test card details to the checkout. The response depends entirely on which card number you use.
 
-```bash
-curl --request POST \
-  --url https://sandbox.nomba.com/sandbox/checkout/checkout-card-detail \
-  --header 'Authorization: Bearer <sandbox-token>' \
-  --header 'Content-Type: application/json' \
-  --header 'accountId: <your-sandbox-accountId>' \
-  --data '{
-    "cardDetails": "{\"cardNumber\":\"5434621074252808\",\"cardExpiryMonth\":\"12\",\"cardExpiryYear\":\"30\",\"cardCVV\":\"123\",\"cardPin\":\"9999\"}",
-    "orderReference": "test-order-001"
-  }'
-```
+<Frame caption="Submit Card with Detail Form">
+
+    <img src="/images/send-card-details.png" style={{ borderRadius: '0.5rem' }} loading="lazy" />
+
+</Frame>
 
 ### Test card numbers
 
@@ -119,38 +113,32 @@ Use one of these three cards to simulate different payment outcomes:
   Card expiry, CVV, and PIN values are not validated in the sandbox — any values are accepted. Only the card number determines the outcome.
 </Note>
 
-**Successful card (5434621074252808) response:**
 
-```json
-{
-  "code": "00",
-  "description": "Success",
-  "data": {
-    "status": true,
-    "message": "card details submitted successfully",
-    "responseCode": "T0",
-    "transactionId": "c4307d58-2513-41d8-b7f7-dfecd5f9fdbe"
-  }
-}
-```
+<Frame caption="Submit Card Detail Form">
+
+    <img src="/images/submit-card-with-details.png" style={{ borderRadius: '0.5rem' }} loading="lazy" />
+
+</Frame>
+
+### Step 3 - Submit Card Pin (if required)
+Enter `1234` as the card pin
+<Frame caption="Submit Card Detail Form">
+
+    <img src="/images/submit-card-pin.png" style={{ borderRadius: '0.5rem' }} loading="lazy" />
+
+</Frame>
 
 **Declined card (5484497218317651) response:**
 
-```json
-{
-  "code": "01",
-  "description": "do not honor",
-  "data": {
-    "status": false,
-    "message": "do not honor",
-    "responseCode": "01"
-  }
-}
-```
+<Frame caption="Submit Card Detail for Failed Transaction">
+
+    <img src="/images/submit-card-failed-transaction.png" style={{ borderRadius: '0.5rem' }} loading="lazy" />
+
+</Frame>
 
 ---
 
-### Step 3 — Submit OTP
+### Step 4 — Submit OTP
 
 After submitting the successful Mastercard (`5434621074252808`), the customer is prompted for an OTP. Submit one of the following test values to control the outcome:
 
@@ -160,28 +148,20 @@ After submitting the successful Mastercard (`5434621074252808`), the customer is
 | `1234` | Timeout | "Your payment has exceeded the time required to pay" |
 | `5464` | Invalid OTP | "Invalid OTP" |
 
-```bash
-curl --request POST \
-  --url https://sandbox.nomba.com/sandbox/checkout/checkout-card-otp \
-  --header 'Authorization: Bearer <sandbox-token>' \
-  --header 'Content-Type: application/json' \
-  --header 'accountId: <your-sandbox-accountId>' \
-  --data '{
-    "orderReference": "test-order-001",
-    "otp": "9999"
-  }'
-```
 
-```json Response (success)
-{
-  "code": "00",
-  "description": "Success",
-  "data": {
-    "status": true,
-    "message": "Approved by Financial Institution"
-  }
-}
-```
+<Frame caption="Submit Card Detail Form">
+
+    <img src="/images/submit-card-otp.png" style={{ borderRadius: '0.5rem' }} loading="lazy" />
+
+</Frame>
+
+**Successful card (5434621074252808) response:**
+
+<Frame caption="Submit Card Detail Form">
+
+    <img src="/images/submit-card-details-successful.png" style={{ borderRadius: '0.5rem' }} loading="lazy" />
+
+</Frame>
 
 On a successful OTP submission, Nomba **immediately fires a webhook** to your configured `callbackUrl` with a `payment_success` event. See [Webhook payload](#webhook-payload) below.
 
@@ -235,69 +215,6 @@ You can query by `idType=orderReference` or `idType=orderId`. The `id` value cha
 
 ---
 
-## Bank transfer flow
-
-To test the bank transfer payment method, use a different set of steps after creating the order.
-
-### Step 1 — Create order
-
-Same as the card flow — `POST /sandbox/checkout/order`.
-
-### Step 2 — Get transfer account details (KTA)
-
-Retrieve the virtual account number the customer should transfer to:
-
-```bash
-curl --request GET \
-  --url 'https://sandbox.nomba.com/sandbox/checkout/get-checkout-kta/<orderReference>' \
-  --header 'Authorization: Bearer <sandbox-token>' \
-  --header 'accountId: <your-sandbox-accountId>'
-```
-
-```json Response
-{
-  "code": "00",
-  "description": "Success",
-  "data": {
-    "accountNumber": "1583924710",
-    "accountName": "John Doe",
-    "bankName": "Nombank MFB"
-  }
-}
-```
-
-The KTA (Know Transfer Account) is generated once per order and cached for **30 minutes**.
-
-### Step 3 — Confirm payment receipt
-
-After the customer "transfers" to the account, call this endpoint to simulate the bank confirming the inflow:
-
-```bash
-curl --request POST \
-  --url https://sandbox.nomba.com/sandbox/checkout/confirm-transaction-receipt \
-  --header 'Authorization: Bearer <sandbox-token>' \
-  --header 'Content-Type: application/json' \
-  --header 'accountId: <your-sandbox-accountId>' \
-  --data '{
-    "orderReference": "test-order-001"
-  }'
-```
-
-```json Response
-{
-  "code": "00",
-  "description": "Success",
-  "data": {
-    "success": true,
-    "message": "PAYMENT SUCCESSFUL",
-    "amount": "4000.00"
-  }
-}
-```
-
-This fires a `payment_success` webhook with `paymentMethod: "bank_transfer"` and includes full transfer details (sessionId, account number, sender name).
-
----
 
 ## Webhook payload
 
