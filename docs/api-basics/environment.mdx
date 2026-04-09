@@ -4,21 +4,51 @@ description: 'Learn about the production and sandbox environment'
 icon: seedling
 ---
 
+The Nomba API operates within two distinct environments: the production environment (LIVE) and the sandbox environment. These environments serve different purposes and require specific credentials for interaction.
 
-The Nomba API operates within two distinct environments: the production environment, also known as the LIVE environment, and the sandbox environment. These environments serve different purposes and require specific credentials for interaction.
+## Base URLs
+
+| Environment | Base URL | Purpose |
+|---|---|---|
+| Production | `https://api.nomba.com` | Live transactions, real money |
+| Sandbox | `https://sandbox.nomba.com` | Development and testing |
+
+<Warning>
+  The base URL and credentials must always be paired to match the same environment. Using sandbox credentials with `api.nomba.com`, or production credentials with `sandbox.nomba.com`, will result in authentication errors.
+</Warning>
+
+## Credentials
 
 <Frame caption="Production/Sandbox Keys">
     <img src="/images/environment-1.png" style={{ borderRadius: '0.5rem' }} loading="lazy" />
 </Frame>
 
-When engaging with the production environment, your interactions directly affect the live system. It is the operational environment where real transactions and data manipulation take place.
+When you create an API key on the Nomba dashboard, both production and sandbox credential pairs (`clientId` + `clientSecret`) are generated at the same time. They are separate — sandbox credentials only work with the sandbox base URL, and production credentials only work with the production base URL.
 
-On the other hand, accessing the sandbox environment necessitates the use of test or sandbox credentials. The Nomba Sandbox environment is designed as an isolated server environment, separate from the live production system. Upon creating an API Key on your dashboard, both production and sandbox credentials are generated. The sandbox environment serves as a controlled space for testing and experimentation. 
+## Production
 
-<Note> 
-Transactions conducted in the sandbox environment do not impact the production environment.
+When using the production environment, your interactions directly affect the live system. Real transactions are processed and real money moves. Always use `https://api.nomba.com` with your production `clientId` and `clientSecret`.
+
+## Sandbox
+
+The sandbox is an isolated environment for development and testing. Transactions do not affect your live account or move real funds.
+
+<Note>
+  Transactions conducted in the sandbox environment do not impact the production environment.
 </Note>
 
-By utilizing the appropriate sandbox credentials, you can perform the same functions as in the production environment, receiving responses that simulate real-world scenarios.
+To make a sandbox API call, use `https://sandbox.nomba.com` with your **test credentials** from the dashboard. Here is a sample sandbox authentication request:
 
-It is crucial to recognize that the data returned from the sandbox environment consists of test values. These values are isolated and do not affect your actual production account. Therefore, any information exposed in the sandbox should be regarded as simulated and is not expected to reflect on your live dashboard. This segregation ensures that testing activities within the sandbox environment remain distinct from actual live operations.
+```bash
+curl --request POST \
+  --url https://sandbox.nomba.com/v1/auth/token/issue \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <your-sandbox-accountId>' \
+  --data '{
+    "grant_type": "client_credentials",
+    "client_id": "<your-sandbox-clientId>",
+    "client_secret": "<your-sandbox-clientSecret>"
+  }'
+```
+
+The sandbox returns simulated responses that mirror production behaviour. Data in the sandbox is isolated and does not appear on your live dashboard. See the [Testing](/docs/api-basics/testing) page for test card details and transaction scenarios.

@@ -1,0 +1,118 @@
+---
+title: 'Cancel a Checkout Order'
+description: 'Learn how to cancel pending checkout orders using the Nomba API'
+---
+
+<CardGroup cols={2}>
+  <Card
+    title="Cancel Checkout Order"
+    icon="xmark"
+    href="/nomba-api-reference/online-checkout/cancel-checkout-order"
+  >
+    Cancel an incomplete or pending checkout order by order reference
+  </Card>
+</CardGroup>
+
+## Overview
+
+The Cancel Order API allows you to invalidate a checkout order that has not yet been completed. This is useful when a customer abandons a payment flow, an order expires, or you need to programmatically void a pending transaction before any funds are captured.
+
+<Note>
+  Cancel Order applies **only to orders that have not been paid**. For completed transactions where funds have already been collected, use the [Refund API](/docs/products/accept-payment/refund-checkout-order) instead.
+</Note>
+
+## When to Use
+
+| Scenario | Action |
+|----------|--------|
+| Customer abandons the checkout page | Cancel the pending order |
+| Order session expires on your platform | Cancel to clean up the order |
+| Merchant needs to void an order before payment | Cancel the order |
+| Transaction completed and funds captured | Use **Refund** instead |
+
+## Cancel an Order
+
+To cancel an order, send a [POST request](/nomba-api-reference/online-checkout/cancel-checkout-order) to `/v1/checkout/order/cancel` with the `orderReference` of the order you want to cancel.
+
+<CodeGroup>
+  ```bash Request
+    curl --request POST \
+      --url https://api.nomba.com/v1/checkout/order/cancel \
+      --header 'Content-Type: application/json' \
+      --data '{
+        "orderReference": "OD-69923-2e102708-ee34-4a29-b713-a826ca928a12"
+      }'
+  ```
+
+  ```json Response
+    {
+      "code": "00",
+      "description": "success",
+      "data": {
+        "success": true,
+        "message": "Order cancelled successfully"
+      }
+    }
+  ```
+
+  ```json Error Response
+    {
+      "code": "01",
+      "description": "Error cancelling order",
+      "data": null
+    }
+  ```
+</CodeGroup>
+
+## Request Parameters
+
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| `orderReference` | string | Yes | The unique reference of the checkout order to cancel. This is the `orderReference` returned when the order was created. |
+
+## Important Considerations
+
+### Order Status
+
+<Warning>
+  This endpoint only works on **incomplete or pending** orders. Attempting to cancel an already completed or paid order will return an error.
+</Warning>
+
+
+### Idempotency
+
+If an order is already cancelled, subsequent cancel requests for the same `orderReference` will return an error. Always check the `success` field in the response to confirm the cancellation.
+
+## Best Practices
+
+1. **Cancel promptly**: Cancel orders as soon as you know they will not be completed to keep your order state clean.
+
+2. **Distinguish cancel from refund**: Cancel is for pre-payment orders; refund is for post-payment transactions. Using the wrong endpoint will result in an error.
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card
+    title="Create Checkout Order"
+    icon="cart-plus"
+    href="/docs/products/accept-payment/create-checkout-order"
+  >
+    Learn how to create a checkout order
+  </Card>
+
+  <Card
+    title="Verify Transactions"
+    icon="magnifying-glass"
+    href="/docs/products/accept-payment/verify-transactions"
+  >
+    Verify transaction status after a payment attempt
+  </Card>
+
+  <Card
+    title="Refund a Checkout Order"
+    icon="rotate-left"
+    href="/docs/products/accept-payment/refund-checkout-order"
+  >
+    Process refunds for completed transactions
+  </Card>
+</CardGroup>

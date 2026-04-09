@@ -1070,7 +1070,9 @@
           }
         ],
         "summary": "Fetch sub account details",
-        "tags": ["Accounts"]
+        "tags": [
+          "Accounts"
+        ]
       }
     },
     "/v1/accounts/parent": {
@@ -2237,7 +2239,9 @@
           }
         ],
         "summary": "Fetch terminals assigned to the parent account",
-        "tags": ["Accounts"]
+        "tags": [
+          "Accounts"
+        ]
       }
     }, 
     "/v1/accounts/{accountId}/terminals": {
@@ -2350,7 +2354,11 @@
                       "$ref": "#/components/schemas/TerminalListResults"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -2446,9 +2454,11 @@
           }
         ],
         "summary": "Fetch terminals assigned to a sub account",
-        "tags": ["Accounts"]
+        "tags": [
+          "Accounts"
+        ]
       }
-    }, 
+    },
     "/v1/accounts/{subAccountId}/access": {
       "put": {
         "description": "You can use this endpoint to update the access of an api client within an account.",
@@ -2763,7 +2773,9 @@
             "required": true
           }
         ],
-        "tags": ["Virtual Accounts"]
+        "tags": [
+          "Virtual Accounts"
+        ]
       }
     },
     "/v1/accounts/virtual/{subAccountId}": {
@@ -2802,7 +2814,11 @@
                       "$ref": "#/components/schemas/CreateVirtualAccountResponse"
                     }
                   },
-                  "required": ["code", "description", "data"]
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
                 }
               }
             },
@@ -2921,10 +2937,11 @@
             }
           }
         ],
-        "tags": ["Virtual Accounts"]
+        "tags": [
+          "Virtual Accounts"
+        ]
       }
     },
-    
     "/v1/accounts/virtual/list": {
       "post": {
         "description": "You can use this endpoint to filter your virtual accounts.",
@@ -9142,7 +9159,6 @@
         ]
       }
     },
-   
     "/v1/transactions/accounts/{subAccountId}/single": {
       "get": {
         "description": "You can use this endpoint to fetch a single transaction on a sub account",
@@ -14167,6 +14183,142 @@
           }
         }
       }
+    },
+    "/v1/checkout/order/cancel": {
+      "post": {
+        "description": "Use this endpoint to cancel an incomplete or pending checkout order.",
+        "operationId": "Cancel checkout order",
+        "summary": "Cancel Checkout Order",
+        "tags": [
+          "Online Checkout"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CancelOrderRequest"
+              }
+            }
+          },
+          "description": "The request payload required to cancel a checkout order.",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00",
+                      "description": "Response Code"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "success",
+                      "description": "Response description"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/CancelOrderResponse"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
+                }
+              }
+            },
+            "description": "OK - your request was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          }
+        }
+      }
     }
   },
   "components": {
@@ -15122,6 +15274,17 @@
                   }
                 }
               }
+            }
+          },
+          "orderMetaData": {
+            "type": "object",
+            "description": "Arbitrary key-value metadata you want to attach to the order. Keys and values must be strings. This data is stored on the order and returned in webhook payloads.",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "example": {
+              "productName": "Premium Plan",
+              "internalRef": "INV-2026-001"
             }
           }
         },
@@ -18178,6 +18341,40 @@
           "responseMessage",
           "responseCode",
           "data"
+        ]
+      },
+      "CancelOrderRequest": {
+        "type": "object",
+        "description": "The request payload to cancel a checkout order",
+        "properties": {
+          "orderReference": {
+            "type": "string",
+            "description": "The unique reference of the checkout order to cancel",
+            "example": "OD-69923-2e102708-ee34-4a29-b713-a826ca928a12"
+          }
+        },
+        "required": [
+          "orderReference"
+        ]
+      },
+      "CancelOrderResponse": {
+        "type": "object",
+        "description": "The response object for a cancel order operation",
+        "properties": {
+          "success": {
+            "type": "boolean",
+            "description": "Indicates whether the cancellation was successful",
+            "example": true
+          },
+          "message": {
+            "type": "string",
+            "description": "A message describing the result of the cancellation",
+            "example": "Order cancelled successfully"
+          }
+        },
+        "required": [
+          "success",
+          "message"
         ]
       }
     },
