@@ -1,9 +1,9 @@
 ---
 title: 'Checkout Overview'
-description: 'Accept card and bank transfer payments from your customers using Nomba Checkout'
+description: 'Accept payments from your customers using Nomba Checkout'
 ---
 
-Nomba Checkout is a hosted payment page that lets your customers pay you via card, bank transfer, USSD, QR code, Buy Now Pay Later, or Apple Pay — without you building a payment UI. You create an order via API, display the checkout link to your customer, and Nomba handles the rest.
+Nomba Checkout is a hosted payment page that lets your customers pay you through supported methods such as card, bank transfer, USSD, QR code, Buy Now Pay Later, Apple Pay, International Card, or Mobile Money where applicable. You create an order via API, display the checkout link to your customer, and Nomba handles the rest.
 
 ## How it works
 
@@ -42,10 +42,12 @@ Nomba Checkout is a hosted payment page that lets your customers pay you via car
 | Method | Description |
 |---|---|
 | Card | Mastercard, Visa, and Verve debit/credit cards |
+| International Card | Cross-border card acceptance for supported foreign-currency checkout flows |
 | Bank Transfer | Customer transfers directly to a dynamically generated account number |
 | USSD | Payment via USSD shortcode on mobile |
 | Nomba QR | QR code scan-to-pay |
 | Buy Now Pay Later | Deferred payment option |
+| Mobile Money | Supported DRC mobile money checkout experience |
 | Apple Pay | On supported Apple devices |
 
 You can restrict which methods appear on the checkout page using the `allowedPaymentMethods` field when creating an order.

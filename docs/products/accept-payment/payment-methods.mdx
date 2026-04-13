@@ -41,8 +41,16 @@ Each method is secure, reliable, and designed to give you flexibility when accep
     icon="credit-card"
     href="#card-payments"
   >
-    Accept debit and credit cards (Visa, Mastercard, Verve, etc.).  
+    Accept local and international cards, including Apple Pay where supported.  
     Can be combined with tokenization for recurring subscriptions.
+  </Card>
+
+  <Card
+    title="Mobile Money"
+    icon="mobile-screen"
+    href="#mobile-money"
+  >
+    Accept DRC mobile money payments from supported networks such as M-Pesa, Airtel Money, and Orange Money.
   </Card>
 
   <Card
@@ -77,8 +85,29 @@ This improves affordability and increases conversion for high-value purchases.
 ---
 
 ## Card Payments
-Accept payments from all major card schemes including **Visa, Mastercard, and Verve**.  
-For recurring or subscription billing, you can enable **card tokenization**.  
+Checkout supports different card experiences depending on your account, currency, and region:
+
+| Method | Description |
+|---|---|
+| Card | Mastercard, Visa, and Verve debit/credit cards |
+| International Card | Cross-border card acceptance for supported foreign-currency checkout flows |
+| Apple Pay | Apple Pay on supported Apple devices |
+
+For recurring or subscription billing, you can enable **card tokenization** where applicable.
+
+---
+
+## Mobile Money
+Mobile Money is available for supported DRC checkout flows.  
+Use it to collect payments from customers on supported networks such as **M-Pesa**, **Airtel Money**, and **Orange Money**.  
+
+For DRC checkout:
+
+| Method | Description |
+|---|---|
+| Mobile Money | Customer approves payment from a supported mobile money wallet |
+| Apple Pay | Available for supported DRC USD checkout experiences |
+| International Card | Available for supported DRC USD checkout experiences |
 
 ---
 
