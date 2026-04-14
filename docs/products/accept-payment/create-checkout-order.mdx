@@ -191,6 +191,12 @@ Payment-method availability is region-aware and configuration-aware. For example
 
 For Vendor API integrations, the authenticated account region determines the applicable checkout configuration. Currency alone should not be treated as the business-region source of truth.
 
+For DRC collections specifically, Checkout supports:
+
+- `MOMO` for both `CDF` and `USD` collections
+- `Apple Pay` for supported `USD` collections
+- `Intl Card` for supported `USD` collections
+
 ### Example
 
 ```json
@@ -233,6 +239,24 @@ For Vendor API integrations, the authenticated account region determines the app
     "currency": "USD",
     "allowedPaymentMethods": ["MOMO", "Intl Card", "Apple Pay"]
   }
+}
+```
+
+You can also create a DRC USD checkout order with all three supported methods enabled:
+
+```json DRC USD With Multiple Methods
+{
+  "order": {
+    "callbackUrl": "https://merchant.example.com/callback",
+    "customerEmail": "customer@example.com",
+    "amount": "100.98",
+    "currency": "USD",
+    "orderReference": "90e81e8a-bc14-4ebf-89c0-57da752ccb65",
+    "customerId": "customer1234",
+    "accountId": "08a1b86d-9140-4967-9998-29114a9e9421",
+    "allowedPaymentMethods": ["MOMO", "Apple Pay", "Intl Card"]
+  },
+  "tokenizeCard": true
 }
 ```
 
