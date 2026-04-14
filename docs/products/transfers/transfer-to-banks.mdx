@@ -267,7 +267,7 @@ GET /v1/transactions/transaction-requery/{sessionId}
 ####  **Handling Failed Transactions**
 - If a transaction fails, your account will be automatically refunded and a refund webhook notification will be sent.
 - If you love polling, query the endpoint like we previously discussed, look out for `data.status = REFUND`. It means the transaction failed and has been refunded.
-- You can safely retry the transaction using after a refund using a new reference.
+- You can safely retry the transaction after a refund using a new `merchantTxRef`.
 
 ```json
 {
@@ -285,16 +285,30 @@ GET /v1/transactions/transaction-requery/{sessionId}
 
 Funds transfers are sensitive. To prevent duplicate payouts, follow these best practices:
 
+**1. Use Idempotent Transaction References**
 - Always send a unique `merchantTxRef` per transaction
 - Reuse the same reference when retrying a request
+
+**2. Handle Pending Responses Correctly**
+- If a transaction returns `PENDING`, do NOT re-initiate the transfer with a different reference
+- The transaction may still be processed successfully
+
+**3. Retry Safely**
+- Only retry using the same `merchantTxRef`
 - Do NOT generate a new reference for the same transaction
-- If a transaction returns `PENDING` do NOT re-initiate the transfer with a different reference, the transaction may still be processed successfully.
-- Use the Transaction requery endpoints discussed above to confirm the final status, do not rely solely on the initial response
+
+**4. Verify Transaction Status**
+- Use the Requery endpoint discussed earlier to confirm the final status
+- Do not rely solely on the initial response
+
+**5. Use Webhooks (Recommended)**
 - Subscribe to [webhook](docs/api-basics/webhook) notifications for real-time updates
 - Webhooks provide the final and authoritative transaction status
-- When in doubt, treat unknown responses as `PENDING`
+
+**6. When in Doubt**
+- Treat unknown responses as `PENDING`
 - If you receive an unexpected status or code, pause and contact us before retrying
-- A list of all status codes can be found [here](/nomba-api-reference/transfers/perform-bank-account-transfer-from-the-parent-account) 
+- A list of all status codes can be found [here](/nomba-api-reference/transfers/perform-bank-account-transfer-from-the-parent-account)
 
 ####  **Summary**
 - Every transaction is being processed
