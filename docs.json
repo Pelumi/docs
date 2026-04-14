@@ -187,6 +187,7 @@
                     "docs/api-basics/rate_limit",
                     "docs/api-basics/environment",
                     "docs/api-basics/testing",
+                    "docs/api-basics/error-codes",
                     "docs/api-basics/webhook",
                     "docs/api-basics/troubleshoot-webhooks",
                     "docs/api-basics/definitions"
@@ -376,6 +377,15 @@
                     "/developer-resources/overview",
                     "/developer-resources/plugins-and-sdks/"
                   ]
+                },
+                {
+                  "group": "AI Tools",
+                  "pages": [
+                    "developer-resources/ai-tools/overview",
+                    "developer-resources/ai-tools/claude-code",
+                    "developer-resources/ai-tools/cursor",
+                    "developer-resources/ai-tools/windsurf"
+                  ]
                 }
               ]
             },
@@ -400,6 +410,9 @@
   "appearance": {
     "default": "light",
     "strict": false
+  },
+  "contextual": {
+    "options": ["copy", "view", "chatgpt", "claude", "perplexity", "mcp", "cursor", "vscode"]
   },
 
   "navbar": {

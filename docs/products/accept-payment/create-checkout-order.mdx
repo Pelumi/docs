@@ -40,7 +40,7 @@ You can create a subaccount from the dashboard; follow this guide to learn how t
 To create a checkout, send a [POST request](/nomba-api-reference/online-checkout/create-an-online-checkout-order) to this endpoint `/v1/checkout/order`.
 
 <CodeGroup>
-  ```bash Request
+  ```bash cURL
     curl --request POST \
       --url https://api.nomba.com/v1/checkout/order \
       --header 'Authorization: Bearer <token>' \
@@ -53,6 +53,59 @@ To create a checkout, send a [POST request](/nomba-api-reference/online-checkout
         "callbackUrl": "https://merchant.com/callback"
       }
     }'
+  ```
+
+  ```javascript Node.js
+  const response = await fetch('https://api.nomba.com/v1/checkout/order', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+      'accountId': accountId,
+    },
+    body: JSON.stringify({
+      order: {
+        amount: '10000.00',
+        currency: 'NGN',
+        callbackUrl: 'https://merchant.com/callback',
+        customerEmail: 'customer@example.com',
+      },
+    }),
+  });
+
+  const { code, data } = await response.json();
+  if (code !== '00') throw new Error(`Checkout creation failed: ${code}`);
+
+  // Redirect or display the checkout link to your customer
+  const { checkoutLink, orderReference } = data;
+  ```
+
+  ```python Python
+  import requests
+
+  response = requests.post(
+      'https://api.nomba.com/v1/checkout/order',
+      headers={
+          'Authorization': f'Bearer {access_token}',
+          'Content-Type': 'application/json',
+          'accountId': account_id,
+      },
+      json={
+          'order': {
+              'amount': '10000.00',
+              'currency': 'NGN',
+              'callbackUrl': 'https://merchant.com/callback',
+              'customerEmail': 'customer@example.com',
+          }
+      },
+  )
+
+  result = response.json()
+  if result['code'] != '00':
+      raise Exception(f"Checkout creation failed: {result['code']} — {result['description']}")
+
+  checkout_link = result['data']['checkoutLink']
+  order_reference = result['data']['orderReference']
   ```
 
   ```json Response

@@ -1,6 +1,6 @@
 ---
 title: 'Bank account lookup'
-description: 'Explore the process of performing bank account lookups through the Nomba API'
+description: 'Verify a recipient bank account before initiating a transfer'
 ---
 
 <CardGroup cols={2}>  
@@ -14,11 +14,12 @@ description: 'Explore the process of performing bank account lookups through the
 You can use [this](/docs/products/transfers/fetch-bank-codes-and-names) to retrieve the specific `bankCode` for any desired bank.
 </Note>
 
+Always verify a recipient account before initiating a transfer. This confirms the account exists and returns the account holder's name — which you should display to your user for confirmation before sending funds.
+
 # `POST /v1/transfers/bank/lookup`
 
-
 <CodeGroup>
-```bash Request
+```bash cURL
 curl --request POST \
   --url https://api.nomba.com/v1/transfers/bank/lookup \
   --header 'Authorization: Bearer <token>' \
@@ -28,6 +29,55 @@ curl --request POST \
   "accountNumber": "0554772814",
   "bankCode": "053"
 }'
+```
+
+```javascript Node.js
+const response = await fetch('https://api.nomba.com/v1/transfers/bank/lookup', {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${accessToken}`,
+    'Content-Type': 'application/json',
+    'accountId': accountId,
+  },
+  body: JSON.stringify({
+    accountNumber: '0554772814',
+    bankCode: '053',
+  }),
+});
+
+const { code, data } = await response.json();
+
+if (code !== '00') {
+  throw new Error('Account lookup failed — check account number and bank code');
+}
+
+// Show the account name to the user before proceeding with transfer
+console.log(`Recipient: ${data.accountName} (${data.accountNumber})`);
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    'https://api.nomba.com/v1/transfers/bank/lookup',
+    headers={
+        'Authorization': f'Bearer {access_token}',
+        'Content-Type': 'application/json',
+        'accountId': account_id,
+    },
+    json={
+        'accountNumber': '0554772814',
+        'bankCode': '053',
+    },
+)
+
+result = response.json()
+
+if result['code'] != '00':
+    raise Exception('Account lookup failed — check account number and bank code')
+
+# Show the account name to the user before proceeding with transfer
+print(f"Recipient: {result['data']['accountName']} ({result['data']['accountNumber']})")
 ```
 
 ```json Response
@@ -49,28 +99,26 @@ curl --request POST \
 </ParamField>
 
 <ParamField body="bankCode" type="string" required>
-  The code of the bank that the account number belongs to. This can be obtained from a call to `/v1/transfers/banks`.
+  The code of the bank that the account number belongs to. Obtain this from [`GET /v1/transfers/banks`](/docs/products/transfers/fetch-bank-codes-and-names).
 </ParamField>
-
 
 #### Response body
 
 <ResponseField name="code" type="string" required>
-  Response code
+  Response code. `"00"` indicates a valid account was found.
 </ResponseField>
 
 <ResponseField name="description" type="string" required>
-  Response description
+  Response description.
 </ResponseField>
 
 <ResponseField name="data" type="object">
-  <Expandable title="object"  defaultOpen="true">
+  <Expandable title="object" defaultOpen="true">
     <ResponseField name="accountNumber" type="string" required>
-      The account number already looked up.
+      The verified account number.
     </ResponseField>
     <ResponseField name="accountName" type="string" required>
-      The name on the account.
+      The name on the account. Display this to the user before confirming the transfer.
     </ResponseField>
-    
   </Expandable>
 </ResponseField>

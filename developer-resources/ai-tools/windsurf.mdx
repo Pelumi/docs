@@ -1,0 +1,59 @@
+---
+title: 'Windsurf'
+description: 'Use Nomba API docs as context in Windsurf'
+icon: 'wind'
+---
+
+[Windsurf](https://codeium.com/windsurf) is an AI-powered IDE by Codeium. You can point Windsurf's Cascade AI agent at the Nomba developer docs to get contextually accurate help when building your integration.
+
+## Add Nomba docs to Windsurf
+
+<Steps>
+  <Step title="Open Cascade chat">
+    Click the Cascade icon in the sidebar or press `Cmd/Ctrl + L`.
+  </Step>
+
+  <Step title="Add the docs as context">
+    In the Cascade chat, use the `@url` mention to pull in the Nomba docs:
+    ```
+    @url https://developer.nomba.com/docs/getting-started/authentication
+    ```
+    You can reference any specific page this way.
+  </Step>
+
+  <Step title="Ask your question">
+    Once the URL is loaded, ask your question and Cascade will answer using the page content as context.
+  </Step>
+</Steps>
+
+## Using llms.txt
+
+Nomba's developer docs publish a machine-readable summary at:
+
+```
+https://developer.nomba.com/llms.txt
+```
+
+You can feed this directly to Windsurf (or any AI tool) for a structured overview of all available endpoints and pages:
+
+```
+@url https://developer.nomba.com/llms.txt What endpoints are available for transfers?
+```
+
+## Tips
+
+- Use `@url` with the full docs URL for broad questions about the API
+- Use `@url` with a specific page URL (e.g., `/docs/products/transfers/transfer-to-banks`) for focused endpoint questions
+- Use the **Copy page** button on any Nomba docs page to paste the Markdown directly into Cascade
+
+## Example prompts
+
+```
+@url https://developer.nomba.com/docs/products/transfers/transfer-to-banks
+How do I handle the PENDING_BILLING status and set up a requery loop?
+```
+
+```
+@url https://developer.nomba.com/llms.txt
+Generate a complete payment integration for accepting checkout payments and initiating bank transfers
+```

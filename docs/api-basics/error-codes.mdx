@@ -1,0 +1,167 @@
+---
+title: 'Error Codes'
+description: 'Understand Nomba API error codes and how to handle them'
+icon: 'triangle-exclamation'
+---
+
+The Nomba API uses a `code` field in the response body to indicate the outcome of every request. A successful response always returns `"code": "00"`. All other codes indicate an error or a specific state you need to handle.
+
+## Response structure
+
+Every Nomba API response follows this structure:
+
+```json
+{
+  "code": "00",
+  "description": "Success",
+  "data": { ... }
+}
+```
+
+On errors, `data` is typically `null` and `description` explains what went wrong:
+
+```json
+{
+  "code": "02",
+  "description": "amount can not be null",
+  "data": null
+}
+```
+
+## HTTP status codes
+
+| HTTP Status | Meaning |
+|---|---|
+| `200` | Request processed (check `code` field for outcome) |
+| `400` | Bad request — invalid payload or missing required fields |
+| `401` | Unauthorized — missing or expired `access_token` |
+| `403` | Forbidden — insufficient permissions |
+| `404` | Resource not found |
+| `422` | Unprocessable entity — validation error |
+| `429` | Rate limit exceeded — slow down requests |
+| `500` | Internal server error — retry with backoff |
+
+<Note>
+  A `200 HTTP` status does not always mean success. Always check the `code` field in the response body.
+</Note>
+
+## API response codes
+
+### General codes
+
+| Code | Description | Retryable |
+|---|---|---|
+| `00` | Success | — |
+| `01` | Generic error | Yes |
+| `02` | Validation error (check `description`) | No |
+| `05` | Transaction not permitted | No |
+| `06` | Error — do not retry | No |
+
+### Authentication codes
+
+| Code | Description | Action |
+|---|---|---|
+| `01` | Invalid credentials | Check `client_id` / `client_secret` |
+| `02` | Token expired | Call the [refresh token](/nomba-api-reference/authenticate/refresh-an-expired-token) endpoint |
+| `401` | Unauthorized | Re-authenticate and get a new `access_token` |
+
+### Transfer-specific codes
+
+These appear in `data.status` on transfer responses:
+
+| Status | Description | Action |
+|---|---|---|
+| `SUCCESS` | Transfer completed immediately | No action needed |
+| `PENDING_BILLING` | Transfer is being processed | Wait for webhook or poll for status |
+| `REFUND` | Transfer failed and account was refunded | Safe to retry |
+
+<Note>
+  Nomba-to-Nomba wallet transfers (`/v2/transfers/wallet`) do not return a `sessionId`. Use the parent or sub-account requery endpoints instead.
+</Note>
+
+## Handling errors in code
+
+<CodeGroup>
+```javascript Node.js
+async function makeTransfer(payload) {
+  const response = await fetch('https://api.nomba.com/v2/transfers/bank', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+      'accountId': accountId,
+    },
+    body: JSON.stringify(payload),
+  });
+
+  const result = await response.json();
+
+  if (result.code !== '00') {
+    throw new Error(`Transfer failed: [${result.code}] ${result.description}`);
+  }
+
+  const { status } = result.data;
+
+  if (status === 'PENDING_BILLING') {
+    // Wait for webhook notification or poll with transaction ID
+    return { pending: true, id: result.data.id };
+  }
+
+  if (status === 'REFUND') {
+    // Transaction failed — safe to retry
+    throw new Error('Transfer was refunded. Safe to retry.');
+  }
+
+  return result.data;
+}
+```
+
+```python Python
+import requests
+
+def make_transfer(payload, access_token, account_id):
+    response = requests.post(
+        'https://api.nomba.com/v2/transfers/bank',
+        headers={
+            'Authorization': f'Bearer {access_token}',
+            'Content-Type': 'application/json',
+            'accountId': account_id,
+        },
+        json=payload,
+    )
+
+    result = response.json()
+
+    if result['code'] != '00':
+        raise Exception(f"Transfer failed: [{result['code']}] {result['description']}")
+
+    status = result['data']['status']
+
+    if status == 'PENDING_BILLING':
+        # Wait for webhook or poll with transaction ID
+        return {'pending': True, 'id': result['data']['id']}
+
+    if status == 'REFUND':
+        raise Exception('Transfer was refunded. Safe to retry.')
+
+    return result['data']
+```
+</CodeGroup>
+
+## Rate limit errors
+
+If you exceed the rate limit, you'll receive a `429` HTTP status. See the [Rate Limits](/docs/api-basics/rate_limit) page for limits per endpoint.
+
+```json
+{
+  "code": "429",
+  "description": "Too many requests. Please slow down.",
+  "data": null
+}
+```
+
+**Transfer-specific:** There is a limit of **5 bank transfers to the same recipient per minute**. Space out repeat transfers or implement a queue.
+
+## Need help?
+
+If you receive an error code not listed here or need help debugging, contact [docs@nomba.com](mailto:docs@nomba.com).
