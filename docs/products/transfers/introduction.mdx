@@ -33,6 +33,45 @@ Bank transfers form the backbone of modern financial services, enabling swift an
 To successfully execute bank transfers using our endpoints, it is necessary to undergo the following steps:
 
 <Steps titleSize="p">
+  <Step title="Fetch Banks">
+    First get the bank code of the recepient using this endpoint.
+
+    `Request`
+
+    ```bash
+    curl --request GET \
+        --url https://api.nomba.com/v1/transfers/bank \
+        --header 'Authorization: Bearer <token>' \
+        --header 'Content-Type: application/json' \
+        --header 'accountId: <accountid>'
+    ```
+
+    `Response`
+
+    ```json
+    {
+    "code": "00",
+    "description": "SUCCESS",
+    "message": "SUCCESS",
+    "status": true,
+    "data": [
+        {
+            "name": "First Bank of Nigeria",
+            "code": "011",
+            "nipCode": null,
+            "logo": "https://firebasestorage.googleapis.com/v0/b/business-banking-93cc1.appspot.com/o/bankLogos%2FGroup%201.png?alt=media&token=06a3a300-dafe-49db-b3d3-049371bf1173"
+        },
+        {
+            "name": "3LINE CARD MANAGEMENT LIMITED",
+            "code": "110005",
+            "nipCode": null,
+            "logo": ""
+        }
+    ],
+    }
+    ```
+
+  </Step>
   <Step title="Perform a bank account lookup">
     Before initiating bank transfers, it's advisable to inform your customers about the recipient. The bank account lookup endpoint requires an `accountNumber` and the associated `bankCode` (a unique code representing the bank) as input.
 
@@ -45,8 +84,8 @@ To successfully execute bank transfers using our endpoints, it is necessary to u
         --header 'Content-Type: application/json' \
         --header 'accountId: <accountid>' \
         --data '{
-        "accountNumber": "0554772814",
-        "bankCode": "053"
+        "accountNumber": "3554772814",
+        "bankCode": "011"
     }'
     ```
 
@@ -78,9 +117,9 @@ To successfully execute bank transfers using our endpoints, it is necessary to u
         --header 'accountId: <accountid>' \
         --data '{
         "amount": 3500,
-        "accountNumber": "0554772814",
+        "accountNumber": "3554772814",
         "accountName": "M.A Animashaun",
-        "bankCode": "058",
+        "bankCode": "011",
         "merchantTxRef": "UNQ_123abGGhh5546",
         "senderName": "Nightly Post"
         }'
