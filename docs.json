@@ -412,7 +412,7 @@
     "strict": false
   },
   "contextual": {
-    "options": ["copy", "view", "chatgpt", "claude", "perplexity", "mcp", "cursor", "vscode"]
+    "options": ["copy", "view", "chatgpt", "claude", "perplexity", "mcp", "claude-code", "cursor", "vscode"]
   },
 
   "navbar": {
