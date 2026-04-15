@@ -35,29 +35,24 @@
                 "group": "Accept Payments",
                 "icon": "cart-shopping",
                 "pages": [
+                  "docs/products/accept-payment/overview",
+                  "docs/products/accept-payment/virtual-account",
                   {
-                    "group": "Nigeria Collection",
+                    "group": "Checkout",
+                    "expanded": true,
                     "pages": [
-                      "docs/products/accept-payment/overview",
-                      "docs/products/accept-payment/virtual-account",
-                      {
-                        "group": "Checkout",
-                        "expanded": true,
-                        "pages": [
-                          "docs/products/accept-payment/checkout-overview",
-                          "docs/products/accept-payment/create-checkout-order",
-                          "docs/products/accept-payment/verify-transactions",
-                          "docs/products/accept-payment/refund-checkout-order",
-                          "docs/products/accept-payment/cancel-checkout-order",
-                          "docs/products/accept-payment/recurring-payments",
-                          "docs/products/accept-payment/server-to-server",
-                          "docs/products/accept-payment/payment-methods",
-                          "docs/products/accept-payment/sandbox-testing"
-                        ]
-                      },
-                      "docs/products/accept-payment/direct-debit"
+                      "docs/products/accept-payment/checkout-overview",
+                      "docs/products/accept-payment/create-checkout-order",
+                      "docs/products/accept-payment/verify-transactions",
+                      "docs/products/accept-payment/refund-checkout-order",
+                      "docs/products/accept-payment/cancel-checkout-order",
+                      "docs/products/accept-payment/recurring-payments",
+                      "docs/products/accept-payment/server-to-server",
+                      "docs/products/accept-payment/payment-methods",
+                      "docs/products/accept-payment/sandbox-testing"
                     ]
                   },
+                  "docs/products/accept-payment/direct-debit",
                   {
                     "group": "DRC Collection",
                     "pages": [

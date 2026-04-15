@@ -19,7 +19,7 @@ href="/nomba-api-reference/online-checkout/create-an-online-checkout-order">
 
 ## Create a checkout order
 
-To create a checkout order, you need to authenticate with Nomba to get your [access token](/docs/getting-started/authentication). If you don't know how to do this, see the getting started section to learn how to obtain API keys and obtain access tokens. Customers can make payments with their Mastercard, Visa or Verve cards; when they do, Nomba sends a payment receipt to the customer email provided when you created the order.
+To create a checkout order, you need to authenticate with Nomba to get your [access token](/docs/getting-started/authentication). If you don't know how to do this, see the getting started section to learn how to obtain API keys and obtain access tokens. Checkout supports different payment methods based on your account, region, currency, and enabled checkout configuration.
 
 To generate a [checkout order link](/nomba-api-reference/online-checkout/create-an-online-checkout-order), make a `POST` call to `/checkout/order`. The Nomba API responds with a success message containing the checkout link, which your app will display to the customer for them to make payment.
 
@@ -162,11 +162,12 @@ To create a checkout, send a [POST request](/nomba-api-reference/online-checkout
 | Currency | Code | Availability |
 |---|---|---|
 | Nigerian Naira | `NGN` | Available to all merchants by default |
+| Congolese Franc | `CDF` | Available for supported DRC checkout flows |
 | US Dollar | `USD` | Activated on demand |
 | Euro | `EUR` | Activated on demand |
 | British Pound | `GBP` | Activated on demand |
 
-`NGN` is the default currency and requires no additional setup. To accept payments in `USD`, `EUR`, or `GBP`, your account must be enabled for foreign currency checkout. Nomba screens merchants and activates these currencies only after the required compliance obligations are met.
+`NGN` is the default currency and requires no additional setup. `CDF` is available for supported DRC checkout flows. To accept payments in `USD`, `EUR`, or `GBP`, your account must be enabled for foreign currency checkout. Nomba screens merchants and activates these currencies only after the required compliance obligations are met.
 
 To request foreign currency activation, contact [Nomba support](https://nomba.com/contact) or reach out to your account manager.
 
@@ -229,9 +230,25 @@ Supported values include:
 - `Nomba QR`
 - `USSD`
 - `Buy Now Pay Later`
+- `MOMO`
+- `Intl Card`
 - `Apple Pay`
 
 If `allowedPaymentMethods` is not provided, all enabled payment methods on your account will be displayed.
+
+Payment-method availability is region-aware and configuration-aware. For example:
+
+- Supported DRC `CDF` checkout flows can expose `MOMO`
+- Supported DRC `USD` checkout flows can expose `MOMO`, `Intl Card`, and `Apple Pay`
+- Nigerian checkout flows can continue to expose methods such as `Card`, `Transfer`, `USSD`, `Nomba QR`, and other enabled local methods
+
+For Vendor API integrations, the authenticated account region determines the applicable checkout configuration. Currency alone should not be treated as the business-region source of truth.
+
+For DRC collections specifically, Checkout supports:
+
+- `MOMO` for both `CDF` and `USD` collections
+- `Apple Pay` for supported `USD` collections
+- `Intl Card` for supported `USD` collections
 
 ### Example
 
@@ -247,6 +264,52 @@ If `allowedPaymentMethods` is not provided, all enabled payment methods on your 
     "accountId": "01a10aeb-d989-460a-bbde-9**********",
     "allowedPaymentMethods": ["Card", "Transfer"]
   }
+}
+```
+
+### DRC examples
+
+```json DRC CDF
+{
+  "order": {
+    "orderReference": "drc-cdf-order-001",
+    "callbackUrl": "https://merchant.example.com/callback",
+    "customerEmail": "customer@example.com",
+    "amount": "120000.00",
+    "currency": "CDF",
+    "allowedPaymentMethods": ["MOMO"]
+  }
+}
+```
+
+```json DRC USD
+{
+  "order": {
+    "orderReference": "drc-usd-order-001",
+    "callbackUrl": "https://merchant.example.com/callback",
+    "customerEmail": "customer@example.com",
+    "amount": "25.00",
+    "currency": "USD",
+    "allowedPaymentMethods": ["MOMO", "Intl Card", "Apple Pay"]
+  }
+}
+```
+
+You can also create a DRC USD checkout order with all three supported methods enabled:
+
+```json DRC USD With Multiple Methods
+{
+  "order": {
+    "callbackUrl": "https://merchant.example.com/callback",
+    "customerEmail": "customer@example.com",
+    "amount": "100.98",
+    "currency": "USD",
+    "orderReference": "90e81e8a-bc14-4ebf-89c0-57da752ccb65",
+    "customerId": "customer1234",
+    "accountId": "08a1b86d-9140-4967-9998-29114a9e9421",
+    "allowedPaymentMethods": ["MOMO", "Apple Pay", "Intl Card"]
+  },
+  "tokenizeCard": true
 }
 ```
 
