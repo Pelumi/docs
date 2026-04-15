@@ -7,3 +7,12 @@
   font-style: normal;
 }
 
+/* ChatGPT contextual button - yellow to match theme */
+[data-option="chatgpt"],
+[class*="chatgpt"],
+a[href*="chatgpt.com"],
+button[aria-label*="ChatGPT"] {
+  background-color: #CCA300 !important;
+  color: #ffffff !important;
+}
+
