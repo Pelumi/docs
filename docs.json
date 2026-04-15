@@ -414,12 +414,12 @@
   "contextual": {
     "options": [
       "chatgpt",
-      "copy",
-      "view",
       "claude",
       "mcp",
       "cursor",
-      "vscode"
+      "vscode",
+      "copy",
+      "view"
     ]
   },
   "navbar": {
