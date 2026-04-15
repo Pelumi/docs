@@ -19,7 +19,7 @@ The movement of funds between accounts, commonly known as P2P, refers to the int
 # `POST /v2/transfers/wallet`
 
 <CodeGroup>
-```bash Request
+```bash cURL
 curl --request POST \
   --url https://api.nomba.com/v2/transfers/wallet \
   --header 'Authorization: Bearer <token>' \
@@ -29,8 +29,56 @@ curl --request POST \
     "amount": 3500,
     "receiverAccountId": "890022ce-bae0-45c1-9b9d-ee7872e6ca27",
     "merchantTxRef": "UNQ_123abGGhh5546",
+    "senderName": "Nightly Post",
     "narration": "Nice one"
   }'
+```
+
+```javascript Node.js
+const response = await fetch('https://api.nomba.com/v2/transfers/wallet', {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${accessToken}`,
+    'Content-Type': 'application/json',
+    'accountId': accountId,
+  },
+  body: JSON.stringify({
+    amount: 3500,
+    receiverAccountId: '890022ce-bae0-45c1-9b9d-ee7872e6ca27',
+    merchantTxRef: 'UNQ_123abGGhh5546',
+    senderName: 'Nightly Post',
+    narration: 'Nice one',
+  }),
+});
+
+const { code, data } = await response.json();
+if (code !== '00') throw new Error(`Wallet transfer failed: ${code}`);
+// P2P transfers complete synchronously — no PENDING_BILLING status
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    'https://api.nomba.com/v2/transfers/wallet',
+    headers={
+        'Authorization': f'Bearer {access_token}',
+        'Content-Type': 'application/json',
+        'accountId': account_id,
+    },
+    json={
+        'amount': 3500,
+        'receiverAccountId': '890022ce-bae0-45c1-9b9d-ee7872e6ca27',
+        'merchantTxRef': 'UNQ_123abGGhh5546',
+        'senderName': 'Nightly Post',
+        'narration': 'Nice one',
+    },
+)
+
+result = response.json()
+if result['code'] != '00':
+    raise Exception(f"Wallet transfer failed: {result['code']}")
+# P2P transfers complete synchronously — no PENDING_BILLING status
 ```
 
 ```json Response

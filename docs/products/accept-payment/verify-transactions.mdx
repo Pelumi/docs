@@ -55,6 +55,49 @@ The key field to check in the response is `data.status`. A successful payment re
       --header 'accountId: <accountid>'
   ```
 
+  ```javascript Node.js
+  // Verify by orderReference
+  const orderReference = '90e81e8a-bc14-4ebf-89c0-57da801cca68';
+  const url = new URL('https://api.nomba.com/v1/transactions/accounts/single');
+  url.searchParams.set('orderReference', orderReference);
+
+  const response = await fetch(url.toString(), {
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+      'accountId': accountId,
+    },
+  });
+
+  const { code, data } = await response.json();
+  if (code !== '00') throw new Error('Transaction not found');
+
+  if (data.status === 'SUCCESS') {
+    // Payment confirmed — deliver goods/services
+  }
+  ```
+
+  ```python Python
+  import requests
+
+  order_reference = '90e81e8a-bc14-4ebf-89c0-57da801cca68'
+
+  response = requests.get(
+      'https://api.nomba.com/v1/transactions/accounts/single',
+      headers={
+          'Authorization': f'Bearer {access_token}',
+          'accountId': account_id,
+      },
+      params={'orderReference': order_reference},
+  )
+
+  result = response.json()
+  if result['code'] != '00':
+      raise Exception('Transaction not found')
+
+  if result['data']['status'] == 'SUCCESS':
+      pass  # Payment confirmed — deliver goods/services
+  ```
+
   ```json expandable Response (Success)
   {
     "code": "00",

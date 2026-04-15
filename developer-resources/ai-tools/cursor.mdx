@@ -1,0 +1,50 @@
+---
+title: 'Cursor'
+description: 'Use Nomba API docs as context in Cursor'
+icon: 'arrow-pointer'
+---
+
+[Cursor](https://cursor.sh) is an AI-powered code editor built on VS Code. You can add the Nomba developer docs as a documentation source so Cursor's AI has context when generating or editing your integration code.
+
+## Add Nomba docs to Cursor
+
+<Steps>
+  <Step title="Open Cursor Settings">
+    Press `Cmd/Ctrl + Shift + J` to open Cursor Settings, then navigate to **Features → Docs**.
+  </Step>
+
+  <Step title="Add the Nomba docs URL">
+    Click **+ Add new doc** and enter:
+    ```
+    https://developer.nomba.com
+    ```
+    Cursor will crawl and index the documentation.
+  </Step>
+
+  <Step title="Use @Nomba in chat">
+    In the Cursor AI chat (`Cmd/Ctrl + L`), type `@Nomba` to reference the docs:
+    ```
+    @Nomba How do I authenticate and make a bank transfer?
+    ```
+  </Step>
+</Steps>
+
+## Tips
+
+- Use `@Nomba` in inline edits (`Cmd/Ctrl + K`) to generate endpoint-specific code directly in your editor
+- Combine with `@codebase` to get answers that are aware of both your existing code and the Nomba API
+- Use the **Copy page** button on any Nomba docs page to quickly paste relevant context into the Cursor chat
+
+## Example prompts
+
+```
+@Nomba Generate a transfer service class in TypeScript that handles bank lookups and bank transfers with retry logic
+```
+
+```
+@Nomba What are the required headers for every Nomba API request?
+```
+
+```
+@Nomba Show me how to verify a webhook signature from Nomba
+```

@@ -25,7 +25,7 @@ description: 'Learn how to perform bank transfers using the Nomba API'
 > Users are restricted to **5 bank transfers to the same recipient per minute**.
 
 <CodeGroup>
-```bash Request
+```bash cURL
 curl --request POST \
   --url https://api.nomba.com/v2/transfers/bank \
   --header 'Authorization: Bearer <token>' \
@@ -40,6 +40,67 @@ curl --request POST \
     "senderName": "Nightly Post",
     "narration": "Nice One"
   }'
+```
+
+```javascript Node.js
+const response = await fetch('https://api.nomba.com/v2/transfers/bank', {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${accessToken}`,
+    'Content-Type': 'application/json',
+    'accountId': accountId,
+  },
+  body: JSON.stringify({
+    amount: 3500,
+    accountNumber: '055472814',
+    accountName: 'M.A Animashaun',
+    bankCode: '058',
+    merchantTxRef: 'UNQ_123abGGhh5546',
+    senderName: 'Nightly Post',
+    narration: 'Nice One',
+  }),
+});
+
+const { code, data } = await response.json();
+if (code !== '00') throw new Error(`Transfer failed: ${code}`);
+
+if (data.status === 'PENDING_BILLING') {
+  // Poll or wait for webhook with data.id
+} else if (data.status === 'REFUND') {
+  throw new Error('Transfer refunded. Safe to retry.');
+}
+```
+
+```python Python
+import requests
+
+response = requests.post(
+    'https://api.nomba.com/v2/transfers/bank',
+    headers={
+        'Authorization': f'Bearer {access_token}',
+        'Content-Type': 'application/json',
+        'accountId': account_id,
+    },
+    json={
+        'amount': 3500,
+        'accountNumber': '055472814',
+        'accountName': 'M.A Animashaun',
+        'bankCode': '058',
+        'merchantTxRef': 'UNQ_123abGGhh5546',
+        'senderName': 'Nightly Post',
+        'narration': 'Nice One',
+    },
+)
+
+result = response.json()
+if result['code'] != '00':
+    raise Exception(f"Transfer failed: {result['code']}")
+
+status = result['data']['status']
+if status == 'PENDING_BILLING':
+    pass  # Poll or wait for webhook with result['data']['id']
+elif status == 'REFUND':
+    raise Exception('Transfer refunded. Safe to retry.')
 ```
 
 ```json Response
@@ -109,7 +170,7 @@ Sub-accounts can only be created from your Nomba dashboard.
 > Sub-account transfers must be enabled by us before you can use this endpoint.
 
 <CodeGroup>
-```bash Request
+```bash cURL
 curl --request POST \
   --url https://api.nomba.com/v2/transfers/bank/{subAccountId} \
   --header 'Authorization: Bearer <token>' \
@@ -124,6 +185,62 @@ curl --request POST \
     "senderName": "Nightly Post",
     "narration": "Nice One"
   }'
+```
+
+```javascript Node.js
+const subAccountId = 'your-sub-account-id';
+
+const response = await fetch(
+  `https://api.nomba.com/v2/transfers/bank/${subAccountId}`,
+  {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+      'accountId': accountId,
+    },
+    body: JSON.stringify({
+      amount: 3500,
+      accountNumber: '055472814',
+      accountName: 'M.A Animashaun',
+      bankCode: '058',
+      merchantTxRef: 'UNQ_123abGGhh5546',
+      senderName: 'Nightly Post',
+      narration: 'Nice One',
+    }),
+  }
+);
+
+const { code, data } = await response.json();
+if (code !== '00') throw new Error(`Transfer failed: ${code}`);
+```
+
+```python Python
+import requests
+
+sub_account_id = 'your-sub-account-id'
+
+response = requests.post(
+    f'https://api.nomba.com/v2/transfers/bank/{sub_account_id}',
+    headers={
+        'Authorization': f'Bearer {access_token}',
+        'Content-Type': 'application/json',
+        'accountId': account_id,
+    },
+    json={
+        'amount': 3500,
+        'accountNumber': '055472814',
+        'accountName': 'M.A Animashaun',
+        'bankCode': '058',
+        'merchantTxRef': 'UNQ_123abGGhh5546',
+        'senderName': 'Nightly Post',
+        'narration': 'Nice One',
+    },
+)
+
+result = response.json()
+if result['code'] != '00':
+    raise Exception(f"Transfer failed: {result['code']}")
 ```
 
 ```json Response

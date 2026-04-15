@@ -1,3 +1,4 @@
 ---
 openapi: post /v2/transfers/wallet
+description: "Transfer funds between Nomba accounts (P2P). Bypasses external processors for near-instant settlement. Returns synchronously with `data.status: SUCCESS`. Note: wallet transfers do not return a `sessionId` — use the parent account requery endpoint for status checks."
 ---

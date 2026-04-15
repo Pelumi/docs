@@ -1,3 +1,4 @@
 ---
 openapi: post /v2/transfers/bank
+description: "Initiate a bank transfer from the parent account to an external Nigerian bank. Returns immediately with a `data.status` of `SUCCESS` or `PENDING_BILLING`. Listen for webhook notifications for final status, or poll using the returned `data.id`. On failure, the account is auto-refunded and status becomes `REFUND`."
 ---

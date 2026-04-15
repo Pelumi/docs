@@ -1,0 +1,65 @@
+---
+title: 'Claude Code'
+description: 'Set up Claude Code for Nomba API integration'
+icon: 'asterisk'
+---
+
+[Claude Code](https://claude.ai/code) is Anthropic's AI coding assistant that works directly in your terminal. You can load the Nomba developer docs as a skill so Claude has full context about the API when you're building.
+
+## Prerequisites
+
+- Active Claude subscription (Pro, Max, or API access)
+- Node.js 18+ installed
+
+## Setup
+
+<Steps>
+  <Step title="Install Claude Code">
+    ```bash
+    npm install -g @anthropic-ai/claude-code
+    ```
+  </Step>
+
+  <Step title="Load the Nomba docs skill">
+    In your project directory, run:
+    ```bash
+    npx skills add https://developer.nomba.com
+    ```
+    This gives Claude Code access to the full Nomba API reference, guides, and authentication docs.
+  </Step>
+
+  <Step title="Start coding">
+    ```bash
+    claude
+    ```
+  </Step>
+</Steps>
+
+## Example prompts
+
+Once the skill is loaded, you can ask Claude Code things like:
+
+```
+Generate a Node.js function that authenticates with the Nomba API using client credentials
+```
+
+```
+Write a bank transfer integration that handles PENDING_BILLING and REFUND statuses with proper webhook verification
+```
+
+```
+Show me how to do a bank account lookup before initiating a transfer in Python
+```
+
+```
+Help me set up error handling for Nomba API responses in my Express app
+```
+
+## Using the Copy button
+
+Every page on the Nomba developer docs has a **Copy** button in the top right. Use it to:
+
+- **Copy page** — copies the full page as Markdown, ready to paste into Claude
+- **Open in Claude** — opens the current page in Claude.ai with one click
+
+This is useful when you want to ask specific questions about a single endpoint without loading the full skill.

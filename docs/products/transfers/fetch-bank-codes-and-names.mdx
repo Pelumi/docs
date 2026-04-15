@@ -1,6 +1,6 @@
 ---
 title: 'Fetch bank codes'
-description: 'Fetch the necessary bank codes and names of your desired banks'
+description: 'Retrieve bank codes and names for all supported Nigerian banks'
 ---
 
 <CardGroup cols={2}>    
@@ -10,14 +10,55 @@ description: 'Fetch the necessary bank codes and names of your desired banks'
   </Card>
 </CardGroup>
 
+<Note>
+  You need the `bankCode` when performing [bank account lookups](/docs/products/transfers/bank-account-lookup) and [bank transfers](/docs/products/transfers/transfer-to-banks). Call this endpoint once and cache the result — bank codes rarely change.
+</Note>
+
 # `GET /v1/transfers/banks`
 
 <CodeGroup>
-```bash Request
+```bash cURL
 curl --request GET \
   --url https://api.nomba.com/v1/transfers/banks \
   --header 'Authorization: Bearer <token>' \
   --header 'accountId: <accountid>'
+```
+
+```javascript Node.js
+const response = await fetch('https://api.nomba.com/v1/transfers/banks', {
+  headers: {
+    'Authorization': `Bearer ${accessToken}`,
+    'accountId': accountId,
+  },
+});
+
+const { code, data } = await response.json();
+if (code !== '00') throw new Error('Failed to fetch bank codes');
+
+const banks = data.results;
+// Example: find GTBank
+const gtbank = banks.find(b => b.name.includes('Guaranty Trust'));
+console.log(gtbank); // { code: '058', name: 'Guaranty Trust Bank' }
+```
+
+```python Python
+import requests
+
+response = requests.get(
+    'https://api.nomba.com/v1/transfers/banks',
+    headers={
+        'Authorization': f'Bearer {access_token}',
+        'accountId': account_id,
+    },
+)
+
+result = response.json()
+if result['code'] != '00':
+    raise Exception('Failed to fetch bank codes')
+
+banks = result['data']['results']
+# Example: build a lookup dict
+bank_map = {b['name']: b['code'] for b in banks}
 ```
 
 ```json Response
@@ -31,9 +72,17 @@ curl --request GET \
         "name": "Guaranty Trust Bank"
       },
       {
+        "code": "011",
+        "name": "First Bank of Nigeria"
+      },
+      {
+        "code": "033",
+        "name": "United Bank for Africa"
+      },
+      {
         "code": "090160",
         "name": "Addosser Microfinance Bank"
-      },
+      }
     ]
   }
 }
@@ -43,25 +92,23 @@ curl --request GET \
 #### Response body
 
 <ResponseField name="code" type="string" required>
-  Response code
+  Response code. `"00"` indicates success.
 </ResponseField>
 
 <ResponseField name="description" type="string" required>
-  Response description
+  Response description.
 </ResponseField>
 
 <ResponseField name="data" type="object">
     <ResponseField name="results" type="object[]">
-        Contains result of all banks fetched.
-        <Expandable title="object"  defaultOpen="true">
+        List of all supported banks.
+        <Expandable title="object" defaultOpen="true">
             <ResponseField name="code" type="string">
-                The bank's code.
+                The bank's code. Use this as `bankCode` in transfer and lookup requests.
             </ResponseField>
             <ResponseField name="name" type="string">
-                The bank's name.
+                The bank's display name.
             </ResponseField>
-            
         </Expandable>
     </ResponseField>
 </ResponseField>
-
