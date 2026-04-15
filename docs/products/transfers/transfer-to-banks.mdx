@@ -358,17 +358,17 @@ You will receive a successful API response with one of the following values in `
 </Steps>
 
 #### Requery Endpoints
-- If you are transferring from a parent account, use [this](/nomba-api-reference/transactions/fetch-a-single-transaction-on-the-parent-account)
+- If you are transferring from a parent account, use [this](/nomba-api-reference/requery/fetch-a-single-transaction-on-the-parent-account)
 ``` bash 
 GET /v1/transactions/accounts/single?transactionRef=API-TRANSFER-XXX-XXX
  ```
 
-- If you are transferring from a sub account, use [this](/nomba-api-reference/transactions/fetch-a-single-transaction-on-a-sub-account)
+- If you are transferring from a sub account, use [this](/nomba-api-reference/requery/fetch-a-single-transaction-on-a-sub-account)
 ``` bash 
 GET /v1/transactions/accounts/{subAccountId}/single?transactionRef=API-TRANSFER-XXX-XXX
 
  ```
-- If you use both parent and sub account to carry out transfers, use [this](/nomba-api-reference/transactions/transaction-requery)
+- If you use both parent and sub account to carry out transfers, use [this](/nomba-api-reference/requery/transaction-requery)
 ``` bash 
 GET /v1/transactions/transaction-requery/{sessionId}
  ```
