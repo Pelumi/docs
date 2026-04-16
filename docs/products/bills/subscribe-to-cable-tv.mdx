@@ -19,7 +19,7 @@ description: "This describes the process of subscribing to a Cable TV network"
   Amount
 </ParamField>
 
-<ParamField body="cableTvPaymentType" type="string" required>
+<ParamField body="cableTvType" type="string" required>
   The cable tv provider name id usually dstv or gotv
 </ParamField>
 
@@ -79,7 +79,7 @@ curl --location 'https://api.nomba.com/v1/bill/cabletv' \
 --header 'accountId: <accountId>' \
 --header 'Authorization: Bearer <token>' \
 --data '{
-    "cableTvPaymentType": "dstv",
+    "cableTvType": "dstv",
     "merchantTxRef": "{{$guid}}",
     "payerName": "{{$randomFullName}}",
     "amount": 2000,
