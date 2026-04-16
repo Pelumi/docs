@@ -23,7 +23,6 @@ curl --request POST \
   --header 'accountId: <accountId>' \
   --data '{
     "phoneNumber": "0980802xxx",
-    "pin": "0000",
     "callbackUrl": "https://your-server.com/webhook/collection",
     "amount": 10,
     "currency": "CDF",
@@ -48,10 +47,6 @@ curl --request POST \
 
 <ParamField body="phoneNumber" type="string" required>
   The customer's mobile money phone number.
-</ParamField>
-
-<ParamField body="pin" type="string" required>
-  The customer's mobile money PIN to authorize the collection.
 </ParamField>
 
 <ParamField body="callbackUrl" type="string" required>
