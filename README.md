@@ -1,30 +1,32 @@
-# Nomba Developer Documentation
+# Mintlify Starter Kit
 
-The official developer documentation for the Nomba API, built with [Mintlify](https://mintlify.com).
+Click on `Use this template` to copy the Mintlify starter kit. The starter kit contains examples including
 
----
+- Guide pages
+- Navigation
+- Customizations
+- API Reference pages
+- Use of popular components
 
-## Running the Docs locally
+### Development
 
-Install the [Mintlify CLI](https://www.npmjs.com/package/mintlify):
+Install the [Mintlify CLI](https://www.npmjs.com/package/mintlify) to preview the documentation changes locally. To install, use the following command
 
-```bash
+```
 npm i -g mintlify
 ```
 
-Run the dev server from the root of the repo (where `docs.json` is):
+Run the following command at the root of your documentation (where mint.json is)
 
-```bash
+```
 mintlify dev
 ```
 
+### Publishing Changes
+
+Install our Github App to autopropagate changes from youre repo to your deployment. Changes will be deployed to production automatically after pushing to the default branch. Find the link to install on your dashboard. 
+
 #### Troubleshooting
 
-- **Mintlify dev isn't running** — Run `mintlify install` to re-install dependencies.
-- **Page loads as a 404** — Make sure you are running from the folder that contains `docs.json`.
-
----
-
-## Publishing Changes
-
-Install the Mintlify GitHub App to auto-deploy changes from this repo. Changes pushed to the default branch are deployed to production automatically. Find the installation link on your Mintlify dashboard.
+- Mintlify dev isn't running - Run `mintlify install` it'll re-install dependencies.
+- Page loads as a 404 - Make sure you are running in a folder with `mint.json`
