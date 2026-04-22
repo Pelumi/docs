@@ -5,3 +5,4 @@ package-lock.json
 global_collection.md
 global_payout_doc.md
 ai-chat-backend/response_cache.json
+ai-chat-backend/__pycache__/
