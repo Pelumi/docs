@@ -1,7 +1,7 @@
 import json
 import os
 import time
-from collections import defaultdict
+from collections import OrderedDict, defaultdict
 from pathlib import Path
 
 import anthropic
@@ -30,7 +30,7 @@ app.add_middleware(
 
 _docs = []
 _client: anthropic.Anthropic | None = None
-_cache: dict[str, str] = {}  # normalized question → full response text
+_cache: OrderedDict[str, str] = OrderedDict()  # normalized question → full response text (LRU)
 _CACHE_MAX = 500              # evict oldest when limit is reached
 _CACHE_FILE = _here / "response_cache.json"
 
@@ -55,11 +55,11 @@ def _check_rate_limit(ip: str) -> tuple[bool, int]:
     return True, _RATE_LIMIT - len(_rate_buckets[ip])
 
 
-def _load_cache_from_disk() -> dict[str, str]:
+def _load_cache_from_disk() -> OrderedDict[str, str]:
     try:
-        return json.loads(_CACHE_FILE.read_text(encoding="utf-8"))
+        return OrderedDict(json.loads(_CACHE_FILE.read_text(encoding="utf-8")))
     except (FileNotFoundError, json.JSONDecodeError):
-        return {}
+        return OrderedDict()
 
 
 def _save_cache_to_disk() -> None:
@@ -125,6 +125,7 @@ async def chat(req: ChatRequest, request: Request):
 
     # Cache hit — stream the stored response back instantly, no Claude call
     if key in _cache:
+        _cache.move_to_end(key)  # mark as recently used
         cached_text = _cache[key]
         def serve_cached():
             yield f"data: {json.dumps({'text': cached_text})}\n\n"
@@ -173,7 +174,7 @@ async def chat(req: ChatRequest, request: Request):
 
         # Store full response in cache after streaming completes
         if len(_cache) >= _CACHE_MAX:
-            _cache.pop(next(iter(_cache)))  # evict oldest entry
+            _cache.popitem(last=False)  # evict least recently used entry
         _cache[key] = "".join(chunks)
         _save_cache_to_disk()
 
