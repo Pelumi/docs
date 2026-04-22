@@ -72,23 +72,6 @@ uvicorn main:app --reload
 
 The backend will be available at `http://localhost:8000`. On startup it loads all documentation pages (including the OpenAPI spec) and any previously cached responses.
 
-### Connecting the widget to the docs
-
-In `docs.json`, make sure the `scripts` entry points to your running backend:
-
-```json
-"scripts": [
-  {
-    "src": "http://localhost:8000/widget.js"
-  }
-]
-```
-
-For production, replace the URL with your deployed backend URL and set the `ALLOWED_ORIGINS` environment variable to your docs domain:
-
-```
-ALLOWED_ORIGINS=https://docs.nomba.com
-```
 
 ### How it works
 
@@ -96,20 +79,6 @@ ALLOWED_ORIGINS=https://docs.nomba.com
 |---|---|
 | Model | Claude Haiku (fast, low cost) |
 | Context | Top 3 most relevant doc pages retrieved per question via keyword search |
-| Caching | Exact responses cached to `response_cache.json` — repeated questions skip the API entirely |
-| Rate limiting | 10 questions per IP per 24-hour rolling window |
-| Input limit | Questions capped at 100 characters |
-
-### Deploying to production
-
-The repo includes a `Dockerfile` for containerised deployments (e.g. Google Cloud Run):
-
-```bash
-docker build -t nomba-ai-chat .
-docker run -p 8080:8080 -e ANTHROPIC_API_KEY=your_key nomba-ai-chat
-```
-
-Cloud Run injects a `PORT` environment variable automatically; the server defaults to `8080` if it is not set.
 
 ---
 
