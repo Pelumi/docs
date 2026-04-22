@@ -1,0 +1,12 @@
+.git
+node_modules
+images/
+logo/
+support/
+*.png
+*.jpg
+*.jpeg
+*.gif
+ai-chat-backend/.env
+ai-chat-backend/.env.example
+ai-chat-backend/__pycache__

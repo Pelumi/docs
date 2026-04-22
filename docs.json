@@ -429,6 +429,11 @@
       "href": "https://dashboard.nomba.com"
     }
   },
+  "scripts": [
+    {
+      "src": "http://localhost:8000/widget.js"
+    }
+  ],
   "footer": {
     "socials": {
       "twitter": "https://twitter.com/nombahq",
