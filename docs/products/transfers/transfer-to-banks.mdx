@@ -380,6 +380,29 @@ GET /v1/transactions/transaction-requery/{sessionId}
 - Nomba-to-Nomba transfers **do not include a sessionId** use the parent or sub-account endpoints for requery.
 </Info>
 
+#### **Handling a 422 Response**
+
+A `422` HTTP status code means the transfer request was received but we were unable to return a definitive outcome at the time of the response. The transaction may still be processed successfully.
+
+```json
+{
+  "code": "422",
+  "description": "PROCESSING",
+  "message": "Unable to process response, please rely on web hook",
+  "status": false,
+  "data": {
+    "status": "PENDING_BILLING"
+  }
+}
+```
+
+
+When you receive a 422, you should:
+
+1. Mark the transaction as pending in your system
+2. Keep the original `merchantTxRef` — do not generate a new one
+3. Wait for the webhook notification for the final status (`SUCCESS` or `REFUND`)
+4. Use the requery endpoints if you need to poll for status rather than waiting for the webhook
 
 ####  **Handling Failed Transactions**
 - If a transaction fails, your account will be automatically refunded and a refund webhook notification will be sent.
@@ -427,10 +450,14 @@ Funds transfers are sensitive. To prevent duplicate payouts, follow these best p
 - If you receive an unexpected status or code, pause and contact us before retrying
 - A list of all status codes can be found [here](/nomba-api-reference/transfers/perform-bank-account-transfer-from-the-parent-account)
 
+
 ####  **Summary**
 - Every transaction is being processed
 - We have a retry mechanism to ensure it is successful
 - A refund will happen immediately it fails.
+
+
+
 
 #### Request body
 

@@ -2243,7 +2243,7 @@
           "Accounts"
         ]
       }
-    }, 
+    },
     "/v1/accounts/{accountId}/terminals": {
       "get": {
         "description": "You can use this endpoint to fetch terminals linked to a sub account.",
@@ -6722,6 +6722,43 @@
               }
             },
             "description": "Downstream system error."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "422"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "PROCESSING"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to process response, please rely on web hook"
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "string",
+                          "example": "PENDING_BILLING"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Transfer is being processed \u2014 the final status will be delivered via webhook. Mark the transaction as pending and do not retry with a new reference."
           }
         },
         "security": [
@@ -6876,6 +6913,43 @@
               }
             },
             "description": "Downstream system error."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "422"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "PROCESSING"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to process response, please rely on web hook"
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "string",
+                          "example": "PENDING_BILLING"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Transfer is being processed \u2014 the final status will be delivered via webhook. Mark the transaction as pending and do not retry with a new reference."
           }
         },
         "security": [
@@ -7040,6 +7114,43 @@
               }
             },
             "description": "Downstream system error."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "422"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "PROCESSING"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to process response, please rely on web hook"
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "string",
+                          "example": "PENDING_BILLING"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Transfer is being processed \u2014 the final status will be delivered via webhook. Mark the transaction as pending and do not retry with a new reference."
           }
         },
         "security": [
@@ -7194,6 +7305,43 @@
               }
             },
             "description": "Downstream system error."
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "422"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "PROCESSING"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "Unable to process response, please rely on web hook"
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "example": false
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "status": {
+                          "type": "string",
+                          "example": "PENDING_BILLING"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "description": "Transfer is being processed \u2014 the final status will be delivered via webhook. Mark the transaction as pending and do not retry with a new reference."
           }
         },
         "security": [
@@ -15978,10 +16126,10 @@
           },
           "expiryDate": {
             "type": "string",
-            "description": "Account expiry date. Optional. ⚠️Be careful with this.",
+            "description": "Account expiry date. Optional. \u26a0\ufe0fBe careful with this.",
             "example": "2026-01-30 12:15:00"
           },
-           "expectedAmount": {
+          "expectedAmount": {
             "type": "number",
             "format": "double",
             "description": "Amount the account can receive. Optional.",
@@ -16373,7 +16521,6 @@
           }
         }
       },
-
       "Processing": {
         "type": "object",
         "description": "Processing response.",
@@ -16398,7 +16545,7 @@
             "description": "status of the transaction",
             "example": "false"
           },
-        "data": {
+          "data": {
             "type": "object",
             "properties": {
               "amount": {
@@ -16413,8 +16560,8 @@
                     "example": "ref-2026-02-20-08-51AM"
                   },
                   "rrn": {
-                  "type": "string",
-                  "example": "223454678655"
+                    "type": "string",
+                    "example": "223454678655"
                   }
                 }
               },
@@ -16434,7 +16581,6 @@
           }
         }
       },
-      
       "IssueTokenRequest": {
         "type": "object",
         "description": "A structure representing an authentication request.",
