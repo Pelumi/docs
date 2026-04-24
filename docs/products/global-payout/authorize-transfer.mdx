@@ -53,6 +53,27 @@ curl --request POST \
   }'
 ```
 
+```bash MobileMoney (Africa)
+curl --request POST \
+  --url https://api.nomba.com/v1/global-payout/transfer/authorize \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountId>' \
+  --data '{
+    "amount": 100.0,
+    "sourceCurrency": "USD",
+    "destinationCurrency": "KES",
+    "receiverName": "Jane Doe",
+    "accountNumber": "0712345678",
+    "institutionName": "M-Pesa",
+    "sourceCountryIsoCode": "NG",
+    "destinationCountryIsoCode": "KE",
+    "authCode": "2580",
+    "paymentMethod": "MobileMoney",
+    "narration": "Family support"
+  }'
+```
+
 ```bash BANK (DRC)
 curl --request POST \
   --url https://api.nomba.com/v1/global-payout/transfer/authorize \
@@ -210,8 +231,12 @@ curl --request POST \
 ```
 </CodeGroup>
 
+<Note>
+  The `MobileMoney (Africa)` payload shape also applies to South Africa (`ZA`/`ZAR`), Ghana (`GH`/`GHS`), Senegal (`SN`/`XOF`), and Tanzania (`TZ`/`TZS`). Swap the destination country code, destination currency, account number, and provider `institutionName` for the recipient's market.
+</Note>
+
 <Tip>
-  For DRC transfers, call [List Institution Providers](/docs/products/global-payout/mobile-money-providers) first to get valid `institutionCode` and `institutionName` values. Use `isMobileMoney=true` for mobile money providers and `isMobileMoney=false` for banks.
+  For all mobile money transfers, call [List Institution Providers](/docs/products/global-payout/mobile-money-providers) first to get valid `institutionCode` and `institutionName` values for your destination country. Use `isMobileMoney=true` for mobile money providers and `isMobileMoney=false` for banks.
 </Tip>
 
 #### Request body
@@ -225,7 +250,7 @@ curl --request POST \
 </ParamField>
 
 <ParamField body="destinationCurrency" type="string" required>
-  ISO 4217 currency code of the destination account (e.g., `USD`, `CDF`, `EUR`, `GBP`, `CAD`).
+  ISO 4217 currency code of the destination account (e.g., `USD`, `CDF`, `CAD`, `GBP`, `EUR`, `KES`, `ZAR`, `GHS`, `XOF`, `TZS`).
 </ParamField>
 
 <ParamField body="receiverName" type="string" required>
@@ -237,7 +262,7 @@ curl --request POST \
 </ParamField>
 
 <ParamField body="destinationCountryIsoCode" type="string" required>
-  ISO 3166-1 alpha-2 country code of the recipient (e.g., `CD`, `GB`, `DE`, `CA`).
+  ISO 3166-1 alpha-2 country code of the recipient (e.g., `CD`, `CA`, `GB`, `KE`, `ZA`, `GH`, `SN`, `TZ`).
 </ParamField>
 
 <ParamField body="authCode" type="string" required>
