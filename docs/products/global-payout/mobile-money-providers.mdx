@@ -69,7 +69,7 @@ curl --request GET \
 </CodeGroup>
 
 <Tip>
-  `code` from this endpoint → `institutionCode` in the transfer request. `displayName` → `institutionName`.
+  This endpoint returns providers for all supported mobile money countries, including DRC, Kenya, South Africa, Ghana, Senegal, and Tanzania. Use `isMobileMoney=true` for mobile money providers and pass the relevant destination country ISO code as a query parameter when filtering providers by destination. `code` from this endpoint → `institutionCode` in the transfer request. `displayName` → `institutionName`.
 </Tip>
 
 #### Response body
