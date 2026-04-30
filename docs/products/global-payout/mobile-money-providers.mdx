@@ -22,6 +22,10 @@ Use the `code` from the response as `institutionCode` and `displayName` as `inst
   `false` (default) returns bank providers. `true` returns mobile money providers.
 </ParamField>
 
+<ParamField query="countryIsoCode" type="string">
+  ISO 3166-1 alpha-2 destination country code (e.g., `KE`, `ZA`, `GH`, `ET`, `RW`). When provided, takes priority over the region derived from your JWT. Use this when your platform supports multiple destination countries — pass the recipient's country code to get the correct provider list.
+</ParamField>
+
 <CodeGroup>
 ```bash Banks (isMobileMoney=false)
 curl --request GET \
@@ -69,8 +73,29 @@ curl --request GET \
 </CodeGroup>
 
 <Tip>
-  This endpoint returns providers for all supported mobile money countries, including DRC, Kenya, South Africa, Ghana, Senegal, and Tanzania. Use `isMobileMoney=true` for mobile money providers and pass the relevant destination country ISO code as a query parameter when filtering providers by destination. `code` from this endpoint → `institutionCode` in the transfer request. `displayName` → `institutionName`.
+  Always pass `countryIsoCode` when calling this endpoint. Multiple countries share the same currency (e.g., XOF covers Senegal and Côte d'Ivoire; XAF covers Cameroon and Gabon) — the country code is how the API returns the correct provider list for your destination. `code` from this endpoint → `institutionCode` in the transfer request. `displayName` → `institutionName`.
 </Tip>
+
+## Providers by Country
+
+| Country | ISO Code | Currency | Mobile Money Providers |
+|---|---|---|---|
+| DR Congo | CD | USD / CDF | Nomba, Airtel Money, M-Pesa, Orange |
+| Kenya | KE | KES | M-Pesa |
+| Ghana | GH | GHS | MTN Mobile Money |
+| South Africa | ZA | ZAR | Bank only — use `isMobileMoney=false` |
+| Senegal | SN | XOF | Orange Money, Wave |
+| Côte d'Ivoire | CI | XOF | Orange Money, MTN, Moov, Wave |
+| Ethiopia | ET | ETB | Safaricom M-Pesa, Ethio Telecom |
+| Rwanda | RW | RWF | MTN Mobile Money, Airtel Money |
+| Uganda | UG | UGX | MTN Mobile Money, Airtel Money |
+| Cameroon | CM | XAF | MTN Mobile Money, Orange Money |
+| Gabon | GA | XAF | Airtel Money, Moov |
+| UAE | AE | AED | Bank only — use `isMobileMoney=false` |
+
+<Note>
+  Provider codes (`institutionCode`) and display names (`institutionName`) returned by this endpoint are the canonical values — always call the API rather than hardcoding them, as they may be updated.
+</Note>
 
 #### Response body
 
