@@ -413,8 +413,8 @@
   },
   "contextual": {
     "options": [
-      "chatgpt",
       "claude",
+      "chatgpt",
       "mcp",
       "cursor",
       "vscode",

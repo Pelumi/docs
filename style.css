@@ -7,6 +7,15 @@
   font-style: normal;
 }
 
+/* Claude contextual button */
+[data-option="claude"],
+[class*="claude"],
+a[href*="claude.ai"],
+button[aria-label*="Claude"] {
+  background-color: #CCA300 !important;
+  color: #ffffff !important;
+}
+
 /* ChatGPT contextual button - yellow to match theme */
 [data-option="chatgpt"],
 [class*="chatgpt"],
@@ -14,5 +23,27 @@ a[href*="chatgpt.com"],
 button[aria-label*="ChatGPT"] {
   background-color: #CCA300 !important;
   color: #ffffff !important;
+}
+
+/* Open in Claude inline button */
+.open-in-claude-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: #CCA300;
+  color: #ffffff !important;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none !important;
+  transition: background 0.2s, transform 0.15s;
+  border: none;
+  cursor: pointer;
+}
+
+.open-in-claude-btn:hover {
+  background: #A38200;
+  transform: translateY(-1px);
 }
 
