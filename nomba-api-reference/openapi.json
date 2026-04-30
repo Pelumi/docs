@@ -17401,7 +17401,7 @@
           },
           "status": {
             "type": "string",
-            "description": "Transaction status",
+            "description": "Transaction status. \n `SUCCESS` means the transaction was successful. \n `REFUND` means the transaction failed and has been refunded to your account. \n `PENDING_BILLING`, `CANCELLED`, `PAYMENT_FAILED`, and `REVERSED_BY_VENDOR` mean the transaction is pending.",
             "enum": [
               "SUCCESS",
               "PENDING_BILLING",
