@@ -6723,7 +6723,7 @@
             },
             "description": "Downstream system error."
           },
-          "422": {
+          "201": {
             "content": {
               "application/json": {
                 "schema": {
@@ -6731,7 +6731,7 @@
                   "properties": {
                     "code": {
                       "type": "string",
-                      "example": "422"
+                      "example": "201"
                     },
                     "description": {
                       "type": "string",
@@ -6914,7 +6914,7 @@
             },
             "description": "Downstream system error."
           },
-          "422": {
+          "201": {
             "content": {
               "application/json": {
                 "schema": {
@@ -6922,7 +6922,7 @@
                   "properties": {
                     "code": {
                       "type": "string",
-                      "example": "422"
+                      "example": "201"
                     },
                     "description": {
                       "type": "string",
@@ -7115,7 +7115,7 @@
             },
             "description": "Downstream system error."
           },
-          "422": {
+          "201": {
             "content": {
               "application/json": {
                 "schema": {
@@ -7123,7 +7123,7 @@
                   "properties": {
                     "code": {
                       "type": "string",
-                      "example": "422"
+                      "example": "201"
                     },
                     "description": {
                       "type": "string",
@@ -7306,7 +7306,7 @@
             },
             "description": "Downstream system error."
           },
-          "422": {
+          "201": {
             "content": {
               "application/json": {
                 "schema": {
@@ -7314,7 +7314,7 @@
                   "properties": {
                     "code": {
                       "type": "string",
-                      "example": "422"
+                      "example": "201"
                     },
                     "description": {
                       "type": "string",
