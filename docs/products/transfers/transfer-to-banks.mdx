@@ -380,13 +380,13 @@ GET /v1/transactions/transaction-requery/{sessionId}
 - Nomba-to-Nomba transfers **do not include a sessionId** use the parent or sub-account endpoints for requery.
 </Info>
 
-#### **Handling a 422 Response**
+#### **Handling a 201 Response**
 
-A `422` HTTP status code means the transfer request was received but we were unable to return a definitive outcome at the time of the response. The transaction may still be processed successfully.
+A `201` HTTP status code means the transfer request was received but the final outcome is not yet available. The transaction will be processed.
 
 ```json
 {
-  "code": "422",
+  "code": "201",
   "description": "PROCESSING",
   "message": "Unable to process response, please rely on web hook",
   "status": false,
@@ -397,7 +397,7 @@ A `422` HTTP status code means the transfer request was received but we were una
 ```
 
 
-When you receive a 422, you should:
+When you receive a 201, you should:
 
 1. Mark the transaction as pending in your system
 2. Keep the original `merchantTxRef` — do not generate a new one
