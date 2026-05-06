@@ -29,7 +29,7 @@ The `paymentMethod` field determines which additional fields are required:
 | `BANK` (Canada) | `accountNumber`, `receiverName`, `institutionCode` (institution number), `beneficiary.beneficiaryEmail` | `beneficiary.securityQuestion`, `beneficiary.securityQuestionAnswer`, `beneficiary.transitNumber`, `narration` |
 | `MobileMoney` | `accountNumber` (recipient phone number), `receiverName`, `institutionName` (provider display name) | `narration` |
 | `INTERAC` | `receiverName`, `beneficiary.beneficiaryEmail` | `beneficiary.securityQuestion`, `beneficiary.securityQuestionAnswer` |
-| `FASTER_PAYMENTS` | `accountNumber`, `receiverName`, `institutionCode` (sort code, 6 digits) | `accountType` (e.g. `Individual`, `Corporate`), `narration` |
+| `FASTER_PAYMENTS` | `accountNumber`, `receiverName`, `institutionCode` (sort code, 6 digits), `accountType` (e.g. `Individual`, `Corporate`) | `narration` |
 | `SEPA` | `accountNumber` (IBAN), `receiverName`, `institutionCode` (SWIFT/BIC) | `accountType` (e.g. `Individual`, `Corporate`), `purposeOfPayment`, `narration` |
 
 <CodeGroup>
@@ -316,7 +316,7 @@ curl --request POST \
 </ParamField>
 
 <ParamField body="accountType" type="string">
-  Account type of the recipient. Pass `Individual` or `Corporate`. Required by some corridors — optional for `FASTER_PAYMENTS` and `SEPA`.
+  Account type of the recipient. Pass `Individual` or `Corporate`. Required for `FASTER_PAYMENTS`; optional for `SEPA`.
 </ParamField>
 
 <ParamField body="purposeOfPayment" type="string">
