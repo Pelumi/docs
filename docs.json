@@ -431,7 +431,7 @@
   },
   "scripts": [
     {
-      "src": "https://mintlify-docs.kudi.ai/widget.js"
+      "src": "/widget.js"
     }
   ],
   "footer": {
