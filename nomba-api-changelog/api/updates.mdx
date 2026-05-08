@@ -17,7 +17,7 @@ icon: pen-nib
 
 - **Global Payout** `updated` – Updated the Authorize Transfer request fields: `bankCode` has been renamed to `institutionCode`, and `bankName` has been renamed to `institutionName`. The `phoneNumber` field has been removed; for `MOBILE_MONEY` transfers, pass the recipient's phone number in `accountNumber` instead. Canada bank transfer (`BANK` with `destinationCountryIsoCode: "CA"`) is now documented as a supported payment method. See the [Authorize Transfer](/docs/products/global-payout/authorize-transfer) page for the full required-fields breakdown per payment method.
 
-- **Global Payout** `added` – New endpoint `GET /v1/global-payout/mobile-money/providers` returns the list of mobile money providers available for DRC transfers (Mpesa, Airtel Money, Orange Money). Use the returned `code` and `displayName` as `institutionCode` and `institutionName` in the Authorize Transfer request. See [List Mobile Money Providers](/docs/products/global-payout/mobile-money-providers).
+- **Global Payout** `added` – New endpoint `GET /v1/global-payout/bank/providers` returns the list of institution providers available for DRC transfers (Mpesa, Airtel Money, Orange Money). Use the returned `code` and `displayName` as `institutionCode` and `institutionName` in the Authorize Transfer request. See [Institution Providers](/docs/products/global-payout/mobile-money-providers).
 
 ### February 2026
 - **Webhooks** `added` – Introduced support for replaying webhook events. See updates in [Debug webhooks](/docs/api-basics/troubleshoot-webhooks).
@@ -65,6 +65,4 @@ icon: pen-nib
 ### February 2025
 
 - **Sub-Account API** `deprecated` – This API is deprecated but remains functional for existing users. We recommend that new customers should explore [Virtual Account](/docs/products/accept-payment/virtual-account) option for account creation.
-
-
 

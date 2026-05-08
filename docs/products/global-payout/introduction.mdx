@@ -56,15 +56,19 @@ GlobalPayout enables cross-border fund disbursements, giving you full control ov
 
 <Steps titleSize="p">
   <Step title="Fetch the latest exchange rate">
-    Before initiating a cross-currency transfer, call the exchange rates endpoint to retrieve accurate, up-to-date conversion values. This ensures your customers see the correct rate before confirming a transaction.
+    For cross-currency transfers, call the exchange rates endpoint to show your customer the current rate before they confirm the transfer.
   </Step>
-  <Step title="Convert money">
-    Call the ConvertMoney endpoint to calculate the exact destination amount after conversion. This returns a locked exchange rate ID that you will reference in the next step.
+  <Step title="Fetch payment methods">
+    Call `GET /v1/global-payout/payment-methods` to get available payment rails and selectable requirement values such as `purposeOfPayment`, `accountType`, and `bankAccountType`.
   </Step>
   <Step title="Authorize the transfer">
-    Submit the full transfer details — recipient account, payment method, currencies, and auth code — to authorize and initiate the disbursement.
+    Submit the recipient details, payment method, source and destination currencies, auth code, and any required fields returned by Fetch Payment Methods.
   </Step>
-  <Step title="Track the transaction">
+  <Step title="Fetch transaction status">
     Use the FetchTransaction endpoint with the returned `wtTransactionId` to poll for the current status of the transfer at any point in its lifecycle.
   </Step>
 </Steps>
+
+<Note>
+  Convert Money is optional. Use it only when you want to lock the exchange rate and destination amount before authorizing the transfer. If you use Convert Money, pass the returned `lockedExchangeRateId` in the Authorize Transfer request.
+</Note>
