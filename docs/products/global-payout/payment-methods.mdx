@@ -1,6 +1,6 @@
 ---
 title: 'Fetch Payment Methods'
-description: 'Retrieve the list of supported payment method codes and display names'
+description: 'Retrieve supported payment methods and method-specific requirements'
 ---
 
 <Card
@@ -12,31 +12,153 @@ description: 'Retrieve the list of supported payment method codes and display na
 
 # `GET /v1/global-payout/payment-methods`
 
-Returns the list of supported payment method codes and display names. Use this to dynamically populate a payment method selector in your UI.
+By default, this endpoint returns all supported payment methods and their method-specific requirements. You can also filter the list by payment method `code` or `name`.
 
 Destination countries, transaction limits, and delivery timelines are documented in the [Supported Countries](/docs/products/global-payout/supported-countries) page — they are not part of this response.
 
+#### Query parameters
+
+<ParamField query="code" type="string">
+  Optional payment method code. Use this to retrieve a specific method, for example `ACH`.
+</ParamField>
+
+<ParamField query="name" type="string">
+  Optional payment method name. Use this to retrieve a specific method, for example `BANK` or `Wire Transfer`.
+</ParamField>
+
+Supported method codes are `BANK`, `MobileMoney`, `INTERAC`, `FASTER_PAYMENTS`, `SEPA`, `ACH`, and `WIRE`.
+
 <CodeGroup>
-```bash Request
+```bash Default request
 curl --request GET \
   --url https://api.nomba.com/v1/global-payout/payment-methods \
   --header 'Authorization: Bearer <token>' \
   --header 'accountId: <accountId>'
 ```
 
-```json Response
+```json Default response
 {
   "code": "00",
   "description": "Successful",
   "status": false,
   "data": [
-    { "code": "BANK", "displayName": "Bank Transfer" },
-    { "code": "MobileMoney", "displayName": "Mobile Money" },
-    { "code": "INTERAC", "displayName": "Interac" },
-    { "code": "FASTER_PAYMENTS", "displayName": "Faster Payments" },
-    { "code": "SEPA", "displayName": "SEPA" }
+    {
+      "code": "BANK",
+      "displayName": "Bank Transfer",
+      "purposeOfPaymentRequired": false,
+      "purposeOfPayments": [],
+      "requiredFields": ["accountType"],
+      "optionalFields": ["narration"],
+      "accountTypes": ["INDIVIDUAL", "CORPORATE"],
+      "bankAccountTypes": []
+    },
+    {
+      "code": "MobileMoney",
+      "displayName": "Mobile Money",
+      "purposeOfPaymentRequired": false,
+      "purposeOfPayments": [],
+      "requiredFields": ["accountNumber", "institutionName", "accountType"],
+      "optionalFields": ["narration"],
+      "accountTypes": ["INDIVIDUAL", "CORPORATE"],
+      "bankAccountTypes": []
+    },
+    {
+      "code": "INTERAC",
+      "displayName": "Interac",
+      "purposeOfPaymentRequired": false,
+      "purposeOfPayments": [],
+      "requiredFields": ["accountType", "beneficiary"],
+      "optionalFields": ["narration"],
+      "accountTypes": ["INDIVIDUAL", "CORPORATE"],
+      "bankAccountTypes": []
+    },
+    {
+      "code": "FASTER_PAYMENTS",
+      "displayName": "Faster Payments",
+      "purposeOfPaymentRequired": false,
+      "purposeOfPayments": [],
+      "requiredFields": ["accountNumber", "institutionCode", "accountType"],
+      "optionalFields": ["narration"],
+      "accountTypes": ["INDIVIDUAL", "CORPORATE"],
+      "bankAccountTypes": []
+    },
+    {
+      "code": "SEPA",
+      "displayName": "SEPA",
+      "purposeOfPaymentRequired": true,
+      "purposeOfPayments": ["MAINTENANCE_EXPENSES", "SERVICE_CHARGES"],
+      "requiredFields": ["accountNumber", "institutionCode", "accountType", "purposeOfPayment"],
+      "optionalFields": ["narration"],
+      "accountTypes": ["INDIVIDUAL", "CORPORATE"],
+      "bankAccountTypes": []
+    },
+    {
+      "code": "ACH",
+      "displayName": "ACH",
+      "purposeOfPaymentRequired": true,
+      "purposeOfPayments": ["MAINTENANCE_EXPENSES", "SERVICE_CHARGES"],
+      "requiredFields": [
+        "accountNumber",
+        "institutionCode",
+        "institutionName",
+        "accountType",
+        "bankAccountType",
+        "bankAddress",
+        "bankCity",
+        "bankState",
+        "bankZipCode",
+        "beneficiary",
+        "purposeOfPayment"
+      ],
+      "optionalFields": ["narration"],
+      "accountTypes": ["INDIVIDUAL"],
+      "bankAccountTypes": ["CHECKING", "SAVINGS"]
+    },
+    {
+      "code": "WIRE",
+      "displayName": "Wire Transfer",
+      "purposeOfPaymentRequired": true,
+      "purposeOfPayments": ["MAINTENANCE_EXPENSES", "SERVICE_CHARGES"],
+      "requiredFields": [
+        "accountNumber",
+        "institutionCode",
+        "institutionName",
+        "accountType",
+        "bankAccountType",
+        "bankAddress",
+        "bankCity",
+        "bankState",
+        "bankZipCode",
+        "beneficiary",
+        "purposeOfPayment"
+      ],
+      "optionalFields": ["narration"],
+      "accountTypes": ["INDIVIDUAL", "CORPORATE"],
+      "bankAccountTypes": ["CHECKING", "SAVINGS"]
+    }
   ]
 }
+```
+
+```bash Filter by code
+curl --request GET \
+  --url 'https://api.nomba.com/v1/global-payout/payment-methods?code=ACH' \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountId>'
+```
+
+```bash Filter by name
+curl --request GET \
+  --url 'https://api.nomba.com/v1/global-payout/payment-methods?name=BANK' \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountId>'
+```
+
+```bash Filter by display name
+curl --request GET \
+  --url 'https://api.nomba.com/v1/global-payout/payment-methods?name=Wire%20Transfer' \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountId>'
 ```
 </CodeGroup>
 
@@ -51,6 +173,24 @@ curl --request GET \
     </ResponseField>
     <ResponseField name="displayName" type="string">
       Human-readable label suitable for displaying in a UI selector.
+    </ResponseField>
+    <ResponseField name="purposeOfPaymentRequired" type="boolean">
+      Indicates whether `purposeOfPayment` is required for this payment method.
+    </ResponseField>
+    <ResponseField name="purposeOfPayments" type="array">
+      Selectable purpose-of-payment values for this method. When `purposeOfPaymentRequired` is `true`, choose a value from this array.
+    </ResponseField>
+    <ResponseField name="requiredFields" type="array">
+      Fields that must be included when authorizing a transfer with this payment method.
+    </ResponseField>
+    <ResponseField name="optionalFields" type="array">
+      Fields that may be included but are not required for this payment method.
+    </ResponseField>
+    <ResponseField name="accountTypes" type="array">
+      Selectable `accountType` values for this payment method.
+    </ResponseField>
+    <ResponseField name="bankAccountTypes" type="array">
+      Selectable `bankAccountType` values for this payment method.
     </ResponseField>
   </Expandable>
 </ResponseField>

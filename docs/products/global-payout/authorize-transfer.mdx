@@ -15,7 +15,7 @@ description: 'Initiate and authorize a cross-border transfer using the Nomba Glo
 Manage the complete transfer lifecycle with a single endpoint. AuthTransfer walks you through every required step from initiating a transfer to final authorization, ensuring nothing is missed before funds are moved.
 
 <Tip>
-  Before calling this endpoint, use [Fetch Exchange Rates](/docs/products/global-payout/fetch-exchange-rates) to get the latest rate for your currency pair. Pass the returned `exchangeRateId` as `lockedExchangeRateId` to guarantee that the rate shown to your customer is the rate used to fulfil the transaction.
+  Before calling this endpoint, use [Fetch Exchange Rates](/docs/products/global-payout/fetch-exchange-rates) for cross-currency transfers, then call [Fetch Payment Methods](/docs/products/global-payout/payment-methods) to get required fields and selectable values for `purposeOfPayment`, `accountType`, and `bankAccountType`. [Convert Money](/docs/products/global-payout/convert-money) is optional; use it only when you want to lock the exchange rate and exact converted amount before authorization, then pass the returned `lockedExchangeRateId` here.
 </Tip>
 
 ## Payment methods
@@ -24,13 +24,15 @@ The `paymentMethod` field determines which additional fields are required:
 
 | `paymentMethod` | Required fields | Optional fields |
 |---|---|---|
-| `BANK` (non-Canada, e.g. DRC) | `accountNumber`, `receiverName`, `institutionName` (bank display name), `institutionCode` (bank code from `/bank/providers`) | `narration` |
-| `BANK` (South Africa) | `accountNumber`, `receiverName`, `institutionCode` (bank code from `/bank/providers`), `institutionName`, `purposeOfPayment`, `beneficiary.beneficiaryAddress`, `beneficiary.beneficiaryCity`, `beneficiary.beneficiaryPostCode` | `accountType` (`Individual` or `Corporate`), `beneficiary.beneficiaryState` |
-| `BANK` (Canada) | `accountNumber`, `receiverName`, `institutionCode` (institution number), `beneficiary.beneficiaryEmail` | `beneficiary.securityQuestion`, `beneficiary.securityQuestionAnswer`, `beneficiary.transitNumber`, `narration` |
-| `MobileMoney` | `accountNumber` (recipient phone number), `receiverName`, `institutionName` (provider display name) | `narration` |
-| `INTERAC` | `receiverName`, `beneficiary.beneficiaryEmail` | `beneficiary.securityQuestion`, `beneficiary.securityQuestionAnswer` |
-| `FASTER_PAYMENTS` | `accountNumber`, `receiverName`, `institutionCode` (sort code, 6 digits), `accountType` (e.g. `Individual`, `Corporate`) | `narration` |
-| `SEPA` | `accountNumber` (IBAN), `receiverName`, `institutionCode` (SWIFT/BIC) | `accountType` (e.g. `Individual`, `Corporate`), `purposeOfPayment`, `narration` |
+| `BANK` (non-Canada, e.g. DRC) | `accountNumber`, `receiverName`, `institutionName` (bank display name), `institutionCode` (bank code from `/bank/providers`), `accountType` | `narration` |
+| `BANK` (South Africa) | `accountNumber`, `receiverName`, `institutionCode` (bank code from `/bank/providers`), `institutionName`, `accountType`, `purposeOfPayment`, `beneficiary.beneficiaryAddress`, `beneficiary.beneficiaryCity`, `beneficiary.beneficiaryPostCode` | `beneficiary.beneficiaryState` |
+| `BANK` (Canada) | `accountNumber`, `receiverName`, `institutionCode` (institution number), `accountType`, `beneficiary.beneficiaryEmail` | `beneficiary.securityQuestion`, `beneficiary.securityQuestionAnswer`, `beneficiary.transitNumber`, `narration` |
+| `MobileMoney` | `accountNumber` (recipient phone number), `receiverName`, `institutionName` (provider display name), `accountType` | `narration` |
+| `INTERAC` | `receiverName`, `accountType`, `beneficiary.beneficiaryEmail` | `beneficiary.securityQuestion`, `beneficiary.securityQuestionAnswer` |
+| `FASTER_PAYMENTS` | `accountNumber`, `receiverName`, `institutionCode` (sort code, 6 digits), `accountType` | `narration` |
+| `SEPA` | `accountNumber` (IBAN), `receiverName`, `institutionCode` (SWIFT/BIC), `accountType`, `purposeOfPayment` | `narration` |
+| `ACH` (United States) | `accountNumber`, `institutionCode`, `institutionName`, `accountType`, `bankAccountType`, `bankAddress`, `bankCity`, `bankState`, `bankZipCode`, `beneficiary`, `purposeOfPayment` | `narration` |
+| `WIRE` (United States) | `accountNumber`, `institutionName`, `institutionCode`, `accountType`, `bankAccountType`, `beneficiary`, `bankAddress`, `bankCity`, `bankState`, `bankZipCode`, `purposeOfPayment` | `narration` |
 
 <CodeGroup>
 ```bash MobileMoney (DRC)
@@ -50,6 +52,7 @@ curl --request POST \
     "destinationCountryIsoCode": "CD",
     "authCode": "2580",
     "paymentMethod": "MobileMoney",
+    "accountType": "INDIVIDUAL",
     "narration": "Family support"
   }'
 ```
@@ -71,6 +74,7 @@ curl --request POST \
     "destinationCountryIsoCode": "KE",
     "authCode": "2580",
     "paymentMethod": "MobileMoney",
+    "accountType": "INDIVIDUAL",
     "narration": "Family support"
   }'
 ```
@@ -93,6 +97,7 @@ curl --request POST \
     "destinationCountryIsoCode": "CD",
     "authCode": "2580",
     "paymentMethod": "Bank",
+    "accountType": "INDIVIDUAL",
     "narration": "Business payment"
   }'
 ```
@@ -113,6 +118,7 @@ curl --request POST \
     "authCode": "2580",
     "narration": "Ted",
     "paymentMethod": "Interac",
+    "accountType": "INDIVIDUAL",
     "lockedExchangeRateId": "01k7pcakf0t8g03rvny3z5mr1p",
     "beneficiary": {
       "beneficiaryEmail": "testtt@yahoo.com",
@@ -139,6 +145,7 @@ curl --request POST \
     "destinationCountryIsoCode": "CA",
     "authCode": "2580",
     "paymentMethod": "Bank",
+    "accountType": "INDIVIDUAL",
     "lockedExchangeRateId": "01k7pcakf0t8g03rvny3z5mr1p",
     "beneficiary": {
       "beneficiaryEmail": "test@yoop.com",
@@ -165,7 +172,7 @@ curl --request POST \
     "authCode": "2580",
     "narration": "Ted Thomos",
     "paymentMethod": "FASTER_PAYMENTS",
-    "accountType": "Individual",
+    "accountType": "INDIVIDUAL",
     "lockedExchangeRateId": "01k4a8rfrngw76yfcj3ak1rw71"
   }'
 ```
@@ -188,7 +195,7 @@ curl --request POST \
     "destinationCountryIsoCode": "ZA",
     "authCode": "2580",
     "paymentMethod": "Bank",
-    "accountType": "Individual",
+    "accountType": "INDIVIDUAL",
     "purposeOfPayment": "FAMILY_SUPPORT",
     "beneficiary": {
       "beneficiaryAddress": "123 Main Street",
@@ -217,9 +224,77 @@ curl --request POST \
     "authCode": "2580",
     "narration": "Ted",
     "paymentMethod": "SEPA",
-    "accountType": "Individual",
-    "purposeOfPayment": "Family Support",
+    "accountType": "INDIVIDUAL",
+    "purposeOfPayment": "MAINTENANCE_EXPENSES",
     "lockedExchangeRateId": "01k4a8rfrngw76yfcj3ak1rw71"
+  }'
+```
+
+```bash ACH (United States)
+curl --request POST \
+  --url https://api.nomba.com/v1/global-payout/transfer/authorize \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountId>' \
+  --data '{
+    "amount": 40.0,
+    "sourceCurrency": "USD",
+    "destinationCurrency": "USD",
+    "accountNumber": "223456789",
+    "receiverName": "Daniel Brooks",
+    "institutionCode": "021000021",
+    "institutionName": "Chase Bank",
+    "sourceCountryIsoCode": "CD",
+    "destinationCountryIsoCode": "US",
+    "authCode": "2580",
+    "paymentMethod": "ACH",
+    "accountType": "INDIVIDUAL",
+    "bankAccountType": "CHECKING",
+    "bankAddress": "123 Financial Street",
+    "bankCity": "San Francisco",
+    "bankState": "California",
+    "bankZipCode": "94105",
+    "purposeOfPayment": "MAINTENANCE_EXPENSES",
+    "beneficiary": {
+      "beneficiaryAddress": "45 Market Road",
+      "beneficiaryCity": "Austin",
+      "beneficiaryState": "Texas",
+      "beneficiaryPostCode": "78701"
+    }
+  }'
+```
+
+```bash WIRE (United States)
+curl --request POST \
+  --url https://api.nomba.com/v1/global-payout/transfer/authorize \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountId>' \
+  --data '{
+    "amount": 75.0,
+    "sourceCurrency": "USD",
+    "destinationCurrency": "USD",
+    "accountNumber": "987654321",
+    "receiverName": "Morgan Blake",
+    "institutionCode": "026009593",
+    "institutionName": "Bank of America",
+    "sourceCountryIsoCode": "CD",
+    "destinationCountryIsoCode": "US",
+    "authCode": "2580",
+    "paymentMethod": "WIRE",
+    "accountType": "CORPORATE",
+    "bankAccountType": "SAVINGS",
+    "bankAddress": "400 Commerce Avenue",
+    "bankCity": "New York",
+    "bankState": "New York",
+    "bankZipCode": "10001",
+    "purposeOfPayment": "SERVICE_CHARGES",
+    "beneficiary": {
+      "beneficiaryAddress": "10 Business Park",
+      "beneficiaryCity": "Dallas",
+      "beneficiaryState": "Texas",
+      "beneficiaryPostCode": "75201"
+    }
   }'
 ```
 
@@ -269,6 +344,14 @@ curl --request POST \
   For all mobile money transfers, call [List Institution Providers](/docs/products/global-payout/mobile-money-providers) first to get valid `institutionCode` and `institutionName` values for your destination country. Use `isMobileMoney=true` for mobile money providers and `isMobileMoney=false` for banks.
 </Tip>
 
+<Note>
+  `accountType` is required for Authorize Transfer and must be selected from the `accountTypes` array returned by Fetch Payment Methods. Valid values are `INDIVIDUAL` and `CORPORATE`. ACH supports only `INDIVIDUAL`; WIRE supports `INDIVIDUAL` and `CORPORATE`.
+</Note>
+
+<Note>
+  `purposeOfPayment` is required for `ACH`, `WIRE`, and `SEPA`. Select it from the `purposeOfPayments` array returned by Fetch Payment Methods; do not send arbitrary text.
+</Note>
+
 #### Request body
 
 <ParamField body="amount" type="number" required>
@@ -300,7 +383,7 @@ curl --request POST \
 </ParamField>
 
 <ParamField body="paymentMethod" type="string" required>
-  Payment rail to use. One of: `BANK`, `MobileMoney`, `INTERAC`, `FASTER_PAYMENTS`, `SEPA`.
+  Payment rail to use. One of: `BANK`, `MobileMoney`, `INTERAC`, `FASTER_PAYMENTS`, `SEPA`, `ACH`, `WIRE`.
 </ParamField>
 
 <ParamField body="accountNumber" type="string">
@@ -315,12 +398,16 @@ curl --request POST \
   Bank or provider display name. For `BANK`: the bank display name. For `MobileMoney`: the provider display name (e.g., `Mpesa`). Use the `displayName` from [List Institution Providers](/docs/products/global-payout/mobile-money-providers).
 </ParamField>
 
-<ParamField body="accountType" type="string">
-  Account type of the recipient. Pass `Individual` or `Corporate`. Required for `FASTER_PAYMENTS`; optional for `SEPA`.
+<ParamField body="accountType" type="string" required>
+  Account type of the recipient. Required for Authorize Transfer. Select one of the values returned in `accountTypes` from Fetch Payment Methods. Valid values are `INDIVIDUAL` and `CORPORATE`; ACH supports only `INDIVIDUAL`.
+</ParamField>
+
+<ParamField body="bankAccountType" type="string">
+  Recipient bank account type. Required for `ACH` and `WIRE`. Select one of the values returned in `bankAccountTypes` from Fetch Payment Methods. Valid values are `CHECKING` and `SAVINGS`.
 </ParamField>
 
 <ParamField body="purposeOfPayment" type="string">
-  Reason for the transfer. Optional for most corridors; required by some (e.g., SEPA corporate transfers).
+  Reason for the transfer. Required for `ACH`, `WIRE`, and `SEPA`. Select one of the values returned in `purposeOfPayments` from Fetch Payment Methods; do not send arbitrary text.
 </ParamField>
 
 <ParamField body="narration" type="string">
@@ -328,7 +415,23 @@ curl --request POST \
 </ParamField>
 
 <ParamField body="lockedExchangeRateId" type="string">
-  The `exchangeRateId` from a prior [Fetch Exchange Rates](/docs/products/global-payout/fetch-exchange-rates) or [Convert Money](/docs/products/global-payout/convert-money) call. Guarantees the transfer is fulfilled at that exact rate regardless of any subsequent market movement.
+  Optional locked exchange rate ID from [Convert Money](/docs/products/global-payout/convert-money). Use this when you want to lock the exchange rate and destination amount before authorizing.
+</ParamField>
+
+<ParamField body="bankAddress" type="string">
+  Bank street address. Required for United States `WIRE`.
+</ParamField>
+
+<ParamField body="bankCity" type="string">
+  Bank city. Required for United States `WIRE`.
+</ParamField>
+
+<ParamField body="bankState" type="string">
+  Bank state. Required for United States `WIRE`.
+</ParamField>
+
+<ParamField body="bankZipCode" type="string">
+  Bank ZIP code. Required for United States `WIRE`.
 </ParamField>
 
 <ParamField body="beneficiary" type="object">

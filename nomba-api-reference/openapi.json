@@ -13200,7 +13200,7 @@
     },
     "/v1/global-payout/transfer/authorize": {
       "post": {
-        "description": "Initiate and authorize a cross-border transfer. Manages the complete transfer lifecycle from initiation to final authorization. Supports BANK, MOBILE_MONEY, INTERAC, FASTER_PAYMENTS, and SEPA payment methods.",
+        "description": "Initiate and authorize a cross-border transfer. Manages the complete transfer lifecycle from initiation to final authorization. Supports BANK, MobileMoney, INTERAC, FASTER_PAYMENTS, SEPA, ACH, and WIRE payment methods.",
         "operationId": "Authorize Transfer",
         "parameters": [
           {
@@ -13239,7 +13239,8 @@
                   "sourceCountryIsoCode",
                   "destinationCountryIsoCode",
                   "authCode",
-                  "paymentMethod"
+                  "paymentMethod",
+                  "accountType"
                 ],
                 "properties": {
                   "amount": {
@@ -13278,10 +13279,12 @@
                       "MobileMoney",
                       "INTERAC",
                       "FASTER_PAYMENTS",
-                      "SEPA"
+                      "SEPA",
+                      "ACH",
+                      "WIRE"
                     ],
                     "example": "MobileMoney",
-                    "description": "Payment rail. Determines which additional fields are required."
+                    "description": "Payment rail. Determines which additional fields are required. Use Fetch Payment Methods with code or name to get method-specific requirements."
                   },
                   "accountNumber": {
                     "type": "string",
@@ -13300,13 +13303,26 @@
                   },
                   "accountType": {
                     "type": "string",
-                    "example": "Individual",
-                    "description": "Account type of the recipient. Pass Individual or Corporate. Optional for FASTER_PAYMENTS and SEPA."
+                    "enum": [
+                      "INDIVIDUAL",
+                      "CORPORATE"
+                    ],
+                    "example": "INDIVIDUAL",
+                    "description": "Required account type of the recipient. Select one of the values returned in accountTypes from Fetch Payment Methods. ACH supports only INDIVIDUAL; WIRE supports INDIVIDUAL and CORPORATE."
+                  },
+                  "bankAccountType": {
+                    "type": "string",
+                    "enum": [
+                      "CHECKING",
+                      "SAVINGS"
+                    ],
+                    "example": "CHECKING",
+                    "description": "Recipient bank account type. Required for ACH and WIRE. Select one of the values returned in bankAccountTypes from Fetch Payment Methods."
                   },
                   "purposeOfPayment": {
                     "type": "string",
-                    "example": "Family Support",
-                    "description": "Reason for the transfer. Optional for most corridors; required by some (e.g. SEPA corporate transfers)."
+                    "example": "FAMILY_SUPPORT",
+                    "description": "Reason for the transfer. Required for ACH, WIRE, and SEPA. Select one of the values returned in purposeOfPayments from Fetch Payment Methods; do not send arbitrary text."
                   },
                   "narration": {
                     "type": "string",
@@ -13315,7 +13331,27 @@
                   "lockedExchangeRateId": {
                     "type": "string",
                     "example": "01k7pcakf0t8g03rvny3z5mr1p",
-                    "description": "exchangeRateId from Fetch Exchange Rates or Convert Money. Locks the rate for this transfer."
+                    "description": "Optional locked exchange rate ID from Convert Money. Use this when you want to lock the exchange rate and destination amount before authorizing."
+                  },
+                  "bankAddress": {
+                    "type": "string",
+                    "example": "383 Madison Avenue",
+                    "description": "Bank street address. Required for United States WIRE."
+                  },
+                  "bankCity": {
+                    "type": "string",
+                    "example": "New York",
+                    "description": "Bank city. Required for United States WIRE."
+                  },
+                  "bankState": {
+                    "type": "string",
+                    "example": "NY",
+                    "description": "Bank state. Required for United States WIRE."
+                  },
+                  "bankZipCode": {
+                    "type": "string",
+                    "example": "10017",
+                    "description": "Bank ZIP code. Required for United States WIRE."
                   },
                   "beneficiary": {
                     "type": "object",
@@ -13336,6 +13372,22 @@
                       "transitNumber": {
                         "type": "string",
                         "description": "Bank transit number (Canada only)."
+                      },
+                      "beneficiaryAddress": {
+                        "type": "string",
+                        "example": "123 Main Street"
+                      },
+                      "beneficiaryCity": {
+                        "type": "string",
+                        "example": "New York"
+                      },
+                      "beneficiaryState": {
+                        "type": "string",
+                        "example": "NY"
+                      },
+                      "beneficiaryPostCode": {
+                        "type": "string",
+                        "example": "10001"
                       }
                     }
                   }
@@ -13980,7 +14032,7 @@
     },
     "/v1/global-payout/payment-methods": {
       "get": {
-        "description": "Returns the list of supported payment method codes and display names.",
+        "description": "Returns all supported payment methods and their method-specific requirements. Filter by code or name to retrieve a specific method.",
         "operationId": "Fetch Payment Methods",
         "parameters": [
           {
@@ -14002,6 +14054,26 @@
               "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
             },
             "required": true
+          },
+          {
+            "description": "Optional payment method code used to return a specific method.",
+            "in": "query",
+            "name": "code",
+            "schema": {
+              "type": "string",
+              "example": "ACH"
+            },
+            "required": false
+          },
+          {
+            "description": "Optional payment method name used to return a specific method, for example BANK or Wire Transfer.",
+            "in": "query",
+            "name": "name",
+            "schema": {
+              "type": "string",
+              "example": "BANK"
+            },
+            "required": false
           }
         ],
         "responses": {
@@ -14032,6 +14104,66 @@
                           "displayName": {
                             "type": "string",
                             "example": "Bank Transfer"
+                          },
+                          "purposeOfPaymentRequired": {
+                            "type": "boolean",
+                            "example": true
+                          },
+                          "purposeOfPayments": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "example": [
+                              "MAINTENANCE_EXPENSES",
+                              "SERVICE_CHARGES"
+                            ],
+                            "description": "Selectable purpose-of-payment values for this method."
+                          },
+                          "requiredFields": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "example": [
+                              "accountNumber",
+                              "institutionCode",
+                              "accountType",
+                              "bankAccountType",
+                              "beneficiary",
+                              "purposeOfPayment"
+                            ]
+                          },
+                          "optionalFields": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "example": [
+                              "narration"
+                            ]
+                          },
+                          "accountTypes": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "example": [
+                              "INDIVIDUAL",
+                              "CORPORATE"
+                            ],
+                            "description": "Selectable accountType values for this method."
+                          },
+                          "bankAccountTypes": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "example": [
+                              "CHECKING",
+                              "SAVINGS"
+                            ],
+                            "description": "Selectable bankAccountType values for this method."
                           }
                         }
                       }
@@ -14046,7 +14178,7 @@
     },
     "/v1/global-payout/bank/providers": {
       "get": {
-        "description": "Returns available banks or mobile money providers for the user's region. Use isMobileMoney=false for banks, isMobileMoney=true for mobile money providers. Use code as institutionCode and displayName as institutionName in Authorize Transfer.",
+        "description": "Returns available bank, institution, or mobile money providers. Use isMobileMoney=false for bank/institution providers and isMobileMoney=true for mobile money providers. Use code as institutionCode and displayName as institutionName in Authorize Transfer.",
         "operationId": "List Institution Providers",
         "parameters": [
           {
@@ -14070,12 +14202,22 @@
             "required": true
           },
           {
-            "description": "Set to true to return mobile money providers. Set to false (default) to return banks.",
+            "description": "Set to true to return mobile money providers. Set to false to return bank or institution providers.",
             "in": "query",
             "name": "isMobileMoney",
             "schema": {
               "type": "boolean",
               "example": false
+            },
+            "required": false
+          },
+          {
+            "description": "ISO 3166-1 alpha-2 destination country code used to return providers for a specific country.",
+            "in": "query",
+            "name": "countryIsoCode",
+            "schema": {
+              "type": "string",
+              "example": "US"
             },
             "required": false
           }
@@ -14124,7 +14266,7 @@
         }
       }
     },
-    "/v1/global-collection/mobile-money/initiate": {
+    "/v1/global-collection/inflow/initiate": {
       "post": {
         "description": "Trigger a mobile money collection request from a customer.",
         "operationId": "Initiate Mobile Money Inflow",
@@ -14158,7 +14300,6 @@
                 "type": "object",
                 "required": [
                   "phoneNumber",
-                  "pin",
                   "callbackUrl",
                   "amount",
                   "currency",
@@ -14168,11 +14309,6 @@
                   "phoneNumber": {
                     "type": "string",
                     "example": "0980802xxx"
-                  },
-                  "pin": {
-                    "type": "string",
-                    "format": "password",
-                    "example": "0000"
                   },
                   "callbackUrl": {
                     "type": "string",
