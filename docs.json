@@ -9,6 +9,10 @@
     "dark": "#CCA300"
   },
   "favicon": "/favicon.svg",
+  "banner": {
+    "dismissible": true,
+    "content": "🚀 Try our APIs instantly — no account needed. [See how →](/docs/guides/try-the-api)"
+  },
   "navigation": {
     "tabs": [
       {
@@ -192,6 +196,7 @@
             "group": "Guides",
             "pages": [
               "/docs/guides/introduction",
+              "/docs/guides/try-the-api",
               "/docs/guides/accept-online-payments",
               "/docs/guides/accept-payment-with-payment-links",
               "/docs/guides/authentication-best-practises",
