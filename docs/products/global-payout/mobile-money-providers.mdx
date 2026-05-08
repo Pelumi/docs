@@ -1,10 +1,10 @@
 ---
-title: 'List Institution Providers'
+title: 'Institution Providers'
 description: 'Retrieve available banks and mobile money providers for Global Payout transfers'
 ---
 
 <Card
-  title="List Institution Providers"
+  title="Institution Providers"
   icon="building-columns"
   href="/nomba-api-reference/global-payout/mobile-money-providers"
 >
@@ -12,14 +12,14 @@ description: 'Retrieve available banks and mobile money providers for Global Pay
 
 # `GET /v1/global-payout/bank/providers`
 
-Returns the available banks or mobile money providers for your region (derived from your JWT). Use the `isMobileMoney` query parameter to switch between bank and mobile money listings.
+Returns available bank, institution, or mobile money providers. Use the `isMobileMoney` query parameter to switch between bank/institution and mobile money listings.
 
 Use the `code` from the response as `institutionCode` and `displayName` as `institutionName` in the [Authorize Transfer](/docs/products/global-payout/authorize-transfer) request.
 
 #### Query parameters
 
 <ParamField query="isMobileMoney" type="boolean">
-  `false` (default) returns bank providers. `true` returns mobile money providers.
+  `false` returns bank or institution providers. `true` returns mobile money providers.
 </ParamField>
 
 <ParamField query="countryIsoCode" type="string">
@@ -27,9 +27,9 @@ Use the `code` from the response as `institutionCode` and `displayName` as `inst
 </ParamField>
 
 <CodeGroup>
-```bash Banks (isMobileMoney=false)
+```bash Institutions (isMobileMoney=false)
 curl --request GET \
-  --url 'https://api.nomba.com/v1/global-payout/bank/providers?isMobileMoney=false' \
+  --url 'https://api.nomba.com/v1/global-payout/bank/providers?countryIsoCode=US&isMobileMoney=false' \
   --header 'Authorization: Bearer <token>' \
   --header 'accountId: <accountId>'
 ```
@@ -41,7 +41,7 @@ curl --request GET \
   --header 'accountId: <accountId>'
 ```
 
-```json Response — Banks
+```json Response — Institutions
 {
   "code": "00",
   "description": "Success",
@@ -57,7 +57,7 @@ curl --request GET \
 }
 ```
 
-```json Response — Mobile Money Providers
+```json Response — Institution Providers (Mobile Money)
 {
   "code": "00",
   "description": "Success",
@@ -78,7 +78,7 @@ curl --request GET \
 
 ## Providers by Country
 
-| Country | ISO Code | Currency | Mobile Money Providers |
+| Country | ISO Code | Currency | Institution Providers |
 |---|---|---|---|
 | DR Congo | CD | USD / CDF | Nomba, Airtel Money, M-Pesa, Orange |
 | Kenya | KE | KES | M-Pesa |
