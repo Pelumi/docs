@@ -15498,9 +15498,13 @@
           },
           "currency": {
             "type": "string",
-            "description": "currency of the money",
+            "description": "ISO 4217 currency code. Use NGN for Nigerian checkout. For DRC accounts, use CDF or USD \u2014 NGN is not supported for DRC and will be rejected.",
             "enum": [
-              "NGN"
+              "NGN",
+              "CDF",
+              "USD",
+              "EUR",
+              "GBP"
             ],
             "example": "NGN"
           },
@@ -15511,7 +15515,7 @@
           },
           "allowedPaymentMethods": {
             "type": "array",
-            "description": "Optional list of payment methods that will be displayed to the customer on the checkout page. If not provided, all supported payment methods will be available.",
+            "description": "Optional list of payment methods to display on the checkout page. If not provided, all supported methods for your account and region will be shown. Supported values: Card, Transfer, Nomba QR, USSD, Buy Now Pay Later (Nigerian checkout); MOMO, Intl Card, Apple Pay (DRC checkout).",
             "items": {
               "type": "string",
               "enum": [
@@ -15520,6 +15524,8 @@
                 "Nomba QR",
                 "USSD",
                 "Buy Now Pay Later",
+                "MOMO",
+                "Intl Card",
                 "Apple Pay"
               ]
             },

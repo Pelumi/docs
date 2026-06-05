@@ -26,7 +26,8 @@ curl --request POST \
     "callbackUrl": "https://your-server.com/webhook/collection",
     "amount": 10,
     "currency": "CDF",
-    "topupVendor": "AIRTEL"
+    "topupVendor": "AIRTEL",
+    "idempotencyKey": "your-unique-key-here"
   }'
 ```
 
@@ -37,11 +38,18 @@ curl --request POST \
   "data": {
     "transactionReference": "a822e327-4bcd-40ec-ac61-ed3622eac000",
     "status": "PENDING",
-    "message": "success"
+    "message": "success",
+    "idempotencyKey": "your-unique-key-here"
   }
 }
 ```
 </CodeGroup>
+
+#### Idempotency
+
+This endpoint supports idempotent requests. You can pass a client-generated `idempotencyKey` in the request body to safely retry a request without risk of duplicate charges. If you omit the key, the server generates a UUID automatically and returns it in the response.
+
+Store the `idempotencyKey` from the response and include it on any retry for the same operation. If two requests carrying the same `idempotencyKey` arrive concurrently, the second request receives HTTP 409 with the message "Request with this idempotency key is currently being processed; please retry."
 
 #### Request body
 
@@ -65,6 +73,10 @@ curl --request POST \
   The mobile money network provider (e.g., `AIRTEL`, `MPESA`).
 </ParamField>
 
+<ParamField body="idempotencyKey" type="string">
+  A client-generated key used to safely retry the request without risk of duplicate charges. If not provided, the server generates one automatically.
+</ParamField>
+
 #### Response body
 
 <ResponseField name="transactionReference" type="string" required>
@@ -77,4 +89,8 @@ curl --request POST \
 
 <ResponseField name="message" type="string">
   A message describing the outcome.
+</ResponseField>
+
+<ResponseField name="idempotencyKey" type="string">
+  The idempotency key used for this request — either the value you provided or a server-generated UUID. Store this and pass it on retry.
 </ResponseField>
