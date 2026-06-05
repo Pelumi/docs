@@ -15502,9 +15502,7 @@
             "enum": [
               "NGN",
               "CDF",
-              "USD",
-              "EUR",
-              "GBP"
+              "USD"
             ],
             "example": "NGN"
           },
@@ -15568,13 +15566,14 @@
           },
           "orderMetaData": {
             "type": "object",
-            "description": "Arbitrary key-value metadata you want to attach to the order. Keys and values must be strings. This data is stored on the order and returned in webhook payloads.",
+            "description": "Arbitrary key-value metadata to attach to the order. Keys and values must be strings. Stored on the order and returned in webhook payloads. Special key: set \"region\" to \"CD\" to route this order through DRC checkout (e.g. for a Nigerian merchant accepting DRC MoMo payments).",
             "additionalProperties": {
               "type": "string"
             },
             "example": {
               "productName": "Premium Plan",
-              "internalRef": "INV-2026-001"
+              "internalRef": "INV-2026-001",
+              "region": "CD"
             }
           }
         },

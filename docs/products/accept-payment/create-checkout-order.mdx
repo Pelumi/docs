@@ -150,7 +150,7 @@ To create a checkout, send a [POST request](/nomba-api-reference/online-checkout
 | `customerId` | string | No | Your internal identifier for the customer. Stored on the order and returned in webhooks. |
 | `accountId` | string | No | The Nomba sub-account ID to credit for this order. If omitted, the authenticated parent account is credited. |
 | `splitRequest` | object | No | Split payment configuration. See [Split payment](#split-payment) section. |
-| `orderMetaData` | object | No | Arbitrary key-value metadata to attach to the order. Both keys and values must be strings (e.g. `{"productName": "Premium Plan", "internalRef": "INV-001"}`). Stored on the order and returned in webhook payloads. |
+| `orderMetaData` | object | No | Arbitrary key-value metadata to attach to the order. Both keys and values must be strings (e.g. `{"productName": "Premium Plan", "internalRef": "INV-001"}`). Stored on the order and returned in webhook payloads. Pass `"region": "CD"` to route the order through DRC checkout (e.g. a Nigerian merchant accepting DRC MoMo payments). |
 | `allowedPaymentMethods` | array | No | List of payment methods to display on the checkout page. If omitted, all available methods are shown. |
 
 <Note>
