@@ -14326,6 +14326,11 @@
                     "type": "string",
                     "example": "AIRTEL",
                     "description": "Mobile money network provider (e.g. AIRTEL, MPESA)."
+                  },
+                  "idempotencyKey": {
+                    "type": "string",
+                    "description": "A client-generated key used to safely retry the request without risk of duplicate charges. If not provided, the server generates one automatically and returns it in the response.",
+                    "example": "a8f3d2c1-5b9e-4f7a-b2d6-1c8e3f5a9d0b"
                   }
                 }
               }
@@ -14362,6 +14367,11 @@
                         "message": {
                           "type": "string",
                           "example": "success"
+                        },
+                        "idempotencyKey": {
+                          "type": "string",
+                          "description": "The idempotency key used for this request \u2014 either the value you provided or a server-generated UUID. Store this and include it on any retry.",
+                          "example": "a8f3d2c1-5b9e-4f7a-b2d6-1c8e3f5a9d0b"
                         }
                       }
                     }
@@ -14600,6 +14610,168 @@
               }
             },
             "description": "Downstream system error."
+          }
+        }
+      }
+    },
+    "/v1/global-collection/drc/inflow/providers": {
+      "get": {
+        "description": "Returns the list of mobile money providers supported for DRC inflow. Use the returned code values as the topupVendor in the Initiate Mobile Money Inflow request.",
+        "operationId": "Fetch DRC Inflow Providers",
+        "parameters": [
+          {
+            "description": "Bearer token for authentication.",
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "example": "Bearer <token>"
+            },
+            "required": true
+          },
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of DRC inflow providers returned successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Successful"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "code": {
+                            "type": "string",
+                            "description": "The provider code to use as topupVendor when initiating an inflow.",
+                            "example": "AIRTEL"
+                          },
+                          "displayName": {
+                            "type": "string",
+                            "description": "Human-readable name of the provider.",
+                            "example": "Airtel Money"
+                          }
+                        }
+                      },
+                      "example": [
+                        {
+                          "code": "MPESA",
+                          "displayName": "Mpesa"
+                        },
+                        {
+                          "code": "AIRTEL",
+                          "displayName": "Airtel Money"
+                        },
+                        {
+                          "code": "ORANGE",
+                          "displayName": "Orange Money"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/sandbox/global-collection/drc/inflow/providers": {
+      "get": {
+        "description": "Sandbox version of Fetch DRC Inflow Providers. Returns the same static list of mobile money providers supported for DRC inflow for use in testing.",
+        "operationId": "Fetch DRC Inflow Providers (Sandbox)",
+        "parameters": [
+          {
+            "description": "Bearer token for authentication.",
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "example": "Bearer <token>"
+            },
+            "required": true
+          },
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of DRC inflow providers returned successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Successful"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "code": {
+                            "type": "string",
+                            "example": "AIRTEL"
+                          },
+                          "displayName": {
+                            "type": "string",
+                            "example": "Airtel Money"
+                          }
+                        }
+                      },
+                      "example": [
+                        {
+                          "code": "MPESA",
+                          "displayName": "Mpesa"
+                        },
+                        {
+                          "code": "AIRTEL",
+                          "displayName": "Airtel Money"
+                        },
+                        {
+                          "code": "ORANGE",
+                          "displayName": "Orange Money"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }
