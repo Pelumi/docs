@@ -1,0 +1,63 @@
+---
+title: 'Fetch DRC Inflow Providers'
+description: 'List the mobile money providers available for DRC mobile money collections'
+---
+
+<Card
+  title="Fetch DRC Inflow Providers"
+  icon="list"
+  href="/nomba-api-reference/global-collections/fetch-drc-inflow-providers"
+>
+</Card>
+
+# `GET /v1/global-collection/drc/inflow/providers`
+
+Returns the list of mobile money providers supported for DRC inflow. Call this endpoint to discover which providers are available before initiating a collection — use the returned `code` value as the `topupVendor` in the [Initiate Mobile Money Inflow](/docs/products/global-collections/initiate-mobile-money-inflow) request.
+
+<CodeGroup>
+```bash Request
+curl --request GET \
+  --url https://api.nomba.com/v1/global-collection/drc/inflow/providers \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountId>'
+```
+
+```json Response
+{
+  "code": "00",
+  "description": "Successful",
+  "data": [
+    { "code": "MPESA", "displayName": "Mpesa" },
+    { "code": "AIRTEL", "displayName": "Airtel Money" },
+    { "code": "ORANGE", "displayName": "Orange Money" }
+  ]
+}
+```
+</CodeGroup>
+
+#### Response fields
+
+<ResponseField name="data" type="array">
+  List of mobile money providers available for DRC inflow.
+</ResponseField>
+
+<ResponseField name="data[].code" type="string">
+  The provider code. Pass this value as `topupVendor` when calling [Initiate Mobile Money Inflow](/docs/products/global-collections/initiate-mobile-money-inflow).
+</ResponseField>
+
+<ResponseField name="data[].displayName" type="string">
+  Human-readable name of the provider (e.g. `Airtel Money`, `Mpesa`).
+</ResponseField>
+
+## Sandbox
+
+Use the sandbox endpoint to test provider discovery in your development environment:
+
+```bash Sandbox Request
+curl --request GET \
+  --url https://api.nomba.com/v1/sandbox/global-collection/drc/inflow/providers \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountId>'
+```
+
+The sandbox returns the same static list of providers as production.

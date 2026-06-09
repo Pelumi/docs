@@ -62,6 +62,7 @@
                     "pages": [
                       "docs/products/global-collections/introduction",
                       "docs/products/global-collections/initiate-mobile-money-inflow",
+                      "docs/products/global-collections/fetch-drc-inflow-providers",
                       "docs/products/global-collections/fetch-mobile-money-transaction"
                     ]
                   }
@@ -342,6 +343,7 @@
             "group": "DRC Collection",
             "pages": [
               "nomba-api-reference/global-collections/initiate-mobile-money-inflow",
+              "nomba-api-reference/global-collections/fetch-drc-inflow-providers",
               "nomba-api-reference/global-collections/fetch-mobile-money-transaction"
             ]
           },
