@@ -14383,7 +14383,7 @@
         }
       }
     },
-    "/v1/global-collection/mobile-money/transaction/{transactionId}": {
+    "/v1/global-collection/transactions/{transactionId}": {
       "get": {
         "description": "Retrieve the status of an initiated mobile money collection.",
         "operationId": "Fetch Collection Transaction",
