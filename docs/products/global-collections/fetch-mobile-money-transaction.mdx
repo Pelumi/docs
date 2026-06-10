@@ -10,14 +10,14 @@ description: 'Retrieve the status of an initiated mobile money collection'
 >
 </Card>
 
-# `GET /v1/global-collection/mobile-money/transaction/{transactionId}`
+# `GET /v1/global-collection/transactions/{transactionId}`
 
 Retrieve the status of any initiated mobile money transaction. Use this endpoint to confirm whether a collection was successful, pending, or failed — keeping your records accurate and your customers informed.
 
 <CodeGroup>
 ```bash Request
 curl --request GET \
-  --url https://api.nomba.com/v1/global-collection/mobile-money/transaction/a822e327-4bcd-40ec-ac61-ed3622eac000 \
+  --url https://api.nomba.com/v1/global-collection/transactions/a822e327-4bcd-40ec-ac61-ed3622eac000 \
   --header 'Authorization: Bearer <token>' \
   --header 'accountId: <accountId>'
 ```
