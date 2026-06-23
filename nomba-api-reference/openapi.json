@@ -16052,10 +16052,8 @@
           },
           "senderName": {
             "type": "string",
-            "description": "Sender name. Must not exceed 12 characters and must not contain special characters.",
-            "example": "Nightly Post",
-            "maxLength": 12,
-            "pattern": "^[a-zA-Z0-9 ]+$"
+            "description": "Sender name",
+            "example": "Nightly Post"
           },
           "narration": {
             "type": "string",
