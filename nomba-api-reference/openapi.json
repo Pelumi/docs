@@ -16066,8 +16066,7 @@
           "accountNumber",
           "bankCode",
           "accountName",
-          "merchantTxRef",
-          "senderName"
+          "merchantTxRef"
         ]
       },
       "BankAccountTransferResult": {
