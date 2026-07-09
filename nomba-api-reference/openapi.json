@@ -16610,15 +16610,9 @@
             "maxLength": 64,
             "example": "Daniel Scorsese"
           },
-          "callbackUrl": {
-            "type": "string",
-            "description": "Callback url you want to update to",
-            "format": "url",
-            "example": "https://webhook.site/98ef100f-5adc-4434-800a-0808h60bd8d7"
-          },
           "expectedAmount": {
             "type": "string",
-            "description": "If passed, the virtual account will only accept payments for this amount. Be careful as once being set this Virtual account can never take any amount again, thou you can always update the expected amount",
+            "description": "If provided, the virtual account will only accept payments that exactly match the specified amount. Once expectedAmount is set, the virtual account will no longer accept arbitrary payment amounts. You can, however, update the expectedAmount value at any time to change the accepted amount.",
             "example": "100.0"
           }
         }
