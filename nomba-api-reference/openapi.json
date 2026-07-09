@@ -16612,7 +16612,7 @@
           },
           "expectedAmount": {
             "type": "string",
-            "description": "If provided, the virtual account will only accept payments that exactly match the specified amount. Once expectedAmount is set, the virtual account will no longer accept arbitrary payment amounts. You can, however, update the expectedAmount value at any time to change the accepted amount.",
+            "description": "If provided, the virtual account will only accept payments that exactly match the specified amount.\n\nOnce expectedAmount is set, the virtual account will no longer accept arbitrary payment amounts.\nYou can, however, update the expectedAmount value at any time to change the accepted amount.",
             "example": "100.0"
           }
         }
