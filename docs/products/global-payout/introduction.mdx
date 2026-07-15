@@ -62,7 +62,7 @@ GlobalPayout enables cross-border fund disbursements, giving you full control ov
     Call `GET /v1/global-payout/payment-methods` to get available payment rails and selectable requirement values such as `purposeOfPayment`, `accountType`, and `bankAccountType`.
   </Step>
   <Step title="Authorize the transfer">
-    Submit the recipient details, payment method, source and destination currencies, auth code, and any required fields returned by Fetch Payment Methods.
+    Submit the recipient details, payment method, source and destination currencies, and any required fields returned by Fetch Payment Methods.
   </Step>
   <Step title="Fetch transaction status">
     Use the FetchTransaction endpoint with the returned `wtTransactionId` to poll for the current status of the transfer at any point in its lifecycle.

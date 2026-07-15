@@ -29,7 +29,6 @@ curl --request POST \
     "receiverName": "ADEBUKOLA AKANJI",
     "sourceCountryIsoCode": "CD",
     "destinationCountryIsoCode": "CD",
-    "authCode": "5555",
     "narration": "Transfer between my accounts"
   }'
 ```
@@ -94,10 +93,6 @@ curl --request POST \
 
 <ParamField body="destinationCountryIsoCode" type="string" required>
   ISO 3166-1 alpha-2 country code of the destination account (e.g., `CD`).
-</ParamField>
-
-<ParamField body="authCode" type="string" required>
-  Authorization PIN to confirm the exchange.
 </ParamField>
 
 <ParamField body="narration" type="string">
