@@ -13238,7 +13238,6 @@
                   "receiverName",
                   "sourceCountryIsoCode",
                   "destinationCountryIsoCode",
-                  "authCode",
                   "paymentMethod",
                   "accountType"
                 ],
@@ -13266,11 +13265,6 @@
                   "destinationCountryIsoCode": {
                     "type": "string",
                     "example": "CD"
-                  },
-                  "authCode": {
-                    "type": "string",
-                    "format": "password",
-                    "example": "2580"
                   },
                   "paymentMethod": {
                     "type": "string",
@@ -13578,8 +13572,7 @@
                   "senderName",
                   "receiverName",
                   "sourceCountryIsoCode",
-                  "destinationCountryIsoCode",
-                  "authCode"
+                  "destinationCountryIsoCode"
                 ],
                 "properties": {
                   "amount": {
@@ -13609,11 +13602,6 @@
                   "destinationCountryIsoCode": {
                     "type": "string",
                     "example": "CD"
-                  },
-                  "authCode": {
-                    "type": "string",
-                    "format": "password",
-                    "example": "5555"
                   },
                   "narration": {
                     "type": "string",

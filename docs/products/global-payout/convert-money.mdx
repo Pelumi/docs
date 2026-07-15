@@ -54,6 +54,10 @@ curl --request POST \
 ```
 </CodeGroup>
 
+<Note>
+  Convert Money is available only for supported currency corridors. Call [Fetch Exchange Rates](/docs/products/global-payout/fetch-exchange-rates) first to confirm that the pair is available. If a corridor is unavailable, the API returns an error asking you to contact support.
+</Note>
+
 #### Request body
 
 <ParamField body="amount" type="number" required>

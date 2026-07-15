@@ -50,7 +50,6 @@ curl --request POST \
     "institutionName": "Mpesa",
     "sourceCountryIsoCode": "CD",
     "destinationCountryIsoCode": "CD",
-    "authCode": "2580",
     "paymentMethod": "MobileMoney",
     "accountType": "INDIVIDUAL",
     "narration": "Family support"
@@ -72,7 +71,6 @@ curl --request POST \
     "institutionName": "M-Pesa",
     "sourceCountryIsoCode": "NG",
     "destinationCountryIsoCode": "KE",
-    "authCode": "2580",
     "paymentMethod": "MobileMoney",
     "accountType": "INDIVIDUAL",
     "narration": "Family support"
@@ -95,7 +93,6 @@ curl --request POST \
     "institutionCode": "access_bank",
     "sourceCountryIsoCode": "CD",
     "destinationCountryIsoCode": "CD",
-    "authCode": "2580",
     "paymentMethod": "Bank",
     "accountType": "INDIVIDUAL",
     "narration": "Business payment"
@@ -115,7 +112,6 @@ curl --request POST \
     "receiverName": "Thomas Doe",
     "sourceCountryIsoCode": "CD",
     "destinationCountryIsoCode": "CA",
-    "authCode": "2580",
     "narration": "Ted",
     "paymentMethod": "Interac",
     "accountType": "INDIVIDUAL",
@@ -143,7 +139,6 @@ curl --request POST \
     "institutionCode": "34444",
     "sourceCountryIsoCode": "CD",
     "destinationCountryIsoCode": "CA",
-    "authCode": "2580",
     "paymentMethod": "Bank",
     "accountType": "INDIVIDUAL",
     "lockedExchangeRateId": "01k7pcakf0t8g03rvny3z5mr1p",
@@ -169,7 +164,6 @@ curl --request POST \
     "institutionCode": "433333",
     "sourceCountryIsoCode": "CD",
     "destinationCountryIsoCode": "GB",
-    "authCode": "2580",
     "narration": "Ted Thomos",
     "paymentMethod": "FASTER_PAYMENTS",
     "accountType": "INDIVIDUAL",
@@ -193,7 +187,6 @@ curl --request POST \
     "institutionName": "Standard Bank",
     "sourceCountryIsoCode": "NG",
     "destinationCountryIsoCode": "ZA",
-    "authCode": "2580",
     "paymentMethod": "Bank",
     "accountType": "INDIVIDUAL",
     "purposeOfPayment": "FAMILY_SUPPORT",
@@ -221,7 +214,6 @@ curl --request POST \
     "institutionCode": "CLJUGB21",
     "sourceCountryIsoCode": "CD",
     "destinationCountryIsoCode": "GB",
-    "authCode": "2580",
     "narration": "Ted",
     "paymentMethod": "SEPA",
     "accountType": "INDIVIDUAL",
@@ -246,7 +238,6 @@ curl --request POST \
     "institutionName": "Chase Bank",
     "sourceCountryIsoCode": "CD",
     "destinationCountryIsoCode": "US",
-    "authCode": "2580",
     "paymentMethod": "ACH",
     "accountType": "INDIVIDUAL",
     "bankAccountType": "CHECKING",
@@ -280,7 +271,6 @@ curl --request POST \
     "institutionName": "Bank of America",
     "sourceCountryIsoCode": "CD",
     "destinationCountryIsoCode": "US",
-    "authCode": "2580",
     "paymentMethod": "WIRE",
     "accountType": "CORPORATE",
     "bankAccountType": "SAVINGS",
@@ -376,10 +366,6 @@ curl --request POST \
 
 <ParamField body="destinationCountryIsoCode" type="string" required>
   ISO 3166-1 alpha-2 country code of the recipient (e.g., `CD`, `CA`, `GB`, `KE`, `ZA`, `GH`, `SN`, `TZ`).
-</ParamField>
-
-<ParamField body="authCode" type="string" required>
-  Authorization PIN to confirm the transaction.
 </ParamField>
 
 <ParamField body="paymentMethod" type="string" required>
