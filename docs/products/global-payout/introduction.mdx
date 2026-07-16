@@ -70,5 +70,5 @@ GlobalPayout enables cross-border fund disbursements, giving you full control ov
 </Steps>
 
 <Note>
-  Convert Money is optional. Use it only when you want to lock the exchange rate and destination amount before authorizing the transfer. If you use Convert Money, pass the returned `lockedExchangeRateId` in the Authorize Transfer request.
+  Convert Money is optional. Use it to calculate the destination amount for a source amount. To use a locked rate for a cross-currency transfer, pass the `exchangeRateId` returned by Fetch Exchange Rates as `lockedExchangeRateId` in the Authorize Transfer request.
 </Note>
