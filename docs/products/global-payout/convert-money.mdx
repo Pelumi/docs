@@ -1,6 +1,6 @@
 ---
 title: 'Convert Money'
-description: 'Calculate a currency conversion and lock an exchange rate before initiating a transfer'
+description: 'Calculate a currency conversion before initiating a transfer'
 ---
 
 <Card
@@ -12,7 +12,7 @@ description: 'Calculate a currency conversion and lock an exchange rate before i
 
 # `POST /v1/global-payout/money/convert`
 
-When moving funds across currencies, ConvertMoney handles the conversion for you. Call this endpoint whenever a transaction requires a currency switch, and it will return the converted amount and a locked exchange rate ID to use when authorizing the transfer.
+When moving funds across currencies, Convert Money calculates the converted amount for you. Call this endpoint when you need to know the destination amount for a source amount before authorizing a transfer.
 
 <CodeGroup>
 ```bash Request
@@ -115,7 +115,7 @@ curl --request POST \
 </ResponseField>
 
 <ResponseField name="exchangeRateId" type="string" required>
-  A locked exchange rate ID. Pass this when authorizing the transfer to guarantee the quoted rate.
+  The ID of the exchange rate used for this conversion. To have a transfer use the rate quoted to your customer, use the `exchangeRateId` returned by [Fetch Exchange Rates](/docs/products/global-payout/fetch-exchange-rates) as `lockedExchangeRateId` in Authorize Transfer.
 </ResponseField>
 
 <ResponseField name="currencyPairName" type="string">
