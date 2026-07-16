@@ -13703,8 +13703,7 @@
                   "amount",
                   "currency",
                   "destinationCurrency",
-                  "transactionType",
-                  "sourceCountryIsoCode"
+                  "transactionType"
                 ],
                 "properties": {
                   "amount": {
@@ -13724,10 +13723,6 @@
                   "transactionType": {
                     "type": "string",
                     "example": "EXCHANGE"
-                  },
-                  "sourceCountryIsoCode": {
-                    "type": "string",
-                    "example": "NG"
                   }
                 }
               }
