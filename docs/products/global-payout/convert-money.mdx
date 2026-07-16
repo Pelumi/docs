@@ -12,7 +12,7 @@ description: 'Calculate a currency conversion before initiating a transfer'
 
 # `POST /v1/global-payout/money/convert`
 
-When moving funds across currencies, Convert Money calculates the converted amount for you. Call this endpoint when you need to know the destination amount for a source amount before authorizing a transfer.
+When moving funds across currencies, Convert Money calculates the converted amount for you. Call this endpoint when you need to know the destination amount for a source amount before authorizing a transfer. The exchange rate and applicable fees are automatically scoped to the region configured for your authenticated account.
 
 <CodeGroup>
 ```bash Request
@@ -25,8 +25,7 @@ curl --request POST \
     "amount": 15,
     "currency": "USD",
     "destinationCurrency": "EUR",
-    "transactionType": "EXCHANGE",
-    "sourceCountryIsoCode": "NG"
+    "transactionType": "EXCHANGE"
   }'
 ```
 
@@ -74,10 +73,6 @@ curl --request POST \
 
 <ParamField body="transactionType" type="string" required>
   The type of transaction. Use `EXCHANGE` for currency conversions.
-</ParamField>
-
-<ParamField body="sourceCountryIsoCode" type="string" required>
-  ISO 3166-1 alpha-2 country code of the sender (e.g., `NG`).
 </ParamField>
 
 #### Response body

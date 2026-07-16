@@ -12,7 +12,7 @@ description: 'Retrieve the latest exchange rates for a currency pair before init
 
 # `GET /v1/global-payout/exchange-rates`
 
-Before sending funds in a currency different from your base currency, use this endpoint to retrieve the latest exchange rates. This ensures your customers always see accurate, up-to-date conversion values before a transaction is confirmed.
+Before sending funds in a currency different from your base currency, use this endpoint to retrieve the latest exchange rates. This ensures your customers always see accurate, up-to-date conversion values before a transaction is confirmed. Rates are automatically scoped to the region configured for your authenticated account.
 
 <CodeGroup>
 ```bash Request
@@ -58,10 +58,6 @@ curl --request GET \
 
 <ParamField query="to" type="string" required>
   The ISO 4217 currency code to convert to (e.g., `USD`).
-</ParamField>
-
-<ParamField query="region" type="string">
-  Optional trade region filter. Defaults to the account's configured region.
 </ParamField>
 
 #### Response body
