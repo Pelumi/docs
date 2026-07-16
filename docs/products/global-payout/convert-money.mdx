@@ -115,7 +115,7 @@ curl --request POST \
 </ResponseField>
 
 <ResponseField name="exchangeRateId" type="string" required>
-  The ID of the exchange rate used for this conversion. To lock a rate for Authorize Transfer, use the `exchangeRateId` returned by [Fetch Exchange Rates](/docs/products/global-payout/fetch-exchange-rates).
+  The ID of the exchange rate used for this conversion. To have a transfer use the rate quoted to your customer, use the `exchangeRateId` returned by [Fetch Exchange Rates](/docs/products/global-payout/fetch-exchange-rates) as `lockedExchangeRateId` in Authorize Transfer.
 </ResponseField>
 
 <ResponseField name="currencyPairName" type="string">

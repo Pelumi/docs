@@ -47,7 +47,7 @@ curl --request GET \
 </CodeGroup>
 
 <Note>
-  To lock the quoted rate for a cross-currency transfer, pass the `exchangeRateId` in the response as `lockedExchangeRateId` in your [Authorize Transfer](/docs/products/global-payout/authorize-transfer) request.
+  To have a cross-currency transfer use the rate you quoted to your customer, pass the `exchangeRateId` in the response as `lockedExchangeRateId` in your [Authorize Transfer](/docs/products/global-payout/authorize-transfer) request.
 </Note>
 
 #### Query parameters
@@ -71,7 +71,7 @@ curl --request GET \
 
   <Expandable title="rate object" defaultOpen="true">
     <ResponseField name="exchangeRateId" type="string">
-      The unique ID of this exchange rate. Pass it as `lockedExchangeRateId` in Authorize Transfer to use this rate for the transfer.
+      The unique ID of this exchange rate. Pass it as `lockedExchangeRateId` in Authorize Transfer for the transfer to use this rate.
     </ResponseField>
 
     <ResponseField name="currencyPairName" type="string">
