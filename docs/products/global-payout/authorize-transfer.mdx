@@ -15,7 +15,7 @@ description: 'Initiate and authorize a cross-border transfer using the Nomba Glo
 Manage the complete transfer lifecycle with a single endpoint. AuthTransfer walks you through every required step from initiating a transfer to final authorization, ensuring nothing is missed before funds are moved.
 
 <Tip>
-  Before calling this endpoint, use [Fetch Exchange Rates](/docs/products/global-payout/fetch-exchange-rates) for cross-currency transfers, then call [Fetch Payment Methods](/docs/products/global-payout/payment-methods) to get required fields and selectable values for `purposeOfPayment`, `accountType`, and `bankAccountType`. [Convert Money](/docs/products/global-payout/convert-money) is optional; use it only when you want to lock the exchange rate and exact converted amount before authorization, then pass the returned `lockedExchangeRateId` here.
+  Before calling this endpoint, use [Fetch Exchange Rates](/docs/products/global-payout/fetch-exchange-rates) for cross-currency transfers, then call [Fetch Payment Methods](/docs/products/global-payout/payment-methods) to get required fields and selectable values for `purposeOfPayment`, `accountType`, and `bankAccountType`. Optionally use [Convert Money](/docs/products/global-payout/convert-money) to calculate the destination amount. To use the rate quoted to your customer, pass the `exchangeRateId` returned by Fetch Exchange Rates as `lockedExchangeRateId` here.
 </Tip>
 
 ## Payment methods
@@ -401,7 +401,7 @@ curl --request POST \
 </ParamField>
 
 <ParamField body="lockedExchangeRateId" type="string">
-  Optional locked exchange rate ID from [Convert Money](/docs/products/global-payout/convert-money). Use this when you want to lock the exchange rate and destination amount before authorizing.
+  Optional exchange rate ID from [Fetch Exchange Rates](/docs/products/global-payout/fetch-exchange-rates). Use this for the transfer to use the rate quoted to your customer.
 </ParamField>
 
 <ParamField body="bankAddress" type="string">
