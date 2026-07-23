@@ -14251,7 +14251,7 @@
     },
     "/v1/global-payout/accounts": {
       "get": {
-        "description": "Retrieve all of your Global Payout accounts and their balances across currencies (e.g. CAD, USD). Use this to check a non-NGN balance instead of the NGN-only parent account endpoint.",
+        "description": "Retrieve all of your currency wallets and their balances (e.g. CAD, USD) under your parent accountId. Use this to check a non-NGN balance instead of the NGN-only parent account endpoint.",
         "operationId": "Fetch Global Payout Accounts",
         "parameters": [
           {
@@ -14323,10 +14323,6 @@
                           "operationRegion": {
                             "type": "string",
                             "example": "GLOBAL"
-                          },
-                          "accountNumberDisplay": {
-                            "type": "string",
-                            "example": "****1234"
                           }
                         }
                       }
@@ -14368,10 +14364,10 @@
             "name": "accountId",
             "in": "path",
             "required": true,
-            "description": "The consolidated account ID of the Global Payout account to fetch.",
+            "description": "The ISO 4217 currency code of the wallet to fetch (e.g. CAD, USD).",
             "schema": {
               "type": "string",
-              "example": "01kkk7pab9mjt70wvk6pzk8mzx"
+              "example": "CAD"
             }
           }
         ],
@@ -14421,10 +14417,6 @@
                         "operationRegion": {
                           "type": "string",
                           "example": "GLOBAL"
-                        },
-                        "accountNumberDisplay": {
-                          "type": "string",
-                          "example": "****1234"
                         }
                       }
                     }
@@ -14510,10 +14502,6 @@
                           "operationRegion": {
                             "type": "string",
                             "example": "GLOBAL"
-                          },
-                          "accountNumberDisplay": {
-                            "type": "string",
-                            "example": "****5678"
                           }
                         }
                       },
@@ -14525,8 +14513,7 @@
                           "balance": 500000.0,
                           "formattedBalance": "NGN 500,000.00",
                           "status": "ACTIVE",
-                          "operationRegion": "NG",
-                          "accountNumberDisplay": "****1234"
+                          "operationRegion": "NG"
                         },
                         {
                           "accountId": "sandbox-acc-cad-001",
@@ -14535,8 +14522,7 @@
                           "balance": 1250.5,
                           "formattedBalance": "CAD 1,250.50",
                           "status": "ACTIVE",
-                          "operationRegion": "GLOBAL",
-                          "accountNumberDisplay": "****5678"
+                          "operationRegion": "GLOBAL"
                         }
                       ]
                     }
@@ -14577,10 +14563,10 @@
             "name": "accountId",
             "in": "path",
             "required": true,
-            "description": "The account ID to fetch. Any value is accepted in sandbox.",
+            "description": "The ISO 4217 currency code of the wallet to fetch (e.g. CAD, USD). Any value is accepted in sandbox.",
             "schema": {
               "type": "string",
-              "example": "sandbox-acc-cad-001"
+              "example": "CAD"
             }
           }
         ],
@@ -14630,10 +14616,6 @@
                         "operationRegion": {
                           "type": "string",
                           "example": "GLOBAL"
-                        },
-                        "accountNumberDisplay": {
-                          "type": "string",
-                          "example": "****5678"
                         }
                       }
                     }
