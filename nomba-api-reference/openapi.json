@@ -14436,6 +14436,215 @@
         }
       }
     },
+    "/v1/sandbox/global-payout/accounts": {
+      "get": {
+        "description": "Sandbox version of Fetch Global Payout Accounts. Returns canned multi-currency account data for use in testing.",
+        "operationId": "Fetch Global Payout Accounts (Sandbox)",
+        "parameters": [
+          {
+            "description": "Bearer token for authentication.",
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "example": "Bearer <token>"
+            },
+            "required": true
+          },
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Accounts retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "accountId": {
+                            "type": "string",
+                            "example": "sandbox-acc-cad-001"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "Sandbox CAD Account"
+                          },
+                          "currency": {
+                            "type": "string",
+                            "example": "CAD"
+                          },
+                          "balance": {
+                            "type": "number",
+                            "example": 1250.5
+                          },
+                          "formattedBalance": {
+                            "type": "string",
+                            "example": "CAD 1,250.50"
+                          },
+                          "status": {
+                            "type": "string",
+                            "example": "ACTIVE"
+                          },
+                          "operationRegion": {
+                            "type": "string",
+                            "example": "GLOBAL"
+                          },
+                          "accountNumberDisplay": {
+                            "type": "string",
+                            "example": "****5678"
+                          }
+                        }
+                      },
+                      "example": [
+                        {
+                          "accountId": "sandbox-acc-ngn-001",
+                          "name": "Sandbox Main Account",
+                          "currency": "NGN",
+                          "balance": 500000.0,
+                          "formattedBalance": "NGN 500,000.00",
+                          "status": "ACTIVE",
+                          "operationRegion": "NG",
+                          "accountNumberDisplay": "****1234"
+                        },
+                        {
+                          "accountId": "sandbox-acc-cad-001",
+                          "name": "Sandbox CAD Account",
+                          "currency": "CAD",
+                          "balance": 1250.5,
+                          "formattedBalance": "CAD 1,250.50",
+                          "status": "ACTIVE",
+                          "operationRegion": "GLOBAL",
+                          "accountNumberDisplay": "****5678"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/sandbox/global-payout/accounts/{accountId}": {
+      "get": {
+        "description": "Sandbox version of Fetch Global Payout Account. Returns canned account details and balance for the given account ID, for use in testing.",
+        "operationId": "Fetch Global Payout Account (Sandbox)",
+        "parameters": [
+          {
+            "description": "Bearer token for authentication.",
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "example": "Bearer <token>"
+            },
+            "required": true
+          },
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          },
+          {
+            "name": "accountId",
+            "in": "path",
+            "required": true,
+            "description": "The account ID to fetch. Any value is accepted in sandbox.",
+            "schema": {
+              "type": "string",
+              "example": "sandbox-acc-cad-001"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "accountId": {
+                          "type": "string",
+                          "example": "sandbox-acc-cad-001"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Sandbox CAD Account"
+                        },
+                        "currency": {
+                          "type": "string",
+                          "example": "CAD"
+                        },
+                        "balance": {
+                          "type": "number",
+                          "example": 1250.5
+                        },
+                        "formattedBalance": {
+                          "type": "string",
+                          "example": "CAD 1,250.50"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "ACTIVE"
+                        },
+                        "operationRegion": {
+                          "type": "string",
+                          "example": "GLOBAL"
+                        },
+                        "accountNumberDisplay": {
+                          "type": "string",
+                          "example": "****5678"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/global-collection/inflow/initiate": {
       "post": {
         "description": "Trigger a mobile money collection request from a customer.",
