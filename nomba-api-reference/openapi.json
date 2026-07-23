@@ -14249,6 +14249,193 @@
         }
       }
     },
+    "/v1/global-payout/accounts": {
+      "get": {
+        "description": "Retrieve all of your Global Payout accounts and their balances across currencies (e.g. CAD, USD). Use this to check a non-NGN balance instead of the NGN-only parent account endpoint.",
+        "operationId": "Fetch Global Payout Accounts",
+        "parameters": [
+          {
+            "description": "Bearer token for authentication.",
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "example": "Bearer <token>"
+            },
+            "required": true
+          },
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Accounts retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Successful"
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "accountId": {
+                            "type": "string",
+                            "example": "01kkk7pab9mjt70wvk6pzk8mzx"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "Main CAD Account"
+                          },
+                          "currency": {
+                            "type": "string",
+                            "example": "CAD"
+                          },
+                          "balance": {
+                            "type": "number",
+                            "example": 1250.5
+                          },
+                          "formattedBalance": {
+                            "type": "string",
+                            "example": "CAD 1,250.50"
+                          },
+                          "status": {
+                            "type": "string",
+                            "example": "ACTIVE"
+                          },
+                          "operationRegion": {
+                            "type": "string",
+                            "example": "GLOBAL"
+                          },
+                          "accountNumberDisplay": {
+                            "type": "string",
+                            "example": "****1234"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/global-payout/accounts/{accountId}": {
+      "get": {
+        "description": "Retrieve the details and balance of a single Global Payout account by its account ID.",
+        "operationId": "Fetch Global Payout Account",
+        "parameters": [
+          {
+            "description": "Bearer token for authentication.",
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "example": "Bearer <token>"
+            },
+            "required": true
+          },
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          },
+          {
+            "name": "accountId",
+            "in": "path",
+            "required": true,
+            "description": "The consolidated account ID of the Global Payout account to fetch.",
+            "schema": {
+              "type": "string",
+              "example": "01kkk7pab9mjt70wvk6pzk8mzx"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Successful"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "accountId": {
+                          "type": "string",
+                          "example": "01kkk7pab9mjt70wvk6pzk8mzx"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Main CAD Account"
+                        },
+                        "currency": {
+                          "type": "string",
+                          "example": "CAD"
+                        },
+                        "balance": {
+                          "type": "number",
+                          "example": 1250.5
+                        },
+                        "formattedBalance": {
+                          "type": "string",
+                          "example": "CAD 1,250.50"
+                        },
+                        "status": {
+                          "type": "string",
+                          "example": "ACTIVE"
+                        },
+                        "operationRegion": {
+                          "type": "string",
+                          "example": "GLOBAL"
+                        },
+                        "accountNumberDisplay": {
+                          "type": "string",
+                          "example": "****1234"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/global-collection/inflow/initiate": {
       "post": {
         "description": "Trigger a mobile money collection request from a customer.",

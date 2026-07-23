@@ -336,7 +336,9 @@
               "nomba-api-reference/global-payout/convert-money",
               "nomba-api-reference/global-payout/fetch-exchange-rates",
               "nomba-api-reference/global-payout/fetch-transaction",
-              "nomba-api-reference/global-payout/authorize-exchange"
+              "nomba-api-reference/global-payout/authorize-exchange",
+              "nomba-api-reference/global-payout/fetch-accounts",
+              "nomba-api-reference/global-payout/fetch-account"
             ]
           },
           {
