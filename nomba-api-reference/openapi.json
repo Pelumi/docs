@@ -10347,6 +10347,13 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/DataVendingRequest"
+              },
+              "example": {
+                "productId": "mtn47",
+                "phoneNumber": "08055441122",
+                "network": "GLO",
+                "merchantTxRef": "3bvwhibh38220dsjakTwvb",
+                "senderName": "John Doe"
               }
             }
           },
@@ -10511,6 +10518,13 @@
             "application/json": {
               "schema": {
                 "$ref": "#/components/schemas/DataVendingRequest"
+              },
+              "example": {
+                "productId": "mtn47",
+                "phoneNumber": "08055441122",
+                "network": "GLO",
+                "merchantTxRef": "3bvwhibh38220dsjakTwvb",
+                "senderName": "John Doe"
               }
             }
           },
@@ -14861,7 +14875,6 @@
             "type": "number",
             "format": "double",
             "description": "**Deprecated — do not use for new integrations.** The data plan amount. This field is retained only so existing merchants already integrated against it continue to work; new integrations must use `productId` instead. When `amount` is supplied without `productId`, it is matched against our supported plans and rejected if it doesn't match one — and since more than one plan can share the same price, it cannot reliably select a specific bundle.",
-            "example": 200,
             "deprecated": true
           },
           "phoneNumber": {
