@@ -14852,11 +14852,17 @@
       "DataVendingRequest": {
         "type": "object",
         "properties": {
+          "productId": {
+            "type": "string",
+            "description": "The unique identifier of the data plan to purchase — returned as `productId` by the Fetch Data Plans endpoint. Required for all new integrations: it resolves to an exact plan and amount, removing any ambiguity when multiple plans on the same network share the same price.",
+            "example": "mtn47"
+          },
           "amount": {
             "type": "number",
             "format": "double",
-            "description": "The data amount to be vended",
-            "example": 200
+            "description": "**Deprecated — do not use for new integrations.** The data plan amount. This field is retained only so existing merchants already integrated against it continue to work; new integrations must use `productId` instead. When `amount` is supplied without `productId`, it is matched against our supported plans and rejected if it doesn't match one — and since more than one plan can share the same price, it cannot reliably select a specific bundle.",
+            "example": 200,
+            "deprecated": true
           },
           "phoneNumber": {
             "type": "string",
@@ -14889,7 +14895,7 @@
           }
         },
         "required": [
-          "amount",
+          "productId",
           "phoneNumber",
           "network",
           "merchantTxRef"
@@ -14901,8 +14907,18 @@
           "amount": {
             "type": "number",
             "format": "double",
-            "description": "The airtime amount to be purchased",
+            "description": "The amount charged for this data purchase.",
             "example": 200
+          },
+          "productId": {
+            "type": "string",
+            "description": "The identifier of the data plan that was vended.",
+            "example": "mtn47"
+          },
+          "plan": {
+            "type": "string",
+            "description": "A human-readable description of the exact data bundle that was vended (size and validity).",
+            "example": "3.5GB Daily Plan"
           },
           "timeCreated": {
             "type": "string",
@@ -17922,6 +17938,11 @@
           "plan": {
             "type": "string",
             "example": "40GB -> 30Days (N15,000)"
+          },
+          "productId": {
+            "type": "string",
+            "description": "The unique identifier for this data plan. Pass this value as `productId` when purchasing to select this exact bundle.",
+            "example": "mtn47"
           }
         }
       },

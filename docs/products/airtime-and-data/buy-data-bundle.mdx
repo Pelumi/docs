@@ -13,6 +13,10 @@ description: "How to Buy Data Bundle using this API"
 
 To successfully buy a data bundle using our endpoints, it is necessary to undergo the following steps:
 
-1. Fetch Available data plans (this returns a list of available data plans)
+1. Fetch available data plans — this returns a list of available data plans, each with a `productId`.
 
-2. Then, Buy Data Bundle
+2. Buy the data bundle, passing the `productId` of the plan you want in the purchase request. `productId` is required.
+
+<Note>
+  Purchasing by `amount` alone is deprecated and only still works for merchants already integrated against it. All new integrations must select a plan from step 1 and pass its `productId` — this is the only reliable way to get the exact bundle you intended, since more than one plan on the same network can share the same price.
+</Note>
