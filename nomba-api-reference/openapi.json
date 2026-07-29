@@ -14874,7 +14874,7 @@
           "amount": {
             "type": "number",
             "format": "double",
-            "description": "**Deprecated — do not use for new integrations.** The data plan amount. This field is retained only so existing merchants already integrated against it continue to work; new integrations must use `productId` instead. When `amount` is supplied without `productId`, it is matched against our supported plans and rejected if it doesn't match one — and since more than one plan can share the same price, it cannot reliably select a specific bundle.",
+            "description": "**Deprecated — do not use.** `amount` is a legacy-only field with no guarantee of correctness: multiple plans can share the same price, so it cannot reliably identify the bundle you want. Use `productId` — the only supported way to select a plan.",
             "deprecated": true
           },
           "phoneNumber": {
