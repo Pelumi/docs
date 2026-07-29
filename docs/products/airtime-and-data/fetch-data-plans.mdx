@@ -12,60 +12,73 @@ curl --location 'https://api.nomba.com/v1/bill/data-plan/<telco>' \
 --header 'Authorization: Bearer <token>'
 ```
 
-```json Response
+```json Example Response
 {
     "data": [
         {
             "plan": "20MB -> 1Day (N50)",
-            "amount": 50
+            "amount": 50,
+            "productId": "example-plan-id-1"
         },
         {
             "plan": "75MB -> 1Day (N100)",
-            "amount": 100
+            "amount": 100,
+            "productId": "example-plan-id-2"
         },
         {
             "plan": "200MB -> 3Days (N200)",
-            "amount": 200
+            "amount": 200,
+            "productId": "example-plan-id-3"
         },
         {
             "plan": "350MB -> 7Days (N300)",
-            "amount": 300
+            "amount": 300,
+            "productId": "example-plan-id-4"
         },
         {
             "plan": "750MB -> 14Days (N500)",
-            "amount": 500
+            "amount": 500,
+            "productId": "example-plan-id-5"
         },
         {
             "plan": "1.5GB -> 30Days (N1,000)",
-            "amount": 1000
+            "amount": 1000,
+            "productId": "example-plan-id-6"
         },
         {
             "plan": "3.5GB -> 30Days (N1,500)",
-            "amount": 1500
+            "amount": 1500,
+            "productId": "example-plan-id-7"
         },
         {
             "plan": "5.5GB -> 30Days (N2,500)",
-            "amount": 2500
+            "amount": 2500,
+            "productId": "example-plan-id-8"
         },
         {
             "plan": "6.5GB -> 30Days (N3,000)",
-            "amount": 3000
+            "amount": 3000,
+            "productId": "example-plan-id-9"
         },
         {
             "plan": "9.5GB -> 30Days (N4,000)",
-            "amount": 4000
+            "amount": 4000,
+            "productId": "example-plan-id-10"
         },
         {
             "plan": "12GB -> 30Days (N5,000)",
-            "amount": 5000
+            "amount": 5000,
+            "productId": "example-plan-id-11"
         },
         {
             "plan": "25GB -> 30Days (N10,000)",
-            "amount": 10000
+            "amount": 10000,
+            "productId": "example-plan-id-12"
         },
         {
             "plan": "40GB -> 30Days (N15,000)",
-            "amount": 15000
+            "amount": 15000,
+            "productId": "example-plan-id-13"
         }
     ],
     "description": "Successful",
@@ -73,6 +86,10 @@ curl --location 'https://api.nomba.com/v1/bill/data-plan/<telco>' \
 }
 ```
 </CodeGroup>
+
+<Warning>
+  The plans, amounts, and `productId`s above are **illustrative only** — they do not represent real, current plans. This catalog can change at any time (and today is not the same source of truth used internally, so it may drift further as that changes). Never hardcode plan data from this example: always call this endpoint live and use the `productId` it returns in your purchase request.
+</Warning>
 
 #### Path parameters
 
@@ -99,6 +116,9 @@ List of available data plans for the telco supplied
     </ResponseField>
     <ResponseField name="plan" type="string" required>
       Plan name
+    </ResponseField>
+    <ResponseField name="productId" type="string" required>
+      The unique identifier for this data plan. Pass this value as `productId` in the [Buy Data Bundle](/nomba-api-reference/airtime-and-data-vending/vend-data-bundles-via-parent-account) request to purchase this exact bundle.
     </ResponseField>
   </Expandable>
 </ResponseField>

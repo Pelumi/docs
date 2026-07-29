@@ -7,6 +7,9 @@ icon: pen-nib
 <Note>
    We are constantly making changes to the Nomba API. We recommend reviewing this changelog to stay updated on what’s new, improved, or deprecated. This ensures you remain aligned with our product.
 </Note>
+### July 2026
+- **Buy Data Bundle** `updated` – Added a new `productId` field to [Fetch Data Plans](/docs/products/airtime-and-data/fetch-data-plans) and [Buy Data Bundle](/nomba-api-reference/airtime-and-data-vending/vend-data-bundles-via-parent-account). Use the `productId` returned by Fetch Data Plans to select an exact bundle when purchasing — this removes ambiguity when multiple plans on the same network share the same price. Purchasing by `amount` alone is now **deprecated** and kept only for backward compatibility; new integrations should always use `productId`. The purchase response now also includes `productId` and `plan`, so you can confirm exactly which bundle was vended.
+
 ### April 2026
 - [Transfer](/docs/products/transfers/transfer-to-banks) `docs` – We have added a detailed explanation of how transfers work.
 
