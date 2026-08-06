@@ -27,7 +27,7 @@ There are two ways to verify a checkout transaction. Choose based on your enviro
 
 | Endpoint | Method | Environment | Use when |
 |---|---|---|---|
-| `/v1/transactions/accounts/single` | GET | Sandbox + Production | You want to confirm `status: SUCCESS` before delivering value. Works with both `orderReference` and `transactionRef` as query params. |
+| `/v1/transactions/accounts/single` | GET | Sandbox + Production | You want to confirm `status: SUCCESS` before delivering value. Works with `orderReference`, `orderId`, `transactionRef`, or `merchantTxRef` as query params. |
 | `/v1/checkout/transaction` | GET | **Production only** | You need full checkout order details (card info, transfer details, order metadata). |
 
 <Tip>
@@ -36,7 +36,7 @@ There are two ways to verify a checkout transaction. Choose based on your enviro
 
 ## Option 1: Verify via `/v1/transactions/accounts/single`
 
-This endpoint works in both sandbox and production. Pass the `orderReference` (the reference on the order) or the `transactionRef` (the Nomba transaction ID from the webhook) as a query parameter.
+This endpoint works in both sandbox and production. Pass the `orderReference` (the reference you supplied on the order), the `orderId` (the value returned as `orderReference` in the create-order response), or the `transactionRef` (the Nomba transaction ID from the webhook) as a query parameter.
 
 The key field to check in the response is `data.status`. A successful payment returns `"status": "SUCCESS"`.
 
