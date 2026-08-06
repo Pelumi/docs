@@ -83,8 +83,8 @@ Nomba Checkout is a hosted payment page that lets your customers pay via bank tr
         "code": "00",
         "description": "Success",
         "data": {
-            "checkoutLink": "https://checkout.nomba.com/pay/xxxxxxxxxx",
-            "orderReference": "your-unique-order-ref"
+            "checkoutLink": "https://checkout.nomba.com/pay/fd3002af-d48b-40a0-adba-0b1e2f3a4b5c",
+            "orderReference": "fd3002af-d48b-40a0-adba-0b1e2f3a4b5c"
         }
     }
     ```
@@ -92,6 +92,10 @@ Nomba Checkout is a hosted payment page that lets your customers pay via bank tr
     <Tip>
       Pick the `checkoutLink` from the response and load it in a browser or iframe to let your customer pay.
     </Tip>
+
+    <Note>
+      The `orderReference` in the response is the Nomba-generated order ID, not the reference you passed in the request. See [Create Checkout Order](/docs/products/accept-payment/create-checkout-order#request-fields) for how the two values are used.
+    </Note>
 
     For the full list of request fields (split payments, tokenization, allowed payment methods), see [Create Checkout Order](/docs/products/accept-payment/create-checkout-order).
   </Step>
