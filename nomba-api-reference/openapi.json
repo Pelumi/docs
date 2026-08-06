@@ -6297,11 +6297,15 @@
                     },
                     "description": {
                       "type": "string",
-                      "example": "Success",
+                      "example": "SUCCESS",
                       "description": "Response description"
                     },
                     "data": {
-                      "$ref": "#/components/schemas/BanksListResults"
+                      "type": "array",
+                      "description": "List of all supported banks",
+                      "items": {
+                        "$ref": "#/components/schemas/Banks"
+                      }
                     }
                   },
                   "required": [
@@ -16218,19 +16222,18 @@
           "name": {
             "type": "string",
             "description": "The bank's name.",
-            "example": "Guaranty Trust Bank"
-          }
-        }
-      },
-      "BanksListResults": {
-        "type": "object",
-        "properties": {
-          "results": {
-            "type": "array",
-            "description": "Contains result of all banks fetched",
-            "items": {
-              "$ref": "#/components/schemas/Banks"
-            }
+            "example": "GTBank"
+          },
+          "nipCode": {
+            "type": "string",
+            "nullable": true,
+            "description": "The bank's NIP institution code. May be null.",
+            "example": null
+          },
+          "logo": {
+            "type": "string",
+            "description": "URL of the bank's logo image. An empty string when no logo is available.",
+            "example": "https://firebasestorage.googleapis.com/v0/b/business-banking-93cc1.appspot.com/o/bankLogos%2FGroup%209.png?alt=media&token=98bde9e8-1862-495d-9046-bd3d96465970"
           }
         }
       },
