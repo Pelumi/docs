@@ -14291,6 +14291,11 @@
                       "type": "string",
                       "example": "Successful"
                     },
+                    "status": {
+                      "type": "boolean",
+                      "description": "Legacy envelope flag. Global Payout endpoints leave it false even on success - read code instead, where 00 means success.",
+                      "example": false
+                    },
                     "data": {
                       "type": "array",
                       "items": {
@@ -14298,34 +14303,79 @@
                         "properties": {
                           "accountId": {
                             "type": "string",
-                            "example": "01kkk7pab9mjt70wvk6pzk8mzx"
+                            "description": "The wallet id. Pass this value to GET /v1/global-payout/accounts/{accountId} to fetch this account on its own.",
+                            "example": "66bc8c0e054dfe06b69a840a"
                           },
                           "name": {
                             "type": "string",
-                            "example": "Main CAD Account"
+                            "example": "CbG"
                           },
                           "currency": {
                             "type": "string",
-                            "example": "CAD"
+                            "example": "CDF"
                           },
                           "balance": {
                             "type": "number",
-                            "example": 1250.5
+                            "nullable": true,
+                            "description": "Everything the wallet holds, liens included. Null when the balance could not be read - see status.",
+                            "example": 2770399.5999999996
                           },
-                          "formattedBalance": {
-                            "type": "string",
-                            "example": "CAD 1,250.50"
+                          "availableBalance": {
+                            "type": "number",
+                            "nullable": true,
+                            "description": "The balance less anything held under lien: what can actually be paid out. Null when the balance could not be read - see status.",
+                            "example": 2770399.5999999996
                           },
                           "status": {
                             "type": "string",
+                            "enum": ["ACTIVE", "UNAVAILABLE"],
+                            "description": "ACTIVE when the balances are good. UNAVAILABLE means you hold the account but its balance could not be read on this request, and both balance fields are null - the account still exists, so retry rather than treating it as closed.",
                             "example": "ACTIVE"
                           },
                           "operationRegion": {
                             "type": "string",
-                            "example": "GLOBAL"
+                            "example": "CD"
                           }
                         }
-                      }
+                      },
+                      "example": [
+                        {
+                          "accountId": "66bc8c0e054dfe06b69a840a",
+                          "name": "CbG",
+                          "currency": "CDF",
+                          "balance": 2770399.5999999996,
+                          "availableBalance": 2770399.5999999996,
+                          "status": "ACTIVE",
+                          "operationRegion": "CD"
+                        },
+                        {
+                          "accountId": "66bc8c0ec4973095742cb042",
+                          "name": "CbG",
+                          "currency": "USD",
+                          "balance": 148000.0,
+                          "availableBalance": 148000.0,
+                          "status": "ACTIVE",
+                          "operationRegion": "CD"
+                        },
+                        {
+                          "accountId": "69e0ec026c2db9fc97911281",
+                          "name": "CbG",
+                          "currency": "USDT",
+                          "balance": 0,
+                          "availableBalance": 0,
+                          "status": "ACTIVE",
+                          "operationRegion": "CD"
+                        },
+                        {
+                          "accountId": "69e0ec1223ebafe76aac5651",
+                          "name": "CbG",
+                          "currency": "USDC",
+                          "balance": 0,
+                          "availableBalance": 0,
+                          "status": "ACTIVE",
+                          "operationRegion": "CD"
+                        }
+                      ]
                     }
                   }
                 }
@@ -14364,10 +14414,10 @@
             "name": "accountId",
             "in": "path",
             "required": true,
-            "description": "The ISO 4217 currency code of the wallet to fetch (e.g. CAD, USD).",
+            "description": "The wallet id, exactly as returned in the accountId field by GET /v1/global-payout/accounts. This is not a currency code - passing one returns 404.",
             "schema": {
               "type": "string",
-              "example": "CAD"
+              "example": "66bc8c0e054dfe06b69a840a"
             }
           }
         ],
@@ -14387,38 +14437,70 @@
                       "type": "string",
                       "example": "Successful"
                     },
+                    "status": {
+                      "type": "boolean",
+                      "description": "Legacy envelope flag. Global Payout endpoints leave it false even on success - read code instead, where 00 means success.",
+                      "example": false
+                    },
                     "data": {
                       "type": "object",
                       "properties": {
                         "accountId": {
                           "type": "string",
-                          "example": "01kkk7pab9mjt70wvk6pzk8mzx"
+                          "description": "The wallet id. Pass this value to GET /v1/global-payout/accounts/{accountId} to fetch this account on its own.",
+                          "example": "66bc8c0e054dfe06b69a840a"
                         },
                         "name": {
                           "type": "string",
-                          "example": "Main CAD Account"
+                          "example": "CbG"
                         },
                         "currency": {
                           "type": "string",
-                          "example": "CAD"
+                          "example": "CDF"
                         },
                         "balance": {
                           "type": "number",
-                          "example": 1250.5
+                          "nullable": true,
+                          "description": "Everything the wallet holds, liens included. Null when the balance could not be read - see status.",
+                          "example": 2770399.5999999996
                         },
-                        "formattedBalance": {
-                          "type": "string",
-                          "example": "CAD 1,250.50"
+                        "availableBalance": {
+                          "type": "number",
+                          "nullable": true,
+                          "description": "The balance less anything held under lien: what can actually be paid out. Null when the balance could not be read - see status.",
+                          "example": 2770399.5999999996
                         },
                         "status": {
                           "type": "string",
+                          "enum": ["ACTIVE", "UNAVAILABLE"],
+                          "description": "ACTIVE when the balances are good. UNAVAILABLE means you hold the account but its balance could not be read on this request, and both balance fields are null - the account still exists, so retry rather than treating it as closed.",
                           "example": "ACTIVE"
                         },
                         "operationRegion": {
                           "type": "string",
-                          "example": "GLOBAL"
+                          "example": "CD"
                         }
                       }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No account with that id belongs to the authenticated business. Returned when the id is not one of your wallets - including when a currency code such as CAD is sent instead of a wallet id. It is not returned when the balance simply could not be read: that case comes back 200 with status UNAVAILABLE.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "404"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "No account found for 66bc8c0e054dfe06b69a840a"
                     }
                   }
                 }
@@ -14470,6 +14552,11 @@
                       "type": "string",
                       "example": "Success"
                     },
+                    "status": {
+                      "type": "boolean",
+                      "description": "Legacy envelope flag. Global Payout endpoints leave it false even on success - read code instead, where 00 means success.",
+                      "example": false
+                    },
                     "data": {
                       "type": "array",
                       "items": {
@@ -14489,14 +14576,20 @@
                           },
                           "balance": {
                             "type": "number",
+                            "nullable": true,
+                            "description": "Everything the wallet holds, liens included. Null when the balance could not be read - see status.",
                             "example": 1250.5
                           },
-                          "formattedBalance": {
-                            "type": "string",
-                            "example": "CAD 1,250.50"
+                          "availableBalance": {
+                            "type": "number",
+                            "nullable": true,
+                            "description": "The balance less anything held under lien: what can actually be paid out. Null when the balance could not be read - see status.",
+                            "example": 1000.5
                           },
                           "status": {
                             "type": "string",
+                            "enum": ["ACTIVE", "UNAVAILABLE"],
+                            "description": "ACTIVE when the balances are good. UNAVAILABLE means you hold the account but its balance could not be read on this request, and both balance fields are null.",
                             "example": "ACTIVE"
                           },
                           "operationRegion": {
@@ -14510,8 +14603,8 @@
                           "accountId": "sandbox-acc-ngn-001",
                           "name": "Sandbox Main Account",
                           "currency": "NGN",
-                          "balance": 500000.0,
-                          "formattedBalance": "NGN 500,000.00",
+                          "balance": 500000.00,
+                          "availableBalance": 500000.00,
                           "status": "ACTIVE",
                           "operationRegion": "NG"
                         },
@@ -14519,8 +14612,8 @@
                           "accountId": "sandbox-acc-cad-001",
                           "name": "Sandbox CAD Account",
                           "currency": "CAD",
-                          "balance": 1250.5,
-                          "formattedBalance": "CAD 1,250.50",
+                          "balance": 1250.50,
+                          "availableBalance": 1000.50,
                           "status": "ACTIVE",
                           "operationRegion": "GLOBAL"
                         }
@@ -14563,10 +14656,10 @@
             "name": "accountId",
             "in": "path",
             "required": true,
-            "description": "The ISO 4217 currency code of the wallet to fetch (e.g. CAD, USD). Any value is accepted in sandbox.",
+            "description": "The wallet id, exactly as returned in the accountId field by GET /v1/sandbox/global-payout/accounts. Any value is accepted in sandbox and is echoed back in the response.",
             "schema": {
               "type": "string",
-              "example": "CAD"
+              "example": "sandbox-acc-cad-001"
             }
           }
         ],
@@ -14586,6 +14679,11 @@
                       "type": "string",
                       "example": "Success"
                     },
+                    "status": {
+                      "type": "boolean",
+                      "description": "Legacy envelope flag. Global Payout endpoints leave it false even on success - read code instead, where 00 means success.",
+                      "example": false
+                    },
                     "data": {
                       "type": "object",
                       "properties": {
@@ -14603,14 +14701,20 @@
                         },
                         "balance": {
                           "type": "number",
+                          "nullable": true,
+                          "description": "Everything the wallet holds, liens included. Null when the balance could not be read - see status.",
                           "example": 1250.5
                         },
-                        "formattedBalance": {
-                          "type": "string",
-                          "example": "CAD 1,250.50"
+                        "availableBalance": {
+                          "type": "number",
+                          "nullable": true,
+                          "description": "The balance less anything held under lien: what can actually be paid out. Null when the balance could not be read - see status.",
+                          "example": 1000.5
                         },
                         "status": {
                           "type": "string",
+                          "enum": ["ACTIVE", "UNAVAILABLE"],
+                          "description": "ACTIVE when the balances are good. UNAVAILABLE means you hold the account but its balance could not be read on this request, and both balance fields are null.",
                           "example": "ACTIVE"
                         },
                         "operationRegion": {
