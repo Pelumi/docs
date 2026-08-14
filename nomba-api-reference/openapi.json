@@ -14267,6 +14267,488 @@
         }
       }
     },
+    "/v1/global-payout/accounts": {
+      "get": {
+        "description": "Retrieve all of your currency wallets and their balances (e.g. CAD, USD) under your parent accountId. Use this to check a non-NGN balance instead of the NGN-only parent account endpoint.",
+        "operationId": "Fetch Global Payout Accounts",
+        "parameters": [
+          {
+            "description": "Bearer token for authentication.",
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "example": "Bearer <token>"
+            },
+            "required": true
+          },
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Accounts retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Successful"
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "description": "Legacy envelope flag. Global Payout endpoints leave it false even on success - read code instead, where 00 means success.",
+                      "example": false
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "accountId": {
+                            "type": "string",
+                            "description": "The wallet id. Pass this value to GET /v1/global-payout/accounts/{accountId} to fetch this account on its own.",
+                            "example": "66bc8c0e054dfe06b69a840a"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "CbG"
+                          },
+                          "currency": {
+                            "type": "string",
+                            "example": "CDF"
+                          },
+                          "balance": {
+                            "type": "number",
+                            "nullable": true,
+                            "description": "Everything the wallet holds, liens included. Null when the balance could not be read - see status.",
+                            "example": 2770399.5999999996
+                          },
+                          "availableBalance": {
+                            "type": "number",
+                            "nullable": true,
+                            "description": "The balance less anything held under lien: what can actually be paid out. Null when the balance could not be read - see status.",
+                            "example": 2770399.5999999996
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": ["ACTIVE", "UNAVAILABLE"],
+                            "description": "ACTIVE when the balances are good. UNAVAILABLE means you hold the account but its balance could not be read on this request, and both balance fields are null - the account still exists, so retry rather than treating it as closed.",
+                            "example": "ACTIVE"
+                          },
+                          "operationRegion": {
+                            "type": "string",
+                            "example": "CD"
+                          }
+                        }
+                      },
+                      "example": [
+                        {
+                          "accountId": "66bc8c0e054dfe06b69a840a",
+                          "name": "CbG",
+                          "currency": "CDF",
+                          "balance": 2770399.5999999996,
+                          "availableBalance": 2770399.5999999996,
+                          "status": "ACTIVE",
+                          "operationRegion": "CD"
+                        },
+                        {
+                          "accountId": "66bc8c0ec4973095742cb042",
+                          "name": "CbG",
+                          "currency": "USD",
+                          "balance": 148000.0,
+                          "availableBalance": 148000.0,
+                          "status": "ACTIVE",
+                          "operationRegion": "CD"
+                        },
+                        {
+                          "accountId": "69e0ec026c2db9fc97911281",
+                          "name": "CbG",
+                          "currency": "USDT",
+                          "balance": 0,
+                          "availableBalance": 0,
+                          "status": "ACTIVE",
+                          "operationRegion": "CD"
+                        },
+                        {
+                          "accountId": "69e0ec1223ebafe76aac5651",
+                          "name": "CbG",
+                          "currency": "USDC",
+                          "balance": 0,
+                          "availableBalance": 0,
+                          "status": "ACTIVE",
+                          "operationRegion": "CD"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/global-payout/accounts/{accountId}": {
+      "get": {
+        "description": "Retrieve the details and balance of a single Global Payout account by its account ID.",
+        "operationId": "Fetch Global Payout Account",
+        "parameters": [
+          {
+            "description": "Bearer token for authentication.",
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "example": "Bearer <token>"
+            },
+            "required": true
+          },
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          },
+          {
+            "name": "accountId",
+            "in": "path",
+            "required": true,
+            "description": "The wallet id, exactly as returned in the accountId field by GET /v1/global-payout/accounts. This is not a currency code - passing one returns 404.",
+            "schema": {
+              "type": "string",
+              "example": "66bc8c0e054dfe06b69a840a"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Successful"
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "description": "Legacy envelope flag. Global Payout endpoints leave it false even on success - read code instead, where 00 means success.",
+                      "example": false
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "accountId": {
+                          "type": "string",
+                          "description": "The wallet id. Pass this value to GET /v1/global-payout/accounts/{accountId} to fetch this account on its own.",
+                          "example": "66bc8c0e054dfe06b69a840a"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "CbG"
+                        },
+                        "currency": {
+                          "type": "string",
+                          "example": "CDF"
+                        },
+                        "balance": {
+                          "type": "number",
+                          "nullable": true,
+                          "description": "Everything the wallet holds, liens included. Null when the balance could not be read - see status.",
+                          "example": 2770399.5999999996
+                        },
+                        "availableBalance": {
+                          "type": "number",
+                          "nullable": true,
+                          "description": "The balance less anything held under lien: what can actually be paid out. Null when the balance could not be read - see status.",
+                          "example": 2770399.5999999996
+                        },
+                        "status": {
+                          "type": "string",
+                          "enum": ["ACTIVE", "UNAVAILABLE"],
+                          "description": "ACTIVE when the balances are good. UNAVAILABLE means you hold the account but its balance could not be read on this request, and both balance fields are null - the account still exists, so retry rather than treating it as closed.",
+                          "example": "ACTIVE"
+                        },
+                        "operationRegion": {
+                          "type": "string",
+                          "example": "CD"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No account with that id belongs to the authenticated business. Returned when the id is not one of your wallets - including when a currency code such as CAD is sent instead of a wallet id. It is not returned when the balance simply could not be read: that case comes back 200 with status UNAVAILABLE.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "404"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "No account found for 66bc8c0e054dfe06b69a840a"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/sandbox/global-payout/accounts": {
+      "get": {
+        "description": "Sandbox version of Fetch Global Payout Accounts. Returns canned multi-currency account data for use in testing.",
+        "operationId": "Fetch Global Payout Accounts (Sandbox)",
+        "parameters": [
+          {
+            "description": "Bearer token for authentication.",
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "example": "Bearer <token>"
+            },
+            "required": true
+          },
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Accounts retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "description": "Legacy envelope flag. Global Payout endpoints leave it false even on success - read code instead, where 00 means success.",
+                      "example": false
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "accountId": {
+                            "type": "string",
+                            "example": "sandbox-acc-cad-001"
+                          },
+                          "name": {
+                            "type": "string",
+                            "example": "Sandbox CAD Account"
+                          },
+                          "currency": {
+                            "type": "string",
+                            "example": "CAD"
+                          },
+                          "balance": {
+                            "type": "number",
+                            "nullable": true,
+                            "description": "Everything the wallet holds, liens included. Null when the balance could not be read - see status.",
+                            "example": 1250.5
+                          },
+                          "availableBalance": {
+                            "type": "number",
+                            "nullable": true,
+                            "description": "The balance less anything held under lien: what can actually be paid out. Null when the balance could not be read - see status.",
+                            "example": 1000.5
+                          },
+                          "status": {
+                            "type": "string",
+                            "enum": ["ACTIVE", "UNAVAILABLE"],
+                            "description": "ACTIVE when the balances are good. UNAVAILABLE means you hold the account but its balance could not be read on this request, and both balance fields are null.",
+                            "example": "ACTIVE"
+                          },
+                          "operationRegion": {
+                            "type": "string",
+                            "example": "GLOBAL"
+                          }
+                        }
+                      },
+                      "example": [
+                        {
+                          "accountId": "sandbox-acc-ngn-001",
+                          "name": "Sandbox Main Account",
+                          "currency": "NGN",
+                          "balance": 500000.00,
+                          "availableBalance": 500000.00,
+                          "status": "ACTIVE",
+                          "operationRegion": "NG"
+                        },
+                        {
+                          "accountId": "sandbox-acc-cad-001",
+                          "name": "Sandbox CAD Account",
+                          "currency": "CAD",
+                          "balance": 1250.50,
+                          "availableBalance": 1000.50,
+                          "status": "ACTIVE",
+                          "operationRegion": "GLOBAL"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/sandbox/global-payout/accounts/{accountId}": {
+      "get": {
+        "description": "Sandbox version of Fetch Global Payout Account. Returns canned account details and balance for the given account ID, for use in testing.",
+        "operationId": "Fetch Global Payout Account (Sandbox)",
+        "parameters": [
+          {
+            "description": "Bearer token for authentication.",
+            "in": "header",
+            "name": "Authorization",
+            "schema": {
+              "type": "string",
+              "example": "Bearer <token>"
+            },
+            "required": true
+          },
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          },
+          {
+            "name": "accountId",
+            "in": "path",
+            "required": true,
+            "description": "The wallet id, exactly as returned in the accountId field by GET /v1/sandbox/global-payout/accounts. Any value is accepted in sandbox and is echoed back in the response.",
+            "schema": {
+              "type": "string",
+              "example": "sandbox-acc-cad-001"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Account retrieved successfully.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Success"
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "description": "Legacy envelope flag. Global Payout endpoints leave it false even on success - read code instead, where 00 means success.",
+                      "example": false
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "accountId": {
+                          "type": "string",
+                          "example": "sandbox-acc-cad-001"
+                        },
+                        "name": {
+                          "type": "string",
+                          "example": "Sandbox CAD Account"
+                        },
+                        "currency": {
+                          "type": "string",
+                          "example": "CAD"
+                        },
+                        "balance": {
+                          "type": "number",
+                          "nullable": true,
+                          "description": "Everything the wallet holds, liens included. Null when the balance could not be read - see status.",
+                          "example": 1250.5
+                        },
+                        "availableBalance": {
+                          "type": "number",
+                          "nullable": true,
+                          "description": "The balance less anything held under lien: what can actually be paid out. Null when the balance could not be read - see status.",
+                          "example": 1000.5
+                        },
+                        "status": {
+                          "type": "string",
+                          "enum": ["ACTIVE", "UNAVAILABLE"],
+                          "description": "ACTIVE when the balances are good. UNAVAILABLE means you hold the account but its balance could not be read on this request, and both balance fields are null.",
+                          "example": "ACTIVE"
+                        },
+                        "operationRegion": {
+                          "type": "string",
+                          "example": "GLOBAL"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/global-collection/inflow/initiate": {
       "post": {
         "description": "Trigger a mobile money collection request from a customer.",
