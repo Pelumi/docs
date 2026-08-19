@@ -237,6 +237,7 @@ Supported values include:
 - `MOMO`
 - `Intl Card`
 - `Apple Pay`
+- `Intl Transfer` (Pay by Bank)
 
 If `allowedPaymentMethods` is not provided, all enabled payment methods on your account will be displayed.
 
@@ -245,6 +246,7 @@ Payment-method availability is region-aware and configuration-aware. For example
 - Supported DRC `CDF` checkout flows can expose `MOMO`
 - Supported DRC `USD` checkout flows can expose `MOMO`, `Intl Card`, and `Apple Pay`
 - Nigerian checkout flows can continue to expose methods such as `Card`, `Transfer`, `USSD`, `Nomba QR`, and other enabled local methods
+- Supported `GBP` and `EUR` checkout flows can expose `Intl Transfer` (Pay by Bank), alongside `Intl Card` and `Apple Pay`
 
 For Vendor API integrations, the authenticated account region determines the applicable checkout configuration. Currency alone should not be treated as the business-region source of truth.
 
@@ -253,6 +255,15 @@ For DRC collections specifically, Checkout supports:
 - `MOMO` for both `CDF` and `USD` collections
 - `Apple Pay` for supported `USD` collections
 - `Intl Card` for supported `USD` collections
+
+For Pay by Bank specifically:
+
+- `Intl Transfer` is the value used to request or restrict Pay by Bank
+- The customer pays in `GBP` or `EUR` from a supported UK or European bank account
+- It must be enabled on your account — contact support. It is not available to Nigerian `NGN`-only checkout flows
+- It does not support recurring payments, so it is ignored on recurring payment links
+
+See [Pay by Bank](/docs/products/accept-payment/payment-methods#pay-by-bank) for the full customer flow and supported institutions.
 
 ### Example
 
@@ -314,6 +325,21 @@ You can also create a DRC USD checkout order with all three supported methods en
     "allowedPaymentMethods": ["MOMO", "Apple Pay", "Intl Card"]
   },
   "tokenizeCard": true
+}
+```
+
+### Pay by Bank example
+
+```json GBP Pay by Bank
+{
+  "order": {
+    "orderReference": "pay-by-bank-order-001",
+    "callbackUrl": "https://merchant.example.com/callback",
+    "customerEmail": "customer@example.com",
+    "amount": "45.00",
+    "currency": "GBP",
+    "allowedPaymentMethods": ["Intl Transfer"]
+  }
 }
 ```
 

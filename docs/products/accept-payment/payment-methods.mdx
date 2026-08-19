@@ -62,6 +62,15 @@ Each method is secure, reliable, and designed to give you flexibility when accep
     A reliable method for users without access to cards or internet banking.
   </Card>
 
+  <Card
+    title="Pay by Bank"
+    icon="money-bill-transfer"
+    href="#pay-by-bank"
+  >
+    UK and European customers pay directly from their banking app.  
+    No card details required.
+  </Card>
+
 </CardGroup>
 
 ---
@@ -114,5 +123,58 @@ For DRC checkout:
 ## USSD
 Offer customers the option to pay using their bank’s **USSD short code**.  
 This method works on any mobile device and does not require internet access.  
+
+---
+
+## Pay by Bank
+Pay by Bank lets customers with supported UK and European bank accounts pay you directly from their banking app.
+No card details are entered at checkout.
+
+The experience differs by device:
+
+| Device | Customer experience |
+|---|---|
+| Desktop | The customer scans a QR code at checkout to continue on their phone, or selects their bank and completes it in the browser |
+| Mobile | The customer selects their bank and is taken straight into the banking app to complete the payment |
+
+Once complete, the customer returns to checkout with a confirmation and the payment is initiated immediately.
+
+Supported institutions include **Barclays**, **HSBC**, **Revolut**, **Monzo**, **Lloyds**, and other participating UK and European banks.
+
+### Availability
+
+| Condition | Detail |
+|---|---|
+| Customer bank account | UK and European bank accounts at participating institutions |
+| Currency | The customer pays in `GBP` or `EUR` |
+| Merchant account | Available on supported foreign-currency checkout flows. Contact support to enable it on your account |
+
+<Note>
+  Pay by Bank is not a Nigerian local payment method. A Nigerian `NGN`-only checkout flow will not show it, and it is not a substitute for **Bank Transfer**, which settles into a dynamically generated Nigerian account number.
+</Note>
+
+### Requesting it at checkout
+
+In the checkout order request, Pay by Bank is represented by the `allowedPaymentMethods` value `Intl Transfer`:
+
+```json
+{
+  "order": {
+    "orderReference": "pay-by-bank-order-001",
+    "callbackUrl": "https://merchant.example.com/callback",
+    "customerEmail": "customer@example.com",
+    "amount": "45.00",
+    "currency": "GBP",
+    "allowedPaymentMethods": ["Intl Transfer"]
+  }
+}
+```
+
+If `allowedPaymentMethods` is omitted, Pay by Bank appears automatically on any checkout where your account and the order currency support it.
+
+### Settlement and recurring
+
+- **Settlement** — funds settle into your Nomba `GBP` or `EUR` balance for the currency the customer paid in.
+- **Recurring** — not supported. Pay by Bank is a one-time payment method, and each payment must be authorised by the customer in their banking app. For recurring or subscription billing, use **Card Payments** with tokenization.
 
 ---
