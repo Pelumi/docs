@@ -12,129 +12,175 @@ description: 'Retrieve supported payment methods and method-specific requirement
 
 # `GET /v1/global-payout/payment-methods`
 
-By default, this endpoint returns all supported payment methods and their method-specific requirements. You can also filter the list by payment method `code` or `name`.
+Returns the payment methods available to you and, for a given corridor, the exact fields an [Authorize Transfer](/docs/products/global-payout/authorize-transfer) request must carry.
 
-Destination countries, transaction limits, and delivery timelines are documented in the [Supported Countries](/docs/products/global-payout/supported-countries) page — they are not part of this response.
+A payment method's requirements depend on where you are sending to. The same method carries different fields in different corridors — SEPA requires an `institutionCode` in some destinations and not others, and a Canadian bank payout needs routing details a European one does not. The endpoint therefore answers in two ways.
+
+**Without a destination country**, it returns the catalogue: which methods exist, and the corridors each one serves. Only the fields that apply to every request are listed.
+
+**With `destinationCountryIsoCode`**, it returns that corridor's exact `requiredFields` and `optionalFields`.
+
+<Tip>
+  Start with the catalogue to discover a method and its corridors, then call again with `destinationCountryIsoCode` (and `destinationCurrency` where a country supports more than one) to get the fields you must send.
+</Tip>
 
 #### Query parameters
 
+<ParamField query="destinationCountryIsoCode" type="string">
+  Optional destination country ISO code, for example `CA`. Supply it to receive that corridor's method-specific `requiredFields` and `optionalFields`. Omit it to receive the catalogue.
+</ParamField>
+
+<ParamField query="destinationCurrency" type="string">
+  Optional destination currency code, for example `CAD`. Use it where a country supports more than one currency and the requirements differ between them. Without it, a method configured for several currencies in that country is returned once per currency.
+</ParamField>
+
 <ParamField query="code" type="string">
-  Optional payment method code. Use this to retrieve a specific method, for example `ACH`.
+  Optional payment method code. Use this to retrieve a specific method, for example `EFT`.
 </ParamField>
 
 <ParamField query="name" type="string">
   Optional payment method name. Use this to retrieve a specific method, for example `BANK` or `Wire Transfer`.
 </ParamField>
 
-Supported method codes are `BANK`, `MobileMoney`, `INTERAC`, `FASTER_PAYMENTS`, `SEPA`, `ACH`, and `WIRE`.
+Supported method codes are `BANK`, `MobileMoney`, `INTERAC`, `FASTER_PAYMENTS`, `SEPA`, `ACH`, `EFT`, and `WIRE`. A method appears only where it is active for at least one corridor.
+
+Transaction limits and delivery timelines are documented on the [Supported Countries](/docs/products/global-payout/supported-countries) page — they are not part of this response.
 
 <CodeGroup>
-```bash Default request
+```bash Catalogue request
 curl --request GET \
   --url https://api.nomba.com/v1/global-payout/payment-methods \
   --header 'Authorization: Bearer <token>' \
   --header 'accountId: <accountId>'
 ```
 
-```json Default response
+```json Catalogue response
 {
   "code": "00",
-  "description": "Successful",
-  "status": false,
+  "description": "Success",
+  "status": true,
   "data": [
     {
       "code": "BANK",
       "displayName": "Bank Transfer",
       "purposeOfPaymentRequired": false,
       "purposeOfPayments": [],
-      "requiredFields": ["accountType"],
-      "optionalFields": ["narration"],
-      "accountTypes": ["INDIVIDUAL", "CORPORATE"],
-      "bankAccountTypes": []
+      "requiredFields": [
+        "amount",
+        "sourceCurrency",
+        "destinationCurrency",
+        "receiverName",
+        "sourceCountryIsoCode",
+        "destinationCountryIsoCode",
+        "paymentMethod",
+        "accountType"
+      ],
+      "optionalFields": ["narration", "lockedExchangeRateId"],
+      "accountTypes": [],
+      "bankAccountTypes": [],
+      "supportedCorridors": [
+        { "countryIsoCode": "ZA", "currency": "ZAR" },
+        { "countryIsoCode": "AE", "currency": "AED" },
+        { "countryIsoCode": "CA", "currency": "CAD" }
+      ]
     },
     {
-      "code": "MobileMoney",
-      "displayName": "Mobile Money",
+      "code": "EFT",
+      "displayName": "EFT",
       "purposeOfPaymentRequired": false,
       "purposeOfPayments": [],
-      "requiredFields": ["accountNumber", "institutionName", "accountType"],
-      "optionalFields": ["narration"],
-      "accountTypes": ["INDIVIDUAL", "CORPORATE"],
-      "bankAccountTypes": []
+      "requiredFields": [
+        "amount",
+        "sourceCurrency",
+        "destinationCurrency",
+        "receiverName",
+        "sourceCountryIsoCode",
+        "destinationCountryIsoCode",
+        "paymentMethod",
+        "accountType"
+      ],
+      "optionalFields": ["narration", "lockedExchangeRateId"],
+      "accountTypes": [],
+      "bankAccountTypes": [],
+      "supportedCorridors": [{ "countryIsoCode": "CA", "currency": "CAD" }]
+    }
+  ]
+}
+```
+
+```bash Corridor request
+curl --request GET \
+  --url 'https://api.nomba.com/v1/global-payout/payment-methods?destinationCountryIsoCode=CA&destinationCurrency=CAD' \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountId>'
+```
+
+```json Corridor response
+{
+  "code": "00",
+  "description": "Success",
+  "status": true,
+  "data": [
+    {
+      "code": "EFT",
+      "displayName": "EFT",
+      "purposeOfPaymentRequired": false,
+      "purposeOfPayments": [],
+      "requiredFields": [
+        "amount",
+        "sourceCurrency",
+        "destinationCurrency",
+        "receiverName",
+        "sourceCountryIsoCode",
+        "destinationCountryIsoCode",
+        "paymentMethod",
+        "accountType",
+        "accountNumber",
+        "institutionCode",
+        "beneficiary.beneficiaryEmail",
+        "beneficiary.transitNumber",
+        "beneficiary.beneficiaryAddress",
+        "beneficiary.beneficiaryCity",
+        "beneficiary.beneficiaryPostCode"
+      ],
+      "optionalFields": [
+        "narration",
+        "lockedExchangeRateId",
+        "beneficiary.beneficiaryState"
+      ],
+      "accountTypes": ["CORPORATE", "INDIVIDUAL"],
+      "bankAccountTypes": [],
+      "supportedCorridors": [{ "countryIsoCode": "CA", "currency": "CAD" }]
     },
     {
       "code": "INTERAC",
       "displayName": "Interac",
       "purposeOfPaymentRequired": false,
       "purposeOfPayments": [],
-      "requiredFields": ["accountType", "beneficiary"],
-      "optionalFields": ["narration"],
-      "accountTypes": ["INDIVIDUAL", "CORPORATE"],
-      "bankAccountTypes": []
-    },
-    {
-      "code": "FASTER_PAYMENTS",
-      "displayName": "Faster Payments",
-      "purposeOfPaymentRequired": false,
-      "purposeOfPayments": [],
-      "requiredFields": ["accountNumber", "institutionCode", "accountType"],
-      "optionalFields": ["narration"],
-      "accountTypes": ["INDIVIDUAL", "CORPORATE"],
-      "bankAccountTypes": []
-    },
-    {
-      "code": "SEPA",
-      "displayName": "SEPA",
-      "purposeOfPaymentRequired": true,
-      "purposeOfPayments": ["MAINTENANCE_EXPENSES", "SERVICE_CHARGES"],
-      "requiredFields": ["accountNumber", "institutionCode", "accountType", "purposeOfPayment"],
-      "optionalFields": ["narration"],
-      "accountTypes": ["INDIVIDUAL", "CORPORATE"],
-      "bankAccountTypes": []
-    },
-    {
-      "code": "ACH",
-      "displayName": "ACH",
-      "purposeOfPaymentRequired": true,
-      "purposeOfPayments": ["MAINTENANCE_EXPENSES", "SERVICE_CHARGES"],
       "requiredFields": [
-        "accountNumber",
-        "institutionCode",
-        "institutionName",
+        "amount",
+        "sourceCurrency",
+        "destinationCurrency",
+        "receiverName",
+        "sourceCountryIsoCode",
+        "destinationCountryIsoCode",
+        "paymentMethod",
         "accountType",
-        "bankAccountType",
-        "bankAddress",
-        "bankCity",
-        "bankState",
-        "bankZipCode",
-        "beneficiary",
-        "purposeOfPayment"
+        "beneficiary.beneficiaryEmail",
+        "beneficiary.beneficiaryAddress",
+        "beneficiary.beneficiaryCity",
+        "beneficiary.beneficiaryPostCode"
       ],
-      "optionalFields": ["narration"],
-      "accountTypes": ["INDIVIDUAL"],
-      "bankAccountTypes": ["CHECKING", "SAVINGS"]
-    },
-    {
-      "code": "WIRE",
-      "displayName": "Wire Transfer",
-      "purposeOfPaymentRequired": true,
-      "purposeOfPayments": ["MAINTENANCE_EXPENSES", "SERVICE_CHARGES"],
-      "requiredFields": [
-        "accountNumber",
-        "institutionCode",
-        "institutionName",
-        "accountType",
-        "bankAccountType",
-        "bankAddress",
-        "bankCity",
-        "bankState",
-        "bankZipCode",
-        "beneficiary",
-        "purposeOfPayment"
+      "optionalFields": [
+        "narration",
+        "lockedExchangeRateId",
+        "beneficiary.securityQuestion",
+        "beneficiary.securityQuestionAnswer",
+        "beneficiary.beneficiaryState"
       ],
-      "optionalFields": ["narration"],
-      "accountTypes": ["INDIVIDUAL", "CORPORATE"],
-      "bankAccountTypes": ["CHECKING", "SAVINGS"]
+      "accountTypes": ["CORPORATE", "INDIVIDUAL"],
+      "bankAccountTypes": [],
+      "supportedCorridors": [{ "countryIsoCode": "CA", "currency": "CAD" }]
     }
   ]
 }
@@ -142,14 +188,7 @@ curl --request GET \
 
 ```bash Filter by code
 curl --request GET \
-  --url 'https://api.nomba.com/v1/global-payout/payment-methods?code=ACH' \
-  --header 'Authorization: Bearer <token>' \
-  --header 'accountId: <accountId>'
-```
-
-```bash Filter by name
-curl --request GET \
-  --url 'https://api.nomba.com/v1/global-payout/payment-methods?name=BANK' \
+  --url 'https://api.nomba.com/v1/global-payout/payment-methods?code=ACH&destinationCountryIsoCode=US' \
   --header 'Authorization: Bearer <token>' \
   --header 'accountId: <accountId>'
 ```
@@ -162,10 +201,28 @@ curl --request GET \
 ```
 </CodeGroup>
 
+#### Reading the field names
+
+`requiredFields` and `optionalFields` name fields on the [Authorize Transfer](/docs/products/global-payout/authorize-transfer) request body. A dotted name is a nested field: `beneficiary.transitNumber` means `transitNumber` inside the `beneficiary` object.
+
+```json
+{
+  "amount": 5000,
+  "paymentMethod": "EFT",
+  "receiverName": "Jane Doe",
+  "accountNumber": "1234567",
+  "institutionCode": "001",
+  "beneficiary": {
+    "beneficiaryEmail": "jane@example.com",
+    "transitNumber": "12345"
+  }
+}
+```
+
 #### Response body
 
 <ResponseField name="data" type="array" required>
-  List of supported payment methods.
+  List of payment methods. On a corridor request, a method configured for more than one currency in that country appears once per currency; `supportedCorridors` identifies which.
 
   <Expandable title="payment method object" defaultOpen="true">
     <ResponseField name="code" type="string">
@@ -175,22 +232,34 @@ curl --request GET \
       Human-readable label suitable for displaying in a UI selector.
     </ResponseField>
     <ResponseField name="purposeOfPaymentRequired" type="boolean">
-      Indicates whether `purposeOfPayment` is required for this payment method.
+      Indicates whether `purposeOfPayment` is required for this payment method in this corridor.
     </ResponseField>
     <ResponseField name="purposeOfPayments" type="array">
-      Selectable purpose-of-payment values for this method. When `purposeOfPaymentRequired` is `true`, choose a value from this array.
+      Selectable purpose-of-payment values, each an object with a `code` and a `displayName`. When `purposeOfPaymentRequired` is `true`, send one of the `code` values as `purposeOfPayment`. Empty on the catalogue response.
     </ResponseField>
     <ResponseField name="requiredFields" type="array">
-      Fields that must be included when authorizing a transfer with this payment method.
+      Fields that must be included when authorizing a transfer with this payment method. On the catalogue response this lists only the fields every request carries; call with `destinationCountryIsoCode` for the method-specific ones.
     </ResponseField>
     <ResponseField name="optionalFields" type="array">
-      Fields that may be included but are not required for this payment method.
+      Fields that may be included but are not required.
     </ResponseField>
     <ResponseField name="accountTypes" type="array">
-      Selectable `accountType` values for this payment method.
+      Selectable `accountType` values for this payment method. Empty on the catalogue response.
     </ResponseField>
     <ResponseField name="bankAccountTypes" type="array">
-      Selectable `bankAccountType` values for this payment method.
+      Selectable `bankAccountType` values for this payment method. Empty where the method does not use one.
+    </ResponseField>
+    <ResponseField name="supportedCorridors" type="array">
+      The corridors this entry covers. On the catalogue response, every corridor the method is available in — use these to decide which `destinationCountryIsoCode` and `destinationCurrency` to request next. On a corridor response, the single corridor the entry describes.
+
+      <Expandable title="corridor object">
+        <ResponseField name="countryIsoCode" type="string">
+          Destination country ISO code, for example `CA`.
+        </ResponseField>
+        <ResponseField name="currency" type="string">
+          Destination currency code, for example `CAD`.
+        </ResponseField>
+      </Expandable>
     </ResponseField>
   </Expandable>
 </ResponseField>
