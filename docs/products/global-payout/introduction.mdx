@@ -59,7 +59,7 @@ GlobalPayout enables cross-border fund disbursements, giving you full control ov
     For cross-currency transfers, call the exchange rates endpoint to show your customer the current rate before they confirm the transfer.
   </Step>
   <Step title="Fetch payment methods">
-    Call `GET /v1/global-payout/payment-methods` to get available payment rails and selectable requirement values such as `purposeOfPayment`, `accountType`, and `bankAccountType`.
+    Call `GET /v1/global-payout/payment-methods` to see the available payment rails and the corridors each one serves. Call it again with `destinationCountryIsoCode` to get that corridor's exact required fields and selectable values such as `purposeOfPayment`, `accountType`, and `bankAccountType` — requirements differ by destination, so a corridor-specific call is what tells you exactly what to send.
   </Step>
   <Step title="Authorize the transfer">
     Submit the recipient details, payment method, source and destination currencies, and any required fields returned by Fetch Payment Methods.

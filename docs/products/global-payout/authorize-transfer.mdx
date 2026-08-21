@@ -20,13 +20,14 @@ Manage the complete transfer lifecycle with a single endpoint. AuthTransfer walk
 
 ## Payment methods
 
-The `paymentMethod` field determines which additional fields are required:
+The `paymentMethod` field determines which additional fields are required. Requirements also differ by destination, so the table below is a summary — call [Fetch Payment Methods](/docs/products/global-payout/payment-methods) with `destinationCountryIsoCode` for the exact list your corridor expects.
 
 | `paymentMethod` | Required fields | Optional fields |
 |---|---|---|
 | `BANK` (non-Canada, e.g. DRC) | `accountNumber`, `receiverName`, `institutionName` (bank display name), `institutionCode` (bank code from `/bank/providers`), `accountType` | `narration` |
 | `BANK` (South Africa) | `accountNumber`, `receiverName`, `institutionCode` (bank code from `/bank/providers`), `institutionName`, `accountType`, `purposeOfPayment`, `beneficiary.beneficiaryAddress`, `beneficiary.beneficiaryCity`, `beneficiary.beneficiaryPostCode` | `beneficiary.beneficiaryState` |
-| `BANK` (Canada) | `accountNumber`, `receiverName`, `institutionCode` (institution number), `accountType`, `beneficiary.beneficiaryEmail` | `beneficiary.securityQuestion`, `beneficiary.securityQuestionAnswer`, `beneficiary.transitNumber`, `narration` |
+| `BANK` (Canada) | `accountNumber`, `receiverName`, `institutionCode` (institution number, 3 digits), `accountType`, `beneficiary.beneficiaryEmail`, `beneficiary.transitNumber` (5 digits), `beneficiary.beneficiaryAddress`, `beneficiary.beneficiaryCity`, `beneficiary.beneficiaryPostCode` | `beneficiary.securityQuestion`, `beneficiary.securityQuestionAnswer`, `beneficiary.beneficiaryState`, `narration` |
+| `EFT` (Canada) | `accountNumber`, `receiverName`, `institutionCode` (institution number, 3 digits), `accountType`, `beneficiary.beneficiaryEmail`, `beneficiary.transitNumber` (5 digits), `beneficiary.beneficiaryAddress`, `beneficiary.beneficiaryCity`, `beneficiary.beneficiaryPostCode` | `beneficiary.beneficiaryState`, `narration` |
 | `MobileMoney` | `accountNumber` (recipient phone number), `receiverName`, `institutionName` (provider display name), `accountType` | `narration` |
 | `INTERAC` | `receiverName`, `accountType`, `beneficiary.beneficiaryEmail` | `beneficiary.securityQuestion`, `beneficiary.securityQuestionAnswer` |
 | `FASTER_PAYMENTS` | `accountNumber`, `receiverName`, `institutionCode` (sort code, 6 digits), `accountType` | `narration` |
