@@ -14057,6 +14057,26 @@
             "required": true
           },
           {
+            "description": "Optional destination country ISO code. Supply it to receive that corridor's method-specific requiredFields and optionalFields. Omit it to receive the catalogue of available methods and the corridors each one serves.",
+            "in": "query",
+            "name": "destinationCountryIsoCode",
+            "schema": {
+              "type": "string",
+              "example": "CA"
+            },
+            "required": false
+          },
+          {
+            "description": "Optional destination currency code. Use it where a country supports more than one currency and the requirements differ between them.",
+            "in": "query",
+            "name": "destinationCurrency",
+            "schema": {
+              "type": "string",
+              "example": "CAD"
+            },
+            "required": false
+          },
+          {
             "description": "Optional payment method code used to return a specific method.",
             "in": "query",
             "name": "code",
@@ -14100,11 +14120,11 @@
                         "properties": {
                           "code": {
                             "type": "string",
-                            "example": "BANK"
+                            "example": "EFT"
                           },
                           "displayName": {
                             "type": "string",
-                            "example": "Bank Transfer"
+                            "example": "EFT"
                           },
                           "purposeOfPaymentRequired": {
                             "type": "boolean",
@@ -14113,13 +14133,19 @@
                           "purposeOfPayments": {
                             "type": "array",
                             "items": {
-                              "type": "string"
+                              "type": "object",
+                              "properties": {
+                                "code": {
+                                  "type": "string",
+                                  "example": "SERVICE_CHARGES"
+                                },
+                                "displayName": {
+                                  "type": "string",
+                                  "example": "Service Charges"
+                                }
+                              }
                             },
-                            "example": [
-                              "MAINTENANCE_EXPENSES",
-                              "SERVICE_CHARGES"
-                            ],
-                            "description": "Selectable purpose-of-payment values for this method."
+                            "description": "Selectable purpose-of-payment values for this method. Send one of the code values as purposeOfPayment. Empty on the catalogue response."
                           },
                           "requiredFields": {
                             "type": "array",
@@ -14127,13 +14153,20 @@
                               "type": "string"
                             },
                             "example": [
+                              "amount",
+                              "sourceCurrency",
+                              "destinationCurrency",
+                              "receiverName",
+                              "sourceCountryIsoCode",
+                              "destinationCountryIsoCode",
+                              "paymentMethod",
+                              "accountType",
                               "accountNumber",
                               "institutionCode",
-                              "accountType",
-                              "bankAccountType",
-                              "beneficiary",
-                              "purposeOfPayment"
-                            ]
+                              "beneficiary.beneficiaryEmail",
+                              "beneficiary.transitNumber"
+                            ],
+                            "description": "Fields that must be included when authorizing a transfer. A dotted name is a nested field, for example beneficiary.transitNumber. On the catalogue response only the fields every request carries are listed."
                           },
                           "optionalFields": {
                             "type": "array",
@@ -14141,7 +14174,9 @@
                               "type": "string"
                             },
                             "example": [
-                              "narration"
+                              "narration",
+                              "lockedExchangeRateId",
+                              "beneficiary.beneficiaryState"
                             ]
                           },
                           "accountTypes": {
@@ -14165,6 +14200,23 @@
                               "SAVINGS"
                             ],
                             "description": "Selectable bankAccountType values for this method."
+                          },
+                          "supportedCorridors": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "countryIsoCode": {
+                                  "type": "string",
+                                  "example": "CA"
+                                },
+                                "currency": {
+                                  "type": "string",
+                                  "example": "CAD"
+                                }
+                              }
+                            },
+                            "description": "The corridors this entry covers. On the catalogue response, every corridor the method is available in. On a corridor response, the single corridor the entry describes."
                           }
                         }
                       }
