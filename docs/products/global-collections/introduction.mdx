@@ -63,17 +63,14 @@ If you want a hosted payment experience instead of a direct collection API, use 
 A collection is initiated as `PENDING` and settles asynchronously, because the customer still has to
 approve the charge on their phone. Two fields tell you where it stands.
 
-`gatewayMessage` is the provider's own word. `gatewayCode` says what it means:
+`gatewayMessage` is the response from the customer's mobile money network. `gatewayCode` says
+what it means:
 
 | `gatewayMessage` | `gatewayCode` |
 |---|---|
 | `ACCEPTED` | Awaiting customer approval |
 | `APPROVED` | Merchant credited |
 | `DECLINED` | Payment declined |
-
-The providers do not give a reason for a decline. In practice the usual cause is an unfunded
-customer wallet, and the customer is prompted for the amount **plus the provider's fee**, not the
-amount alone -- so retrying at the same amount often declines again.
 
 See [Fetch Transaction](/docs/products/global-collections/fetch-mobile-money-transaction) for the
 full field reference.

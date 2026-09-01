@@ -14995,7 +14995,7 @@
                             "FAILED",
                             "PENDING_APPROVAL"
                           ],
-                          "description": "Current status of the collection. PENDING_APPROVAL means the provider returned no outcome within the polling window and the collection is unresolved."
+                          "description": "Current status of the collection. PENDING_APPROVAL means no outcome was returned within the polling window and the collection is unresolved."
                         },
                         "amount": {
                           "type": "number",
@@ -15008,12 +15008,12 @@
                         "vendor": {
                           "type": "string",
                           "example": "MPESA",
-                          "description": "The mobile money network the collection was requested on, echoing the topupVendor sent."
+                          "description": "The customer's mobile money network, echoing the topupVendor sent."
                         },
                         "gatewayMessage": {
                           "type": "string",
                           "example": "APPROVED",
-                          "description": "The provider's own response word, passed through unchanged: ACCEPTED, APPROVED or DECLINED."
+                          "description": "The response from the customer's mobile money network: ACCEPTED, APPROVED or DECLINED."
                         },
                         "gatewayCode": {
                           "type": "string",

@@ -51,6 +51,18 @@ This endpoint supports idempotent requests. You can pass a client-generated `ide
 
 Store the `idempotencyKey` from the response and include it on any retry for the same operation. If two requests carrying the same `idempotencyKey` arrive concurrently, the second request receives HTTP 409 with the message "Request with this idempotency key is currently being processed; please retry."
 
+#### Errors
+
+A rejected initiation returns a non-`00` code with one of these descriptions.
+
+| Description | Meaning | What to do |
+|---|---|---|
+| `The phone number is not registered on <NETWORK>` | The number is not on the `topupVendor` you sent. | Send it on the network it belongs to. [Fetch Inflow Providers](/docs/products/global-collections/fetch-drc-inflow-providers) lists the valid values. |
+| `Failed to initiate mobile money inflow` | The request was rejected for another reason. | Check the request, then retry with a **new** `idempotencyKey`. |
+| `Please retry later or contact support` | The collection could not be attempted. Nothing was charged. | Retry later with a **new** `idempotencyKey`. |
+
+Treat these descriptions as the contract; do not parse anything else out of the response.
+
 #### Request body
 
 <ParamField body="phoneNumber" type="string" required>

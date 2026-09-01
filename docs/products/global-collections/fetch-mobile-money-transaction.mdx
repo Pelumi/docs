@@ -67,10 +67,10 @@ curl --request GET \
   | Value | Description |
   |---|---|
   | `PENDING` | Payment prompt sent; awaiting the customer's action. |
-  | `APPROVED` | The provider approved the charge. |
+  | `APPROVED` | The charge was approved on the customer's mobile money network. |
   | `SUCCESS` | The collection completed. |
   | `FAILED` | The collection did not complete. |
-  | `PENDING_APPROVAL` | The provider returned no outcome within the polling window, so the collection is unresolved. It can still settle on a late provider callback. |
+  | `PENDING_APPROVAL` | No outcome was returned within the polling window, so the collection is unresolved. It can still settle later. |
 </ResponseField>
 
 <ResponseField name="amount" type="number" required>
@@ -82,11 +82,11 @@ curl --request GET \
 </ResponseField>
 
 <ResponseField name="vendor" type="string">
-  The mobile money network the collection was requested on, echoing the `topupVendor` you sent.
+  The customer's mobile money network, echoing the `topupVendor` you sent.
 </ResponseField>
 
 <ResponseField name="gatewayMessage" type="string">
-  The provider's own response word, passed through unchanged.
+  The response from the customer's mobile money network.
 </ResponseField>
 
 <ResponseField name="gatewayCode" type="string">
@@ -98,5 +98,5 @@ curl --request GET \
   | `APPROVED` | Merchant credited |
   | `DECLINED` | Payment declined |
 
-  Those are the three words the providers write. Anything else leaves `gatewayCode` null.
+  Those are the three values `gatewayMessage` takes. Anything else leaves `gatewayCode` null.
 </ResponseField>
