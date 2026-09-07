@@ -13345,6 +13345,12 @@
                     "example": "01k7pcakf0t8g03rvny3z5mr1p",
                     "description": "Optional locked exchange rate ID from Convert Money. Use this when you want to lock the exchange rate and destination amount before authorizing."
                   },
+                  "idempotencyKey": {
+                    "type": "string",
+                    "maxLength": 128,
+                    "example": "5e246f9a-3e79-4b11-92f1-dbd98b53b308",
+                    "description": "Optional. Your own unique key for this request. Send the same key when retrying and the original transaction is returned instead of a second one being created. A key stays tied to its transaction permanently \u2014 use a new key for a new attempt."
+                  },
                   "bankAddress": {
                     "type": "string",
                     "example": "383 Madison Avenue",
@@ -13453,6 +13459,16 @@
                         "type": {
                           "type": "string",
                           "example": "TRANSFER"
+                        },
+                        "idempotencyKey": {
+                          "type": "string",
+                          "example": "5e246f9a-3e79-4b11-92f1-dbd98b53b308",
+                          "description": "The idempotencyKey you sent, echoed back. Empty if you did not send one."
+                        },
+                        "idempotentReplay": {
+                          "type": "boolean",
+                          "example": false,
+                          "description": "True when this response is a replay of an earlier request with the same key, meaning nothing new was created."
                         },
                         "prettyStatus": {
                           "type": "string",
@@ -13629,6 +13645,12 @@
                     "type": "string",
                     "example": "01kkk4b7rh8pcvtw1s1nxs144s",
                     "description": "The exchangeRateId from a prior Fetch Exchange Rates call. When provided, the exchange is fulfilled at that exact rate."
+                  },
+                  "idempotencyKey": {
+                    "type": "string",
+                    "maxLength": 128,
+                    "example": "5e246f9a-3e79-4b11-92f1-dbd98b53b308",
+                    "description": "Optional. Your own unique key for this request. Send the same key when retrying and the original transaction is returned instead of a second one being created. A key stays tied to its transaction permanently \u2014 use a new key for a new attempt."
                   }
                 }
               }
@@ -13673,6 +13695,16 @@
                         "type": {
                           "type": "string",
                           "example": "EXCHANGE"
+                        },
+                        "idempotencyKey": {
+                          "type": "string",
+                          "example": "5e246f9a-3e79-4b11-92f1-dbd98b53b308",
+                          "description": "The idempotencyKey you sent, echoed back. Empty if you did not send one."
+                        },
+                        "idempotentReplay": {
+                          "type": "boolean",
+                          "example": false,
+                          "description": "True when this response is a replay of an earlier request with the same key, meaning nothing new was created."
                         }
                       }
                     }
@@ -14020,6 +14052,11 @@
                         "createdAt": {
                           "type": "string",
                           "example": "2026-03-13T09:15:57.161946"
+                        },
+                        "idempotencyKey": {
+                          "type": "string",
+                          "example": "5e246f9a-3e79-4b11-92f1-dbd98b53b308",
+                          "description": "The idempotencyKey sent when the transfer was authorized. Empty if none was sent."
                         }
                       }
                     }

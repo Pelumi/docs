@@ -103,6 +103,10 @@ curl --request POST \
   The `exchangeRateId` from a prior [Fetch Exchange Rates](/docs/products/global-payout/fetch-exchange-rates) call. When provided, the exchange is fulfilled at that exact rate.
 </ParamField>
 
+<ParamField body="idempotencyKey" type="string">
+  Your own unique key for this exchange, up to 128 characters. Send the same key when retrying and you get the original transaction back instead of a second exchange. See [Retrying safely](/docs/products/global-payout/authorize-transfer#retrying-safely) — the rules are identical to Authorize Transfer.
+</ParamField>
+
 #### Response body
 
 <ResponseField name="wtTransactionId" type="string" required>
@@ -123,6 +127,14 @@ curl --request POST \
 
 <ResponseField name="type" type="string">
   Transaction type. Will be `EXCHANGE` for own-account transfers.
+</ResponseField>
+
+<ResponseField name="idempotencyKey" type="string">
+  The `idempotencyKey` you sent, echoed back. Empty if you did not send one.
+</ResponseField>
+
+<ResponseField name="idempotentReplay" type="boolean">
+  `true` when this response is a replay of an earlier request with the same key, meaning no new exchange was created. `false` on the first call.
 </ResponseField>
 
 <ResponseField name="meta" type="object">
