@@ -99,6 +99,8 @@ To create a virtual account, please take note of the optional and required field
 
 - `bvn` (optional): If not provided, the virtual account will inherit the BVN of the parent account. Only include this if you want to assign a different BVN.
 
+- `nin` (optional): The account holder's National Identification Number, exactly 11 digits. You can send it on its own instead of a `bvn`, or alongside `bvn` to record both. If you send neither, the virtual account inherits the BVN of the parent account as described above.
+
 - `expectedAmount` (optional): Restricts the account to accept only the specified amount. This is useful for exact payments such as invoice matching or controlled transfers.  When omitted, the account will accept any amount since it is not restricted to a specific value. 
 
 If a sender transfers an amount different from the expectedAmount:
@@ -144,6 +146,7 @@ curl --request POST \
     "bankAccountName": "Femi-Testing/Testing mike",
     "bankName": "Amucha MFB",
     "bvn": "22122204392",
+    "identifierType": "BVN",
     "expiryDate": "2024-10-12T12:30:49",
     "expired": false
   }
