@@ -17003,6 +17003,14 @@
             "description": "Account holder's BVN. Optional.",
             "example": "12345678"
           },
+          "nin": {
+            "type": "string",
+            "description": "Account holder's National Identification Number (NIN). Optional.\n Must be exactly 11 digits. Can be sent on its own or alongside `bvn`. If neither is sent, the BVN on the parent business account is used.",
+            "minLength": 11,
+            "maxLength": 11,
+            "pattern": "^\\d{11}$",
+            "example": "12345678901"
+          },
           "expiryDate": {
             "type": "string",
             "description": "Account expiry date. Optional. \u26a0\ufe0fBe careful with this.",
@@ -17049,6 +17057,16 @@
             "minLength": 11,
             "maxLength": 11,
             "example": "12234412345"
+          },
+          "identifierType": {
+            "type": "string",
+            "description": "The type of identifier the virtual account was created against. Omitted when the account has no identifier.",
+            "enum": [
+              "BVN",
+              "NIN",
+              "BVN_AND_NIN"
+            ],
+            "example": "BVN"
           },
           "accountName": {
             "type": "string",
