@@ -154,6 +154,14 @@ curl --request POST \
 ```
 </CodeGroup>
 
+### Test the account in the Sandbox
+
+To confirm the account works, send a bank transfer to the `bankAccountNumber` returned above, from any Nigerian bank.
+
+The transfer must be for **exactly ₦100**. Sandbox sets every new virtual account's `expectedAmount` to ₦100, and a virtual account with an `expectedAmount` accepts only that exact figure — any other amount is rejected at name enquiry, so the sender's bank will fail the transfer before it leaves.
+
+To test with a different amount, first update the account with an `expectedAmount` between ₦100 and ₦150, then transfer exactly that amount.
+
 ## Suspend a virtual account
 
 You cannot suspend a parent account. The parent account is directly tied to your business and always remains active. Only accounts created via the API (i.e., virtual accounts) can be suspended.
