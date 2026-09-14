@@ -72,3 +72,7 @@ curl --request GET \
 <ResponseField name="createdAt" type="string">
   ISO 8601 timestamp of when the transaction was created.
 </ResponseField>
+
+<ResponseField name="idempotencyKey" type="string">
+  The `idempotencyKey` sent when the transfer was authorized, so you can reconcile against your own reference. Empty if none was sent. See [Retrying safely](/docs/products/global-payout/authorize-transfer#retrying-safely).
+</ResponseField>
