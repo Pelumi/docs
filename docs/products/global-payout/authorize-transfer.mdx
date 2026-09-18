@@ -405,6 +405,10 @@ curl --request POST \
   Optional exchange rate ID from [Fetch Exchange Rates](/docs/products/global-payout/fetch-exchange-rates). Use this for the transfer to use the rate quoted to your customer.
 </ParamField>
 
+<ParamField body="idempotencyKey" type="string">
+  Your own unique key for this transfer, up to 128 characters. Send the same key when retrying and you get the original transaction back instead of a second transfer. See [Retrying safely](#retrying-safely).
+</ParamField>
+
 <ParamField body="bankAddress" type="string">
   Bank street address. Required for United States `WIRE`.
 </ParamField>
@@ -480,3 +484,78 @@ curl --request POST \
 <ResponseField name="meta" type="object">
   Transaction metadata containing currency details, amounts, and routing info. This is a JSON object — only transaction-relevant fields are present.
 </ResponseField>
+
+<ResponseField name="idempotencyKey" type="string">
+  The `idempotencyKey` you sent, echoed back. Empty if you did not send one.
+</ResponseField>
+
+<ResponseField name="idempotentReplay" type="boolean">
+  `true` when this response is a replay of an earlier request with the same key, meaning no new transfer was created. `false` on the first call.
+</ResponseField>
+
+## Retrying safely
+
+If a request times out or the connection drops, you cannot tell whether the transfer was created. Retrying blindly risks paying the recipient twice.
+
+Send an `idempotencyKey` to make the retry safe:
+
+<CodeGroup>
+
+```bash Request
+curl --request POST \
+  --url https://api.nomba.com/v1/global-payout/transfer/authorize \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountId>' \
+  --data '{
+    "amount": 250.0,
+    "sourceCurrency": "USD",
+    "destinationCurrency": "USD",
+    "receiverName": "John Cena",
+    "accountNumber": "0903086112",
+    "institutionName": "Mpesa",
+    "sourceCountryIsoCode": "CD",
+    "destinationCountryIsoCode": "CD",
+    "paymentMethod": "MobileMoney",
+    "accountType": "INDIVIDUAL",
+    "narration": "Family support",
+    "idempotencyKey": "5e246f9a-3e79-4b11-92f1-dbd98b53b308"
+  }'
+```
+
+```json Retry response
+{
+  "code": "00",
+  "description": "Successful",
+  "status": true,
+  "data": {
+    "wtTransactionId": "01kky197w3xc6wyjenpc5r0tnp",
+    "status": "PROCESSING",
+    "idempotencyKey": "5e246f9a-3e79-4b11-92f1-dbd98b53b308",
+    "idempotentReplay": true
+  }
+}
+```
+
+</CodeGroup>
+
+The retry returns the **original** `wtTransactionId` with `idempotentReplay` set to `true`. No second transfer is created.
+
+| What you send | What happens |
+| --- | --- |
+| No key | No protection. Two identical calls create two transfers. |
+| Same key, same request | `200` with the original transaction, `idempotentReplay: true` |
+| Same key, different request | `409` — the key is already tied to another transfer |
+| Same key, first call still running | `409` — wait a moment and retry |
+
+Rules to follow:
+
+- **Generate one key per transfer**, reuse it only for retries of that same transfer. A UUID works well.
+- **Change anything about the transfer, change the key.** Reusing a key with different details returns `409`.
+- **A failed transfer replays as failed.** If the transfer failed downstream, the same key returns that failure — it does not start a new attempt. Fix the problem and send a **new** key.
+- **A replay is not a completion signal.** It returns the status as it stands right now, which may still be `PROCESSING`. Use the webhook for the final outcome.
+- Keys are scoped to your account, and stay tied to their transfer permanently.
+
+<Note>
+  This is different from the `X-Idempotent-key` **header** used by [Transfers](/docs/api-basics/idempotency). Global Payout takes `idempotencyKey` in the **request body**.
+</Note>
