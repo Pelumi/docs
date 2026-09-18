@@ -80,7 +80,7 @@ Dynamic virtual accounts are temporary, purpose-specific account numbers.
 We recommend testing virtual account creation in the Sandbox environment before going live.
 
 <Note>
-  - Each user can create a maximum of **2 virtual accounts**
+  - Each user can create a maximum of **2 virtual accounts** you can expire old accounts to create more.
   - Each account is created with an `expectedAmount` of ₦100 and accepts only that exact amount
   - Transfers can be made from any Nigerian bank. 
   - You can update the expected amount (up to ₦150) using the `expectedAmount` field.
@@ -160,11 +160,19 @@ To confirm the account works, send ₦100 to the `bankAccountNumber` returned ab
 
 To test expected amount usecase, update the account with an `expectedAmount` between ₦100 and ₦150, then transfer exactly that amount.
 
-## Suspend a virtual account
+<Card
+  title="Testing virtual accounts"
+  icon="flask"
+  href="/docs/api-basics/testing/virtual-accounts"
+>
+  Full sandbox walkthrough — create an account, simulate an inflow, and test the expected amount.
+</Card>
 
-You cannot suspend a parent account. The parent account is directly tied to your business and always remains active. Only accounts created via the API (i.e., virtual accounts) can be suspended.
+## Expire a virtual account
 
-To suspend a virtual account, send a PUT request with the accountId of the account you want to suspend to `/v1/accounts/suspend/{accountId}` 
+Expiring an account stops it accepting further payments. Use it when a customer's account is no longer needed. For example, a dynamic account for a one-off order.
+
+To expire a virtual account, send a [DELETE request](/nomba-api-reference/virtual-accounts/expire-a-virtual-account) to `/v1/accounts/virtual/{identifier}`, where `identifier` is the `accountRef` you set when creating the account or the `bankAccountNumber` that was returned.
 
 <Info>
   Virtual accounts are the only accounts that can be created via API.
@@ -173,17 +181,19 @@ To suspend a virtual account, send a PUT request with the accountId of the accou
 <CodeGroup>
 
 ```bash Request
-curl --request PUT \
-  --url https://api.nomba.com/v1/accounts/suspend/{accountId} \
+curl --request DELETE \
+  --url https://api.nomba.com/v1/accounts/virtual/{identifier} \
   --header 'Authorization: Bearer <token>' \
   --header 'accountId: <accountid>'
 ```
 
-```bash Response
+```json Response
 {
   "code": "00",
   "description": "Success",
-  "data": true
+  "data": {
+    "expired": true
+  }
 }
 ```
 </CodeGroup>

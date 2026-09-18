@@ -1,0 +1,245 @@
+---
+title: 'Bank transfer'
+description: 'Run the three-step bank transfer flow in the sandbox and trigger each payout outcome'
+icon: building-columns
+---
+
+A bank transfer is a three-step flow. Run all three against the sandbox base URL:
+
+1. **Fetch the bank list** — `GET https://sandbox.nomba.com/v1/transfers/banks` to get the `bankCode` for the recipient's bank
+2. **Look up the account name** — `POST https://sandbox.nomba.com/v1/transfers/bank/lookup` with the account number and `bankCode`
+3. **Send the transfer** — `POST https://sandbox.nomba.com/v2/transfers/bank` (or `/v2/transfers/bank/{subAccountId}` to debit a sub-account)
+
+
+## Step 1 — Fetch the bank list
+
+<CodeGroup>
+```bash Request
+curl --request GET \
+  --url https://sandbox.nomba.com/v1/transfers/banks \
+  --header 'Authorization: Bearer <sandbox-token>' \
+  --header 'accountId: <accountId>'
+```
+
+```json Response (200)
+{
+  "code": "00",
+  "description": "SUCCESS",
+  "status": true,
+  "data": [
+    {
+      "name": "GTBank",
+      "code": "058",
+      "nipCode": "000013",
+      "logo": "https://firebasestorage.googleapis.com/v0/b/business-banking-93cc1.appspot.com/o/bankLogos%2FGroup%209.png?alt=media&token=98bde9e8-1862-495d-9046-bd3d96465970"
+    },
+    {
+      "name": "First Bank of Nigeria",
+      "code": "011",
+      "nipCode": "000016",
+      "logo": "https://firebasestorage.googleapis.com/v0/b/business-banking-93cc1.appspot.com/o/bankLogos%2FGroup%201.png?alt=media&token=06a3a300-dafe-49db-b3d3-049371bf1173"
+    }
+  ]
+}
+```
+</CodeGroup>
+
+<Note>
+  The list is long and stable, so cache it instead of calling this endpoint before every transfer. See [Fetch bank codes](/docs/products/transfers/fetch-bank-codes-and-names) for the production endpoint.
+</Note>
+
+## Step 2 — Look up the account name
+
+
+<CodeGroup>
+```bash Request
+curl --request POST \
+  --url https://sandbox.nomba.com/v1/transfers/bank/lookup \
+  --header 'Authorization: Bearer <sandbox-token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountId>' \
+  --data '{
+    "accountNumber": "0554772814",
+    "bankCode": "058"
+  }'
+```
+
+```json Response (200)
+{
+  "code": "00",
+  "description": "SUCCESS",
+  "status": true,
+  "data": {
+    "accountNumber": "0554772814",
+    "accountName": "Chidi Amaka Adeyemi"
+  }
+}
+```
+</CodeGroup>
+
+## Step 3 — Send the transfer
+
+Pass the `bankCode` from step 1 and the `accountName` from step 2. Transfers succeed by default — use the account numbers in the next section to trigger other outcomes.
+
+<CodeGroup>
+```bash Request
+curl --request POST \
+  --url https://sandbox.nomba.com/v2/transfers/bank \
+  --header 'Authorization: Bearer <sandbox-token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountId>' \
+  --data '{
+    "amount": 2500,
+    "accountNumber": "0554772814",
+    "accountName": "Chidi Rose Adeyemi",
+    "bankCode": "058",
+    "merchantTxRef": "ref-transfer-001",
+    "senderName": "Test Sender",
+    "narration": "Sandbox transfer test"
+  }'
+```
+
+```json Response (200)
+{
+  "code": "00",
+  "description": "SUCCESS",
+  "status": true,
+  "data": {
+    "id": "API-TRANSFER-DFC05-693cd007-cd1e-4ea6-xxxxxxxxxx",
+    "status": "SUCCESS",
+    "type": "transfer",
+    "amount": 2500,
+    "source": "api",
+    "sourceUserId": "dfc05ca1-4xx5-41dd-xx41-2d362dxxxxx3",
+    "customerBillerId": "0554772814",
+    "productId": "058",
+    "userId": "dfc05ca1-4xx5-41dd-xx41-2d362dxxxxx3",
+    "timeCreated": "2026-09-18T11:19:00.657",
+    "meta": {
+      "accountNumber": "0554772814",
+      "bankCode": "058",
+      "bankName": "GTBank",
+      "recipientName": "Chidi Rose Adeyemi",
+      "sender_name": "Test Sender",
+      "userName": "Test Sender",
+      "narration": "Sandbox transfer test",
+      "merchantTxRef": "sandbox-transfer-001",
+      "currency": "NGN",
+      "rrn": "251018131900",
+      "api_rrn": "251018131900",
+      "sessionId": "260325515668563586728",
+      "api_account_id": "dfc05ca1-4xx5-41dd-xx41-2d362dxxxxx3",
+      "api_client_id": "<your-client-id>",
+      "user_id": "dfc05ca1-4xx5-41dd-xx41-2d362dxxxxx3",
+      "transactionCategory": "General",
+      "banking_entity_type": "CORPORATE",
+      "isCorporate": "true",
+      "hooksEligible": "true"
+    }
+  }
+}
+```
+</CodeGroup>
+
+
+## Transfer Test Scenarios
+
+Sandbox transfers succeed by default. To test how your integration handles other outcomes, send one of the account numbers below. The response and webhook behaviour match what you would get in production.
+
+| Value | Scenario | HTTP status | Webhook |
+|---|---|---|---|
+| `0000000409` | Duplicate `merchantTxRef` | `400` | None |
+| `0000000201` | Pending, then succeeds | `201` | `payout_success` about 5 seconds later |
+| `0000000202` | Pending, then fails and is refunded | `201` | `payout_refund` about 5 seconds later |
+| `0000000451` | Insufficient balance | `400` | None |
+| Any other value | Successful transfer | `200` | `payout_success` immediately |
+
+<Note>
+  Before testing the pending scenarios, set a **test** webhook URL on the dashboard (**Developer** → **Webhook Setup**) and subscribe to the payout events. See [Webhooks](/docs/api-basics/webhook).
+</Note>
+
+### Successful transfer
+
+Any account number that is not in the table above. The full response is the one shown in [Step 3](#step-3-send-the-transfer) — `code: 00`, `data.status: SUCCESS` — and a `payout_success` webhook is sent immediately.
+
+```bash Request
+curl --request POST \
+  --url https://sandbox.nomba.com/v2/transfers/bank \
+  --header 'Authorization: Bearer <sandbox-token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountId>' \
+  --data '{
+    "amount": 2500,
+    "accountNumber": "0554772814",
+    "accountName": "Chidi Rose Adeyemi",
+    "bankCode": "058",
+    "merchantTxRef": "ref-test-001",
+    "senderName": "Test Sender",
+    "narration": "Successful transfer test"
+  }'
+```
+
+### Pending transfer
+
+<CodeGroup>
+```bash Request
+curl --request POST \
+  --url https://sandbox.nomba.com/v2/transfers/bank \
+  --header 'Authorization: Bearer <sandbox-token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountId>' \
+  --data '{
+    "amount": 2500,
+    "accountNumber": "0000000201",
+    "accountName": "Test Recipient",
+    "bankCode": "058",
+    "merchantTxRef": "sandbox-pending-001",
+    "senderName": "Test Sender",
+    "narration": "Pending transfer test"
+  }'
+```
+
+```json Response (201)
+{
+  "code": "201",
+  "description": "PROCESSING",
+  "message": "Unable to process response, please rely on web hook",
+  "status": false,
+  "data": {
+    "status": "PENDING_BILLING"
+  }
+}
+```
+</CodeGroup>
+
+About 5 seconds later, a `payout_success` webhook is sent. With `0000000202`, a `payout_refund` webhook is sent instead.
+
+### Insufficient balance
+
+No transaction is created and no webhook is sent.
+
+```json Response (400)
+{
+  "code": "400",
+  "description": "INSUFFICIENT_BALANCE",
+  "message": "Insufficient fund",
+  "status": false
+}
+```
+
+### Duplicate reference
+
+This is the response you get when a `merchantTxRef` has already been used. No transaction is created and no webhook is sent.
+
+```json Response (400)
+{
+  "code": "400",
+  "description": "FAILED",
+  "message": "Unable to create a suspected duplicate transaction, please try again later",
+  "status": false
+}
+```
+
+<Info>
+  In sandbox, only the value `0000000409` triggers this response. Sending the same `merchantTxRef` twice does not. In production it does.
+</Info>

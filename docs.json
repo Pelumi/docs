@@ -186,7 +186,16 @@
               "docs/api-basics/pagination",
               "docs/api-basics/rate_limit",
               "docs/api-basics/environment",
-              "docs/api-basics/testing",
+              {
+                "group": "Testing",
+                "icon": "cards-blank",
+                "pages": [
+                  "docs/api-basics/testing/overview",
+                  "docs/api-basics/testing/cards",
+                  "docs/api-basics/testing/bank-transfer",
+                  "docs/api-basics/testing/virtual-accounts"
+                ]
+              },
               "docs/api-basics/error-codes",
               "docs/api-basics/webhook",
               "docs/api-basics/troubleshoot-webhooks",
@@ -462,5 +471,11 @@
         ]
       }
     ]
-  }
+  },
+  "redirects": [
+    {
+      "source": "/docs/api-basics/testing",
+      "destination": "/docs/api-basics/testing/overview"
+    }
+  ]
 }

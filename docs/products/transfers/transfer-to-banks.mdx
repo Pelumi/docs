@@ -374,7 +374,6 @@ GET /v1/transactions/transaction-requery/{sessionId}
  ```
 
 <Info title="Additional Information">
- - Transactions **may not** be immediately available to requery (e.g., within 1 second).
 - Some transactions may take up to **3 minutes** due to NIBSS processing delays.
 - If you love polling, use **interval-based retries (up to ~3 minutes and few secs)**.
 - Nomba-to-Nomba transfers **do not include a sessionId** use the parent or sub-account endpoints for requery.
@@ -403,6 +402,10 @@ When you receive a 201, you should:
 2. Keep the original `merchantTxRef` — do not generate a new one
 3. Wait for the webhook notification for the final status (`SUCCESS` or `REFUND`)
 4. Use the requery endpoints if you need to poll for status rather than waiting for the webhook
+
+<Tip>
+  To test your 201 handling in sandbox, send a bank transfer to `accountNumber` `0000000201` (the webhook reports success) or `0000000202` (the webhook reports a refund). See [Transfer Test Scenarios](/docs/api-basics/testing/bank-transfer#transfer-test-scenarios).
+</Tip>
 
 ####  **Handling Failed Transactions**
 - If a transaction fails, your account will be automatically refunded and a refund webhook notification will be sent.
@@ -450,6 +453,19 @@ Funds transfers are sensitive. To prevent duplicate payouts, follow these best p
 - If you receive an unexpected status or code, pause and contact us before retrying
 - A list of all status codes can be found [here](/nomba-api-reference/transfers/perform-bank-account-transfer-from-the-parent-account)
 
+
+####  **Testing in Sandbox**
+
+Use `https://sandbox.nomba.com/v2/transfers/bank` with your sandbox credentials. Transfers succeed by default. To test other outcomes, set `accountNumber` to one of these values:
+
+| `accountNumber` | Outcome |
+|---|---|
+| `0000000201` | `201` pending response, then a `payout_success` webhook about 5 seconds later |
+| `0000000202` | `201` pending response, then a `payout_refund` webhook about 5 seconds later |
+| `0000000451` | `400` insufficient balance, no webhook |
+| `0000000409` | `400` duplicate `merchantTxRef`, no webhook |
+
+See [Transfer Test Scenarios](/docs/api-basics/testing/bank-transfer#transfer-test-scenarios) for full request and response examples.
 
 ####  **Summary**
 - Every transaction is being processed

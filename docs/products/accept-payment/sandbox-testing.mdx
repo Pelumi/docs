@@ -301,25 +301,6 @@ This always returns `code: "400"` regardless of the amount.
 
 ---
 
-## Sandbox vs production — what's different
-
-| Feature | Sandbox | Production |
-|---|---|---|
-| Base path for checkout | `/sandbox/checkout/` | `/v1/checkout/` |
-| Create order | ✅ | ✅ |
-| Card payment | ✅ Test cards only | ✅ Real cards |
-| Bank transfer | ✅ Simulated | ✅ Real transfers |
-| 3DS authentication | ✅ Simulated | ✅ Real |
-| Webhooks | ✅ Fires synchronously | ✅ Queued delivery |
-| Fetch transaction | `GET /sandbox/checkout/transaction` | `GET /v1/checkout/transaction` |
-| Refund | ✅ | ✅ |
-| Cancel order | ✅ | ✅ |
-| Tokenized cards | ✅ Hardcoded mock data | ✅ Real tokens |
-| Real card validation | ❌ Card number determines outcome | ✅ |
-| Data persistence | Redis, expires after 48 hours | Permanent |
-
----
-
 ## Next steps
 
 <CardGroup cols={2}>
