@@ -1,0 +1,52 @@
+---
+title: 'Virtual accounts'
+description: 'Create virtual accounts in the sandbox and simulate an inflow'
+icon: building-columns
+---
+
+
+
+## Create a virtual account
+
+<CodeGroup>
+```bash Request
+curl --request POST \
+  --url https://sandbox.nomba.com/v1/accounts/virtual \
+  --header 'Authorization: Bearer <sandbox-token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <parent accountId>' \
+  --data '{
+    "accountRef": "sandbox-va-001",
+    "accountName": "Daniel Scorsese",
+    "currency": "NGN",
+    "bvn": "12345678901"
+  }'
+```
+
+```json Response (200)
+{
+  "code": "00",
+  "description": "success",
+  "status": true,
+  "data": {
+    "createdAt": "2024-02-20T09:20:25.015Z",
+    "accountRef": "sandbox-va-001",
+    "accountHolderId": "<your parent accountId>",
+    "accountName": "Ifeoluwa Adeboye",
+    "currency": "NGN",
+    "bankAccountNumber": "7121630466",
+    "bankAccountName": "Daniel Scorsese",
+    "bankName": "Nombank(Amucha) MFB",
+    "bvn": "22444208509",
+    "expired": false
+  }
+}
+```
+</CodeGroup>
+
+
+## Simulate an inflow
+- Transfer to the virtual account from any bank.
+- Note that the Sandbox account name will only show the business name during account lookup on your bank app.
+- The amount will be deposited on your account.
+- To test the expected amount usecase, [update the account](/nomba-api-reference/virtual-accounts/update-a-virtual-account) with an `expectedAmount` between ₦100 and ₦150, then transfer exactly that amount. The `identifier` is either the `accountRef` you set or the `bankAccountNumber` returned above.

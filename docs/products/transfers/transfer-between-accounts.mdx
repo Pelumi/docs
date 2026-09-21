@@ -103,6 +103,19 @@ if result['code'] != '00':
 ```
 </CodeGroup>
 
+#### Testing in Sandbox
+
+Use `https://sandbox.nomba.com/v2/transfers/wallet` with your sandbox credentials. Wallet transfers succeed by default. To test other outcomes, set `receiverAccountId` to one of these values:
+
+| `receiverAccountId` | Outcome |
+|---|---|
+| `0000000201` | `201` pending response, then a `payout_success` webhook about 5 seconds later |
+| `0000000202` | `201` pending response, then a `payout_refund` webhook about 5 seconds later |
+| `0000000451` | `400` insufficient balance, no webhook |
+| `0000000409` | `400` duplicate `merchantTxRef`, no webhook |
+
+Wallet transfers usually complete immediately. A `201` can still happen if the result is not available in time, so your integration should handle it the same way as for [bank transfers](/docs/products/transfers/transfer-to-banks#handling-a-201-response). See [Transfer Test Scenarios](/docs/api-basics/testing/bank-transfer#transfer-test-scenarios) for full request and response examples.
+
 #### Request body
 
 <ParamField body="amount" type="number" required>

@@ -1,0 +1,28 @@
+---
+title: Testing
+description: 'Test cards, bank transfer and virtual account scenarios for the sandbox environment'
+icon: cards-blank
+---
+
+<Warning>
+  To use the sandbox environment, you must generate a token using your **test credentials** (`clientId` and `clientSecret` from the dashboard) and the **sandbox base URL** (`https://sandbox.nomba.com`). Using the wrong URL or credentials will cause authentication failures. See the [Environment](/docs/api-basics/environment) page for details.
+</Warning>
+
+Endpoint paths are the same as production — the sandbox is selected by the base URL and your test credentials, so you can point an existing integration at `https://sandbox.nomba.com` without changing your routes.
+
+<CardGroup cols={3}>
+  <Card title="Cards & checkout" icon="credit-card" href="/docs/api-basics/testing/cards">
+    Test cards, PINs and OTPs, and the end-to-end checkout flow
+  </Card>
+  <Card title="Bank transfer" icon="building-columns" href="/docs/api-basics/testing/bank-transfer">
+    Bank list, name lookup and transfer, plus every payout outcome
+  </Card>
+  <Card title="Virtual accounts" icon="receipt" href="/docs/api-basics/testing/virtual-accounts">
+    Create accounts and simulate an inflow to fire your webhook
+  </Card>
+</CardGroup>
+
+## Before you start
+
+1. **Generate a sandbox token** — `POST https://sandbox.nomba.com/v1/auth/token/issue` with your test `clientId` and `clientSecret`
+2. **Set a test webhook URL** — on the dashboard under **Developer** → **Webhook Setup**, and subscribe to the events you care about. Several sandbox scenarios report their outcome only by webhook. See [Webhooks](/docs/api-basics/webhook).
