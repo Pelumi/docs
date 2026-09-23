@@ -443,6 +443,12 @@
     ]
   },
   "navbar": {
+    "links": [
+      {
+        "label": "API Status",
+        "href": "https://status.nomba.com"
+      }
+    ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
@@ -467,6 +473,10 @@
           {
             "label": "Contact Support",
             "href": "mailto:docs@nomba.com"
+          },
+          {
+            "label": "System Status",
+            "href": "https://status.nomba.com"
           }
         ]
       }

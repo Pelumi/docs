@@ -45,6 +45,10 @@ On errors, `data` is typically `null` and `description` explains what went wrong
   A `200 HTTP` status does not always mean success. Always check the `code` field in the response body.
 </Note>
 
+<Tip>
+  Seeing a spike in `500` errors or timeouts? Check [status.nomba.com](https://status.nomba.com) to see if there is an ongoing incident before you debug your integration.
+</Tip>
+
 ## API response codes
 
 ### General codes
@@ -164,4 +168,4 @@ If you exceed the rate limit, you'll receive a `429` HTTP status. See the [Rate 
 
 ## Need help?
 
-If you receive an error code not listed here or need help debugging, contact [docs@nomba.com](mailto:docs@nomba.com).
+If you receive an error code not listed here or need help debugging, first check [status.nomba.com](https://status.nomba.com) for any ongoing incidents, then contact [docs@nomba.com](mailto:docs@nomba.com).
