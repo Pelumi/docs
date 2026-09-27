@@ -10414,7 +10414,7 @@
                     "message": {
                       "type": "string",
                       "description": "Response message",
-                      "example": "Success"
+                      "example": "Processing"
                     },
                     "status": {
                       "type": "boolean",
@@ -10434,7 +10434,7 @@
                 "example": {
                   "code": "201",
                   "description": "PROCESSING",
-                  "message": "Success",
+                  "message": "Processing",
                   "status": true,
                   "data": {
                     "id": "API-TOPUP-A6950-8c060b7c-4155-4e33-a846-101b49229c33",
@@ -10946,7 +10946,7 @@
                     "message": {
                       "type": "string",
                       "description": "Response message",
-                      "example": "Success"
+                      "example": "Processing"
                     },
                     "status": {
                       "type": "boolean",
@@ -10966,7 +10966,7 @@
                 "example": {
                   "code": "201",
                   "description": "PROCESSING",
-                  "message": "Success",
+                  "message": "Processing",
                   "status": true,
                   "data": {
                     "id": "API-TOPUP-A6950-8c060b7c-4155-4e33-a846-101b49229c33",
@@ -11495,7 +11495,7 @@
                     "message": {
                       "type": "string",
                       "description": "Response message",
-                      "example": "Success"
+                      "example": "Processing"
                     },
                     "status": {
                       "type": "boolean",
@@ -11515,7 +11515,7 @@
                 "example": {
                   "code": "201",
                   "description": "PROCESSING",
-                  "message": "Success",
+                  "message": "Processing",
                   "status": true,
                   "data": {
                     "id": "API-DATA-AAA1A-36dc6c70-5cf2-4592-93be-9bccc23df7f5",
@@ -12047,7 +12047,7 @@
                     "message": {
                       "type": "string",
                       "description": "Response message",
-                      "example": "Success"
+                      "example": "Processing"
                     },
                     "status": {
                       "type": "boolean",
@@ -12067,7 +12067,7 @@
                 "example": {
                   "code": "201",
                   "description": "PROCESSING",
-                  "message": "Success",
+                  "message": "Processing",
                   "status": true,
                   "data": {
                     "id": "API-DATA-AAA1A-36dc6c70-5cf2-4592-93be-9bccc23df7f5",
@@ -12740,7 +12740,7 @@
                     "message": {
                       "type": "string",
                       "description": "Response message",
-                      "example": "Success"
+                      "example": "Processing"
                     },
                     "status": {
                       "type": "boolean",
@@ -12760,7 +12760,7 @@
                 "example": {
                   "code": "201",
                   "description": "PROCESSING",
-                  "message": "Success",
+                  "message": "Processing",
                   "status": true,
                   "data": {
                     "id": "API-DSTV-C1073-5b2e8f4a-3c71-4d9e-8a60-2f1b7c9d4e13",
@@ -13266,7 +13266,7 @@
                     "message": {
                       "type": "string",
                       "description": "Response message",
-                      "example": "Success"
+                      "example": "Processing"
                     },
                     "status": {
                       "type": "boolean",
@@ -13286,7 +13286,7 @@
                 "example": {
                   "code": "201",
                   "description": "PROCESSING",
-                  "message": "Success",
+                  "message": "Processing",
                   "status": true,
                   "data": {
                     "id": "API-DSTV-C1073-5b2e8f4a-3c71-4d9e-8a60-2f1b7c9d4e13",
@@ -14121,7 +14121,7 @@
                     "message": {
                       "type": "string",
                       "description": "Response message",
-                      "example": "Success"
+                      "example": "Processing"
                     },
                     "status": {
                       "type": "boolean",
@@ -14141,7 +14141,7 @@
                 "example": {
                   "code": "201",
                   "description": "PROCESSING",
-                  "message": "Success",
+                  "message": "Processing",
                   "status": true,
                   "data": {
                     "id": "API-PHCN-28958-37da63af-8daa-4cb7-9070-e32920e38c12",
@@ -14661,7 +14661,7 @@
                     "message": {
                       "type": "string",
                       "description": "Response message",
-                      "example": "Success"
+                      "example": "Processing"
                     },
                     "status": {
                       "type": "boolean",
@@ -14681,7 +14681,7 @@
                 "example": {
                   "code": "201",
                   "description": "PROCESSING",
-                  "message": "Success",
+                  "message": "Processing",
                   "status": true,
                   "data": {
                     "id": "API-PHCN-28958-37da63af-8daa-4cb7-9070-e32920e38c12",
@@ -15186,7 +15186,7 @@
     },
     "/v1/bill/betting": {
       "post": {
-        "description": "You can use this endpoint to vend betting via parent account",
+        "description": "**Deprecated.** This endpoint is deprecated and will be removed in a future release. Use `POST /v2/bill/betting` instead.",
         "operationId": "Vend betting via parent account",
         "requestBody": {
           "content": {
@@ -15345,12 +15345,366 @@
         ],
         "tags": [
           "Betting Vending"
+        ],
+        "deprecated": true
+      }
+    },
+    "/v2/bill/betting": {
+      "post": {
+        "description": "You can use this endpoint to vend betting via parent account",
+        "operationId": "Vend betting via parent account v2",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BettingVendingRequest"
+              }
+            }
+          },
+          "description": "The request payload required to vend betting",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "description": "Response code. This reflects the HTTP status code of the response, e.g. `200` when the request completed successfully and `201` when it was accepted and is still being processed.",
+                      "example": "200",
+                      "enum": [
+                        "200",
+                        "201",
+                        "400",
+                        "401",
+                        "403",
+                        "429",
+                        "500"
+                      ]
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Response description",
+                      "example": "SUCCESS"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Response message",
+                      "example": "Transaction completed Successfully"
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "description": "Whether the request was successful",
+                      "example": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/BettingVendingV2Response"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": "200",
+                  "description": "SUCCESS",
+                  "message": "Transaction completed Successfully",
+                  "status": true,
+                  "data": {
+                    "id": "API-BETTING-4B8C8-7e3a91c2-58d4-4f0b-b6a2-c9d18e5f3a47",
+                    "status": "SUCCESS",
+                    "type": "betting",
+                    "amount": 2000,
+                    "source": "api",
+                    "sourceUserId": null,
+                    "customerBillerId": "1234567890",
+                    "productId": "bet9ja",
+                    "meta": {
+                      "api_rrn": "260927113024",
+                      "rrn": "260927113024",
+                      "api_account_id": "0167288-d989-460a-bbde-9842f2b4320f",
+                      "api_client_id": "2167288-d989-460a-bbde-9842f2b4320f",
+                      "user_id": "0167288-d989-460a-bbde-9842f2b4320f",
+                      "merchantTxRef": "REF-29-07-2026-15",
+                      "allowDuplicate": true,
+                      "sender_name": "John Doe",
+                      "idempotentKey": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-15",
+                      "pos_withdrawal_id": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-15",
+                      "userName": "John Doe",
+                      "isCorporate": "true",
+                      "currency": "NGN",
+                      "hooksEligible": "true",
+                      "isSubscribedToSavingsService": false,
+                      "isSubscribedToLoanService": false,
+                      "txnAlertEligible": false,
+                      "banking_entity_id": 189585760,
+                      "banking_entity_user_id": 188595905,
+                      "banking_entity_type": "CORPORATE",
+                      "transactionCategory": "Bills & Utility",
+                      "bettingProvider": "bet9ja",
+                      "customerId": "1234567890",
+                      "phoneNumber": "09012345678",
+                      "amount_charged": "2000.0",
+                      "paymentVendor": "wallet",
+                      "wallet_balance": "955.85",
+                      "wallet_currency": "NGN",
+                      "gatewayMessage": "Success",
+                      "billingServiceResponse": "SUCCESS"
+                    },
+                    "userId": null,
+                    "timeCreated": "2026-09-27T10:30:24.207+00:00"
+                  }
+                }
+              }
+            },
+            "description": "OK - your request was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "description": "Response code. This reflects the HTTP status code of the response, e.g. `200` when the request completed successfully and `201` when it was accepted and is still being processed.",
+                      "example": "201",
+                      "enum": [
+                        "200",
+                        "201",
+                        "400",
+                        "401",
+                        "403",
+                        "429",
+                        "500"
+                      ]
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Response description",
+                      "example": "PROCESSING"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Response message",
+                      "example": "Processing"
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "description": "Whether the request was successful",
+                      "example": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/BettingVendingV2Response"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": "201",
+                  "description": "PROCESSING",
+                  "message": "Processing",
+                  "status": true,
+                  "data": {
+                    "id": "API-BETTING-4B8C8-7e3a91c2-58d4-4f0b-b6a2-c9d18e5f3a47",
+                    "status": "PENDING_BILLING",
+                    "type": "betting",
+                    "amount": 2000,
+                    "source": "api",
+                    "sourceUserId": null,
+                    "customerBillerId": "1234567890",
+                    "productId": "bet9ja",
+                    "meta": {
+                      "api_rrn": "260927113024",
+                      "rrn": "260927113024",
+                      "api_account_id": "0167288-d989-460a-bbde-9842f2b4320f",
+                      "api_client_id": "2167288-d989-460a-bbde-9842f2b4320f",
+                      "user_id": "0167288-d989-460a-bbde-9842f2b4320f",
+                      "merchantTxRef": "REF-29-07-2026-15",
+                      "allowDuplicate": true,
+                      "sender_name": "John Doe",
+                      "idempotentKey": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-15",
+                      "pos_withdrawal_id": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-15",
+                      "userName": "John Doe",
+                      "isCorporate": "true",
+                      "currency": "NGN",
+                      "hooksEligible": "true",
+                      "isSubscribedToSavingsService": false,
+                      "isSubscribedToLoanService": false,
+                      "txnAlertEligible": false,
+                      "banking_entity_id": 189585760,
+                      "banking_entity_user_id": 188595905,
+                      "banking_entity_type": "CORPORATE",
+                      "transactionCategory": "Bills & Utility",
+                      "bettingProvider": "bet9ja",
+                      "customerId": "1234567890",
+                      "phoneNumber": "09012345678",
+                      "amount_charged": "2000.0",
+                      "paymentVendor": "wallet",
+                      "wallet_balance": "955.85",
+                      "wallet_currency": "NGN"
+                    },
+                    "userId": null,
+                    "timeCreated": "2026-09-27T10:30:24.207+00:00"
+                  }
+                }
+              }
+            },
+            "description": "Created - your request was accepted and is being processed. `data.status` is `PENDING_BILLING`; listen for webhook notifications or requery the transaction for the final status.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "Resource not available"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Vend betting via parent account",
+        "parameters": [
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "Betting Vending"
         ]
       }
     },
     "/v1/bill/betting/{subAccountId}": {
       "post": {
-        "description": "You can use this endpoint to vend betting via a sub account",
+        "description": "**Deprecated.** This endpoint is deprecated and will be removed in a future release. Use `POST /v2/bill/betting/{subAccountId}` instead.",
         "operationId": "Vend betting via a sub account",
         "requestBody": {
           "content": {
@@ -15494,6 +15848,370 @@
           }
         ],
         "summary": "Vend betting via a specific account",
+        "parameters": [
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          },
+          {
+            "description": "The identifier for the account through which this transaction is to be carried out.",
+            "example": "2242b79d-f2cf-4ccc-ada1-e890bd1a9f0d",
+            "in": "path",
+            "name": "subAccountId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "tags": [
+          "Betting Vending"
+        ],
+        "deprecated": true
+      }
+    },
+    "/v2/bill/betting/{subAccountId}": {
+      "post": {
+        "description": "You can use this endpoint to vend betting via a sub account",
+        "operationId": "Vend betting via a sub account v2",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BettingVendingRequest"
+              }
+            }
+          },
+          "description": "The request payload required to vend betting",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "description": "Response code. This reflects the HTTP status code of the response, e.g. `200` when the request completed successfully and `201` when it was accepted and is still being processed.",
+                      "example": "200",
+                      "enum": [
+                        "200",
+                        "201",
+                        "400",
+                        "401",
+                        "403",
+                        "429",
+                        "500"
+                      ]
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Response description",
+                      "example": "SUCCESS"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Response message",
+                      "example": "Transaction completed Successfully"
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "description": "Whether the request was successful",
+                      "example": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/BettingVendingV2Response"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": "200",
+                  "description": "SUCCESS",
+                  "message": "Transaction completed Successfully",
+                  "status": true,
+                  "data": {
+                    "id": "API-BETTING-4B8C8-7e3a91c2-58d4-4f0b-b6a2-c9d18e5f3a47",
+                    "status": "SUCCESS",
+                    "type": "betting",
+                    "amount": 2000,
+                    "source": "api",
+                    "sourceUserId": null,
+                    "customerBillerId": "1234567890",
+                    "productId": "bet9ja",
+                    "meta": {
+                      "api_rrn": "260927113024",
+                      "rrn": "260927113024",
+                      "api_account_id": "0167288-d989-460a-bbde-9842f2b4320f",
+                      "api_client_id": "2167288-d989-460a-bbde-9842f2b4320f",
+                      "user_id": "0167288-d989-460a-bbde-9842f2b4320f",
+                      "merchantTxRef": "REF-29-07-2026-15",
+                      "allowDuplicate": true,
+                      "sender_name": "John Doe",
+                      "idempotentKey": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-15",
+                      "pos_withdrawal_id": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-15",
+                      "userName": "John Doe",
+                      "isCorporate": "true",
+                      "currency": "NGN",
+                      "hooksEligible": "true",
+                      "isSubscribedToSavingsService": false,
+                      "isSubscribedToLoanService": false,
+                      "txnAlertEligible": false,
+                      "banking_entity_id": 189585760,
+                      "banking_entity_user_id": 188595905,
+                      "banking_entity_type": "CORPORATE",
+                      "transactionCategory": "Bills & Utility",
+                      "bettingProvider": "bet9ja",
+                      "customerId": "1234567890",
+                      "phoneNumber": "09012345678",
+                      "amount_charged": "2000.0",
+                      "paymentVendor": "wallet",
+                      "wallet_balance": "955.85",
+                      "wallet_currency": "NGN",
+                      "gatewayMessage": "Success",
+                      "billingServiceResponse": "SUCCESS"
+                    },
+                    "userId": null,
+                    "timeCreated": "2026-09-27T10:30:24.207+00:00"
+                  }
+                }
+              }
+            },
+            "description": "OK - your request was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "description": "Response code. This reflects the HTTP status code of the response, e.g. `200` when the request completed successfully and `201` when it was accepted and is still being processed.",
+                      "example": "201",
+                      "enum": [
+                        "200",
+                        "201",
+                        "400",
+                        "401",
+                        "403",
+                        "429",
+                        "500"
+                      ]
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Response description",
+                      "example": "PROCESSING"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Response message",
+                      "example": "Processing"
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "description": "Whether the request was successful",
+                      "example": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/BettingVendingV2Response"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": "201",
+                  "description": "PROCESSING",
+                  "message": "Processing",
+                  "status": true,
+                  "data": {
+                    "id": "API-BETTING-4B8C8-7e3a91c2-58d4-4f0b-b6a2-c9d18e5f3a47",
+                    "status": "PENDING_BILLING",
+                    "type": "betting",
+                    "amount": 2000,
+                    "source": "api",
+                    "sourceUserId": null,
+                    "customerBillerId": "1234567890",
+                    "productId": "bet9ja",
+                    "meta": {
+                      "api_rrn": "260927113024",
+                      "rrn": "260927113024",
+                      "api_account_id": "0167288-d989-460a-bbde-9842f2b4320f",
+                      "api_client_id": "2167288-d989-460a-bbde-9842f2b4320f",
+                      "user_id": "0167288-d989-460a-bbde-9842f2b4320f",
+                      "merchantTxRef": "REF-29-07-2026-15",
+                      "allowDuplicate": true,
+                      "sender_name": "John Doe",
+                      "idempotentKey": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-15",
+                      "pos_withdrawal_id": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-15",
+                      "userName": "John Doe",
+                      "isCorporate": "true",
+                      "currency": "NGN",
+                      "hooksEligible": "true",
+                      "isSubscribedToSavingsService": false,
+                      "isSubscribedToLoanService": false,
+                      "txnAlertEligible": false,
+                      "banking_entity_id": 189585760,
+                      "banking_entity_user_id": 188595905,
+                      "banking_entity_type": "CORPORATE",
+                      "transactionCategory": "Bills & Utility",
+                      "bettingProvider": "bet9ja",
+                      "customerId": "1234567890",
+                      "phoneNumber": "09012345678",
+                      "amount_charged": "2000.0",
+                      "paymentVendor": "wallet",
+                      "wallet_balance": "955.85",
+                      "wallet_currency": "NGN"
+                    },
+                    "userId": null,
+                    "timeCreated": "2026-09-27T10:30:24.207+00:00"
+                  }
+                }
+              }
+            },
+            "description": "Created - your request was accepted and is being processed. `data.status` is `PENDING_BILLING`; listen for webhook notifications or requery the transaction for the final status.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "Resource not available"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Vend betting via sub account",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -18557,8 +19275,17 @@
           },
           "status": {
             "type": "string",
-            "description": "The system status of this transction",
-            "example": "Processing"
+            "description": "The status of this transaction. `SUCCESS` means it completed; `PROCESSING` means it is still being processed — listen for the webhook or requery the transaction for the final status.",
+            "enum": [
+              "SUCCESS",
+              "PROCESSING"
+            ],
+            "example": "SUCCESS"
+          },
+          "id": {
+            "type": "string",
+            "description": "The unique ID of the transaction, e.g. `API-TOPUP-A6950-8c060b7c-4155-4e33-a846-101b49229c33`. Use it to requery the transaction.",
+            "example": "API-TOPUP-A6950-8c060b7c-4155-4e33-a846-101b49229c33"
           }
         },
         "required": [
@@ -18767,8 +19494,17 @@
           },
           "status": {
             "type": "string",
-            "description": "The system status of this transction",
-            "example": "Processing"
+            "description": "The status of this transaction. `SUCCESS` means it completed; `PROCESSING` means it is still being processed — listen for the webhook or requery the transaction for the final status.",
+            "enum": [
+              "SUCCESS",
+              "PROCESSING"
+            ],
+            "example": "SUCCESS"
+          },
+          "id": {
+            "type": "string",
+            "description": "The unique ID of the transaction, e.g. `API-DATA-AAA1A-36dc6c70-5cf2-4592-93be-9bccc23df7f5`. Use it to requery the transaction.",
+            "example": "API-DATA-AAA1A-36dc6c70-5cf2-4592-93be-9bccc23df7f5"
           }
         },
         "required": [
@@ -22019,13 +22755,17 @@
           },
           "status": {
             "type": "string",
-            "description": "The system status of this transction",
+            "description": "The status of this transaction. `SUCCESS` means it completed; `PROCESSING` means it is still being processed — listen for the webhook or requery the transaction for the final status.",
+            "enum": [
+              "SUCCESS",
+              "PROCESSING"
+            ],
             "example": "SUCCESS"
           },
           "id": {
             "type": "string",
-            "description": "The transaction Id",
-            "example": "SUCCESS"
+            "description": "The unique ID of the transaction, e.g. `API-PHCN-4B8C8-dcc5994c-e110-4035-9017-fc6e497a3baa`. Use it to requery the transaction.",
+            "example": "API-PHCN-4B8C8-dcc5994c-e110-4035-9017-fc6e497a3baa"
           },
           "fee": {
             "type": "string",
@@ -22200,13 +22940,17 @@
           },
           "status": {
             "type": "string",
-            "description": "The system status of this transction",
+            "description": "The status of this transaction. `SUCCESS` means it completed; `PROCESSING` means it is still being processed — listen for the webhook or requery the transaction for the final status.",
+            "enum": [
+              "SUCCESS",
+              "PROCESSING"
+            ],
             "example": "SUCCESS"
           },
           "id": {
             "type": "string",
-            "description": "The transaction Id",
-            "example": "SUCCESS"
+            "description": "The unique ID of the transaction, e.g. `API-DSTV-C1073-2d10909a-df07-4e95-9851-e5ebd5695040`. Use it to requery the transaction.",
+            "example": "API-DSTV-C1073-2d10909a-df07-4e95-9851-e5ebd5695040"
           },
           "fee": {
             "type": "string",
@@ -22253,6 +22997,107 @@
           }
         }
       },
+      "BettingVendingV2Response": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of the betting transaction",
+            "example": "API-BETTING-4B8C8-7e3a91c2-58d4-4f0b-b6a2-c9d18e5f3a47"
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the transaction. `SUCCESS` (HTTP 200) means the purchase completed; `PENDING_BILLING` (HTTP 201) means it is still being processed",
+            "example": "SUCCESS"
+          },
+          "type": {
+            "type": "string",
+            "description": "Transaction type",
+            "example": "betting"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "description": "Amount funded into the betting account",
+            "example": 2000
+          },
+          "source": {
+            "type": "string",
+            "description": "Channel through which the transaction was initiated",
+            "example": "api"
+          },
+          "sourceUserId": {
+            "type": "string",
+            "description": "Identifier of the source user, if any",
+            "nullable": true
+          },
+          "customerBillerId": {
+            "type": "string",
+            "description": "Customer ID on the betting platform credited with the payment",
+            "example": "1234567890"
+          },
+          "productId": {
+            "type": "string",
+            "description": "The betting provider",
+            "example": "bet9ja"
+          },
+          "meta": {
+            "type": "object",
+            "description": "Additional transaction metadata",
+            "additionalProperties": true,
+            "example": {
+              "api_rrn": "260927113024",
+              "rrn": "260927113024",
+              "api_account_id": "0167288-d989-460a-bbde-9842f2b4320f",
+              "api_client_id": "2167288-d989-460a-bbde-9842f2b4320f",
+              "user_id": "0167288-d989-460a-bbde-9842f2b4320f",
+              "merchantTxRef": "REF-29-07-2026-15",
+              "allowDuplicate": true,
+              "sender_name": "John Doe",
+              "idempotentKey": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-15",
+              "pos_withdrawal_id": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-15",
+              "userName": "John Doe",
+              "isCorporate": "true",
+              "currency": "NGN",
+              "hooksEligible": "true",
+              "isSubscribedToSavingsService": false,
+              "isSubscribedToLoanService": false,
+              "txnAlertEligible": false,
+              "banking_entity_id": 189585760,
+              "banking_entity_user_id": 188595905,
+              "banking_entity_type": "CORPORATE",
+              "transactionCategory": "Bills & Utility",
+              "bettingProvider": "bet9ja",
+              "customerId": "1234567890",
+              "phoneNumber": "09012345678",
+              "amount_charged": "2000.0",
+              "paymentVendor": "wallet",
+              "wallet_balance": "955.85",
+              "wallet_currency": "NGN",
+              "gatewayMessage": "Success",
+              "billingServiceResponse": "SUCCESS"
+            }
+          },
+          "userId": {
+            "type": "string",
+            "description": "Identifier of the user, if any",
+            "nullable": true
+          },
+          "timeCreated": {
+            "type": "string",
+            "description": "Time the transaction was created",
+            "format": "date-time",
+            "example": "2026-09-27T10:30:24.207+00:00"
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "type",
+          "amount",
+          "timeCreated"
+        ]
+      },
       "BettingVendingResponse": {
         "type": "object",
         "properties": {
@@ -22285,13 +23130,17 @@
           },
           "status": {
             "type": "string",
-            "description": "The system status of this transaction",
+            "description": "The status of this transaction. `SUCCESS` means it completed; `PROCESSING` means it is still being processed — listen for the webhook or requery the transaction for the final status.",
+            "enum": [
+              "SUCCESS",
+              "PROCESSING"
+            ],
             "example": "SUCCESS"
           },
           "id": {
             "type": "string",
-            "description": "The transaction Id",
-            "example": "SUCCESS"
+            "description": "The unique ID of the transaction, e.g. `API-BETTING-4B8C8-dcc5994c-e110-4035-9017-fc6e497a3baa`. Use it to requery the transaction.",
+            "example": "API-BETTING-4B8C8-dcc5994c-e110-4035-9017-fc6e497a3baa"
           },
           "fee": {
             "type": "string",

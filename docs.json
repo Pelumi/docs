@@ -396,7 +396,10 @@
             "pages": [
               "nomba-api-reference/bills/name-lookup-for-betting",
               "nomba-api-reference/bills/fetch-betting-providers",
-              "nomba-api-reference/bills/pay-for-betting-via-parent-account"
+              "nomba-api-reference/bills/pay-for-betting-via-parent-account-v2",
+              "nomba-api-reference/bills/pay-for-betting-via-parent-account",
+              "nomba-api-reference/bills/pay-for-betting-via-sub-account-v2",
+              "nomba-api-reference/bills/pay-for-betting-via-sub-account"
             ]
           }
         ]
