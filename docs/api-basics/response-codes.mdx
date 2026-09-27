@@ -64,7 +64,7 @@ These appear in `data.status` on outflow responses (transfers, airtime, data, bi
 | `SUCCESS` | Service delivered to destination | No |
 | `REFUND` | Funds returned to your Nomba wallet | Yes |
 | `CANCELLED` | Transaction will not proceed | Contact support |
-| `PAYMENT_FAILED` | Debit failed, may retry | Wait for webhook |
+| `PAYMENT_FAILED` | Debit failed, Nomba may retry | Wait for webhook |
 | `REVERSED_BY_VENDOR` | Nomba may retry via another vendor | Wait for webhook |
 | `PENDING_BILLING` | Still processing | Wait for webhook |
 
@@ -109,7 +109,7 @@ async function makeTransfer(payload) {
   }
 
   if (status === 'PAYMENT_FAILED') {
-    // Debit failed, may retry — wait for webhook
+    // Debit failed, Nomba may retry — wait for webhook
   }
 
   if (status === 'REVERSED_BY_VENDOR') {
@@ -158,7 +158,7 @@ def make_transfer(payload, access_token, account_id):
         pass
 
     if status == 'PAYMENT_FAILED':
-        # Debit failed, may retry — wait for webhook
+        # Debit failed, Nomba may retry — wait for webhook
         pass
 
     if status == 'REVERSED_BY_VENDOR':
