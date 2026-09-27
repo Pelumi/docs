@@ -7,11 +7,11 @@ description: "This describes the process of paying for electricity"
   <Card
     title="Pay for Electricity via the Parent Account"
     icon="link-simple"
-    href="/nomba-api-reference/bills/pay-for-electricity-via-parent-account"
+    href="/nomba-api-reference/bills/pay-for-electricity-via-parent-account-v2"
   ></Card>
 </CardGroup>
 
-# `POST /v1/bill/electricity`
+# `POST /v2/bill/electricity`
 
 #### Request body
 
@@ -96,7 +96,7 @@ description: "This describes the process of paying for electricity"
 
 <RequestExample>
 ```bash Request
-curl --location 'https://api.nomba.com/v1/bill/electricity' \
+curl --location 'https://api.nomba.com/v2/bill/electricity' \
 --header 'accountId: <accountId>' \
 --header 'Authorization: Bearer <token>' \
 --data '{
@@ -133,6 +133,57 @@ curl --location 'https://api.nomba.com/v1/bill/electricity' \
         "id": "API-PHCN-4B8C8-dcc5994c-e110-4035-9017-fc6e497a3baa",
         "type": "phcn",
         "status": "SUCCESS"
+    }
+}
+```
+
+```json Processing response (201)
+{
+    "code": "201",
+    "description": "PROCESSING",
+    "message": "Success",
+    "status": true,
+    "data": {
+        "id": "API-PHCN-28958-37da63af-8daa-4cb7-9070-e32920e38c12",
+        "status": "PROCESSING",
+        "type": "phcn",
+        "amount": 1000,
+        "source": "api",
+        "sourceUserId": null,
+        "customerBillerId": "12345678902",
+        "productId": "benin",
+        "meta": {
+            "payment_type": "prepaid",
+            "api_rrn": null,
+            "biller_account_name": "John Doe",
+            "rrn": null,
+            "api_account_id": "0167288-d989-460a-bbde-9842f2b4320f",
+            "api_client_id": "05cc8ef7-3aa6-408a-9cde-1a91fd20f592",
+            "user_id": "0167288-d989-460a-bbde-9842f2b4320f",
+            "merchantTxRef": "310120260017AM",
+            "allowDuplicate": true,
+            "sender_name": "Josh Doe",
+            "idempotentKey": "0167288-d989-460a-bbde-9842f2b4320f_310120260017AM",
+            "pos_withdrawal_id": "0167288-d989-460a-bbde-9842f2b4320f_310120260017AM",
+            "userName": "John Doe",
+            "isCorporate": "true",
+            "currency": "NGN",
+            "hooksEligible": "true",
+            "isSubscribedToSavingsService": false,
+            "isSubscribedToLoanService": false,
+            "txnAlertEligible": false,
+            "banking_entity_id": 189585760,
+            "banking_entity_user_id": 188595905,
+            "banking_entity_type": "CORPORATE",
+            "transactionCategory": "Bills & Utility",
+            "meterNumber": "12345678901",
+            "amount_charged": "1000.0",
+            "paymentVendor": "wallet",
+            "wallet_balance": "3055.85",
+            "wallet_currency": "NGN"
+        },
+        "userId": null,
+        "timeCreated": "2026-09-27T08:21:25.582+00:00"
     }
 }
 ```

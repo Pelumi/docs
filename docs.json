@@ -105,6 +105,7 @@
                   "docs/products/terminals/assigning-terminals",
                   "docs/products/terminals/unassigning-terminals",
                   "docs/products/terminals/push-payment-request",
+                  "docs/products/terminals/sending-transaction-location",
                   {
                     "group": "Custom Apps",
                     "pages": [
@@ -364,7 +365,9 @@
             "group": "Airtime & Data Vending",
             "pages": [
               "nomba-api-reference/airtime-and-data-vending/fetch-data-plans-available-on-a-telco-network-provider",
+              "nomba-api-reference/airtime-and-data-vending/make-airtime-purchases-via-parent-account-v2",
               "nomba-api-reference/airtime-and-data-vending/make-airtime-purchases-via-parent-account",
+              "nomba-api-reference/airtime-and-data-vending/vend-data-bundles-via-parent-account-v2",
               "nomba-api-reference/airtime-and-data-vending/vend-data-bundles-via-parent-account"
             ]
           },
@@ -372,6 +375,7 @@
             "group": "Cable & Bill Payments",
             "pages": [
               "nomba-api-reference/bills/fetch-electricity-providers",
+              "nomba-api-reference/bills/pay-for-electricity-via-parent-account-v2",
               "nomba-api-reference/bills/pay-for-electricity-via-parent-account",
               "nomba-api-reference/bills/subscribe-to-cabletv-via-parent-account",
               "nomba-api-reference/bills/name-lookup-for-cabletv",

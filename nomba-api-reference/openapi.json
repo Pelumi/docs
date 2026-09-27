@@ -6601,8 +6601,17 @@
                   "properties": {
                     "code": {
                       "type": "string",
+                      "description": "Response code. This reflects the HTTP status code of the response, e.g. `200` when the request completed successfully and `201` when it was accepted and is still being processed.",
                       "example": "200",
-                      "description": "Response Code"
+                      "enum": [
+                        "200",
+                        "201",
+                        "400",
+                        "401",
+                        "403",
+                        "429",
+                        "500"
+                      ]
                     },
                     "description": {
                       "type": "string",
@@ -6735,7 +6744,17 @@
                   "properties": {
                     "code": {
                       "type": "string",
-                      "example": "201"
+                      "description": "Response code. This reflects the HTTP status code of the response, e.g. `200` when the request completed successfully and `201` when it was accepted and is still being processed.",
+                      "example": "201",
+                      "enum": [
+                        "200",
+                        "201",
+                        "400",
+                        "401",
+                        "403",
+                        "429",
+                        "500"
+                      ]
                     },
                     "description": {
                       "type": "string",
@@ -6813,8 +6832,17 @@
                   "properties": {
                     "code": {
                       "type": "string",
-                      "example": "00",
-                      "description": "Response Code"
+                      "description": "Response code. This reflects the HTTP status code of the response, e.g. `200` when the request completed successfully and `201` when it was accepted and is still being processed.",
+                      "example": "200",
+                      "enum": [
+                        "200",
+                        "201",
+                        "400",
+                        "401",
+                        "403",
+                        "429",
+                        "500"
+                      ]
                     },
                     "description": {
                       "type": "string",
@@ -6926,7 +6954,17 @@
                   "properties": {
                     "code": {
                       "type": "string",
-                      "example": "201"
+                      "description": "Response code. This reflects the HTTP status code of the response, e.g. `200` when the request completed successfully and `201` when it was accepted and is still being processed.",
+                      "example": "201",
+                      "enum": [
+                        "200",
+                        "201",
+                        "400",
+                        "401",
+                        "403",
+                        "429",
+                        "500"
+                      ]
                     },
                     "description": {
                       "type": "string",
@@ -7014,8 +7052,17 @@
                   "properties": {
                     "code": {
                       "type": "string",
-                      "example": "00",
-                      "description": "Response Code"
+                      "description": "Response code. This reflects the HTTP status code of the response, e.g. `200` when the request completed successfully and `201` when it was accepted and is still being processed.",
+                      "example": "200",
+                      "enum": [
+                        "200",
+                        "201",
+                        "400",
+                        "401",
+                        "403",
+                        "429",
+                        "500"
+                      ]
                     },
                     "description": {
                       "type": "string",
@@ -7127,7 +7174,17 @@
                   "properties": {
                     "code": {
                       "type": "string",
-                      "example": "201"
+                      "description": "Response code. This reflects the HTTP status code of the response, e.g. `200` when the request completed successfully and `201` when it was accepted and is still being processed.",
+                      "example": "201",
+                      "enum": [
+                        "200",
+                        "201",
+                        "400",
+                        "401",
+                        "403",
+                        "429",
+                        "500"
+                      ]
                     },
                     "description": {
                       "type": "string",
@@ -7205,8 +7262,17 @@
                   "properties": {
                     "code": {
                       "type": "string",
-                      "example": "00",
-                      "description": "Response Code"
+                      "description": "Response code. This reflects the HTTP status code of the response, e.g. `200` when the request completed successfully and `201` when it was accepted and is still being processed.",
+                      "example": "200",
+                      "enum": [
+                        "200",
+                        "201",
+                        "400",
+                        "401",
+                        "403",
+                        "429",
+                        "500"
+                      ]
                     },
                     "description": {
                       "type": "string",
@@ -7318,7 +7384,17 @@
                   "properties": {
                     "code": {
                       "type": "string",
-                      "example": "201"
+                      "description": "Response code. This reflects the HTTP status code of the response, e.g. `200` when the request completed successfully and `201` when it was accepted and is still being processed.",
+                      "example": "201",
+                      "enum": [
+                        "200",
+                        "201",
+                        "400",
+                        "401",
+                        "403",
+                        "429",
+                        "500"
+                      ]
                     },
                     "description": {
                       "type": "string",
@@ -10005,7 +10081,8 @@
     },
     "/v1/bill/topup": {
       "post": {
-        "description": "You can use this endpoint to make airtime purchases via parent account",
+        "description": "**Deprecated.** This endpoint is deprecated and will be removed in a future release. Use `POST /v2/bill/topup` instead.",
+        "deprecated": true,
         "operationId": "Make airtime purchases via parent account",
         "requestBody": {
           "content": {
@@ -10048,6 +10125,362 @@
               }
             },
             "description": "OK - your request was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "Resource not available"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Make airtime purchases via parent account",
+        "parameters": [
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "Airtime and Data Vending"
+        ]
+      }
+    },
+    "/v2/bill/topup": {
+      "post": {
+        "description": "You can use this endpoint to make airtime purchases via parent account.",
+        "operationId": "Make airtime purchases via parent account v2",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AirtimePurchaseRequest"
+              }
+            }
+          },
+          "description": "The request payload required to make airtime purchases",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "description": "Response code. This reflects the HTTP status code of the response, e.g. `200` when the request completed successfully and `201` when it was accepted and is still being processed.",
+                      "example": "200",
+                      "enum": [
+                        "200",
+                        "201",
+                        "400",
+                        "401",
+                        "403",
+                        "429",
+                        "500"
+                      ]
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Response description",
+                      "example": "SUCCESS"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Response message",
+                      "example": "Transaction completed Successfully"
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "description": "Whether the request was successful",
+                      "example": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/AirtimePurchaseV2Response"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": "200",
+                  "description": "SUCCESS",
+                  "message": "Transaction completed Successfully",
+                  "status": true,
+                  "data": {
+                    "id": "API-TOPUP-A6950-8c060b7c-4155-4e33-a846-101b49229c33",
+                    "status": "SUCCESS",
+                    "type": "topup",
+                    "amount": 100.0,
+                    "source": "api",
+                    "sourceUserId": null,
+                    "customerBillerId": "08123456788",
+                    "productId": "62130",
+                    "meta": {
+                      "api_rrn": "260926204701",
+                      "rrn": "260926204701",
+                      "api_account_id": "0167288-d989-460a-bbde-9842f2b4320f",
+                      "api_client_id": "2167288-d989-460a-bbde-9842f2b4320f",
+                      "user_id": "0167288-d989-460a-bbde-9842f2b4320f",
+                      "merchantTxRef": "REF-29-07-2026-12",
+                      "allowDuplicate": true,
+                      "sender_name": "John Doe",
+                      "idempotentKey": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-12",
+                      "pos_withdrawal_id": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-12",
+                      "userName": "John Doe",
+                      "isCorporate": "true",
+                      "currency": "NGN",
+                      "hooksEligible": "true",
+                      "isSubscribedToSavingsService": false,
+                      "isSubscribedToLoanService": false,
+                      "txnAlertEligible": true,
+                      "banking_entity_id": 189585760,
+                      "banking_entity_user_id": 188595905,
+                      "banking_entity_type": "CORPORATE",
+                      "transactionCategory": "Bills & Utility",
+                      "network": "mtn",
+                      "subscriberNumber": "08123456788",
+                      "amount_charged": "100.0",
+                      "wallet_balance": "610.55",
+                      "wallet_currency": "NGN",
+                      "agent_commission": "2.0",
+                      "gatewayMessage": "Success",
+                      "billingServiceTransactionId": "6ab821352669ea6eac2bb2ba",
+                      "billingServiceResponse": "SUCCESS",
+                      "income": "0.5",
+                      "paymentFee": 0.0,
+                      "tx_revenue": "2.5",
+                      "phoneNumber": "08123456788"
+                    },
+                    "userId": null,
+                    "timeCreated": "2026-09-26T19:47:01.514+00:00"
+                  }
+                }
+              }
+            },
+            "description": "OK - your request was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "description": "Response code. This reflects the HTTP status code of the response, e.g. `200` when the request completed successfully and `201` when it was accepted and is still being processed.",
+                      "example": "201",
+                      "enum": [
+                        "200",
+                        "201",
+                        "400",
+                        "401",
+                        "403",
+                        "429",
+                        "500"
+                      ]
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Response description",
+                      "example": "PROCESSING"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Response message",
+                      "example": "Success"
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "description": "Whether the request was successful",
+                      "example": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/AirtimePurchaseV2Response"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": "201",
+                  "description": "PROCESSING",
+                  "message": "Success",
+                  "status": true,
+                  "data": {
+                    "id": "API-TOPUP-A6950-8c060b7c-4155-4e33-a846-101b49229c33",
+                    "status": "PROCESSING",
+                    "type": "topup",
+                    "amount": 100.0,
+                    "source": "api",
+                    "sourceUserId": null,
+                    "customerBillerId": "08123456788",
+                    "productId": "62130",
+                    "meta": {
+                      "api_rrn": "260926204701",
+                      "rrn": "260926204701",
+                      "api_account_id": "0167288-d989-460a-bbde-9842f2b4320f",
+                      "api_client_id": "2167288-d989-460a-bbde-9842f2b4320f",
+                      "user_id": "0167288-d989-460a-bbde-9842f2b4320f",
+                      "merchantTxRef": "REF-29-07-2026-12",
+                      "allowDuplicate": true,
+                      "sender_name": "John Doe",
+                      "idempotentKey": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-12",
+                      "pos_withdrawal_id": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-12",
+                      "userName": "John Doe",
+                      "isCorporate": "true",
+                      "currency": "NGN",
+                      "hooksEligible": "true",
+                      "isSubscribedToSavingsService": false,
+                      "isSubscribedToLoanService": false,
+                      "txnAlertEligible": true,
+                      "banking_entity_id": 189585760,
+                      "banking_entity_user_id": 188595905,
+                      "banking_entity_type": "CORPORATE",
+                      "transactionCategory": "Bills & Utility",
+                      "network": "mtn",
+                      "subscriberNumber": "08123456788",
+                      "amount_charged": "100.0",
+                      "wallet_balance": "610.55",
+                      "wallet_currency": "NGN",
+                      "phoneNumber": "08123456788"
+                    },
+                    "userId": null,
+                    "timeCreated": "2026-09-26T19:47:01.514+00:00"
+                  }
+                }
+              }
+            },
+            "description": "Created - your request was accepted and is being processed. `data.status` is `PROCESSING`; listen for webhook notifications or requery the transaction for the final status.",
             "headers": {
               "X-Rate-Limit-Limit": {
                 "description": "The number of allowed requests in the current period",
@@ -10344,7 +10777,8 @@
     },
     "/v1/bill/data": {
       "post": {
-        "description": "You can use this endpoint to vend data via parent account",
+        "description": "**Deprecated.** This endpoint is deprecated and will be removed in a future release. Use `POST /v2/bill/data` instead.",
+        "deprecated": true,
         "operationId": "Vend data bundles via parent account",
         "requestBody": {
           "content": {
@@ -10394,6 +10828,375 @@
               }
             },
             "description": "OK - your request was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "Resource not available"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Vend data bundles via parent account",
+        "parameters": [
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "Airtime and Data Vending"
+        ]
+      }
+    },
+    "/v2/bill/data": {
+      "post": {
+        "description": "You can use this endpoint to vend data via parent account.",
+        "operationId": "Vend data bundles via parent account v2",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DataVendingRequest"
+              },
+              "example": {
+                "productId": "mtn47",
+                "phoneNumber": "08055441122",
+                "network": "GLO",
+                "merchantTxRef": "3bvwhibh38220dsjakTwvb",
+                "senderName": "John Doe"
+              }
+            }
+          },
+          "description": "The request payload required to vend data bundles",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "description": "Response code. This reflects the HTTP status code of the response, e.g. `200` when the request completed successfully and `201` when it was accepted and is still being processed.",
+                      "example": "200",
+                      "enum": [
+                        "200",
+                        "201",
+                        "400",
+                        "401",
+                        "403",
+                        "429",
+                        "500"
+                      ]
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Response description",
+                      "example": "SUCCESS"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Response message",
+                      "example": "Transaction completed Successfully"
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "description": "Whether the request was successful",
+                      "example": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/DataVendingV2Response"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": "200",
+                  "description": "SUCCESS",
+                  "message": "Transaction completed Successfully",
+                  "status": true,
+                  "data": {
+                    "id": "API-DATA-AAA1A-36dc6c70-5cf2-4592-93be-9bccc23df7f5",
+                    "status": "SUCCESS",
+                    "type": "data",
+                    "amount": 100,
+                    "source": "api",
+                    "sourceUserId": null,
+                    "customerBillerId": "08168969046",
+                    "productId": "62130",
+                    "meta": {
+                      "api_rrn": "260927093143",
+                      "data-plan": "110MB Daily Plan",
+                      "rrn": "260927093143",
+                      "api_account_id": "0167288-d989-460a-bbde-9842f2b4320f",
+                      "api_client_id": "2167288-d989-460a-bbde-9842f2b4320f",
+                      "user_id": "0167288-d989-460a-bbde-9842f2b4320f",
+                      "merchantTxRef": "REF-29-07-2026-13",
+                      "allowDuplicate": true,
+                      "sender_name": "John Doe",
+                      "idempotentKey": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-13",
+                      "pos_withdrawal_id": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-13",
+                      "userName": "John Doe",
+                      "isCorporate": "true",
+                      "currency": "NGN",
+                      "hooksEligible": "true",
+                      "isSubscribedToSavingsService": false,
+                      "isSubscribedToLoanService": false,
+                      "txnAlertEligible": false,
+                      "banking_entity_id": 189585760,
+                      "banking_entity_user_id": 188595905,
+                      "banking_entity_type": "CORPORATE",
+                      "self_transaction": true,
+                      "transactionCategory": "Bills & Utility",
+                      "network": "mtn",
+                      "subscriberNumber": "08123456788",
+                      "amount_charged": "100.0",
+                      "paymentVendor": "wallet",
+                      "wallet_balance": "2955.85",
+                      "wallet_currency": "NGN",
+                      "agent_commission": "0.0",
+                      "gatewayMessage": "Success",
+                      "billingVendor": "cowrie",
+                      "billingServiceResponse": "SUCCESS",
+                      "income": "2.5",
+                      "paymentFee": 0,
+                      "tx_revenue": "2.5",
+                      "phoneNumber": "08123456788"
+                    },
+                    "userId": null,
+                    "timeCreated": "2026-09-27T08:31:43.555+00:00"
+                  }
+                }
+              }
+            },
+            "description": "OK - your request was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "description": "Response code. This reflects the HTTP status code of the response, e.g. `200` when the request completed successfully and `201` when it was accepted and is still being processed.",
+                      "example": "201",
+                      "enum": [
+                        "200",
+                        "201",
+                        "400",
+                        "401",
+                        "403",
+                        "429",
+                        "500"
+                      ]
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Response description",
+                      "example": "PROCESSING"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Response message",
+                      "example": "Success"
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "description": "Whether the request was successful",
+                      "example": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/DataVendingV2Response"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": "201",
+                  "description": "PROCESSING",
+                  "message": "Success",
+                  "status": true,
+                  "data": {
+                    "id": "API-DATA-AAA1A-36dc6c70-5cf2-4592-93be-9bccc23df7f5",
+                    "status": "PROCESSING",
+                    "type": "data",
+                    "amount": 100,
+                    "source": "api",
+                    "sourceUserId": null,
+                    "customerBillerId": "08168969046",
+                    "productId": "62130",
+                    "meta": {
+                      "api_rrn": "260927093143",
+                      "data-plan": "110MB Daily Plan",
+                      "rrn": "260927093143",
+                      "api_account_id": "0167288-d989-460a-bbde-9842f2b4320f",
+                      "api_client_id": "2167288-d989-460a-bbde-9842f2b4320f",
+                      "user_id": "0167288-d989-460a-bbde-9842f2b4320f",
+                      "merchantTxRef": "REF-29-07-2026-13",
+                      "allowDuplicate": true,
+                      "sender_name": "John Doe",
+                      "idempotentKey": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-13",
+                      "pos_withdrawal_id": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-13",
+                      "userName": "John Doe",
+                      "isCorporate": "true",
+                      "currency": "NGN",
+                      "hooksEligible": "true",
+                      "isSubscribedToSavingsService": false,
+                      "isSubscribedToLoanService": false,
+                      "txnAlertEligible": false,
+                      "banking_entity_id": 189585760,
+                      "banking_entity_user_id": 188595905,
+                      "banking_entity_type": "CORPORATE",
+                      "self_transaction": true,
+                      "transactionCategory": "Bills & Utility",
+                      "network": "mtn",
+                      "subscriberNumber": "08123456788",
+                      "amount_charged": "100.0",
+                      "paymentVendor": "wallet",
+                      "wallet_balance": "2955.85",
+                      "wallet_currency": "NGN",
+                      "phoneNumber": "08123456788"
+                    },
+                    "userId": null,
+                    "timeCreated": "2026-09-27T08:31:43.555+00:00"
+                  }
+                }
+              }
+            },
+            "description": "Created - your request was accepted and is being processed. `data.status` is `PROCESSING`; listen for webhook notifications or requery the transaction for the final status.",
             "headers": {
               "X-Rate-Limit-Limit": {
                 "description": "The number of allowed requests in the current period",
@@ -11514,7 +12317,8 @@
     },
     "/v1/bill/electricity": {
       "post": {
-        "description": "You can use this endpoint to vend electricity via parent account",
+        "description": "**Deprecated.** This endpoint is deprecated and will be removed in a future release. Use `POST /v2/bill/electricity` instead.",
+        "deprecated": true,
         "operationId": "Vend electricity via parent account",
         "requestBody": {
           "content": {
@@ -11557,6 +12361,371 @@
               }
             },
             "description": "OK - your request was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "Resource not available"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Vend electricity via parent account",
+        "parameters": [
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          }
+        ],
+        "tags": [
+          "Electricity Vending"
+        ]
+      }
+    },
+    "/v2/bill/electricity": {
+      "post": {
+        "description": "You can use this endpoint to vend electricity via parent account.",
+        "operationId": "Vend electricity via parent account v2",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ElectricityVendingRequest"
+              }
+            }
+          },
+          "description": "The request payload required to vend electricity",
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "description": "Response code. This reflects the HTTP status code of the response, e.g. `200` when the request completed successfully and `201` when it was accepted and is still being processed.",
+                      "example": "200",
+                      "enum": [
+                        "200",
+                        "201",
+                        "400",
+                        "401",
+                        "403",
+                        "429",
+                        "500"
+                      ]
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Response description",
+                      "example": "SUCCESS"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Response message",
+                      "example": "Transaction completed Successfully"
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "description": "Whether the request was successful",
+                      "example": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/ElectricityVendingV2Response"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": "200",
+                  "description": "SUCCESS",
+                  "message": "Transaction completed Successfully",
+                  "status": true,
+                  "data": {
+                    "id": "API-PHCN-28958-37da63af-8daa-4cb7-9070-e32920e38c12",
+                    "status": "SUCCESS",
+                    "type": "phcn",
+                    "amount": 1000,
+                    "source": "api",
+                    "sourceUserId": null,
+                    "customerBillerId": "12345678902",
+                    "productId": "benin",
+                    "meta": {
+                      "payment_type": "prepaid",
+                      "api_rrn": null,
+                      "biller_account_name": "John Doe",
+                      "rrn": null,
+                      "api_account_id": "0167288-d989-460a-bbde-9842f2b4320f",
+                      "api_client_id": "05cc8ef7-3aa6-408a-9cde-1a91fd20f592",
+                      "user_id": "0167288-d989-460a-bbde-9842f2b4320f",
+                      "merchantTxRef": "310120260017AM",
+                      "allowDuplicate": true,
+                      "sender_name": "Josh Doe",
+                      "idempotentKey": "0167288-d989-460a-bbde-9842f2b4320f_310120260017AM",
+                      "pos_withdrawal_id": "0167288-d989-460a-bbde-9842f2b4320f_310120260017AM",
+                      "userName": "John Doe",
+                      "isCorporate": "true",
+                      "currency": "NGN",
+                      "hooksEligible": "true",
+                      "isSubscribedToSavingsService": false,
+                      "isSubscribedToLoanService": false,
+                      "txnAlertEligible": false,
+                      "banking_entity_id": 189585760,
+                      "banking_entity_user_id": 188595905,
+                      "banking_entity_type": "CORPORATE",
+                      "transactionCategory": "Bills & Utility",
+                      "meterNumber": "12345678901",
+                      "amount_charged": "1000.0",
+                      "paymentVendor": "wallet",
+                      "wallet_balance": "3055.85",
+                      "wallet_currency": "NGN",
+                      "paymentVendorReference": "6ab8d20521deef068755e6a2",
+                      "gatewayMessage": "Token: 43557934939308375700",
+                      "billingServiceResponse": "Token: 43557934939308375700",
+                      "phcnToken": "43557934939308375700",
+                      "phcnCustomerName": "Mr Johnson",
+                      "phcnCustomerAddress": "29 Okabiri Street ",
+                      "phcnCustomerPhone": "09012345678",
+                      "phcnVendToken": "14557934939308375701",
+                      "phcnVendUnits": "16.4",
+                      "meterDebt": "unknown",
+                      "units": "16.4",
+                      "income": "21.0",
+                      "paymentFee": 0,
+                      "tx_revenue": "21.0"
+                    },
+                    "userId": null,
+                    "timeCreated": "2026-09-27T08:21:25.582+00:00"
+                  }
+                }
+              }
+            },
+            "description": "OK - your request was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "201": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "description": "Response code. This reflects the HTTP status code of the response, e.g. `200` when the request completed successfully and `201` when it was accepted and is still being processed.",
+                      "example": "201",
+                      "enum": [
+                        "200",
+                        "201",
+                        "400",
+                        "401",
+                        "403",
+                        "429",
+                        "500"
+                      ]
+                    },
+                    "description": {
+                      "type": "string",
+                      "description": "Response description",
+                      "example": "PROCESSING"
+                    },
+                    "message": {
+                      "type": "string",
+                      "description": "Response message",
+                      "example": "Success"
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "description": "Whether the request was successful",
+                      "example": true
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/ElectricityVendingV2Response"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": "201",
+                  "description": "PROCESSING",
+                  "message": "Success",
+                  "status": true,
+                  "data": {
+                    "id": "API-PHCN-28958-37da63af-8daa-4cb7-9070-e32920e38c12",
+                    "status": "PROCESSING",
+                    "type": "phcn",
+                    "amount": 1000,
+                    "source": "api",
+                    "sourceUserId": null,
+                    "customerBillerId": "12345678902",
+                    "productId": "benin",
+                    "meta": {
+                      "payment_type": "prepaid",
+                      "api_rrn": null,
+                      "biller_account_name": "John Doe",
+                      "rrn": null,
+                      "api_account_id": "0167288-d989-460a-bbde-9842f2b4320f",
+                      "api_client_id": "05cc8ef7-3aa6-408a-9cde-1a91fd20f592",
+                      "user_id": "0167288-d989-460a-bbde-9842f2b4320f",
+                      "merchantTxRef": "310120260017AM",
+                      "allowDuplicate": true,
+                      "sender_name": "Josh Doe",
+                      "idempotentKey": "0167288-d989-460a-bbde-9842f2b4320f_310120260017AM",
+                      "pos_withdrawal_id": "0167288-d989-460a-bbde-9842f2b4320f_310120260017AM",
+                      "userName": "John Doe",
+                      "isCorporate": "true",
+                      "currency": "NGN",
+                      "hooksEligible": "true",
+                      "isSubscribedToSavingsService": false,
+                      "isSubscribedToLoanService": false,
+                      "txnAlertEligible": false,
+                      "banking_entity_id": 189585760,
+                      "banking_entity_user_id": 188595905,
+                      "banking_entity_type": "CORPORATE",
+                      "transactionCategory": "Bills & Utility",
+                      "meterNumber": "12345678901",
+                      "amount_charged": "1000.0",
+                      "paymentVendor": "wallet",
+                      "wallet_balance": "3055.85",
+                      "wallet_currency": "NGN"
+                    },
+                    "userId": null,
+                    "timeCreated": "2026-09-27T08:21:25.582+00:00"
+                  }
+                }
+              }
+            },
+            "description": "Created - your request was accepted and is being processed. `data.status` is `PROCESSING`; listen for webhook notifications or requery the transaction for the final status.",
             "headers": {
               "X-Rate-Limit-Limit": {
                 "description": "The number of allowed requests in the current period",
@@ -15414,6 +16583,111 @@
           "merchantTxRef"
         ]
       },
+      "AirtimePurchaseV2Response": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of the airtime transaction",
+            "example": "API-TOPUP-A6950-8c060b7c-4155-4e33-a846-101b49229c33"
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the transaction. `SUCCESS` (HTTP 200) means the purchase completed; `PROCESSING` (HTTP 201) means it is still being processed",
+            "example": "SUCCESS"
+          },
+          "type": {
+            "type": "string",
+            "description": "Transaction type",
+            "example": "topup"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "description": "Airtime amount purchased",
+            "example": 100.0
+          },
+          "source": {
+            "type": "string",
+            "description": "Channel through which the transaction was initiated",
+            "example": "api"
+          },
+          "sourceUserId": {
+            "type": "string",
+            "description": "Identifier of the source user, if any",
+            "nullable": true
+          },
+          "customerBillerId": {
+            "type": "string",
+            "description": "Phone number credited with the airtime",
+            "example": "08123456788"
+          },
+          "productId": {
+            "type": "string",
+            "description": "Product identifier for the airtime purchase",
+            "example": "62130"
+          },
+          "meta": {
+            "type": "object",
+            "description": "Additional transaction metadata",
+            "additionalProperties": true,
+            "example": {
+              "api_rrn": "260926204701",
+              "rrn": "260926204701",
+              "api_account_id": "0167288-d989-460a-bbde-9842f2b4320f",
+              "api_client_id": "2167288-d989-460a-bbde-9842f2b4320f",
+              "user_id": "0167288-d989-460a-bbde-9842f2b4320f",
+              "merchantTxRef": "REF-29-07-2026-12",
+              "allowDuplicate": true,
+              "sender_name": "John Doe",
+              "idempotentKey": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-12",
+              "pos_withdrawal_id": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-12",
+              "userName": "John Doe",
+              "isCorporate": "true",
+              "currency": "NGN",
+              "hooksEligible": "true",
+              "isSubscribedToSavingsService": false,
+              "isSubscribedToLoanService": false,
+              "txnAlertEligible": true,
+              "banking_entity_id": 189585760,
+              "banking_entity_user_id": 188595905,
+              "banking_entity_type": "CORPORATE",
+              "transactionCategory": "Bills & Utility",
+              "network": "mtn",
+              "subscriberNumber": "08123456788",
+              "amount_charged": "100.0",
+              "wallet_balance": "610.55",
+              "wallet_currency": "NGN",
+              "agent_commission": "2.0",
+              "gatewayMessage": "Success",
+              "billingServiceTransactionId": "6ab821352669ea6eac2bb2ba",
+              "billingServiceResponse": "SUCCESS",
+              "income": "0.5",
+              "paymentFee": 0.0,
+              "tx_revenue": "2.5",
+              "phoneNumber": "08123456788"
+            }
+          },
+          "userId": {
+            "type": "string",
+            "description": "Identifier of the user, if any",
+            "nullable": true
+          },
+          "timeCreated": {
+            "type": "string",
+            "description": "Time the transaction was created",
+            "format": "date-time",
+            "example": "2026-09-26T19:47:01.514+00:00"
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "type",
+          "amount",
+          "timeCreated"
+        ]
+      },
       "AirtimePurchaseResponse": {
         "type": "object",
         "properties": {
@@ -15504,6 +16778,114 @@
           "phoneNumber",
           "network",
           "merchantTxRef"
+        ]
+      },
+      "DataVendingV2Response": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of the data transaction",
+            "example": "API-DATA-AAA1A-36dc6c70-5cf2-4592-93be-9bccc23df7f5"
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the transaction. `SUCCESS` (HTTP 200) means the purchase completed; `PROCESSING` (HTTP 201) means it is still being processed",
+            "example": "SUCCESS"
+          },
+          "type": {
+            "type": "string",
+            "description": "Transaction type",
+            "example": "data"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "description": "Amount paid for the data bundle",
+            "example": 100
+          },
+          "source": {
+            "type": "string",
+            "description": "Channel through which the transaction was initiated",
+            "example": "api"
+          },
+          "sourceUserId": {
+            "type": "string",
+            "description": "Identifier of the source user, if any",
+            "nullable": true
+          },
+          "customerBillerId": {
+            "type": "string",
+            "description": "Phone number credited with the data bundle",
+            "example": "08168969046"
+          },
+          "productId": {
+            "type": "string",
+            "description": "Identifier of the data plan purchased",
+            "example": "62130"
+          },
+          "meta": {
+            "type": "object",
+            "description": "Additional transaction metadata, including the data plan purchased (`data-plan`) and network",
+            "additionalProperties": true,
+            "example": {
+              "api_rrn": "260927093143",
+              "data-plan": "110MB Daily Plan",
+              "rrn": "260927093143",
+              "api_account_id": "0167288-d989-460a-bbde-9842f2b4320f",
+              "api_client_id": "2167288-d989-460a-bbde-9842f2b4320f",
+              "user_id": "0167288-d989-460a-bbde-9842f2b4320f",
+              "merchantTxRef": "REF-29-07-2026-13",
+              "allowDuplicate": true,
+              "sender_name": "John Doe",
+              "idempotentKey": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-13",
+              "pos_withdrawal_id": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-13",
+              "userName": "John Doe",
+              "isCorporate": "true",
+              "currency": "NGN",
+              "hooksEligible": "true",
+              "isSubscribedToSavingsService": false,
+              "isSubscribedToLoanService": false,
+              "txnAlertEligible": false,
+              "banking_entity_id": 189585760,
+              "banking_entity_user_id": 188595905,
+              "banking_entity_type": "CORPORATE",
+              "self_transaction": true,
+              "transactionCategory": "Bills & Utility",
+              "network": "mtn",
+              "subscriberNumber": "08123456788",
+              "amount_charged": "100.0",
+              "paymentVendor": "wallet",
+              "wallet_balance": "2955.85",
+              "wallet_currency": "NGN",
+              "agent_commission": "0.0",
+              "gatewayMessage": "Success",
+              "billingVendor": "cowrie",
+              "billingServiceResponse": "SUCCESS",
+              "income": "2.5",
+              "paymentFee": 0,
+              "tx_revenue": "2.5",
+              "phoneNumber": "08123456788"
+            }
+          },
+          "userId": {
+            "type": "string",
+            "description": "Identifier of the user, if any",
+            "nullable": true
+          },
+          "timeCreated": {
+            "type": "string",
+            "description": "Time the transaction was created",
+            "format": "date-time",
+            "example": "2026-09-27T08:31:43.555+00:00"
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "type",
+          "amount",
+          "timeCreated"
         ]
       },
       "DataVendingResponse": {
@@ -18647,6 +20029,119 @@
             "example": "prepaid"
           }
         }
+      },
+      "ElectricityVendingV2Response": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier of the electricity transaction",
+            "example": "API-PHCN-28958-37da63af-8daa-4cb7-9070-e32920e38c12"
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the transaction. `SUCCESS` (HTTP 200) means the purchase completed; `PROCESSING` (HTTP 201) means it is still being processed",
+            "example": "SUCCESS"
+          },
+          "type": {
+            "type": "string",
+            "description": "Transaction type",
+            "example": "phcn"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "description": "Amount paid for electricity",
+            "example": 1000
+          },
+          "source": {
+            "type": "string",
+            "description": "Channel through which the transaction was initiated",
+            "example": "api"
+          },
+          "sourceUserId": {
+            "type": "string",
+            "description": "Identifier of the source user, if any",
+            "nullable": true
+          },
+          "customerBillerId": {
+            "type": "string",
+            "description": "Meter number credited with the payment",
+            "example": "12345678902"
+          },
+          "productId": {
+            "type": "string",
+            "description": "The electricity distribution company (disco)",
+            "example": "benin"
+          },
+          "meta": {
+            "type": "object",
+            "description": "Additional transaction metadata, including the electricity token (`phcnToken`) and units purchased",
+            "additionalProperties": true,
+            "example": {
+              "payment_type": "prepaid",
+              "api_rrn": null,
+              "biller_account_name": "John Doe",
+              "rrn": null,
+              "api_account_id": "0167288-d989-460a-bbde-9842f2b4320f",
+              "api_client_id": "05cc8ef7-3aa6-408a-9cde-1a91fd20f592",
+              "user_id": "0167288-d989-460a-bbde-9842f2b4320f",
+              "merchantTxRef": "310120260017AM",
+              "allowDuplicate": true,
+              "sender_name": "Josh Doe",
+              "idempotentKey": "0167288-d989-460a-bbde-9842f2b4320f_310120260017AM",
+              "pos_withdrawal_id": "0167288-d989-460a-bbde-9842f2b4320f_310120260017AM",
+              "userName": "John Doe",
+              "isCorporate": "true",
+              "currency": "NGN",
+              "hooksEligible": "true",
+              "isSubscribedToSavingsService": false,
+              "isSubscribedToLoanService": false,
+              "txnAlertEligible": false,
+              "banking_entity_id": 189585760,
+              "banking_entity_user_id": 188595905,
+              "banking_entity_type": "CORPORATE",
+              "transactionCategory": "Bills & Utility",
+              "meterNumber": "12345678901",
+              "amount_charged": "1000.0",
+              "paymentVendor": "wallet",
+              "wallet_balance": "3055.85",
+              "wallet_currency": "NGN",
+              "paymentVendorReference": "6ab8d20521deef068755e6a2",
+              "gatewayMessage": "Token: 43557934939308375700",
+              "billingServiceResponse": "Token: 43557934939308375700",
+              "phcnToken": "43557934939308375700",
+              "phcnCustomerName": "Mr Johnson",
+              "phcnCustomerAddress": "29 Okabiri Street ",
+              "phcnCustomerPhone": "09012345678",
+              "phcnVendToken": "14557934939308375701",
+              "phcnVendUnits": "16.4",
+              "meterDebt": "unknown",
+              "units": "16.4",
+              "income": "21.0",
+              "paymentFee": 0,
+              "tx_revenue": "21.0"
+            }
+          },
+          "userId": {
+            "type": "string",
+            "description": "Identifier of the user, if any",
+            "nullable": true
+          },
+          "timeCreated": {
+            "type": "string",
+            "description": "Time the transaction was created",
+            "format": "date-time",
+            "example": "2026-09-27T08:21:25.582+00:00"
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "type",
+          "amount",
+          "timeCreated"
+        ]
       },
       "ElectricityVendingResponse": {
         "type": "object",
