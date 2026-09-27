@@ -1,0 +1,13 @@
+---
+openapi: post /v1/bill/electricity/{subAccountId}
+title: "Vend electricity via sub account (v1)"
+deprecated: true
+---
+
+<Warning>
+This endpoint is deprecated. Use [Vend electricity via sub account (v2)](/nomba-api-reference/bills/pay-for-electricity-via-sub-account-v2) at `POST /v2/bill/electricity/{subAccountId}` instead.
+</Warning>
+
+<Warning>
+Always requery the transaction using [Fetch a single transaction on a sub account](/nomba-api-reference/requery/fetch-a-single-transaction-on-a-sub-account) to confirm its final status before issuing a refund.
+</Warning>

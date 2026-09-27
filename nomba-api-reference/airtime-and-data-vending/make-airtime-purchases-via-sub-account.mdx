@@ -1,0 +1,13 @@
+---
+openapi: post /v1/bill/topup/{subAccountId}
+title: "Make airtime purchases via sub account (v1)"
+deprecated: true
+---
+
+<Warning>
+This endpoint is deprecated. Use [Make airtime purchases via sub account (v2)](/nomba-api-reference/airtime-and-data-vending/make-airtime-purchases-via-sub-account-v2) at `POST /v2/bill/topup/{subAccountId}` instead.
+</Warning>
+
+<Warning>
+Always requery the transaction using [Fetch a single transaction on a sub account](/nomba-api-reference/requery/fetch-a-single-transaction-on-a-sub-account) to confirm its final status before issuing a refund.
+</Warning>

@@ -1,6 +1,12 @@
 ---
 openapi: post /v1/bill/cabletv
+title: "CableTv subscription via parent account (v1)"
+deprecated: true
 ---
+
+<Warning>
+This endpoint is deprecated. Use [CableTv subscription via parent account (v2)](/nomba-api-reference/bills/subscribe-to-cabletv-via-parent-account-v2) at `POST /v2/bill/cabletv` instead.
+</Warning>
 
 <Warning>
 Always requery the transaction using [Fetch a single transaction on the parent account](/nomba-api-reference/requery/fetch-a-single-transaction-on-the-parent-account) to confirm its final status before issuing a refund.
