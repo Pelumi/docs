@@ -3,5 +3,15 @@ openapi: get /v1/transactions/accounts/single
 ---
 
 <Warning>
-Only issue a refund when `data.status` is `REFUND`.
+Use `data.status` to decide whether to refund your customer:
+
+| Status | What happened | Refund customer? |
+|--------|---------------|------------------|
+| `SUCCESS` | Service delivered to destination | ❌ No |
+| `REFUND` | Funds returned to your Nomba wallet | ✅ Yes |
+| `CANCELLED` | Cancelled before your wallet was debited | ✅ Yes |
+| `REVERSED_BY_VENDOR` | May retry via another vendor | ⏳ Wait |
+| `PENDING_BILLING` | Still processing | ⏳ Wait |
+
+`PAYMENT_FAILED` doesn't apply to outflows. It's an inflow-only status, meaning a customer's payment failed.
 </Warning>

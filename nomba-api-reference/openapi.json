@@ -22290,7 +22290,7 @@
           },
           "status": {
             "type": "string",
-            "description": "Transaction status. \n `SUCCESS` means the transaction was successful. \n `REFUND` means the transaction failed and has been refunded to your account. \n `PENDING_BILLING`, `CANCELLED`, `PAYMENT_FAILED`, and `REVERSED_BY_VENDOR` mean the transaction is pending.",
+            "description": "Transaction status.\n\n- `SUCCESS`: the service was delivered to the destination. Don't refund your customer.\n- `REFUND`: the funds were returned to your Nomba wallet. Refund your customer.\n- `CANCELLED`: the transaction was cancelled before your wallet was debited. Refund your customer.\n- `REVERSED_BY_VENDOR`: the transaction may be retried via another vendor. Wait for the final status.\n- `PENDING_BILLING`: the transaction is still processing. Wait for the final status.\n- `PAYMENT_FAILED`: inflow only; the customer's payment failed. It doesn't apply to outflows.",
             "enum": [
               "SUCCESS",
               "PENDING_BILLING",
