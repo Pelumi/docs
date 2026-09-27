@@ -9,5 +9,5 @@ This endpoint is deprecated. Use [Vend betting via sub account (v2)](/nomba-api-
 </Warning>
 
 <Warning>
-Always requery the transaction using [Fetch a single transaction on a sub account](/nomba-api-reference/requery/fetch-a-single-transaction-on-a-sub-account) to confirm its final status before issuing a refund.
+Always requery the transaction using [Fetch a single transaction on a sub account](/nomba-api-reference/requery/fetch-a-single-transaction-on-a-sub-account) to confirm its final status before issuing a refund. Only issue a refund if `data.status` is `REFUND`.
 </Warning>
