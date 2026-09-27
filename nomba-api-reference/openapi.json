@@ -19275,8 +19275,12 @@
           },
           "status": {
             "type": "string",
-            "description": "The system status of this transction",
-            "example": "Processing"
+            "description": "The status of this transaction. `SUCCESS` means it completed; `PROCESSING` means it is still being processed — listen for the webhook or requery the transaction for the final status.",
+            "enum": [
+              "SUCCESS",
+              "PROCESSING"
+            ],
+            "example": "SUCCESS"
           }
         },
         "required": [
@@ -19485,8 +19489,12 @@
           },
           "status": {
             "type": "string",
-            "description": "The system status of this transction",
-            "example": "Processing"
+            "description": "The status of this transaction. `SUCCESS` means it completed; `PROCESSING` means it is still being processed — listen for the webhook or requery the transaction for the final status.",
+            "enum": [
+              "SUCCESS",
+              "PROCESSING"
+            ],
+            "example": "SUCCESS"
           }
         },
         "required": [
@@ -22737,7 +22745,11 @@
           },
           "status": {
             "type": "string",
-            "description": "The system status of this transction",
+            "description": "The status of this transaction. `SUCCESS` means it completed; `PROCESSING` means it is still being processed — listen for the webhook or requery the transaction for the final status.",
+            "enum": [
+              "SUCCESS",
+              "PROCESSING"
+            ],
             "example": "SUCCESS"
           },
           "id": {
@@ -22918,7 +22930,11 @@
           },
           "status": {
             "type": "string",
-            "description": "The system status of this transction",
+            "description": "The status of this transaction. `SUCCESS` means it completed; `PROCESSING` means it is still being processed — listen for the webhook or requery the transaction for the final status.",
+            "enum": [
+              "SUCCESS",
+              "PROCESSING"
+            ],
             "example": "SUCCESS"
           },
           "id": {
@@ -23104,7 +23120,11 @@
           },
           "status": {
             "type": "string",
-            "description": "The system status of this transaction",
+            "description": "The status of this transaction. `SUCCESS` means it completed; `PROCESSING` means it is still being processed — listen for the webhook or requery the transaction for the final status.",
+            "enum": [
+              "SUCCESS",
+              "PROCESSING"
+            ],
             "example": "SUCCESS"
           },
           "id": {
