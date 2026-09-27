@@ -91,7 +91,7 @@ async function makeTransfer(payload) {
 
   const successCodes = ['00', '200', '201'];
   if (!successCodes.includes(result.code)) {
-    // Handle error based on result.code and result.description
+    // Handle error based on result.code
   }
 
   const { status } = result.data;
@@ -140,7 +140,7 @@ def make_transfer(payload, access_token, account_id):
 
     success_codes = ['00', '200', '201']
     if result['code'] not in success_codes:
-        # Handle error based on result['code'] and result['description']
+        # Handle error based on result['code']
         pass
 
     status = result['data']['status']
