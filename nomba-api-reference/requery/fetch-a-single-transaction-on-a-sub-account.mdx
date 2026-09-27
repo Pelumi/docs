@@ -9,9 +9,8 @@ Use `data.status` to decide whether to refund your customer:
 |--------|---------------|------------------|
 | `SUCCESS` | Service delivered to destination | ❌ No |
 | `REFUND` | Funds returned to your Nomba wallet | ✅ Yes |
-| `CANCELLED` | Cancelled before your wallet was debited | ✅ Yes |
-| `REVERSED_BY_VENDOR` | May retry via another vendor | ⏳ Wait |
-| `PENDING_BILLING` | Still processing | ⏳ Wait |
-
-`PAYMENT_FAILED` doesn't apply to outflows. It's an inflow-only status, meaning a customer's payment failed.
+| `CANCELLED` | Transaction will not proceed | 📞 Contact support |
+| `PAYMENT_FAILED` | Debit failed, may retry | ⏳ Wait for webhook |
+| `REVERSED_BY_VENDOR` | May retry via another vendor | ⏳ Wait for webhook |
+| `PENDING_BILLING` | Still processing | ⏳ Wait for webhook |
 </Warning>
