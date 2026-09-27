@@ -56,6 +56,10 @@ To set up your webhooks, navigate to 'Developer' and click on 'Webhook Setup'. O
 
 - **Payout Refund** `payout_refund` : Triggered when a payout is refunded back to your Nomba account.
 
+<Warning>
+  Merchants should only trigger a refund to their customers when they receive the `payout_refund` webhook event after successful signature verification. Do not trigger refunds based on other webhook events such as `payout_failed` or `payment_reversal`.
+</Warning>
+
 ### Webhook headers
 
 Every webhook notification from Nomba includes special headers and a payload that matches the content of all supported event types. These headers will help you verify and process the request to ensure that it’s coming from Nomba, as a public URL can be accessed by anyone, so it’s to verify that all webhooks are from Nomba before giving value to your customers.
@@ -1079,65 +1083,21 @@ The tab below contains sample code demonstrating how to calculate the HMAC signa
 
 ## Idempotency in Nomba
 
-Nomba allows you to pass an idempotency key using the `X-Idempotent-key` header. This helps prevent duplicate requests when the first request fails due to issues like network interruptions.
+Nomba uses the `merchantTxRef` field in the request body to ensure idempotency for all payout operations, including transfers, airtime, data, electricity, betting, and other bill payments.
 
-Although our system already handles idempotency internally, we recommend that you include an idempotency key when calling endpoints such as Bank Transfer.
+The `merchantTxRef` must be unique for every transaction. If you send a request with a `merchantTxRef` that has already been used, Nomba will return a **suspected duplicate transaction** response instead of processing the transaction again.
 
-For example, if a bank transfer request succeeds but the confirmation is lost, resending the same request with the same idempotency key ensures that:
+For example, if a bank transfer request succeeds but the confirmation is lost due to network issues, resending the same request with the same `merchantTxRef` ensures that:
 
-- Only the first request is processed.
+- The original transaction is not duplicated.
 
-- A duplicate request will either return the original response if identical or throw an error if different.
+- You receive a response indicating the transaction is a suspected duplicate.
 
 This keeps your transactions safe and predictable by avoiding accidental duplicate transfers.
 
-<Warning> 
-  Always use a unique idempotency key for each request. This is best practice to ensure consistent behavior. 
+<Warning>
+  Always use a unique `merchantTxRef` for each transaction. Reusing a `merchantTxRef` will result in a suspected duplicate transaction response.
 </Warning>
-
-The following examples show how to generate a unique keys in popular programming languages.
-
-<CodeGroup>
-
-```go unique_key.go
-package main
-
-import (
-	"fmt"
-	"github.com/google/uuid"
-)
-
-func main() {
-	idempotentKey := uuid.New().String()
-	fmt.Println(idempotentKey)
-}
-```
-
-```javascript unique_key.js
-const { v4: uuidv4 } = require('uuid');
-const idempotentKey = uuidv4();
-console.log(idempotentKey);
-```
-
-```python unique_key.py
-import uuid
-idempotent_key = str(uuid.uuid4())
-print(idempotent_key)
-```
-
-```java unique_key.java
-import java.util.UUID;
-String idempotentKey = UUID.randomUUID().toString();
-System.out.println(idempotentKey);
-```
-
-```cs unique_key.cs
-using System;
-
-string idempotentKey = Guid.NewGuid().ToString();
-Console.WriteLine(idempotentKey);
-```
-</CodeGroup>
 
 ## Retrying Failed Webhooks
 

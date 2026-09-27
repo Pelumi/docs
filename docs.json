@@ -197,7 +197,7 @@
                   "docs/api-basics/testing/virtual-accounts"
                 ]
               },
-              "docs/api-basics/error-codes",
+              "docs/api-basics/response-codes",
               "docs/api-basics/webhook",
               "docs/api-basics/troubleshoot-webhooks",
               "docs/api-basics/definitions"
