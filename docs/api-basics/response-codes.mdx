@@ -1,0 +1,190 @@
+---
+title: 'Response Codes'
+description: 'Understand Nomba API response codes and how to handle them'
+icon: 'code'
+---
+
+The Nomba API uses a `code` field in the response body to indicate the outcome of every request.
+
+## Response structure
+
+Every Nomba API response follows this structure:
+
+```json
+{
+  "code": String,
+  "description": String,
+  "data": { ... },
+  "message": String,
+  "status": boolean
+}
+```
+
+### Code values
+
+| Code | Meaning |
+|---|---|
+| `00`, `200`, `201` | Success — request completed successfully |
+| `4XX` | Client error — bad request, unauthorized, forbidden, not found, etc. |
+| `5XX` | Server error — internal error, retry with backoff |
+
+<Note>
+  `4XX` and `5XX` represent standard HTTP status codes (e.g., `400`, `401`, `404`, `500`, `503`).
+</Note>
+
+## HTTP status codes
+
+| HTTP Status | Meaning |
+|---|---|
+| `200` | Request processed (check `code` field for outcome) |
+| `400` | Bad request — invalid payload or missing required fields |
+| `401` | Unauthorized — missing or expired `access_token` |
+| `403` | Forbidden — insufficient permissions |
+| `404` | Resource not found |
+| `422` | Unprocessable entity — validation error |
+| `429` | Rate limit exceeded — slow down requests |
+| `500` | Internal server error — retry with backoff |
+
+<Note>
+  A `2XX` HTTP status generally means the HTTP request was successful against the Nomba API gateway. The response `code` value and `data.status` value (for transaction-based requests) should be treated as documented in the specific request documentation.
+
+  For safety, if an undocumented `code` or `data.status` is returned for a transaction-based request, perform a requery to confirm the transaction state, or wait for a webhook before deciding. **Do not refund unless the `payout_refund` webhook is received or the requery returns `data.status` = `REFUND`.**
+</Note>
+
+<Tip>
+  Seeing a spike in `500` errors or timeouts? Check [status.nomba.com](https://status.nomba.com) to see if there is an ongoing incident before you debug your integration.
+</Tip>
+
+## Outflow (Transaction Status)
+
+These appear in `data.status` on outflow responses (transfers, airtime, data, bills, etc.):
+
+| Status | What happened | Refund customer? |
+|---|---|---|
+| `SUCCESS` | Service delivered to destination | No |
+| `REFUND` | Funds returned to your Nomba wallet | Yes |
+| `CANCELLED` | Transaction will not proceed | Contact support |
+| `PAYMENT_FAILED` | Debit failed, Nomba may retry | Wait for webhook |
+| `REVERSED_BY_VENDOR` | Nomba may retry via another vendor | Wait for webhook |
+| `PENDING_BILLING` | Still processing | Wait for webhook |
+
+<Note>
+  Nomba-to-Nomba wallet transfers (`/v2/transfers/wallet`) do not return a `sessionId`. Use the parent or sub-account requery endpoints instead.
+</Note>
+
+## Handling errors in code
+
+<CodeGroup>
+```javascript Node.js
+async function makeTransfer(payload) {
+  const response = await fetch('https://api.nomba.com/v2/transfers/bank', {
+    method: 'POST',
+    headers: {
+      'Authorization': `Bearer ${accessToken}`,
+      'Content-Type': 'application/json',
+      'accountId': accountId,
+    },
+    body: JSON.stringify(payload),
+  });
+
+  const result = await response.json();
+
+  const successCodes = ['00', '200', '201'];
+  if (!successCodes.includes(result.code)) {
+    // Handle error based on result.code
+  }
+
+  const { status } = result.data;
+
+  if (status === 'SUCCESS') {
+    // Service delivered to destination — no refund needed
+  }
+
+  if (status === 'REFUND') {
+    // Funds returned to your Nomba wallet — refund customer
+  }
+
+  if (status === 'CANCELLED') {
+    // Transaction will not proceed — contact support
+  }
+
+  if (status === 'PAYMENT_FAILED') {
+    // Debit failed, Nomba may retry — wait for webhook
+  }
+
+  if (status === 'REVERSED_BY_VENDOR') {
+    // Nomba may retry via another vendor — wait for webhook
+  }
+
+  if (status === 'PENDING_BILLING') {
+    // Still processing — wait for webhook
+  }
+}
+```
+
+```python Python
+import requests
+
+def make_transfer(payload, access_token, account_id):
+    response = requests.post(
+        'https://api.nomba.com/v2/transfers/bank',
+        headers={
+            'Authorization': f'Bearer {access_token}',
+            'Content-Type': 'application/json',
+            'accountId': account_id,
+        },
+        json=payload,
+    )
+
+    result = response.json()
+
+    success_codes = ['00', '200', '201']
+    if result['code'] not in success_codes:
+        # Handle error based on result['code']
+        pass
+
+    status = result['data']['status']
+
+    if status == 'SUCCESS':
+        # Service delivered to destination — no refund needed
+        pass
+
+    if status == 'REFUND':
+        # Funds returned to your Nomba wallet — refund customer
+        pass
+
+    if status == 'CANCELLED':
+        # Transaction will not proceed — contact support
+        pass
+
+    if status == 'PAYMENT_FAILED':
+        # Debit failed, Nomba may retry — wait for webhook
+        pass
+
+    if status == 'REVERSED_BY_VENDOR':
+        # Nomba may retry via another vendor — wait for webhook
+        pass
+
+    if status == 'PENDING_BILLING':
+        # Still processing — wait for webhook
+        pass
+```
+</CodeGroup>
+
+## Rate limit errors
+
+If you exceed the rate limit, you'll receive a `429` HTTP status. See the [Rate Limits](/docs/api-basics/rate_limit) page for limits per endpoint.
+
+```json
+{
+  "code": "429",
+  "description": "Too many requests. Please slow down.",
+  "data": null
+}
+```
+
+**Transfer-specific:** There is a limit of **5 bank transfers to the same recipient per minute**. Space out repeat transfers or implement a queue.
+
+## Need help?
+
+If you receive an error code not listed here or need help debugging, first check [status.nomba.com](https://status.nomba.com) for any ongoing incidents, then contact [docs@nomba.com](mailto:docs@nomba.com).
