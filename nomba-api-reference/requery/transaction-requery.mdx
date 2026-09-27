@@ -1,3 +1,16 @@
 ---
 openapi: get /v1/transactions/requery/{sessionId}
 ---
+
+<Warning>
+Use `data.status` to decide whether to refund your customer:
+
+| Status | What happened | Refund customer? |
+|--------|---------------|------------------|
+| `SUCCESS` | Service delivered to destination | ❌ No |
+| `REFUND` | Funds returned to your Nomba wallet | ✅ Yes |
+| `CANCELLED` | Transaction will not proceed | 📞 Contact support |
+| `PAYMENT_FAILED` | Debit failed, may retry | ⏳ Wait for webhook |
+| `REVERSED_BY_VENDOR` | May retry via another vendor | ⏳ Wait for webhook |
+| `PENDING_BILLING` | Still processing | ⏳ Wait for webhook |
+</Warning>

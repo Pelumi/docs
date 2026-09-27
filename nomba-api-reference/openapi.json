@@ -6773,6 +6773,7 @@
                       "properties": {
                         "status": {
                           "type": "string",
+                          "description": "Status of the transfer. `PENDING_BILLING` means it is still being processed.\n\nIn addition, any undocumented `data.status` should be treated as `PENDING_BILLING`; listen for the webhook or requery the transaction for its final status.",
                           "example": "PENDING_BILLING"
                         }
                       }
@@ -6983,6 +6984,7 @@
                       "properties": {
                         "status": {
                           "type": "string",
+                          "description": "Status of the transfer. `PENDING_BILLING` means it is still being processed.\n\nIn addition, any undocumented `data.status` should be treated as `PENDING_BILLING`; listen for the webhook or requery the transaction for its final status.",
                           "example": "PENDING_BILLING"
                         }
                       }
@@ -7203,6 +7205,7 @@
                       "properties": {
                         "status": {
                           "type": "string",
+                          "description": "Status of the transfer. `PENDING_BILLING` means it is still being processed.\n\nIn addition, any undocumented `data.status` should be treated as `PENDING_BILLING`; listen for the webhook or requery the transaction for its final status.",
                           "example": "PENDING_BILLING"
                         }
                       }
@@ -7413,6 +7416,7 @@
                       "properties": {
                         "status": {
                           "type": "string",
+                          "description": "Status of the transfer. `PENDING_BILLING` means it is still being processed.\n\nIn addition, any undocumented `data.status` should be treated as `PENDING_BILLING`; listen for the webhook or requery the transaction for its final status.",
                           "example": "PENDING_BILLING"
                         }
                       }
@@ -19150,7 +19154,7 @@
           },
           "status": {
             "type": "string",
-            "description": "Status of the transaction. `SUCCESS` (HTTP 200) means the purchase completed; `PENDING_BILLING` (HTTP 201) means it is still being processed",
+            "description": "Status of the transaction. `SUCCESS` (HTTP 200) means the purchase completed; `PENDING_BILLING` (HTTP 201) means it is still being processed.\n\nIn addition, any undocumented `data.status` should be treated as `PENDING_BILLING`; listen for the webhook or requery the transaction for its final status.",
             "example": "SUCCESS"
           },
           "type": {
@@ -19356,7 +19360,7 @@
           },
           "status": {
             "type": "string",
-            "description": "Status of the transaction. `SUCCESS` (HTTP 200) means the purchase completed; `PENDING_BILLING` (HTTP 201) means it is still being processed",
+            "description": "Status of the transaction. `SUCCESS` (HTTP 200) means the purchase completed; `PENDING_BILLING` (HTTP 201) means it is still being processed.\n\nIn addition, any undocumented `data.status` should be treated as `PENDING_BILLING`; listen for the webhook or requery the transaction for its final status.",
             "example": "SUCCESS"
           },
           "type": {
@@ -20695,7 +20699,7 @@
           },
           "status": {
             "type": "string",
-            "description": "Transaction status",
+            "description": "Transaction status. `SUCCESS` means the transfer completed; `PENDING_BILLING` means it is still being processed.\n\nIn addition, any undocumented `data.status` should be treated as `PENDING_BILLING`; listen for the webhook or requery the transaction for its final status.",
             "enum": [
               "SUCCESS",
               "PENDING_BILLING"
@@ -22024,7 +22028,7 @@
           },
           "status": {
             "type": "string",
-            "description": "Transaction status",
+            "description": "Transaction status.\n\nIn addition, any undocumented `data.status` should be treated as `PENDING_BILLING`; listen for the webhook or requery the transaction for its final status.",
             "enum": [
               "SUCCESS",
               "PENDING_BILLING",
@@ -22286,7 +22290,7 @@
           },
           "status": {
             "type": "string",
-            "description": "Transaction status. \n `SUCCESS` means the transaction was successful. \n `REFUND` means the transaction failed and has been refunded to your account. \n `PENDING_BILLING`, `CANCELLED`, `PAYMENT_FAILED`, and `REVERSED_BY_VENDOR` mean the transaction is pending.",
+            "description": "Transaction status.\n\n- `SUCCESS`: the service was delivered to the destination. Don't refund your customer.\n- `REFUND`: the funds were returned to your Nomba wallet. Refund your customer.\n- `CANCELLED`: the transaction will not proceed. Contact support.\n- `PAYMENT_FAILED`: the debit failed and may be retried. Wait for the webhook.\n- `REVERSED_BY_VENDOR`: the transaction may be retried via another vendor. Wait for the webhook.\n- `PENDING_BILLING`: the transaction is still processing. Wait for the webhook.",
             "enum": [
               "SUCCESS",
               "PENDING_BILLING",
@@ -22615,7 +22619,7 @@
           },
           "status": {
             "type": "string",
-            "description": "Status of the transaction. `SUCCESS` (HTTP 200) means the purchase completed; `PENDING_BILLING` (HTTP 201) means it is still being processed",
+            "description": "Status of the transaction. `SUCCESS` (HTTP 200) means the purchase completed; `PENDING_BILLING` (HTTP 201) means it is still being processed.\n\nIn addition, any undocumented `data.status` should be treated as `PENDING_BILLING`; listen for the webhook or requery the transaction for its final status.",
             "example": "SUCCESS"
           },
           "type": {
@@ -22818,7 +22822,7 @@
           },
           "status": {
             "type": "string",
-            "description": "Status of the transaction. `SUCCESS` (HTTP 200) means the purchase completed; `PENDING_BILLING` (HTTP 201) means it is still being processed",
+            "description": "Status of the transaction. `SUCCESS` (HTTP 200) means the purchase completed; `PENDING_BILLING` (HTTP 201) means it is still being processed.\n\nIn addition, any undocumented `data.status` should be treated as `PENDING_BILLING`; listen for the webhook or requery the transaction for its final status.",
             "example": "SUCCESS"
           },
           "type": {
@@ -23007,7 +23011,7 @@
           },
           "status": {
             "type": "string",
-            "description": "Status of the transaction. `SUCCESS` (HTTP 200) means the purchase completed; `PENDING_BILLING` (HTTP 201) means it is still being processed",
+            "description": "Status of the transaction. `SUCCESS` (HTTP 200) means the purchase completed; `PENDING_BILLING` (HTTP 201) means it is still being processed.\n\nIn addition, any undocumented `data.status` should be treated as `PENDING_BILLING`; listen for the webhook or requery the transaction for its final status.",
             "example": "SUCCESS"
           },
           "type": {
