@@ -7,11 +7,11 @@ description: "This describes the process of paying for betting"
     <Card
         title="Pay for Betting via the Parent Account"
         icon="link-simple"
-        href="/nomba-api-reference/bills/pay-for-betting-via-parent-account"
+        href="/nomba-api-reference/bills/pay-for-betting-via-parent-account-v2"
     ></Card>
 </CardGroup>
 
-# `POST /v1/bill/betting`
+# `POST /v2/bill/betting`
 
 #### Request body
 
@@ -81,7 +81,7 @@ description: "This describes the process of paying for betting"
 <RequestExample>
     ```bash Request
     curl --location POST \
-    --url https://api.nomba.com/v1/bill/betting \
+    --url https://api.nomba.com/v2/bill/betting \
     --header 'accountId: <accountId>' \
     --header 'Authorization: Bearer <token>' \
         --data '{
@@ -113,6 +113,57 @@ description: "This describes the process of paying for betting"
             "id": "API-BETTING-4B8C8-dcc5994c-e110-4035-9017-fc6e497a3baa",
             "type": "betting",
             "status": "SUCCESS"
+        }
+    }
+    ```
+
+    ```json Processing response (201)
+    {
+        "code": "201",
+        "description": "PROCESSING",
+        "message": "Success",
+        "status": true,
+        "data": {
+            "id": "API-BETTING-4B8C8-7e3a91c2-58d4-4f0b-b6a2-c9d18e5f3a47",
+            "status": "PENDING_BILLING",
+            "type": "betting",
+            "amount": 2000,
+            "source": "api",
+            "sourceUserId": null,
+            "customerBillerId": "1234567890",
+            "productId": "bet9ja",
+            "meta": {
+                "api_rrn": "260927113024",
+                "rrn": "260927113024",
+                "api_account_id": "0167288-d989-460a-bbde-9842f2b4320f",
+                "api_client_id": "2167288-d989-460a-bbde-9842f2b4320f",
+                "user_id": "0167288-d989-460a-bbde-9842f2b4320f",
+                "merchantTxRef": "REF-29-07-2026-15",
+                "allowDuplicate": true,
+                "sender_name": "John Doe",
+                "idempotentKey": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-15",
+                "pos_withdrawal_id": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-15",
+                "userName": "John Doe",
+                "isCorporate": "true",
+                "currency": "NGN",
+                "hooksEligible": "true",
+                "isSubscribedToSavingsService": false,
+                "isSubscribedToLoanService": false,
+                "txnAlertEligible": false,
+                "banking_entity_id": 189585760,
+                "banking_entity_user_id": 188595905,
+                "banking_entity_type": "CORPORATE",
+                "transactionCategory": "Bills & Utility",
+                "bettingProvider": "bet9ja",
+                "customerId": "1234567890",
+                "phoneNumber": "09012345678",
+                "amount_charged": "2000.0",
+                "paymentVendor": "wallet",
+                "wallet_balance": "955.85",
+                "wallet_currency": "NGN"
+            },
+            "userId": null,
+            "timeCreated": "2026-09-27T10:30:24.207+00:00"
         }
     }
     ```
