@@ -19281,6 +19281,11 @@
               "PROCESSING"
             ],
             "example": "SUCCESS"
+          },
+          "id": {
+            "type": "string",
+            "description": "The unique ID of the transaction, e.g. `API-TOPUP-A6950-8c060b7c-4155-4e33-a846-101b49229c33`. Use it to requery the transaction.",
+            "example": "API-TOPUP-A6950-8c060b7c-4155-4e33-a846-101b49229c33"
           }
         },
         "required": [
@@ -19495,6 +19500,11 @@
               "PROCESSING"
             ],
             "example": "SUCCESS"
+          },
+          "id": {
+            "type": "string",
+            "description": "The unique ID of the transaction, e.g. `API-DATA-AAA1A-36dc6c70-5cf2-4592-93be-9bccc23df7f5`. Use it to requery the transaction.",
+            "example": "API-DATA-AAA1A-36dc6c70-5cf2-4592-93be-9bccc23df7f5"
           }
         },
         "required": [
@@ -22754,8 +22764,8 @@
           },
           "id": {
             "type": "string",
-            "description": "The transaction Id",
-            "example": "SUCCESS"
+            "description": "The unique ID of the transaction, e.g. `API-PHCN-4B8C8-dcc5994c-e110-4035-9017-fc6e497a3baa`. Use it to requery the transaction.",
+            "example": "API-PHCN-4B8C8-dcc5994c-e110-4035-9017-fc6e497a3baa"
           },
           "fee": {
             "type": "string",
@@ -22939,8 +22949,8 @@
           },
           "id": {
             "type": "string",
-            "description": "The transaction Id",
-            "example": "SUCCESS"
+            "description": "The unique ID of the transaction, e.g. `API-DSTV-C1073-2d10909a-df07-4e95-9851-e5ebd5695040`. Use it to requery the transaction.",
+            "example": "API-DSTV-C1073-2d10909a-df07-4e95-9851-e5ebd5695040"
           },
           "fee": {
             "type": "string",
@@ -23129,8 +23139,8 @@
           },
           "id": {
             "type": "string",
-            "description": "The transaction Id",
-            "example": "SUCCESS"
+            "description": "The unique ID of the transaction, e.g. `API-BETTING-4B8C8-dcc5994c-e110-4035-9017-fc6e497a3baa`. Use it to requery the transaction.",
+            "example": "API-BETTING-4B8C8-dcc5994c-e110-4035-9017-fc6e497a3baa"
           },
           "fee": {
             "type": "string",
