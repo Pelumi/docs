@@ -7,15 +7,15 @@ description: "How to vend Airtime using this API"
   <Card
     title="Vend airtime via the parent account"
     icon="link-simple"
-    href="/nomba-api-reference/airtime-and-data-vending/make-airtime-purchases-via-parent-account"
+    href="/nomba-api-reference/airtime-and-data-vending/make-airtime-purchases-via-parent-account-v2"
   ></Card>
 </CardGroup>
 
-# `POST /v1/bill/topup`
+# `POST /v2/bill/topup`
 
 <CodeGroup>
 ```bash Request
-  curl --location 'https://api.nomba.com/v1/bill/topup' \
+  curl --location 'https://api.nomba.com/v2/bill/topup' \
   --header 'accountId: <accountId>' \
   --header 'Authorization: Bearer <token>' \
   --data '{
@@ -40,6 +40,56 @@ description: "How to vend Airtime using this API"
         "timeCreated": "2024-06-26T22:29:37.649Z",
         "type": "topup",
         "status": "Processing..."
+    }
+}
+```
+
+```json Processing response (201)
+{
+    "code": "201",
+    "description": "PROCESSING",
+    "message": "Success",
+    "status": true,
+    "data": {
+        "id": "API-TOPUP-A6950-8c060b7c-4155-4e33-a846-101b49229c33",
+        "status": "PROCESSING",
+        "type": "topup",
+        "amount": 100.0,
+        "source": "api",
+        "sourceUserId": null,
+        "customerBillerId": "08123456788",
+        "productId": "62130",
+        "meta": {
+            "api_rrn": "260926204701",
+            "rrn": "260926204701",
+            "api_account_id": "0167288-d989-460a-bbde-9842f2b4320f",
+            "api_client_id": "2167288-d989-460a-bbde-9842f2b4320f",
+            "user_id": "0167288-d989-460a-bbde-9842f2b4320f",
+            "merchantTxRef": "REF-29-07-2026-12",
+            "allowDuplicate": true,
+            "sender_name": "John Doe",
+            "idempotentKey": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-12",
+            "pos_withdrawal_id": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-12",
+            "userName": "John Doe",
+            "isCorporate": "true",
+            "currency": "NGN",
+            "hooksEligible": "true",
+            "isSubscribedToSavingsService": false,
+            "isSubscribedToLoanService": false,
+            "txnAlertEligible": true,
+            "banking_entity_id": 189585760,
+            "banking_entity_user_id": 188595905,
+            "banking_entity_type": "CORPORATE",
+            "transactionCategory": "Bills & Utility",
+            "network": "mtn",
+            "subscriberNumber": "08123456788",
+            "amount_charged": "100.0",
+            "wallet_balance": "610.55",
+            "wallet_currency": "NGN",
+            "phoneNumber": "08123456788"
+        },
+        "userId": null,
+        "timeCreated": "2026-09-26T19:47:01.514+00:00"
     }
 }
 ```
@@ -98,3 +148,18 @@ description: "How to vend Airtime using this API"
   </Expandable>
 </ResponseField>
 
+#### Sample request
+
+```bash
+curl --location 'https://api.nomba.com/v2/bill/topup' \
+--header 'accountId: <accountId>' \
+--header 'Authorization: Bearer <token>' \
+--header 'Content-Type: application/json' \
+--data '{
+    "amount": 100,
+    "phoneNumber": "08123456788",
+    "network": "MTN",
+    "merchantTxRef": "REF-29-07-2026-12",
+    "senderName": "John Doe"
+}'
+```

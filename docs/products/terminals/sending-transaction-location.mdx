@@ -1,0 +1,55 @@
+---
+title: Sending Transaction Location
+description: How to send the terminal's GPS location with every POS transaction, over the API or ISO 8583
+---
+
+Every POS transaction should include the location of the terminal at the time the transaction was performed. How you send it depends on how your terminals connect to Nomba: through the API, or through the ISO 8583 path.
+
+<Warning>
+Send the terminal's location with every POS transaction. Get it from the device's GPS at the time of the transaction; don't hardcode it or use a fixed business address.
+</Warning>
+
+## API
+
+Add a `location` object with the device's `latitude` and `longitude` to the transaction request:
+
+```json
+{
+  "amount": 1000,
+  "terminalId": "…",
+  "iccData": "…",
+  "transactionType": "PURCHASE",
+  "accountType": "DEFAULT",
+  "location": {
+    "latitude": "6.5244",
+    "longitude": "3.37921"
+  }
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `location.latitude` | string | Latitude of the terminal in decimal degrees |
+| `location.longitude` | string | Longitude of the terminal in decimal degrees |
+
+## ISO 8583
+
+Send the location in **DE120**, using the NIBSS tag-length-value format. Each value is prefixed with its tag and a 2-digit length:
+
+| Tag | Length | Value |
+|-----|--------|-------|
+| `01` | 2-digit length of the latitude value | Latitude |
+| `02` | 2-digit length of the longitude value | Longitude |
+
+For latitude `6.5244` and longitude `3.37921`, DE120 is:
+
+```
+010806.524400209003.37921
+```
+
+Broken down:
+
+| Part | Tag | Length | Value |
+|------|-----|--------|-------|
+| Latitude | `01` | `08` | `06.52440` |
+| Longitude | `02` | `09` | `003.37921` |
