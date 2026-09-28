@@ -46,7 +46,7 @@ Every Nomba API response follows this structure:
 | `500` | Internal server error — retry with backoff |
 
 <Note>
-  A `2XX` HTTP status generally means the HTTP request was successful against the Nomba API gateway. The response `code` value and `data.status` value (for transaction-based requests) should be treated as documented in the specific request documentation.
+  A `2XX` HTTP status generally means the HTTP request was successful against the Nomba API gateway. As for the response `code` value and `data.status` value (for transaction-based requests), please check specific request documentation for any additional information.
 
   For safety, if an undocumented `code` or `data.status` is returned for a transaction-based request, perform a requery to confirm the transaction state, or wait for a webhook before deciding. **Do not refund unless the `payout_refund` webhook is received or the requery returns `data.status` = `REFUND`.**
 </Note>
