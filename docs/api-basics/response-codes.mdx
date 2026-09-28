@@ -68,6 +68,7 @@ These appear in `data.status` on outflow responses (transfers, airtime, data, bi
 | `PAYMENT_FAILED` | Debit failed, Nomba may retry | Wait for webhook |
 | `REVERSED_BY_VENDOR` | Nomba may retry via another vendor | Wait for webhook |
 | `PENDING_BILLING` | Still processing | Wait for webhook |
+| `PROCESSING` | Still processing (v1 endpoints) | Wait for webhook |
 
 <Note>
   Nomba-to-Nomba wallet transfers (`/v2/transfers/wallet`) do not return a `sessionId`. Use the parent or sub-account requery endpoints instead.
