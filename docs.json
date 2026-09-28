@@ -105,7 +105,6 @@
                   "docs/products/terminals/assigning-terminals",
                   "docs/products/terminals/unassigning-terminals",
                   "docs/products/terminals/push-payment-request",
-                  "docs/products/terminals/sending-transaction-location",
                   {
                     "group": "Custom Apps",
                     "pages": [
