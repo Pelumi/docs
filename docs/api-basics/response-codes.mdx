@@ -36,7 +36,8 @@ Every Nomba API response follows this structure:
 
 | HTTP Status | Meaning |
 |---|---|
-| `200` | Request processed (check `code` field for outcome) |
+| `200` | Request processed successfully |
+| `201` | Request accepted and is being processed |
 | `400` | Bad request — invalid payload or missing required fields |
 | `401` | Unauthorized — missing or expired `access_token` |
 | `403` | Forbidden — insufficient permissions |
