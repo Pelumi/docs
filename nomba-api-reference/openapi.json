@@ -20037,8 +20037,14 @@
           },
           "statusCode": {
             "type": "string",
-            "description": "transaction status code returned by the payment gateway",
+            "description": "Card processor response code. Empty on non-card rails such as mobile money, so it cannot be used to confirm a payment - use status instead",
             "example": "Payment approved"
+          },
+          "status": {
+            "type": "string",
+            "description": "Payment status of the transaction",
+            "enum": ["PENDING", "PAYMENT SUCCESSFUL", "FAILED PAYMENT"],
+            "example": "PAYMENT SUCCESSFUL"
           }
         }
       },

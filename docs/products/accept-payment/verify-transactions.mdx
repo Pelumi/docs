@@ -7,7 +7,7 @@ description: 'Learn how to verify checkout transactions using the Nomba API'
   <Card
     title="Verify by Order Reference"
     icon="magnifying-glass"
-    href="/nomba-api-reference/transactions/filter-parent-account-transactions"
+    href="/nomba-api-reference/requery/fetch-a-single-transaction-on-the-parent-account"
   >
     Look up a transaction using your order reference or the Nomba transaction ID.
   </Card>
@@ -33,6 +33,13 @@ There are two ways to verify a checkout transaction. Choose based on your enviro
 <Tip>
   Always verify transactions before providing goods or services to your customer — even if you received a webhook.
 </Tip>
+
+<Warning>
+  **Verify with credentials from the region that took the payment.** Nigeria and DRC transactions are
+  held in separate systems. If you hold both a Nigerian and a DRC account, a payment collected in CDF
+  or USD on your DRC account must be looked up with your DRC credentials — a Nigerian token will
+  return `Transaction not found` for it, whichever reference you pass.
+</Warning>
 
 ## Option 1: Verify via `/v1/transactions/accounts/single`
 
@@ -153,6 +160,15 @@ This endpoint returns full checkout order details including card information, tr
 
 To fetch a checkout transaction, send a [GET request](/nomba-api-reference/online-checkout/fetch-checkout-transaction) to this endpoint `/v1/checkout/transaction`.
 
+Read `transactionDetails.status` to confirm the payment. `PAYMENT SUCCESSFUL` means the payment
+completed; `PENDING` means it is still in progress and `FAILED PAYMENT` means it did not complete.
+
+<Note>
+  `transactionDetails.statusCode` is the **card processor** response code, not the payment status. It
+  is empty on rails that do not go through a card processor, such as mobile money, so it cannot be
+  used to confirm a payment. Use `transactionDetails.status`.
+</Note>
+
 <CodeGroup>
   ```bash Request
     curl --request GET \
@@ -183,7 +199,8 @@ To fetch a checkout transaction, send a [GET request](/nomba-api-reference/onlin
           "paymentReference": "5844858382134",
           "paymentVendorReference": "5844858382675493",
           "tokenizedCardPayment": "true",
-          "statusCode": "Payment approved"
+          "statusCode": "Payment approved",
+          "status": "PAYMENT SUCCESSFUL"
         },
         "transferDetails": {
           "sessionId": "67584432178569543",
