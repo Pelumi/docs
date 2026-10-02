@@ -121,7 +121,7 @@ Use one of these three cards to simulate different payment outcomes:
 </Frame>
 
 ### Step 3 - Submit Card Pin (if required)
-Enter `1234` as the card pin
+Enter any 4-digit PIN. The examples on this page use `9999`.
 <Frame caption="Submit Card Detail Form">
 
     <img src="/images/submit-card-pin.png" style={{ borderRadius: '0.5rem' }} loading="lazy" />
@@ -215,6 +215,126 @@ You can query by `idType=orderReference` or `idType=orderId`. The `id` value cha
 
 ---
 
+
+## International card flow
+
+Test payments from foreign cards on the **International** side of the card channel. The flow is the same as production, including the 3D Secure (3DS) step every international card goes through. Every sandbox account can use it. In production, international card payments need approval first.
+
+### Step 1 — Create an order in USD, GBP or EUR
+
+Use the same `POST /sandbox/checkout/order` request as above, with `"currency": "USD"` (or `GBP`, `EUR`). Open the `checkoutLink`, choose **Card**, then switch to **International**. The page shows the order amount and currency, plus the fee if your fee setting charges the customer.
+
+### Step 2 — Pay with a test card
+
+| Card number | Then | Result |
+|---|---|---|
+| `4000000000002503` | **Complete authentication** on the 3DS test page | Approved. `payment_success` webhook |
+| `4000000000002503` | **Fail authentication** | Failed. `payment_failed` webhook |
+| `4000000000002503` | **Cancel**, or close the 3DS test page | Not completed. No transaction and no webhook |
+| `5484497218317651` | No 3DS step | Declined. `payment_failed` webhook |
+
+Any cardholder name, CVC and future expiry date work.
+
+### Step 3 — Verify the transaction
+
+Fetch the result with `GET /sandbox/checkout/transaction`, exactly as for Nigerian cards. International card payments have `cardDetails` for the foreign card:
+
+```json Response (success)
+{
+  "code": "00",
+  "description": "success",
+  "data": {
+    "success": true,
+    "order": {
+      "orderId": "a1b2c3d4-e5f6-47a8-xxxx-xxxxxxxxxxxx",
+      "orderReference": "test-order-002",
+      "amount": "25.00",
+      "currency": "USD",
+      "customerEmail": "test@example.com"
+    },
+    "transactionDetails": {
+      "transactionDate": "2026-10-02T10:00:00Z",
+      "paymentReference": "8f1c2b7e-...",
+      "tokenizedCardPayment": "false"
+    },
+    "cardDetails": {
+      "cardPan": "400000******2503",
+      "cardType": "VISA",
+      "cardCurrency": "USD"
+    }
+  }
+}
+```
+
+A failed payment returns the same shape with `"success": false`.
+
+### Webhooks
+
+A successful international payment sends `payment_success`. A failed or declined one sends `payment_failed`. Both have the same shape as Nigerian card webhooks, with `paymentMethod` set to `stripe_card` and the foreign card in `customer`:
+
+<CodeGroup>
+```json payment_success
+{
+  "event_type": "payment_success",
+  "requestId": "550e8400-e29b-41d4-a716-446655440000",
+  "data": {
+    "merchant": { "userId": "<your-accountId>" },
+    "transaction": {
+      "fee": 0.28,
+      "type": "online_checkout",
+      "transactionId": "WEB-ONLINE_C-abc123-550e4c3a-0af4-4887-a089-xxxx",
+      "merchantTxRef": "txref-1790935200",
+      "transactionAmount": 25.00,
+      "time": "2026-10-02T10:00:00Z"
+    },
+    "customer": { "billerId": "400000******2503", "productId": "400000" },
+    "order": {
+      "amount": 25.00,
+      "orderId": "a1b2c3d4-e5f6-47a8-xxxx-xxxxxxxxxxxx",
+      "accountId": "<your-accountId>",
+      "customerEmail": "test@example.com",
+      "orderReference": "test-order-002",
+      "paymentMethod": "stripe_card",
+      "currency": "USD"
+    }
+  }
+}
+```
+
+```json payment_failed
+{
+  "event_type": "payment_failed",
+  "requestId": "6f9619ff-8b86-d011-b42d-00c04fc964ff",
+  "data": {
+    "merchant": { "userId": "<your-accountId>" },
+    "transaction": {
+      "fee": 0.28,
+      "type": "online_checkout",
+      "transactionId": "WEB-ONLINE_C-abc123-7c9e6679-7425-40de-944b-xxxx",
+      "merchantTxRef": "txref-1790935260",
+      "transactionAmount": 25.00,
+      "time": "2026-10-02T10:01:00Z"
+    },
+    "customer": { "billerId": "548449******7651", "productId": "548449" },
+    "order": {
+      "amount": 25.00,
+      "orderId": "a1b2c3d4-e5f6-47a8-xxxx-xxxxxxxxxxxx",
+      "accountId": "<your-accountId>",
+      "customerEmail": "test@example.com",
+      "orderReference": "test-order-002",
+      "paymentMethod": "stripe_card",
+      "currency": "USD"
+    }
+  }
+}
+```
+</CodeGroup>
+
+<Note>
+  Sandbox-only differences: transaction IDs, `merchantTxRef` and card numbers are test values, and the `fee` is a fixed test amount.
+</Note>
+
+---
 
 ## Webhook payload
 
