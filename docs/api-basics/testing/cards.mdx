@@ -46,6 +46,27 @@ For all cards: CVV and expiry are not validated — any 3-digit CVV and any futu
    This test card should only be used in development or staging environments. Do not attempt real transactions with this card.
 </Warning>
 
+## International cards
+
+On the sandbox checkout page, the card channel has a **Nigeria / International** toggle. Use the **International** side to test payments from foreign cards, the same way customers pay in production.
+
+International cards always go through 3D Secure (3DS), so expect a bank verification step after you submit the card. In sandbox, that step is a 3DS test page where you choose how authentication ends.
+
+| Scenario | How to trigger it | Expected result |
+|---|---|---|
+| Success after 3DS | Card `4000 0000 0000 2503`, then **Complete authentication** on the 3DS test page | Payment approved. A `payment_success` webhook is sent |
+| 3DS failed | Card `4000 0000 0000 2503`, then **Fail authentication** | Payment failed. A `payment_failed` webhook is sent |
+| 3DS abandoned | Card `4000 0000 0000 2503`, then **Cancel** or close the 3DS test page | Payment not completed. No transaction is recorded and no webhook is sent |
+| Declined by the bank | Card `5484 4972 1831 7651` | Declined before 3DS. A `payment_failed` webhook is sent |
+
+Any cardholder name, 3-digit CVC and future expiry date work. No PIN or OTP is needed for international cards.
+
+**Supported currencies:** create the checkout order in `USD`, `GBP` or `EUR`. The toggle also appears on `NGN` orders.
+
+<Note>
+   Every sandbox account can test international card payments. In production, international card payments only work once your business is approved for them. Contact support to apply.
+</Note>
+
 
 ## Quick sandbox flow
 
