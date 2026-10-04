@@ -21028,7 +21028,7 @@
           },
           "restrictInflowToAccountName": {
             "type": "boolean",
-            "description": "When set to true, Nomba will reject any inflow to the virtual account whose sender name does not match the virtual account name with at least 90% word similarity. The order of names does not matter—for example, a VA name of 'John Doe Naomi' would match sender names like 'Doe John Naomi' or 'Naomi Doe John', since different banks may arrange names differently. A `payment_failed` webhook event is sent to notify the merchant that the inflow was rejected. The rejected inflow is reversed back to the sender according to the sending bank's policy. Optional.",
+            "description": "When set to true, Nomba will reject any inflow to the virtual account whose sender name does not match the virtual account name. The order of names does not matter—for example, a VA name of 'John Doe Naomi' would match sender names like 'Doe John Naomi' or 'Naomi Doe John', since different banks may arrange names differently. A `payment_failed` webhook event is sent to notify the merchant that the inflow was rejected. The rejected inflow is reversed back to the sender according to the sending bank's policy. Optional.",
             "example": true
           }
         },
@@ -21122,7 +21122,7 @@
           },
           "restrictInflowToAccountName": {
             "type": "boolean",
-            "description": "Indicates whether inflow restriction by account name is enabled. When true, the virtual account was successfully created with name restriction, meaning inflows will only be accepted if the sender's name matches the account name with at least 90% word similarity.",
+            "description": "Indicates whether inflow restriction by account name is enabled. When true, the virtual account was successfully created with name restriction, meaning inflows will only be accepted if the sender's name matches the account name.",
             "example": true
           }
         },
