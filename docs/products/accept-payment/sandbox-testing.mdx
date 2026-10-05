@@ -270,7 +270,7 @@ A failed payment returns the same shape with `"success": false`.
 
 ### Webhooks
 
-A successful international payment sends `payment_success`. A failed or declined one sends `payment_failed`. Both have the same shape as Nigerian card webhooks, with `paymentMethod` set to `stripe_card` and the foreign card in `customer`:
+A successful international payment sends `payment_success`. A failed or declined one sends `payment_failed`. Both have the same shape as Nigerian card webhooks, with `paymentMethod` set to `pay_with_stripe_card` (the value production sends) and the foreign card in `customer`:
 
 <CodeGroup>
 ```json payment_success
@@ -294,7 +294,7 @@ A successful international payment sends `payment_success`. A failed or declined
       "accountId": "<your-accountId>",
       "customerEmail": "test@example.com",
       "orderReference": "test-order-002",
-      "paymentMethod": "stripe_card",
+      "paymentMethod": "pay_with_stripe_card",
       "currency": "USD"
     }
   }
@@ -322,7 +322,7 @@ A successful international payment sends `payment_success`. A failed or declined
       "accountId": "<your-accountId>",
       "customerEmail": "test@example.com",
       "orderReference": "test-order-002",
-      "paymentMethod": "stripe_card",
+      "paymentMethod": "pay_with_stripe_card",
       "currency": "USD"
     }
   }
