@@ -336,6 +336,125 @@ A successful international payment sends `payment_success`. A failed or declined
 
 ---
 
+## International pay-by-bank flow
+
+Test payments from UK and European bank accounts on the **Bank App** channel. In production, the customer picks their bank and approves the payment in their banking app. In sandbox, a test page stands in for the bank's app, so you choose how the payment ends. Every sandbox account can use it. In production, pay-by-bank needs approval first.
+
+### Step 1 — Create an order
+
+Use the same `POST /sandbox/checkout/order` request as above. Bank App is offered for every order currency except `USD` and `CDF`. Open the `checkoutLink` and choose **Bank App**.
+
+### Step 2 — Choose a country and bank
+
+Select the customer's country (United Kingdom, Germany, France, Netherlands, Spain or Belgium) and a bank, for example **Monzo** or **Barclays**, then select **Continue to Monzo** (or your chosen bank). The test bank page shows the bank and the amount.
+
+### Step 3 — Choose the outcome on the test bank page
+
+| Action | Result |
+|---|---|
+| **Authorise payment** | Approved. `payment_success` webhook |
+| **Decline payment** | Failed with "Your bank declined the payment." `payment_failed` webhook |
+| **Cancel**, or close the test bank page | Not completed. No transaction and no webhook. The customer can choose another bank |
+
+An order can be authorised only once. A second authorisation fails with "This order has already been paid." and records nothing.
+
+### Step 4 — Verify the transaction
+
+Fetch the result with `GET /sandbox/checkout/transaction`, as for card payments. Pay-by-bank payments have no `cardDetails`:
+
+```json Response (success)
+{
+  "code": "00",
+  "description": "success",
+  "data": {
+    "success": true,
+    "message": "PAYMENT SUCCESSFUL",
+    "order": {
+      "orderId": "a1b2c3d4-e5f6-47a8-xxxx-xxxxxxxxxxxx",
+      "orderReference": "test-order-003",
+      "amount": "50000.00",
+      "currency": "NGN",
+      "customerEmail": "test@example.com"
+    },
+    "transactionDetails": {
+      "transactionDate": "2026-10-05T10:00:00Z",
+      "paymentReference": "3b8f6d2a-...",
+      "tokenizedCardPayment": "false"
+    }
+  }
+}
+```
+
+A declined payment returns the same shape with `"success": false` and `"message": "Your bank declined the payment."`.
+
+### Webhooks
+
+An authorised payment sends `payment_success`. A declined one sends `payment_failed`. Both have the same shape as card webhooks, with `paymentMethod` set to `Pay With Volume` (the value production sends for pay-by-bank) and the customer's bank in `customer.billerId`:
+
+<CodeGroup>
+```json payment_success
+{
+  "event_type": "payment_success",
+  "requestId": "550e8400-e29b-41d4-a716-446655440000",
+  "data": {
+    "merchant": { "userId": "<your-accountId>" },
+    "transaction": {
+      "fee": 0.28,
+      "type": "online_checkout",
+      "transactionId": "WEB-ONLINE_C-abc123-9a7b3c1d-52e4-4f06-8b1a-xxxx",
+      "merchantTxRef": "txref-1791194400",
+      "transactionAmount": 50000.00,
+      "time": "2026-10-05T10:00:00Z"
+    },
+    "customer": { "billerId": "Monzo", "productId": "" },
+    "order": {
+      "amount": 50000.00,
+      "orderId": "a1b2c3d4-e5f6-47a8-xxxx-xxxxxxxxxxxx",
+      "accountId": "<your-accountId>",
+      "customerEmail": "test@example.com",
+      "orderReference": "test-order-003",
+      "paymentMethod": "Pay With Volume",
+      "currency": "NGN"
+    }
+  }
+}
+```
+
+```json payment_failed
+{
+  "event_type": "payment_failed",
+  "requestId": "6f9619ff-8b86-d011-b42d-00c04fc964ff",
+  "data": {
+    "merchant": { "userId": "<your-accountId>" },
+    "transaction": {
+      "fee": 0.28,
+      "type": "online_checkout",
+      "transactionId": "WEB-ONLINE_C-abc123-1e2d3c4b-6a5f-4e7d-9c8b-xxxx",
+      "merchantTxRef": "txref-1791194460",
+      "transactionAmount": 50000.00,
+      "time": "2026-10-05T10:01:00Z"
+    },
+    "customer": { "billerId": "Barclays", "productId": "" },
+    "order": {
+      "amount": 50000.00,
+      "orderId": "a1b2c3d4-e5f6-47a8-xxxx-xxxxxxxxxxxx",
+      "accountId": "<your-accountId>",
+      "customerEmail": "test@example.com",
+      "orderReference": "test-order-003",
+      "paymentMethod": "Pay With Volume",
+      "currency": "NGN"
+    }
+  }
+}
+```
+</CodeGroup>
+
+<Note>
+  Sandbox-only differences: there is no real bank redirect, transaction IDs and `merchantTxRef` are test values, and the `fee` is a fixed test amount.
+</Note>
+
+---
+
 ## Webhook payload
 
 The sandbox fires webhooks **synchronously** immediately after a successful transaction — either after OTP approval (card) or `confirm-transaction-receipt` (bank transfer). Webhooks include HMAC-SHA256 signature headers for verification.
@@ -414,6 +533,7 @@ This always returns `code: "400"` regardless of the amount.
 |---|---|
 | Order not found | Use `orderReference: "1234567890"` — returns `404` on all endpoints |
 | Card declined | Use card `5484497218317651` |
+| Pay-by-bank declined | Select **Decline payment** on the test bank page |
 | OTP timeout | Submit OTP `1234` |
 | Invalid OTP | Submit OTP `5464` |
 | Failed refund | Use transactionId `WEB-ONLINE_C-97922-db88d4c3-a0af-4887-a089-b5d2e51b8f19` |
