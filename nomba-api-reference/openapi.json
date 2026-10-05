@@ -21017,7 +21017,7 @@
           },
           "expiryDate": {
             "type": "string",
-            "description": "Account expiry date. Optional. \u26a0\ufe0fBe careful with this.",
+            "description": "Account expiry date in UTC. Optional. \u26a0\ufe0fBe careful with this.",
             "example": "2026-01-30 12:15:00"
           },
           "expectedAmount": {
