@@ -96,23 +96,29 @@ description: "This describes the process of paying for betting"
 </RequestExample>
 
 <ResponseExample>
-    ```json Success response
+    ```json Success response (200)
     {
-        "code": "00",
+        "code": "200",
         "description": "SUCCESS",
+        "message": "Transaction completed Successfully",
+        "status": true,
         "data": {
+            "id": "API-BETTING-4B8C8-dcc5994c-e110-4035-9017-fc6e497a3baa",
+            "status": "SUCCESS",
+            "type": "betting",
             "amount": 2000,
+            "source": "api",
+            "sourceUserId": null,
+            "customerBillerId": "1234567890",
+            "productId": "bet9ja",
             "meta": {
                 "merchantTxRef": "c006475e-a76f-4533-b2ff-59a67d5e6241",
-                "api_client_id": "10422171-9100-4e66-93e1-7f6da894ef89",
-                "api_account_id": "01a10aeb-d989-460a-bbde-9842f2b4320f",
-                "rrn": "240809060134"
+                "bettingProvider": "bet9ja",
+                "customerId": "1234567890",
+                "phoneNumber": "09012345678"
             },
-            "fee": "",
-            "timeCreated": "2024-08-09T05:01:35.014Z",
-            "id": "API-BETTING-4B8C8-dcc5994c-e110-4035-9017-fc6e497a3baa",
-            "type": "betting",
-            "status": "SUCCESS"
+            "userId": null,
+            "timeCreated": "2026-09-27T10:30:24.207+00:00"
         }
     }
     ```
