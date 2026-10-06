@@ -12276,6 +12276,189 @@
         ]
       }
     },
+    "/v1/bill/cableTvProduct": {
+      "get": {
+        "description": "You can use this endpoint to fetch available cable TV subscription plans for a specific provider (DSTV, GOTV, Startimes, ShowMax)",
+        "operationId": "Fetch cable TV plans",
+        "parameters": [
+          {
+            "description": "The cable TV provider type",
+            "example": "dstv",
+            "in": "query",
+            "name": "cableTvType",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["dstv", "gotv", "startimes", "showmax"]
+            }
+          },
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00",
+                      "description": "Response Code"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "SUCCESS",
+                      "description": "Response description"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "SUCCESS",
+                      "description": "Response message"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/CableTvPlanList"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "description",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": "00",
+                  "description": "SUCCESS",
+                  "message": "SUCCESS",
+                  "data": [
+                    {"subScriptionType": "PADI", "amount": 4400.0},
+                    {"subScriptionType": "YANGA", "amount": 6000.0},
+                    {"subScriptionType": "CONFAM", "amount": 11000.0},
+                    {"subScriptionType": "COMPACT", "amount": 19000.0},
+                    {"subScriptionType": "COMPACT_PLUS", "amount": 30000.0},
+                    {"subScriptionType": "PREMIUM", "amount": 44500.0}
+                  ]
+                }
+              }
+            },
+            "description": "OK - your request was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "Resource not available"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Fetch cable TV plans",
+        "tags": [
+          "Cable & Bill Payments"
+        ]
+      }
+    },
     "/v1/bill/cabletv/lookup": {
       "get": {
         "description": "This endpoint is for fetching customer information data",
@@ -22627,6 +22810,33 @@
         "description": "List of all electricity providers/discos",
         "items": {
           "$ref": "#/components/schemas/Disco"
+        }
+      },
+      "CableTvPlan": {
+        "type": "object",
+        "properties": {
+          "subScriptionType": {
+            "type": "string",
+            "description": "The subscription plan type (e.g., COMPACT, PREMIUM, YANGA)",
+            "example": "COMPACT"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "description": "The amount for the subscription plan",
+            "example": 19000.0
+          }
+        },
+        "required": [
+          "subScriptionType",
+          "amount"
+        ]
+      },
+      "CableTvPlanList": {
+        "type": "array",
+        "description": "List of available cable TV subscription plans",
+        "items": {
+          "$ref": "#/components/schemas/CableTvPlan"
         }
       },
       "BettingProvider": {

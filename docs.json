@@ -382,6 +382,7 @@
               "nomba-api-reference/bills/pay-for-electricity-via-parent-account",
               "nomba-api-reference/bills/pay-for-electricity-via-sub-account-v2",
               "nomba-api-reference/bills/pay-for-electricity-via-sub-account",
+              "nomba-api-reference/bills/fetch-cable-tv-plans",
               "nomba-api-reference/bills/subscribe-to-cabletv-via-parent-account-v2",
               "nomba-api-reference/bills/subscribe-to-cabletv-via-parent-account",
               "nomba-api-reference/bills/subscribe-to-cabletv-via-sub-account-v2",
