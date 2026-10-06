@@ -52,7 +52,7 @@ const response = await fetch('https://api.nomba.com/v2/transfers/wallet', {
 });
 
 const { code, data } = await response.json();
-if (code !== '00') throw new Error(`Wallet transfer failed: ${code}`);
+if (code !== '200') throw new Error(`Wallet transfer failed: ${code}`);
 // P2P transfers complete synchronously — no PENDING_BILLING status
 ```
 
@@ -76,15 +76,17 @@ response = requests.post(
 )
 
 result = response.json()
-if result['code'] != '00':
+if result['code'] != '200':
     raise Exception(f"Wallet transfer failed: {result['code']}")
 # P2P transfers complete synchronously — no PENDING_BILLING status
 ```
 
 ```json Response
 {
-  "code": "00",
-  "description": "Success",
+  "code": "200",
+  "description": "SUCCESS",
+  "message": "Transaction completed Successfully",
+  "status": true,
   "data": {
     "amount": 5502,
     "meta": {
