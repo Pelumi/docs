@@ -89,23 +89,52 @@ curl --location 'https://api.nomba.com/v2/bill/cabletv' \
 </RequestExample>
 
 <ResponseExample>
-```json Success response
+```json Success response (200)
 {
-    "code": "00",
+    "code": "200",
     "description": "SUCCESS",
+    "message": "Transaction completed Successfully",
+    "status": true,
     "data": {
-        "amount": 2000,
-        "meta": {
-            "merchantTxRef": "bf6cd7cc-5952-4e66-abff-64032ce1a73a",
-            "api_client_id": "10422171-9100-4e66-93e1-7f6da894ef89",
-            "api_account_id": "01a10aeb-d989-460a-bbde-9842f2b4320f",
-            "rrn": "240803091832"
-        },
-        "fee": "",
-        "timeCreated": "2024-08-03T08:18:34.201Z",
-        "id": "API-DSTV-C1073-2d10909a-df07-4e95-9851-e5ebd5695040",
+        "id": "API-DSTV-C1073-5b2e8f4a-3c71-4d9e-8a60-2f1b7c9d4e13",
+        "status": "SUCCESS",
         "type": "dstv",
-        "status": "SUCCESS"
+        "amount": 2000,
+        "source": "api",
+        "sourceUserId": null,
+        "customerBillerId": "1234567890",
+        "productId": "dstv",
+        "meta": {
+            "api_rrn": "260927101512",
+            "rrn": "260927101512",
+            "api_account_id": "0167288-d989-460a-bbde-9842f2b4320f",
+            "api_client_id": "2167288-d989-460a-bbde-9842f2b4320f",
+            "user_id": "0167288-d989-460a-bbde-9842f2b4320f",
+            "merchantTxRef": "REF-29-07-2026-14",
+            "allowDuplicate": true,
+            "sender_name": "John Doe",
+            "idempotentKey": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-14",
+            "pos_withdrawal_id": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-14",
+            "userName": "John Doe",
+            "isCorporate": "true",
+            "currency": "NGN",
+            "hooksEligible": "true",
+            "isSubscribedToSavingsService": false,
+            "isSubscribedToLoanService": false,
+            "txnAlertEligible": false,
+            "banking_entity_id": 189585760,
+            "banking_entity_user_id": 188595905,
+            "banking_entity_type": "CORPORATE",
+            "transactionCategory": "Bills & Utility",
+            "cableTvType": "dstv",
+            "customerId": "1234567890",
+            "amount_charged": "2000.0",
+            "paymentVendor": "wallet",
+            "wallet_balance": "955.85",
+            "wallet_currency": "NGN"
+        },
+        "userId": null,
+        "timeCreated": "2026-09-27T09:15:12.418+00:00"
     }
 }
 ```
@@ -118,7 +147,7 @@ curl --location 'https://api.nomba.com/v2/bill/cabletv' \
     "status": true,
     "data": {
         "id": "API-DSTV-C1073-5b2e8f4a-3c71-4d9e-8a60-2f1b7c9d4e13",
-        "status": "PROCESSING",
+        "status": "PENDING_BILLING",
         "type": "dstv",
         "amount": 2000,
         "source": "api",

@@ -15,31 +15,65 @@ description: "How to vend Airtime using this API"
 
 <CodeGroup>
 ```bash Request
-  curl --location 'https://api.nomba.com/v2/bill/topup' \
-  --header 'accountId: <accountId>' \
-  --header 'Authorization: Bearer <token>' \
-  --data '{
-      "amount": 50,
-      "phoneNumber": "08012345678",
-      "network": "MTN",
-      "merchantTxRef": "test1116",
-      "senderName": "Testing"
-  }'
+curl --location 'https://api.nomba.com/v2/bill/topup' \
+--header 'accountId: <accountId>' \
+--header 'Authorization: Bearer <token>' \
+--header 'Content-Type: application/json' \
+--data '{
+    "amount": 100,
+    "phoneNumber": "08123456788",
+    "network": "MTN",
+    "merchantTxRef": "REF-29-07-2026-12",
+    "senderName": "John Doe"
+}'
 ```
 
-```json Response
+```json Success response (200)
 {
-    "code": "202",
-    "description": "Processing...",
+    "code": "200",
+    "description": "SUCCESS",
+    "message": "Transaction completed Successfully",
+    "status": true,
     "data": {
-        "amount": "50",
-        "meta": {
-          "merchantTxRef": "test1116",
-          "rrn": "240626232937"
-        },
-        "timeCreated": "2024-06-26T22:29:37.649Z",
+        "id": "API-TOPUP-A6950-8c060b7c-4155-4e33-a846-101b49229c33",
+        "status": "SUCCESS",
         "type": "topup",
-        "status": "Processing..."
+        "amount": 100.0,
+        "source": "api",
+        "sourceUserId": null,
+        "customerBillerId": "08123456788",
+        "productId": "62130",
+        "meta": {
+            "api_rrn": "260926204701",
+            "rrn": "260926204701",
+            "api_account_id": "0167288-d989-460a-bbde-9842f2b4320f",
+            "api_client_id": "2167288-d989-460a-bbde-9842f2b4320f",
+            "user_id": "0167288-d989-460a-bbde-9842f2b4320f",
+            "merchantTxRef": "REF-29-07-2026-12",
+            "allowDuplicate": true,
+            "sender_name": "John Doe",
+            "idempotentKey": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-12",
+            "pos_withdrawal_id": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-12",
+            "userName": "John Doe",
+            "isCorporate": "true",
+            "currency": "NGN",
+            "hooksEligible": "true",
+            "isSubscribedToSavingsService": false,
+            "isSubscribedToLoanService": false,
+            "txnAlertEligible": true,
+            "banking_entity_id": 189585760,
+            "banking_entity_user_id": 188595905,
+            "banking_entity_type": "CORPORATE",
+            "transactionCategory": "Bills & Utility",
+            "network": "mtn",
+            "subscriberNumber": "08123456788",
+            "amount_charged": "100.0",
+            "wallet_balance": "610.55",
+            "wallet_currency": "NGN",
+            "phoneNumber": "08123456788"
+        },
+        "userId": null,
+        "timeCreated": "2026-09-26T19:47:01.514+00:00"
     }
 }
 ```
@@ -52,7 +86,7 @@ description: "How to vend Airtime using this API"
     "status": true,
     "data": {
         "id": "API-TOPUP-A6950-8c060b7c-4155-4e33-a846-101b49229c33",
-        "status": "PROCESSING",
+        "status": "PENDING_BILLING",
         "type": "topup",
         "amount": 100.0,
         "source": "api",

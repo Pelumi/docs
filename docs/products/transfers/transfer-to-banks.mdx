@@ -62,7 +62,7 @@ const response = await fetch('https://api.nomba.com/v2/transfers/bank', {
 });
 
 const { code, data } = await response.json();
-if (code !== '00') throw new Error(`Transfer failed: ${code}`);
+if (code !== '200') throw new Error(`Transfer failed: ${code}`);
 
 if (data.status === 'PENDING_BILLING') {
   // Poll or wait for webhook with data.id
@@ -93,7 +93,7 @@ response = requests.post(
 )
 
 result = response.json()
-if result['code'] != '00':
+if result['code'] != '200':
     raise Exception(f"Transfer failed: {result['code']}")
 
 status = result['data']['status']
@@ -212,7 +212,7 @@ const response = await fetch(
 );
 
 const { code, data } = await response.json();
-if (code !== '00') throw new Error(`Transfer failed: ${code}`);
+if (code !== '200') throw new Error(`Transfer failed: ${code}`);
 ```
 
 ```python Python
@@ -239,7 +239,7 @@ response = requests.post(
 )
 
 result = response.json()
-if result['code'] != '00':
+if result['code'] != '200':
     raise Exception(f"Transfer failed: {result['code']}")
 ```
 
@@ -414,9 +414,10 @@ When you receive a 201, you should:
 
 ```json
 {
-  "code": "00",
+  "code": "200",
   "description": "SUCCESS",
-  "status": false,
+  "message": "Success",
+  "status": true,
   "data": {
     "id": "API-TRANSFER-02415-XXXX-8857-417f-1234",
     "status": "REFUND"
