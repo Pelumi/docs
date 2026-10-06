@@ -136,7 +136,10 @@
                 "icon": "receipt",
                 "pages": [
                   "docs/products/transactions/introduction",
-                  "docs/products/transactions/fetch-transactions"
+                  "docs/products/transactions/fetch-account-transactions",
+                  "docs/products/transactions/fetch-bank-transactions",
+                  "docs/products/transactions/fetch-virtual-account-transactions",
+                  "docs/products/transactions/transaction-requery"
                 ]
               },
               {

@@ -20,3 +20,183 @@ To successfully buy a data bundle using our endpoints, it is necessary to underg
 <Note>
   Purchasing by `amount` alone is deprecated and only still works for merchants already integrated against it. All new integrations must select a plan from step 1 and pass its `productId` — this is the only reliable way to get the exact bundle you intended, since more than one plan on the same network can share the same price.
 </Note>
+
+# `POST /v2/bill/data`
+
+#### Request body
+
+<ParamField body="productId" type="string" required>
+  The product ID of the data plan to purchase (obtained from fetch data plans endpoint)
+</ParamField>
+
+<ParamField body="phoneNumber" type="string" required>
+  Phone number of the user who is to receive the data bundle
+</ParamField>
+
+<ParamField body="network" type="string" required>
+  Network (e.g. MTN, AIRTEL, GLO, 9MOBILE, etc)
+</ParamField>
+
+<ParamField body="merchantTxRef" type="string" required>
+  Merchant Transaction Reference (a unique reference to identify this
+  transaction on your system)
+</ParamField>
+
+<ParamField body="senderName" type="string" required>
+  The name of the person to be attached to this transaction
+</ParamField>
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="object" defaultOpen="true">
+    <ResponseField name="amount" type="string" required>
+      Amount
+    </ResponseField>
+    <ResponseField name="meta" type="object">
+      <Expandable title="object" defaultOpen="false">
+        <ResponseField name="merchantTxRef" type="string">
+          Merchant Transaction Reference
+        </ResponseField>
+        <ResponseField name="rrn" type="string">
+          Retrieval Reference Number (RRN)
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="timeCreated" type="string" required>
+      Date and Time of the transaction
+    </ResponseField>
+    <ResponseField name="type" type="string" required>
+      The type of this transaction.
+    </ResponseField>
+    <ResponseField name="status" type="string" required>
+      The status of this transaction
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash Request
+curl --location 'https://api.nomba.com/v2/bill/data' \
+--header 'accountId: <accountId>' \
+--header 'Authorization: Bearer <token>' \
+--header 'Content-Type: application/json' \
+--data '{
+    "productId": "mtn47",
+    "phoneNumber": "08123456788",
+    "network": "MTN",
+    "merchantTxRef": "REF-29-07-2026-12",
+    "senderName": "John Doe"
+}'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success response (200)
+{
+    "code": "200",
+    "description": "SUCCESS",
+    "message": "Transaction completed Successfully",
+    "status": true,
+    "data": {
+        "id": "API-DATA-AAA1A-36dc6c70-5cf2-4592-93be-9bccc23df7f5",
+        "status": "SUCCESS",
+        "type": "data",
+        "amount": 100,
+        "source": "api",
+        "sourceUserId": null,
+        "customerBillerId": "08123456788",
+        "productId": "mtn47",
+        "meta": {
+            "api_rrn": "260926204701",
+            "rrn": "260926204701",
+            "api_account_id": "0167288-d989-460a-bbde-9842f2b4320f",
+            "api_client_id": "2167288-d989-460a-bbde-9842f2b4320f",
+            "user_id": "0167288-d989-460a-bbde-9842f2b4320f",
+            "merchantTxRef": "REF-29-07-2026-12",
+            "allowDuplicate": true,
+            "sender_name": "John Doe",
+            "idempotentKey": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-12",
+            "pos_withdrawal_id": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-12",
+            "userName": "John Doe",
+            "isCorporate": "true",
+            "currency": "NGN",
+            "hooksEligible": "true",
+            "isSubscribedToSavingsService": false,
+            "isSubscribedToLoanService": false,
+            "txnAlertEligible": true,
+            "banking_entity_id": 189585760,
+            "banking_entity_user_id": 188595905,
+            "banking_entity_type": "CORPORATE",
+            "transactionCategory": "Bills & Utility",
+            "network": "mtn",
+            "subscriberNumber": "08123456788",
+            "amount_charged": "100.0",
+            "wallet_balance": "610.55",
+            "wallet_currency": "NGN",
+            "phoneNumber": "08123456788"
+        },
+        "userId": null,
+        "timeCreated": "2026-09-26T19:47:01.514+00:00"
+    }
+}
+```
+
+```json Processing response (201)
+{
+    "code": "201",
+    "description": "PROCESSING",
+    "message": "Processing",
+    "status": true,
+    "data": {
+        "id": "API-DATA-AAA1A-36dc6c70-5cf2-4592-93be-9bccc23df7f5",
+        "status": "PENDING_BILLING",
+        "type": "data",
+        "amount": 100,
+        "source": "api",
+        "sourceUserId": null,
+        "customerBillerId": "08123456788",
+        "productId": "mtn47",
+        "meta": {
+            "api_rrn": "260926204701",
+            "rrn": "260926204701",
+            "api_account_id": "0167288-d989-460a-bbde-9842f2b4320f",
+            "api_client_id": "2167288-d989-460a-bbde-9842f2b4320f",
+            "user_id": "0167288-d989-460a-bbde-9842f2b4320f",
+            "merchantTxRef": "REF-29-07-2026-12",
+            "allowDuplicate": true,
+            "sender_name": "John Doe",
+            "idempotentKey": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-12",
+            "pos_withdrawal_id": "0167288-d989-460a-bbde-9842f2b4320f_REF-29-07-2026-12",
+            "userName": "John Doe",
+            "isCorporate": "true",
+            "currency": "NGN",
+            "hooksEligible": "true",
+            "isSubscribedToSavingsService": false,
+            "isSubscribedToLoanService": false,
+            "txnAlertEligible": true,
+            "banking_entity_id": 189585760,
+            "banking_entity_user_id": 188595905,
+            "banking_entity_type": "CORPORATE",
+            "transactionCategory": "Bills & Utility",
+            "network": "mtn",
+            "subscriberNumber": "08123456788",
+            "amount_charged": "100.0",
+            "wallet_balance": "610.55",
+            "wallet_currency": "NGN",
+            "phoneNumber": "08123456788"
+        },
+        "userId": null,
+        "timeCreated": "2026-09-26T19:47:01.514+00:00"
+    }
+}
+```
+</ResponseExample>
