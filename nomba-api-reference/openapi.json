@@ -9961,8 +9961,18 @@
                     },
                     "description": {
                       "type": "string",
-                      "example": "Success",
+                      "example": "SUCCESS",
                       "description": "Response description"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "SUCCESS",
+                      "description": "Response message"
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "example": true,
+                      "description": "Request status"
                     },
                     "data": {
                       "$ref": "#/components/schemas/DataPlanList"
@@ -9971,7 +9981,22 @@
                   "required": [
                     "code",
                     "description",
+                    "message",
+                    "status",
                     "data"
+                  ]
+                },
+                "example": {
+                  "code": "00",
+                  "description": "SUCCESS",
+                  "message": "SUCCESS",
+                  "status": true,
+                  "data": [
+                    {"plan": "110MB Daily Plan", "amount": 100, "productId": "mtn1"},
+                    {"plan": "1GB + 1.5mins 1 day Plan", "amount": 500, "productId": "mtn16"},
+                    {"plan": "2.7GB+5mins Monthly Plan", "amount": 2000, "productId": "mtn6"},
+                    {"plan": "7GB Monthly Plan", "amount": 3500, "productId": "mtn30"},
+                    {"plan": "20GB Monthly Plan - 30days", "amount": 7500, "productId": "mtn5"}
                   ]
                 }
               }
@@ -13497,8 +13522,18 @@
                     },
                     "description": {
                       "type": "string",
-                      "example": "Success",
+                      "example": "SUCCESS",
                       "description": "Response description"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "SUCCESS",
+                      "description": "Response message"
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "example": true,
+                      "description": "Request status"
                     },
                     "data": {
                       "$ref": "#/components/schemas/DiscoList"
@@ -13507,7 +13542,27 @@
                   "required": [
                     "code",
                     "description",
+                    "message",
+                    "status",
                     "data"
+                  ]
+                },
+                "example": {
+                  "code": "00",
+                  "description": "SUCCESS",
+                  "message": "SUCCESS",
+                  "status": true,
+                  "data": [
+                    {"id": "phed", "name": "Port Harcourt (PHED)"},
+                    {"id": "jed", "name": "Jos Electric (JEDC)"},
+                    {"id": "kaduna", "name": "Kaduna Electric (KAEDCO)"},
+                    {"id": "ibedc", "name": "Ibadan Electric (IBEDC)"},
+                    {"id": "eko", "name": "Eko Electric (EKEDC)"},
+                    {"id": "benin", "name": "Benin Electric (BEDC)"},
+                    {"id": "abuja", "name": "Abuja Electric (AEDC)"},
+                    {"id": "kano", "name": "Kano Electric (KEDCO)"},
+                    {"id": "ikeja", "name": "Ikeja Electric (IKEDC)"},
+                    {"id": "enugu", "name": "Enugu Electric (EEDC)"}
                   ]
                 }
               }
@@ -22528,25 +22583,33 @@
           "message"
         ]
       },
-      "DataPlanList": {
+      "DataPlan": {
         "type": "object",
         "properties": {
-          "amount": {
-            "type": "integer",
-            "format": "int64"
-          },
           "plan": {
             "type": "string",
-            "example": "40GB -> 30Days (N15,000)"
+            "example": "1GB + 1.5mins 1 day Plan"
+          },
+          "amount": {
+            "type": "integer",
+            "format": "int64",
+            "example": 500
           },
           "productId": {
             "type": "string",
             "description": "The unique identifier for this data plan. Pass this value as `productId` when purchasing to select this exact bundle.",
-            "example": "mtn47"
+            "example": "mtn16"
           }
         }
       },
-      "DiscoList": {
+      "DataPlanList": {
+        "type": "array",
+        "description": "List of available data plans for the telco",
+        "items": {
+          "$ref": "#/components/schemas/DataPlan"
+        }
+      },
+      "Disco": {
         "type": "object",
         "properties": {
           "id": {
@@ -22557,6 +22620,13 @@
             "type": "string",
             "example": "Jos Electric (JEDC)"
           }
+        }
+      },
+      "DiscoList": {
+        "type": "array",
+        "description": "List of all electricity providers/discos",
+        "items": {
+          "$ref": "#/components/schemas/Disco"
         }
       },
       "BettingProvider": {
