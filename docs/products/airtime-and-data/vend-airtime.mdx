@@ -13,7 +13,67 @@ description: "How to vend Airtime using this API"
 
 # `POST /v2/bill/topup`
 
-<CodeGroup>
+#### Request body
+
+<ParamField body="amount" type="integer" required>
+  Amount
+</ParamField>
+
+<ParamField body="phoneNumber" type="string" required>
+  Phone number of the user who is to receive the value
+</ParamField>
+
+<ParamField body="network" type="string" required>
+  Network (e.g. MTN, AIRTEL, GLO, 9MOBILE, etc)
+</ParamField>
+
+<ParamField body="merchantTxRef" type="string" required>
+  Merchant Transaction Reference (a unique reference to identify this
+  transaction on your system)
+</ParamField>
+
+<ParamField body="senderName" type="string" required>
+  The name of the person to be attached to this transaction
+</ParamField>
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="object" defaultOpen="true">
+    <ResponseField name="amount" type="string" required>
+      Amount
+    </ResponseField>
+    <ResponseField name="meta" type="object">
+      <Expandable title="object" defaultOpen="false">
+        <ResponseField name="merchantTxRef" type="string">
+          Merchant Transaction Reference
+        </ResponseField>
+        <ResponseField name="rrn" type="string">
+          Retrieval Reference Number (RRN)
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+    <ResponseField name="timeCreated" type="string" required>
+      Date and Time of the transaction
+    </ResponseField>
+    <ResponseField name="type" type="string" required>
+      The type of this transaction.
+    </ResponseField>
+    <ResponseField name="status" type="string" required>
+      The status of this transaction
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
 ```bash Request
 curl --location 'https://api.nomba.com/v2/bill/topup' \
 --header 'accountId: <accountId>' \
@@ -27,7 +87,9 @@ curl --location 'https://api.nomba.com/v2/bill/topup' \
     "senderName": "John Doe"
 }'
 ```
+</RequestExample>
 
+<ResponseExample>
 ```json Success response (200)
 {
     "code": "200",
@@ -127,73 +189,4 @@ curl --location 'https://api.nomba.com/v2/bill/topup' \
     }
 }
 ```
-</CodeGroup>
-
-#### Request body
-
-<ParamField body="amount" type="integer" required>
-  Amount
-</ParamField>
-
-<ParamField body="phoneNumber" type="string" required>
-  Phone number of the user who is to receive the value
-</ParamField>
-
-<ParamField body="network" type="string" required>
-  Network (e.g. MTN, AIRTEL, GLO, 9MOBILE, etc)
-</ParamField>
-
-<ParamField body="merchantTxRef" type="string" required>
-  Merchant Transaction Reference (a unique reference to identify this
-  transaction on your system)
-</ParamField>
-
-#### Response body
-
-<ResponseField name="code" type="string" required>
-  Response code
-</ResponseField>
-
-<ResponseField name="description" type="string" required>
-  Response description
-</ResponseField>
-
-<ResponseField name="data" type="object">
-  <Expandable title="object" defaultOpen="true">
-    <ResponseField name="amount" type="string" required>
-      Amount
-    </ResponseField>
-    <ResponseField name="meta" type="object">
-      <Expandable title="object" defaultOpen="false">
-        <ResponseField name="merchantTxRef" type="string">
-          Merchant Transaction Reference
-        </ResponseField>
-        <ResponseField name="rrn" type="string">
-          Retrieval Reference Number (RRN)
-        </ResponseField>
-      </Expandable>
-    </ResponseField>
-    <ResponseField name="timeCreated" type="string" required>
-      Date and Time of the transaction
-    </ResponseField>
-    <ResponseField name="type" type="string" required>
-      The type of this transaction. This is most probably topup in this case
-    </ResponseField>
-  </Expandable>
-</ResponseField>
-
-#### Sample request
-
-```bash
-curl --location 'https://api.nomba.com/v2/bill/topup' \
---header 'accountId: <accountId>' \
---header 'Authorization: Bearer <token>' \
---header 'Content-Type: application/json' \
---data '{
-    "amount": 100,
-    "phoneNumber": "08123456788",
-    "network": "MTN",
-    "merchantTxRef": "REF-29-07-2026-12",
-    "senderName": "John Doe"
-}'
-```
+</ResponseExample>
