@@ -19,6 +19,24 @@ Fetch debit or credit transactions associated with an account.
   Transaction APIs are paginated. We recommend reviewing the [pagination guide](/docs/api-basics/pagination) to understand how to work with paginated endpoints.
 </Note>
 
+#### Query parameters
+
+<ParamField query="limit" type="integer">
+  Number of results to return per page
+</ParamField>
+
+<ParamField query="cursor" type="string">
+  Pagination cursor for scrolling to the next page. Only use when returned by a previous request.
+</ParamField>
+
+<ParamField query="dateFrom" type="string">
+  Start date for filtering transactions (UTC). Example: `2023-01-01T00:00:00`
+</ParamField>
+
+<ParamField query="dateTo" type="string">
+  End date for filtering transactions (UTC). Example: `2024-09-30T23:59:59`
+</ParamField>
+
 #### Response body
 
 <ResponseField name="code" type="string" required>
