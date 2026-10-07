@@ -19186,6 +19186,7 @@
           "productId": {
             "type": "string",
             "description": "Product identifier for the airtime purchase",
+            "nullable": true,
             "example": "62130"
           },
           "meta": {
