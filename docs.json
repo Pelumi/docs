@@ -391,6 +391,7 @@
               "nomba-api-reference/bills/subscribe-to-cabletv-via-sub-account-v2",
               "nomba-api-reference/bills/subscribe-to-cabletv-via-sub-account",
               "nomba-api-reference/bills/name-lookup-for-cabletv",
+              "nomba-api-reference/bills/name-lookup-for-electricity-v2",
               "nomba-api-reference/bills/name-lookup-for-electricity"
             ]
           },

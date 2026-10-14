@@ -13859,7 +13859,8 @@
     },
     "/v1/bill/electricity/lookup": {
       "get": {
-        "description": "This endpoint is for fetching customer information data from an electricity vending provider",
+        "description": "**Deprecated.** This endpoint is deprecated and will be removed in a future release. Use `GET /v2/bill/electricity/lookup` instead, which also returns the customer's address.",
+        "deprecated": true,
         "operationId": "ELECTRICITY_CUSTOMER_LOOKUP",
         "parameters": [
           {
@@ -14015,6 +14016,184 @@
           }
         ],
         "summary": "Fetch customer information from an electricity provider",
+        "tags": [
+          "Electricity Vending"
+        ]
+      }
+    },
+    "/v2/bill/electricity/lookup": {
+      "get": {
+        "description": "This endpoint is for fetching the customer's name and address from an electricity vending provider. Use it to confirm the customer's details before vending electricity.",
+        "operationId": "ELECTRICITY_CUSTOMER_LOOKUP_V2",
+        "parameters": [
+          {
+            "description": "disco",
+            "example": "phed",
+            "in": "query",
+            "name": "disco",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          },
+          {
+            "description": "customerId",
+            "example": "12347899",
+            "in": "query",
+            "name": "customerId",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00",
+                      "description": "Response Code"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Success",
+                      "description": "Response description"
+                    },
+                    "data": {
+                      "type": "object",
+                      "description": "The customer's details as returned by the electricity provider",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "John Doe",
+                          "description": "The name of the customer"
+                        },
+                        "address": {
+                          "type": "string",
+                          "example": "12 Adeola Odeku Street, Victoria Island, Lagos",
+                          "description": "The address of the customer. Returns `unknown` when the provider does not supply an address."
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "address"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
+                }
+              }
+            },
+            "description": "OK - your request was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Fetch customer information from an electricity provider (v2)",
         "tags": [
           "Electricity Vending"
         ]
