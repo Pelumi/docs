@@ -20791,6 +20791,16 @@
             "type": "string",
             "description": "some details of the transaction response.",
             "example": "success"
+          },
+          "otpRequired": {
+            "type": "boolean",
+            "description": "true when the customer's bank requires an OTP to complete the charge. The charge stays pending until the OTP is submitted with transactionId to /v1/checkout/checkout-card-otp.",
+            "example": false
+          },
+          "transactionId": {
+            "type": "string",
+            "description": "Returned only when otpRequired is true. Send it with the customer's OTP to /v1/checkout/checkout-card-otp.",
+            "example": "a729d716-566f-4a47-986f-32b3fa39e075"
           }
         }
       },
