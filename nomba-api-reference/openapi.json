@@ -21467,6 +21467,12 @@
             "type": "boolean",
             "description": "When set to true, Nomba will reject any inflow to the virtual account whose sender name does not match the virtual account name. The order of names does not matter—for example, a VA name of 'John Doe Naomi' would match sender names like 'Doe John Naomi' or 'Naomi Doe John', since different banks may arrange names differently. A `payment_failed` webhook event is sent to notify the merchant that the inflow was rejected. The rejected inflow is reversed back to the sender according to the sending bank's policy. Optional.",
             "example": true
+          },
+          "callbackUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to receive `payment_success` and `payment_failed` webhook events for inflows into this virtual account. Optional.",
+            "example": "https://merchant.example.com/webhooks/nomba"
           }
         },
         "required": [
