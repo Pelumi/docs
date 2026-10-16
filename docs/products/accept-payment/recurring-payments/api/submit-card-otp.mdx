@@ -4,6 +4,14 @@ sidebarTitle: "Submit card OTP"
 description: "Send the OTP from the customer's bank to complete the card-saving payment."
 ---
 
+<CardGroup cols={2}>
+  <Card
+    title="Submit customer card OTP"
+    icon="link-simple"
+    href="/nomba-api-reference/charge/submit-customer-card-otp"
+  ></Card>
+</CardGroup>
+
 **Step 3 of 7.** Send the OTP the customer received from their bank, with the `orderReference` from [Create a checkout order](/docs/products/accept-payment/recurring-payments/api/create-checkout-order) and the `transactionId` from [Submit card details](/docs/products/accept-payment/recurring-payments/api/submit-card-details).
 
 When the payment succeeds, Nomba saves the card and sends you its token in the [next step](/docs/products/accept-payment/recurring-payments/api/store-the-card-token).

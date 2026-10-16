@@ -4,6 +4,14 @@ sidebarTitle: "Submit card details"
 description: "Send the card details your customer entered on your page to pay for the card-saving order."
 ---
 
+<CardGroup cols={2}>
+  <Card
+    title="Submit customer card details"
+    icon="link-simple"
+    href="/nomba-api-reference/charge/submit-customer-card-details"
+  ></Card>
+</CardGroup>
+
 **Step 2 of 7.** Collect the customer's card details on your own page, then send them to Nomba with the `orderReference` from [Create a checkout order](/docs/products/accept-payment/recurring-payments/api/create-checkout-order). You need to be PCI DSS compliant to handle card details.
 
 The card is saved because you set `tokenizeCard: true` on the order. You don't need to send `saveCard`. On its own, `saveCard` saves the card to the customer's Nomba checkout, not to your account, so you can't charge it.
