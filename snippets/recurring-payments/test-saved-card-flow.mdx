@@ -1,0 +1,41 @@
+## 2. Test a charge
+
+Send a charge to `/sandbox/checkout/tokenized-card-payment` with any `tokenKey`:
+
+| `order.orderReference` | Outcome |
+|---|---|
+| `1234567890` | Code `404`, "Record not found" |
+| Anything else | Approved: `data.status` is `true` |
+
+Sandbox can't return `otpRequired: true` for a saved-card charge, so you can't trigger the OTP challenge from a charge.
+
+## 3. Test OTP submission
+
+To test your OTP screen and request, call `/sandbox/checkout/checkout-card-otp` with any `orderReference` and `transactionId`. The `otp` decides the outcome:
+
+| OTP | Outcome | Message |
+|---|---|---|
+| `9999` | Approved | "Approved by Financial Institution" |
+| `1234` | Timed out | "Your payment has exceeded the time required to pay" |
+| `5464` | Wrong OTP | "Invalid OTP" |
+
+## 4. Test managing saved cards
+
+| Request | Value that returns `404` "Record not found" | Any other value |
+|---|---|---|
+| List saved cards | `customerEmail=test@test.com` | A sample list of cards |
+| Change the email | `tokenKey` `123` | Success |
+| Delete a card | `tokenKey` `123` | Success |
+
+## Checklist before you go live
+
+- [ ] A card-saving payment stores the `tokenKey` against the right customer, and falls back to <a href={`${base}/list-saved-cards`}>listing saved cards</a> if the webhook has no token.
+- [ ] An approved charge gives value once, and only after you've verified it.
+- [ ] An OTP charge notifies the customer, accepts the code, and completes.
+- [ ] A timed-out or wrong OTP leaves the subscription unpaid and is retried with a new `orderReference`.
+- [ ] A declined charge is retried later, not straight away.
+- [ ] A request that timed out is retried with the same `orderReference`, then verified.
+- [ ] A duplicate webhook doesn't give value twice.
+- [ ] Your webhook handler rejects payloads with an invalid signature.
+- [ ] A deleted card is removed from your database and isn't charged again.
+- [ ] You've switched to production credentials and `https://api.nomba.com`, and run one real charge with a small amount.

@@ -1,0 +1,30 @@
+---
+title: "Create a checkout order"
+sidebarTitle: "Create a checkout order"
+description: "Create the first order with tokenizeCard set to true so Nomba saves the customer's card."
+---
+
+import CreateCheckoutOrder from '/snippets/recurring-payments/create-checkout-order.mdx';
+import FirstPaymentAmount from '/snippets/recurring-payments/first-payment-amount.mdx';
+
+<CardGroup cols={2}>
+  <Card
+    title="Create an online checkout order"
+    icon="link-simple"
+    href="/nomba-api-reference/online-checkout/create-an-online-checkout-order"
+  ></Card>
+</CardGroup>
+
+**Step 1 of 5.** Before you can charge a card later, the customer has to pay with it once. Create a checkout order for that first payment, with `tokenizeCard` set to `true`.
+
+<CreateCheckoutOrder base="/docs/products/accept-payment/recurring-payments/hosted-checkout" />
+
+## Send the customer to checkout
+
+Redirect the customer to the `checkoutLink`, or open it in a web view in your app. The customer enters their card details and completes any checks their bank asks for, such as an OTP. When the payment succeeds, Nomba saves the card. You don't need to make any more API calls.
+
+<FirstPaymentAmount />
+
+<Card title="Next: Get and store the card token" icon="arrow-right" href="/docs/products/accept-payment/recurring-payments/hosted-checkout/store-the-card-token">
+  Read the token from the webhook and save it with your customer.
+</Card>

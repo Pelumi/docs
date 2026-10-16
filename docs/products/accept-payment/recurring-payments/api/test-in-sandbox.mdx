@@ -1,0 +1,39 @@
+---
+title: "Test recurring payments"
+sidebarTitle: "Test recurring payments"
+description: "Run the whole saved-card flow in sandbox before you go live."
+---
+
+import TestSavedCardFlow from '/snippets/recurring-payments/test-saved-card-flow.mdx';
+
+Test your integration in sandbox before you charge real customers. Use your sandbox credentials with the base URL `https://sandbox.nomba.com`. For setup, see [Sandbox testing](/docs/products/accept-payment/sandbox-testing).
+
+Sandbox checkout endpoints start with `/sandbox/checkout/` instead of `/v1/checkout/`:
+
+| Step | Sandbox endpoint |
+|---|---|
+| Create a checkout order | `POST /sandbox/checkout/order` |
+| Submit the card details | `POST /sandbox/checkout/checkout-card-detail` |
+| Charge a saved card | `POST /sandbox/checkout/tokenized-card-payment` |
+| Submit an OTP (first payment or charge) | `POST /sandbox/checkout/checkout-card-otp` |
+| List saved cards | `GET /sandbox/checkout/tokenized-card-data` |
+| Change the email on a saved card | `POST /sandbox/checkout/tokenized-card-data` |
+| Delete a saved card | `DELETE /sandbox/checkout/tokenized-card-data` |
+
+<Warning>
+  Sandbox doesn't save real cards. The sandbox `payment_success` webhook has no `tokenizedCardData`, and the saved-card endpoints return fixed sample responses. Use sandbox to test your request handling and webhook code, then run one real end-to-end charge in production with a small amount before you go live.
+</Warning>
+
+## 1. Test the card-saving payment
+
+Create a sandbox order with `"tokenizeCard": true`. Submit this card to `/sandbox/checkout/checkout-card-detail` with the `orderReference` from the response:
+
+| Card number | Network | What happens |
+|---|---|---|
+| `5434621074252808` | Mastercard | The response has `responseCode` `T0`. Submit the OTP `9999` to `/sandbox/checkout/checkout-card-otp` to approve the payment. |
+
+Any expiry date, CVV and PIN work in sandbox. Only the card number decides the outcome.
+
+Check that your webhook handler receives `payment_success`. Because sandbox doesn't return a token, use any test value, such as `test-token-1`, as the `tokenKey` in the next steps.
+
+<TestSavedCardFlow base="/docs/products/accept-payment/recurring-payments/api" />

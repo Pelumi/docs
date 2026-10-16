@@ -1,0 +1,118 @@
+---
+title: "Submit card details"
+sidebarTitle: "Submit card details"
+description: "Send the card details your customer entered on your page to pay for the card-saving order."
+---
+
+<CardGroup cols={2}>
+  <Card
+    title="Submit customer card details"
+    icon="link-simple"
+    href="/nomba-api-reference/charge/submit-customer-card-details"
+  ></Card>
+</CardGroup>
+
+**Step 2 of 7.** Collect the customer's card details on your own page, then send them to Nomba with the `orderReference` from [Create a checkout order](/docs/products/accept-payment/recurring-payments/api/create-checkout-order). You need to be PCI DSS compliant to handle card details.
+
+The card is saved because you set `tokenizeCard: true` on the order. You don't need to send `saveCard`. On its own, `saveCard` saves the card to the customer's Nomba checkout, not to your account, so you can't charge it.
+
+# `POST /v1/checkout/checkout-card-detail`
+
+#### Headers
+
+This call doesn't need an `Authorization` or `accountId` header.
+
+#### Request body
+
+<ParamField body="cardDetails" type="string" required>
+  The card details as a JSON string, with `cardNumber`, `cardExpiryMonth`, `cardExpiryYear`, `cardCVV` and `cardPin`
+</ParamField>
+
+<ParamField body="key" type="string" required>
+  The encryption key if you encrypt `cardDetails`, otherwise an empty string. See [Initialize charge](/docs/products/accept-payment/server-to-server).
+</ParamField>
+
+<ParamField body="orderReference" type="string" required>
+  `data.orderReference` from the create-order response, which is Nomba's ID for the order
+</ParamField>
+
+<ParamField body="deviceInformation" type="object" required>
+  Details of the customer's browser or device
+</ParamField>
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="data" type="object" required>
+  <Expandable title="object" defaultOpen="true">
+    <ResponseField name="status" type="boolean" required>
+      `true` when the card details were accepted
+    </ResponseField>
+    <ResponseField name="message" type="string" required>
+      Message to show the customer
+    </ResponseField>
+    <ResponseField name="responseCode" type="string" required>
+      `T0` when the customer must enter the OTP their bank sent them
+    </ResponseField>
+    <ResponseField name="transactionId" type="string" required>
+      The transaction ID. Send it with the OTP in the next step.
+    </ResponseField>
+    <ResponseField name="secureAuthenticationData" type="object">
+      3D Secure data, when the bank asks for a 3D Secure check instead of an OTP. See [Initialize charge](/docs/products/accept-payment/server-to-server).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+When `data.responseCode` is `T0`, ask the customer for the OTP and keep `data.transactionId` for the next step.
+
+<RequestExample>
+```bash Request
+curl --request POST \
+  --url https://api.nomba.com/v1/checkout/checkout-card-detail \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "cardDetails": "{\"cardNumber\": \"5061000000000000\", \"cardExpiryMonth\": 9, \"cardExpiryYear\": 2031, \"cardCVV\": 123, \"cardPin\": 1234}",
+    "key": "",
+    "orderReference": "be727ded-aa6e-4b6e-beea-898d4428740a",
+    "deviceInformation": {
+      "httpBrowserLanguage": "en-GB",
+      "httpBrowserJavaEnabled": "true",
+      "httpBrowserJavaScriptEnabled": "true",
+      "httpBrowserColorDepth": "30",
+      "httpBrowserScreenHeight": "900",
+      "httpBrowserScreenWidth": "1500",
+      "httpBrowserTimeDifference": "-60",
+      "userAgentBrowserValue": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)",
+      "deviceChannel": "Browser"
+    }
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success response (200)
+{
+  "code": "00",
+  "description": "card details submitted successfully",
+  "status": true,
+  "data": {
+    "status": true,
+    "message": "Kindly enter the OTP sent to **********9046",
+    "responseCode": "T0",
+    "transactionId": "0b572789-0770-44f8-b400-99164ef2712b",
+    "secureAuthenticationData": null
+  }
+}
+```
+</ResponseExample>
+
+<Card title="Next: Submit card OTP" icon="arrow-right" href="/docs/products/accept-payment/recurring-payments/api/submit-card-otp">
+  Send the OTP to complete the first payment.
+</Card>

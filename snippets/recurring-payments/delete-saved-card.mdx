@@ -1,0 +1,64 @@
+Delete a saved card when the customer removes it or cancels their subscription. A deleted card can't be charged again. Also delete the token from your own database, so your scheduled job doesn't try to charge it.
+
+To replace a card, ask the customer to make a new card-saving payment, then delete the old card.
+
+# `DELETE /v1/checkout/tokenized-card-data`
+
+<Note>
+  This request sends a body with `DELETE`. Some HTTP clients and proxies remove the body from DELETE requests. If you get an error saying `tokenKey` is missing, check that your client sends the body.
+</Note>
+
+#### Headers
+
+<ParamField header="Authorization" type="string" required>
+  `Bearer <access_token>`
+</ParamField>
+
+<ParamField header="accountId" type="string" required>
+  Your account ID
+</ParamField>
+
+#### Request body
+
+<ParamField body="tokenKey" type="string" required>
+  The card token to delete
+</ParamField>
+
+#### Response body
+
+<ResponseField name="data" type="object" required>
+  <Expandable title="object" defaultOpen="true">
+    <ResponseField name="status" type="boolean" required>
+      `true` when the card was deleted
+    </ResponseField>
+    <ResponseField name="message" type="string" required>
+      Response message
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash Request
+curl --request DELETE \
+  --url https://api.nomba.com/v1/checkout/tokenized-card-data \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountId>' \
+  --data '{
+    "tokenKey": "1321595684"
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success response (200)
+{
+  "code": "00",
+  "description": "Success",
+  "data": {
+    "status": true,
+    "message": "success"
+  }
+}
+```
+</ResponseExample>

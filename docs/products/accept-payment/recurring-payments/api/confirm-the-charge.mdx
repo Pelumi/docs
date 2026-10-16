@@ -1,0 +1,23 @@
+---
+title: "Confirm the charge"
+sidebarTitle: "Confirm the charge"
+description: "Check a charge's final status before you give the customer value."
+---
+
+import ConfirmTheCharge from '/snippets/recurring-payments/confirm-the-charge.mdx';
+
+<CardGroup cols={2}>
+  <Card
+    title="Fetch a single transaction"
+    icon="link-simple"
+    href="/nomba-api-reference/requery/fetch-a-single-transaction-on-the-parent-account"
+  ></Card>
+</CardGroup>
+
+**Step 7 of 7.** Always confirm a charge before you give the customer value, such as extending their subscription or crediting their wallet. Use both the webhook and the API.
+
+<ConfirmTheCharge base="/docs/products/accept-payment/recurring-payments/api" />
+
+<Card title="Manage saved cards" icon="credit-card" href="/docs/products/accept-payment/recurring-payments/api/list-saved-cards">
+  List a customer's saved cards, change the email linked to a card, or delete a card.
+</Card>
