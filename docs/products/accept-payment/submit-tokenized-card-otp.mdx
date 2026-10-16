@@ -1,0 +1,81 @@
+---
+title: "Submit Tokenized Card OTP"
+description: "Complete a tokenized card charge that requires an OTP"
+---
+
+<CardGroup cols={2}>
+  <Card
+    title="Submit customer card OTP"
+    icon="link-simple"
+    href="/nomba-api-reference/charge/submit-customer-card-otp"
+  ></Card>
+</CardGroup>
+
+When [Charge a Tokenized Card](/docs/products/accept-payment/charge-tokenized-card) returns `otpRequired: true`, collect the OTP the customer's bank sent them and submit it here with the `orderReference` and `transactionId` from the charge.
+
+<Note>
+  A charge whose OTP is not submitted within about 15 minutes is marked as failed. After submitting the OTP, confirm the final status via [Verify Transactions](/docs/products/accept-payment/verify-transactions) before giving value to your customer.
+</Note>
+
+# `POST /v1/checkout/checkout-card-otp`
+
+#### Request body
+
+<ParamField body="otp" type="string" required>
+  The OTP the customer received from their bank
+</ParamField>
+
+<ParamField body="orderReference" type="string" required>
+  The `orderReference` of the charge
+</ParamField>
+
+<ParamField body="transactionId" type="string" required>
+  The `transactionId` returned by the charge
+</ParamField>
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="data" type="object" required>
+  <Expandable title="object" defaultOpen="true">
+    <ResponseField name="status" type="boolean" required>
+      `true` when the charge was completed
+    </ResponseField>
+    <ResponseField name="message" type="string" required>
+      Details of the response
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash Request
+curl --request POST \
+  --url https://api.nomba.com/v1/checkout/checkout-card-otp \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "otp": "123456",
+    "orderReference": "90e81e8a-bc14-4ebf-89c0-57da752cca58",
+    "transactionId": "a729d716-566f-4a47-986f-32b3fa39e075"
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success response (200)
+{
+    "code": "00",
+    "description": "Success",
+    "data": {
+        "status": true,
+        "message": "success"
+    }
+}
+```
+</ResponseExample>

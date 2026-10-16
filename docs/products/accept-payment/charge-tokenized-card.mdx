@@ -1,0 +1,149 @@
+---
+title: "Charge a Tokenized Card"
+description: "Charge a customer's saved card using its tokenKey"
+---
+
+<CardGroup cols={2}>
+  <Card
+    title="Charge a customer using tokenized card data"
+    icon="link-simple"
+    href="/nomba-api-reference/online-checkout/charge-a-customer-using-tokenized-card-data"
+  ></Card>
+</CardGroup>
+
+Charge a customer's card using the `tokenKey` returned in the webhook when the card was tokenized.
+
+Some banks require the customer to confirm the charge with an OTP. When they do, `otpRequired` is `true`, the charge stays pending and the response includes a `transactionId`. Collect the OTP from the customer and send it to [Submit Tokenized Card OTP](/docs/products/accept-payment/submit-tokenized-card-otp).
+
+# `POST /v1/checkout/tokenized-card-payment`
+
+#### Headers
+
+<ParamField header="Authorization" type="string" required>
+  Bearer token
+</ParamField>
+
+<ParamField header="accountId" type="string" required>
+  Your account ID
+</ParamField>
+
+#### Request body
+
+<ParamField body="tokenKey" type="string" required>
+  The token key returned in the webhook when the card was tokenized
+</ParamField>
+
+<ParamField body="order" type="object" required>
+  Details of the order to charge
+  <Expandable title="object" defaultOpen="true">
+    <ParamField body="amount" type="string" required>
+      Amount to charge
+    </ParamField>
+    <ParamField body="currency" type="string" required>
+      ISO 4217 currency code, for example `NGN`
+    </ParamField>
+    <ParamField body="customerEmail" type="string" required>
+      Customer email
+    </ParamField>
+    <ParamField body="callbackUrl" type="string" required>
+      Merchant callback URL
+    </ParamField>
+    <ParamField body="orderReference" type="string">
+      Your unique reference for this order. Keep it: you need it to submit the OTP.
+    </ParamField>
+    <ParamField body="customerId" type="string">
+      Customer ID
+    </ParamField>
+    <ParamField body="accountId" type="string">
+      If specified, this is the account where the funds will be deposited
+    </ParamField>
+    <ParamField body="splitRequest" type="object">
+      Accounts the inflow will be split into
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="data" type="object" required>
+  <Expandable title="object" defaultOpen="true">
+    <ResponseField name="status" type="boolean" required>
+      `true` when the charge was approved. `false` when it failed or is waiting for an OTP.
+    </ResponseField>
+    <ResponseField name="message" type="string" required>
+      Details of the charge response
+    </ResponseField>
+    <ResponseField name="orderId" type="string" required>
+      The order ID
+    </ResponseField>
+    <ResponseField name="orderReference" type="string" required>
+      The order reference
+    </ResponseField>
+    <ResponseField name="otpRequired" type="boolean" required>
+      `true` when the customer's bank requires an OTP to complete the charge. The charge stays pending until the OTP is submitted.
+    </ResponseField>
+    <ResponseField name="transactionId" type="string">
+      Returned only when `otpRequired` is `true`. Send it with the customer's OTP to [Submit Tokenized Card OTP](/docs/products/accept-payment/submit-tokenized-card-otp).
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash Request
+curl --request POST \
+  --url https://api.nomba.com/v1/checkout/tokenized-card-payment \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountId>' \
+  --data '{
+    "order": {
+      "orderReference": "90e81e8a-bc14-4ebf-89c0-57da752cca58",
+      "customerId": "762878332454",
+      "callbackUrl": "https://merchant.com/callback",
+      "customerEmail": "abcde@gmail.com",
+      "amount": "10000.00",
+      "currency": "NGN"
+    },
+    "tokenKey": "7628788443"
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json OTP required (200)
+{
+    "code": "00",
+    "description": "Success",
+    "data": {
+        "status": false,
+        "message": "Please enter the OTP sent to the phone/email address registered with your bank.",
+        "orderId": "b6a3c0f2-6d2e-4c1a-9a41-3f2b7d0c9e15",
+        "orderReference": "90e81e8a-bc14-4ebf-89c0-57da752cca58",
+        "otpRequired": true,
+        "transactionId": "a729d716-566f-4a47-986f-32b3fa39e075"
+    }
+}
+```
+
+```json Approved (200)
+{
+    "code": "00",
+    "description": "Success",
+    "data": {
+        "status": true,
+        "message": "Approved by Financial Institution",
+        "orderId": "b6a3c0f2-6d2e-4c1a-9a41-3f2b7d0c9e15",
+        "orderReference": "90e81e8a-bc14-4ebf-89c0-57da752cca58",
+        "otpRequired": false
+    }
+}
+```
+</ResponseExample>
