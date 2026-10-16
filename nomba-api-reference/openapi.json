@@ -3769,7 +3769,7 @@
                     },
                     "description": {
                       "type": "string",
-                      "example": "Success",
+                      "example": "tokenized transaction completed successfully",
                       "description": "payment successful"
                     },
                     "data": {
@@ -5014,7 +5014,7 @@
                     },
                     "description": {
                       "type": "string",
-                      "example": "Success",
+                      "example": "checkout otp processed successfully",
                       "description": "Response description"
                     },
                     "data": {
@@ -20198,8 +20198,8 @@
           },
           "transactionId": {
             "type": "string",
-            "description": "transaction id returend when the card details were submitted",
-            "example": "c4307d58-2513-41d8-b7f7-dfecd5f9fdbe"
+            "description": "transaction id returned when the card details were submitted, or by a tokenized card charge that requires an OTP",
+            "example": "a729d716-566f-4a47-986f-32b3fa39e075"
           }
         },
         "required": [
@@ -20214,12 +20214,12 @@
           "status": {
             "type": "boolean",
             "description": "true is the transaction was successful",
-            "example": "true"
+            "example": true
           },
           "message": {
             "type": "string",
             "description": "details response message",
-            "example": "success"
+            "example": "SUCCESS"
           }
         },
         "required": [
