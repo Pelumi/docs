@@ -1,9 +1,3 @@
----
-title: "Charge a saved card"
-sidebarTitle: "Charge a saved card"
-description: "Charge a customer's saved card with its tokenKey whenever a payment is due."
----
-
 **Step 3 of 5.** When a payment is due, send the card token and the order details to Nomba. The customer doesn't need to be on your site, unless their bank asks for an OTP.
 
 ## Send the charge
@@ -47,8 +41,8 @@ Check `code`, `data.status` and `data.otpRequired` to see what happened:
 
 | `code` | `data.status` | `data.otpRequired` | What it means | What to do |
 |---|---|---|---|---|
-| `"00"` | `true` | `false` | The bank approved the charge. | [Confirm the charge](/docs/products/accept-payment/recurring-payments/confirm-the-charge) before you give value. |
-| `"00"` | `false` | `true` | The bank wants the customer to approve the charge with an OTP. The charge is pending. | Save `data.transactionId` and [complete the OTP challenge](/docs/products/accept-payment/recurring-payments/complete-otp). |
+| `"00"` | `true` | `false` | The bank approved the charge. | <a href={`${props.base}/confirm-the-charge`}>Confirm the charge</a> before you give value. |
+| `"00"` | `false` | `true` | The bank wants the customer to approve the charge with an OTP. The charge is pending. | Save `data.transactionId` and <a href={`${props.base}/complete-otp`}>complete the OTP challenge</a>. |
 | `"00"` | `false` | `false` | The bank declined the charge. `data.message` says why. | See [When a charge fails](#when-a-charge-fails). |
 | `"400"` | `false` | `false` | Nomba rejected the request before charging the card. `data.message` says why. | Fix the request. See [When a charge fails](#when-a-charge-fails). |
 
@@ -115,7 +109,7 @@ Check `code`, `data.status` and `data.otpRequired` to see what happened:
 ```
 </CodeGroup>
 
-An OTP is the only challenge you can complete on a saved-card charge. If the bank asks for a 3D Secure check instead, the charge fails, and the response has `data.status: false` and `otpRequired: false`. Ask the customer to make a new [card-saving payment](/docs/products/accept-payment/recurring-payments/save-a-card) with that card.
+An OTP is the only challenge you can complete on a saved-card charge. If the bank asks for a 3D Secure check instead, the charge fails, and the response has `data.status: false` and `otpRequired: false`. Ask the customer to make a new <a href={`${props.base}/save-a-card`}>card-saving payment</a> with that card.
 
 ## Charge on a schedule
 
@@ -127,7 +121,7 @@ Nomba doesn't schedule API charges. Your server decides when each customer is du
 
 ### Plan for OTPs during scheduled charges
 
-A scheduled charge runs when the customer isn't using your app. If their bank asks for an OTP, the customer still has to enter it within 15 minutes (see [Complete an OTP challenge](/docs/products/accept-payment/recurring-payments/complete-otp)), or the charge fails. To give it the best chance of succeeding:
+A scheduled charge runs when the customer isn't using your app. If their bank asks for an OTP, the customer still has to enter it within 15 minutes (see <a href={`${props.base}/complete-otp`}>Complete an OTP challenge</a>), or the charge fails. To give it the best chance of succeeding:
 
 - Run scheduled charges during the day, when customers are likely to see a message.
 - When `otpRequired` is `true`, notify the customer straight away, by push notification, SMS or email, with a link to a page where they can enter the code.
@@ -148,10 +142,10 @@ A scheduled charge runs when the customer isn't using your app. If their bank as
 
 To retry safely:
 
-- **If you don't know whether a charge went through** (for example, your request timed out), send it again with the **same** `orderReference`. Nomba never charges the same `orderReference` twice. If the first request did reach Nomba, the retry is rejected with "An order already exists with this order reference". [Verify](/docs/products/accept-payment/recurring-payments/confirm-the-charge) that `orderReference` to see the result.
+- **If you don't know whether a charge went through** (for example, your request timed out), send it again with the **same** `orderReference`. Nomba never charges the same `orderReference` twice. If the first request did reach Nomba, the retry is rejected with "An order already exists with this order reference". <a href={`${props.base}/confirm-the-charge`}>Verify</a> that `orderReference` to see the result.
 - **If the bank declined the charge, don't retry straight away.** Wait, for example 24 hours, and stop after a few attempts. Use a new `orderReference` for each new attempt.
-- **Ask the customer to update their card** if the charge keeps failing, or if the card has expired. They can add a new card with a new [card-saving payment](/docs/products/accept-payment/recurring-payments/save-a-card).
+- **Ask the customer to update their card** if the charge keeps failing, or if the card has expired. They can add a new card with a new <a href={`${props.base}/save-a-card`}>card-saving payment</a>.
 
-<Card title="Next: Complete an OTP challenge" icon="arrow-right" href="/docs/products/accept-payment/recurring-payments/complete-otp">
+<Card title="Next: Complete an OTP challenge" icon="arrow-right" href={`${props.base}/complete-otp`}>
   Finish a charge when the customer's bank asks for an OTP.
 </Card>

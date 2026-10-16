@@ -56,14 +56,32 @@
                   {
                     "group": "Recurring payments",
                     "pages": [
-                      "docs/products/accept-payment/recurring-payments/overview",
-                      "docs/products/accept-payment/recurring-payments/save-a-card",
-                      "docs/products/accept-payment/recurring-payments/store-the-card-token",
-                      "docs/products/accept-payment/recurring-payments/charge-a-saved-card",
-                      "docs/products/accept-payment/recurring-payments/complete-otp",
-                      "docs/products/accept-payment/recurring-payments/confirm-the-charge",
-                      "docs/products/accept-payment/recurring-payments/manage-saved-cards",
-                      "docs/products/accept-payment/recurring-payments/test-in-sandbox"
+                      {
+                        "group": "Hosted checkout",
+                        "pages": [
+                          "docs/products/accept-payment/recurring-payments/hosted-checkout/overview",
+                          "docs/products/accept-payment/recurring-payments/hosted-checkout/save-a-card",
+                          "docs/products/accept-payment/recurring-payments/hosted-checkout/store-the-card-token",
+                          "docs/products/accept-payment/recurring-payments/hosted-checkout/charge-a-saved-card",
+                          "docs/products/accept-payment/recurring-payments/hosted-checkout/complete-otp",
+                          "docs/products/accept-payment/recurring-payments/hosted-checkout/confirm-the-charge",
+                          "docs/products/accept-payment/recurring-payments/hosted-checkout/manage-saved-cards",
+                          "docs/products/accept-payment/recurring-payments/hosted-checkout/test-in-sandbox"
+                        ]
+                      },
+                      {
+                        "group": "API",
+                        "pages": [
+                          "docs/products/accept-payment/recurring-payments/api/overview",
+                          "docs/products/accept-payment/recurring-payments/api/save-a-card",
+                          "docs/products/accept-payment/recurring-payments/api/store-the-card-token",
+                          "docs/products/accept-payment/recurring-payments/api/charge-a-saved-card",
+                          "docs/products/accept-payment/recurring-payments/api/complete-otp",
+                          "docs/products/accept-payment/recurring-payments/api/confirm-the-charge",
+                          "docs/products/accept-payment/recurring-payments/api/manage-saved-cards",
+                          "docs/products/accept-payment/recurring-payments/api/test-in-sandbox"
+                        ]
+                      }
                     ]
                   },
                   "docs/products/accept-payment/server-to-server",
@@ -521,15 +539,15 @@
     },
     {
       "source": "/docs/products/accept-payment/recurring-payments",
-      "destination": "/docs/products/accept-payment/recurring-payments/overview"
+      "destination": "/docs/products/accept-payment/recurring-payments/hosted-checkout/overview"
     },
     {
       "source": "/docs/products/accept-payment/charge-tokenized-card",
-      "destination": "/docs/products/accept-payment/recurring-payments/charge-a-saved-card"
+      "destination": "/docs/products/accept-payment/recurring-payments/hosted-checkout/charge-a-saved-card"
     },
     {
       "source": "/docs/products/accept-payment/submit-tokenized-card-otp",
-      "destination": "/docs/products/accept-payment/recurring-payments/complete-otp"
+      "destination": "/docs/products/accept-payment/recurring-payments/hosted-checkout/complete-otp"
     }
   ]
 }

@@ -1,0 +1,95 @@
+---
+title: "Save a card on first payment"
+sidebarTitle: "Save a card"
+description: "Create an order with tokenizeCard set to true, then submit the customer's card details and OTP so Nomba saves their card."
+---
+
+import SaveACardCreateOrder from '/snippets/recurring-payments/save-a-card-create-order.mdx';
+import SaveACardAmount from '/snippets/recurring-payments/save-a-card-amount.mdx';
+
+**Step 1 of 5.** Before you can charge a card later, the customer has to pay with it once. You collect the card details on your own page and send them to Nomba.
+
+<SaveACardCreateOrder base="/docs/products/accept-payment/recurring-payments/api" />
+
+Collect the card details on your own page, then send them to Nomba with the `orderReference` from the response above. You need to be PCI DSS compliant to handle card details. For details such as card encryption and 3D Secure, see [Initialize charge](/docs/products/accept-payment/server-to-server).
+
+## Submit the card details
+
+```bash
+curl --request POST \
+  --url https://api.nomba.com/v1/checkout/checkout-card-detail \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "cardDetails": "{\"cardNumber\": \"5061000000000000\", \"cardExpiryMonth\": 9, \"cardExpiryYear\": 2031, \"cardCVV\": 123, \"cardPin\": 1234}",
+    "key": "",
+    "orderReference": "b6a3c0f2-6d2e-4c1a-9a41-3f2b7d0c9e15",
+    "deviceInformation": {
+      "httpBrowserLanguage": "en-GB",
+      "httpBrowserJavaEnabled": "true",
+      "httpBrowserJavaScriptEnabled": "true",
+      "httpBrowserColorDepth": "30",
+      "httpBrowserScreenHeight": "900",
+      "httpBrowserScreenWidth": "1500",
+      "httpBrowserTimeDifference": "-60",
+      "userAgentBrowserValue": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)",
+      "deviceChannel": "Browser"
+    }
+  }'
+```
+
+| Field | Description |
+|---|---|
+| `cardDetails` | The card details as a JSON string: `cardNumber`, `cardExpiryMonth`, `cardExpiryYear`, `cardCVV` and `cardPin`. |
+| `key` | The encryption key if you encrypt `cardDetails`, otherwise an empty string. |
+| `orderReference` | `data.orderReference` from the create-order response, which is Nomba's order ID. |
+| `deviceInformation` | Details of the customer's browser or device. |
+
+The card is saved because you set `tokenizeCard: true` on the order. You don't need to send `saveCard`. On its own, `saveCard` saves the card to the customer's Nomba checkout, not to your account, so you can't charge it.
+
+When the bank asks for an OTP, `data.responseCode` is `T0`. Keep `data.transactionId` for the next call:
+
+```json
+{
+  "code": "00",
+  "description": "card details submitted successfully",
+  "status": true,
+  "data": {
+    "status": true,
+    "message": "Kindly enter the OTP sent to **********9046",
+    "responseCode": "T0",
+    "transactionId": "0b572789-0770-44f8-b400-99164ef2712b",
+    "secureAuthenticationData": null
+  }
+}
+```
+
+## Submit the OTP
+
+Send the code the customer received, with the same `orderReference` and the `transactionId`. This call doesn't need an `Authorization` or `accountId` header.
+
+```bash
+curl --request POST \
+  --url https://api.nomba.com/v1/checkout/checkout-card-otp \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "otp": "975005",
+    "orderReference": "b6a3c0f2-6d2e-4c1a-9a41-3f2b7d0c9e15",
+    "transactionId": "0b572789-0770-44f8-b400-99164ef2712b"
+  }'
+```
+
+```json
+{
+  "code": "00",
+  "description": "checkout otp processed successfully",
+  "status": true,
+  "data": {
+    "status": true,
+    "message": "SUCCESS"
+  }
+}
+```
+
+When `data.status` is `true`, the payment is complete and Nomba saves the card.
+
+<SaveACardAmount base="/docs/products/accept-payment/recurring-payments/api" />

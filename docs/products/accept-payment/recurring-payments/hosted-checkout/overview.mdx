@@ -1,10 +1,12 @@
 ---
-title: "Recurring payments"
+title: "Recurring payments with hosted checkout"
 sidebarTitle: "Overview"
 description: "Save a customer's card on their first payment, then charge it again whenever a payment is due."
 ---
 
-Recurring payments let you charge a customer again without asking for their card details each time. The customer pays once with their card through Nomba Checkout. Nomba saves the card and gives you a **card token** (`tokenKey`). From then on, you charge the card by sending that token.
+Recurring payments let you charge a customer again without asking for their card details each time. The customer pays once with their card on the Nomba checkout page. Nomba saves the card and gives you a **card token** (`tokenKey`). From then on, you charge the card by sending that token.
+
+This section uses the **Nomba checkout page** for the first payment: you send the customer to a payment link, and Nomba collects their card details. To collect card details on your own page instead, see [Recurring payments with the API](/docs/products/accept-payment/recurring-payments/api/overview).
 
 Use recurring payments for:
 
@@ -40,19 +42,19 @@ sequenceDiagram
 
 <Steps>
   <Step title="Save the card on the first payment">
-    Create a checkout order with `tokenizeCard: true`. The customer pays with their card as usual. [Save a card →](/docs/products/accept-payment/recurring-payments/save-a-card)
+    Create a checkout order with `tokenizeCard: true`. The customer pays with their card as usual. [Save a card →](/docs/products/accept-payment/recurring-payments/hosted-checkout/save-a-card)
   </Step>
   <Step title="Store the card token">
-    Read the `tokenKey` from the `payment_success` webhook and save it with your customer's record. [Store the card token →](/docs/products/accept-payment/recurring-payments/store-the-card-token)
+    Read the `tokenKey` from the `payment_success` webhook and save it with your customer's record. [Store the card token →](/docs/products/accept-payment/recurring-payments/hosted-checkout/store-the-card-token)
   </Step>
   <Step title="Charge the saved card">
-    When a payment is due, send the `tokenKey` and the amount to Nomba. [Charge a saved card →](/docs/products/accept-payment/recurring-payments/charge-a-saved-card)
+    When a payment is due, send the `tokenKey` and the amount to Nomba. [Charge a saved card →](/docs/products/accept-payment/recurring-payments/hosted-checkout/charge-a-saved-card)
   </Step>
   <Step title="Complete an OTP challenge, if the bank asks for one">
-    Some banks ask the customer to approve a charge with an OTP. Collect it and submit it. [Complete an OTP challenge →](/docs/products/accept-payment/recurring-payments/complete-otp)
+    Some banks ask the customer to approve a charge with an OTP. Collect it and submit it. [Complete an OTP challenge →](/docs/products/accept-payment/recurring-payments/hosted-checkout/complete-otp)
   </Step>
   <Step title="Confirm the charge">
-    Verify the final status before you give the customer value. [Confirm the charge →](/docs/products/accept-payment/recurring-payments/confirm-the-charge)
+    Verify the final status before you give the customer value. [Confirm the charge →](/docs/products/accept-payment/recurring-payments/hosted-checkout/confirm-the-charge)
   </Step>
 </Steps>
 
@@ -84,6 +86,6 @@ sequenceDiagram
 | **Card token (`tokenKey`)** | The value you send to charge a saved card. It isn't the card number, and it only works with your API credentials and the email it was saved with. Keep it on your server and never expose it to the browser or app. |
 | **OTP challenge** | A step in which the customer's bank asks them to approve a charge with a one-time password sent to their phone or email. |
 
-<Card title="Next: Save a card on first payment" icon="arrow-right" href="/docs/products/accept-payment/recurring-payments/save-a-card">
+<Card title="Next: Save a card on first payment" icon="arrow-right" href="/docs/products/accept-payment/recurring-payments/hosted-checkout/save-a-card">
   Create the checkout order that saves the customer's card.
 </Card>

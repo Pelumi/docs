@@ -1,10 +1,4 @@
----
-title: "Complete an OTP challenge"
-sidebarTitle: "Complete an OTP challenge"
-description: "Submit the OTP from the customer's bank to finish a charge that returned otpRequired: true."
----
-
-**Step 4 of 5.** You only need this step if [the charge](/docs/products/accept-payment/recurring-payments/charge-a-saved-card) returned `otpRequired: true`. The customer's bank has sent them an OTP, and the charge stays pending until you submit it.
+**Step 4 of 5.** You only need this step if <a href={`${props.base}/charge-a-saved-card`}>the charge</a> returned `otpRequired: true`. The customer's bank has sent them an OTP, and the charge stays pending until you submit it.
 
 <Warning>
   Submit the OTP within 15 minutes. After that, Nomba checks the charge with the bank and marks it as failed if it isn't complete. To try again, start a new charge with a new `orderReference`.
@@ -56,7 +50,7 @@ curl --request POST \
 | `data.status` | `true` when the bank accepted the OTP and completed the charge. |
 | `data.message` | More detail about the result. |
 
-Even when `data.status` is `true`, [confirm the charge](/docs/products/accept-payment/recurring-payments/confirm-the-charge) before you give value.
+Even when `data.status` is `true`, <a href={`${props.base}/confirm-the-charge`}>confirm the charge</a> before you give value.
 
 ## If the OTP is wrong
 
@@ -79,6 +73,6 @@ curl --request POST \
 
 Resending doesn't extend the 15-minute limit.
 
-<Card title="Next: Confirm the charge" icon="arrow-right" href="/docs/products/accept-payment/recurring-payments/confirm-the-charge">
+<Card title="Next: Confirm the charge" icon="arrow-right" href={`${props.base}/confirm-the-charge`}>
   Check the final status before you give the customer value.
 </Card>
