@@ -1,115 +1,91 @@
-**Step 3 of 5.** When a payment is due, send the card token and the order details to Nomba. The customer doesn't need to be on your site, unless their bank asks for an OTP.
+# `POST /v1/checkout/tokenized-card-payment`
 
-## Send the charge
+<Warning>
+  Don't use `description` to decide what happened. It says `"tokenized transaction completed successfully"` whenever Nomba reached the bank, even when the charge was declined or is still waiting for an OTP. Read `data.status` and `data.otpRequired`.
+</Warning>
 
-```bash
-curl --request POST \
-  --url https://api.nomba.com/v1/checkout/tokenized-card-payment \
-  --header 'Authorization: Bearer <access_token>' \
-  --header 'Content-Type: application/json' \
-  --header 'accountId: <accountId>' \
-  --data '{
-    "tokenKey": "7628788443",
-    "order": {
-      "orderReference": "sub-2026-11-0001",
-      "customerId": "cus_48213",
-      "customerEmail": "ada@example.com",
-      "amount": "5000.00",
-      "currency": "NGN"
-    }
-  }'
-```
+#### Headers
 
-| Field | Required | Description |
-|---|---|---|
-| `tokenKey` | Yes | The card token you stored in step 2. |
-| `order.amount` | Yes | The amount to charge, as a string with two decimal places, for example `"5000.00"`. |
-| `order.currency` | Yes | The currency code, for example `NGN`. |
-| `order.customerEmail` | Yes | The email the card was saved with. A different email is rejected. |
-| `order.orderReference` | Recommended | Your unique reference for **this** charge, up to 50 characters. Use a new one every time, and keep it. You need it to submit an OTP and to verify the charge. Nomba generates one if you leave it out, but then you can't safely retry. |
-| `order.customerId` | No | Your ID for the customer. |
+<ParamField header="Authorization" type="string" required>
+  `Bearer <access_token>`
+</ParamField>
 
-Nomba credits the charge to your main account.
+<ParamField header="accountId" type="string" required>
+  Your account ID. Nomba credits the charge to this account.
+</ParamField>
 
-<Note>
-  Sub-account (`order.accountId`) and split (`order.splitRequest`) settings aren't applied to charges on a saved card yet. `callbackUrl` isn't needed either, because there's no page to redirect the customer to.
-</Note>
+#### Request body
+
+<ParamField body="tokenKey" type="string" required>
+  The card token you stored from the webhook
+</ParamField>
+
+<ParamField body="order" type="object" required>
+  Details of this charge
+  <Expandable title="object" defaultOpen="true">
+    <ParamField body="amount" type="string" required>
+      The amount to charge, as a string with two decimal places, for example `"5000.00"`
+    </ParamField>
+    <ParamField body="currency" type="string" required>
+      The currency code, for example `NGN`
+    </ParamField>
+    <ParamField body="customerEmail" type="string" required>
+      The email the card was saved with. A different email is rejected.
+    </ParamField>
+    <ParamField body="orderReference" type="string">
+      Your unique reference for **this** charge, up to 50 characters. Use a new one every time, and keep it: you need it to submit an OTP and to verify the charge. Nomba generates one if you leave it out, but then you can't safely retry.
+    </ParamField>
+    <ParamField body="customerId" type="string">
+      Your ID for the customer
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+Sub-account (`order.accountId`) and split (`order.splitRequest`) settings aren't applied to charges on a saved card yet. `callbackUrl` isn't needed, because there's no page to redirect the customer to.
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  `"00"` when Nomba sent the charge to the bank. `"400"` when Nomba rejected the request before charging the card.
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description. Don't use it to decide the outcome.
+</ResponseField>
+
+<ResponseField name="data" type="object" required>
+  <Expandable title="object" defaultOpen="true">
+    <ResponseField name="status" type="boolean" required>
+      `true` when the bank approved the charge
+    </ResponseField>
+    <ResponseField name="message" type="string" required>
+      The result, or the reason the charge failed
+    </ResponseField>
+    <ResponseField name="otpRequired" type="boolean" required>
+      `true` when the customer must approve the charge with an OTP
+    </ResponseField>
+    <ResponseField name="transactionId" type="string">
+      Returned only when `otpRequired` is `true`. Send it with the OTP.
+    </ResponseField>
+    <ResponseField name="orderId" type="string">
+      Nomba's ID for this charge
+    </ResponseField>
+    <ResponseField name="orderReference" type="string">
+      Your reference for this charge
+    </ResponseField>
+  </Expandable>
+</ResponseField>
 
 ## Read the response
 
-Check `code`, `data.status` and `data.otpRequired` to see what happened:
-
 | `code` | `data.status` | `data.otpRequired` | What it means | What to do |
 |---|---|---|---|---|
-| `"00"` | `true` | `false` | The bank approved the charge. | <a href={`${props.base}/confirm-the-charge`}>Confirm the charge</a> before you give value. |
-| `"00"` | `false` | `true` | The bank wants the customer to approve the charge with an OTP. The charge is pending. | Save `data.transactionId` and <a href={`${props.base}/complete-otp`}>complete the OTP challenge</a>. |
+| `"00"` | `true` | `false` | The bank approved the charge. | <a href={`${base}/confirm-the-charge`}>Confirm the charge</a> before you give value. |
+| `"00"` | `false` | `true` | The bank wants the customer to approve the charge with an OTP. The charge is pending. | Save `data.transactionId` and <a href={`${base}/complete-otp`}>complete the OTP challenge</a>. |
 | `"00"` | `false` | `false` | The bank declined the charge. `data.message` says why. | See [When a charge fails](#when-a-charge-fails). |
-| `"400"` | `false` | `false` | Nomba rejected the request before charging the card. `data.message` says why. | Fix the request. See [When a charge fails](#when-a-charge-fails). |
+| `"400"` | `false` | `false` | Nomba rejected the request before charging the card. | Fix the request. See [When a charge fails](#when-a-charge-fails). |
 
-<Warning>
-  Don't use `description` to decide what happened. It says `"tokenized transaction completed successfully"` whenever Nomba reached the bank, even when the charge was declined or is still waiting for an OTP.
-</Warning>
-
-<CodeGroup>
-```json Approved
-{
-  "code": "00",
-  "description": "tokenized transaction completed successfully",
-  "data": {
-    "status": true,
-    "message": "SUCCESS",
-    "orderId": "c4e1a7d2-0b3f-4f6e-8a2d-91b7e5c3f604",
-    "orderReference": "sub-2026-11-0001",
-    "otpRequired": false
-  }
-}
-```
-
-```json OTP required
-{
-  "code": "00",
-  "description": "tokenized transaction completed successfully",
-  "data": {
-    "status": false,
-    "message": "Please enter the OTP sent to the phone/email address registered with your bank.",
-    "orderId": "c4e1a7d2-0b3f-4f6e-8a2d-91b7e5c3f604",
-    "orderReference": "sub-2026-11-0001",
-    "otpRequired": true,
-    "transactionId": "a729d716-566f-4a47-986f-32b3fa39e075"
-  }
-}
-```
-
-```json Declined by the bank
-{
-  "code": "00",
-  "description": "tokenized transaction completed successfully",
-  "data": {
-    "status": false,
-    "message": "Insufficient funds.",
-    "orderId": "c4e1a7d2-0b3f-4f6e-8a2d-91b7e5c3f604",
-    "orderReference": "sub-2026-11-0001",
-    "otpRequired": false
-  }
-}
-```
-
-```json Rejected by Nomba
-{
-  "code": "400",
-  "description": "tokenized transaction failed",
-  "data": {
-    "status": false,
-    "message": "Email address doesn't match token key",
-    "orderId": null,
-    "orderReference": null,
-    "otpRequired": false
-  }
-}
-```
-</CodeGroup>
-
-An OTP is the only challenge you can complete on a saved-card charge. If the bank asks for a 3D Secure check instead, the charge fails, and the response has `data.status: false` and `otpRequired: false`. Ask the customer to make a new <a href={`${props.base}/save-a-card`}>card-saving payment</a> with that card.
+An OTP is the only challenge you can complete on a saved-card charge. If the bank asks for a 3D Secure check instead, the charge fails. Ask the customer to make a new card-saving payment with that card.
 
 ## Charge on a schedule
 
@@ -119,12 +95,7 @@ Nomba doesn't schedule API charges. Your server decides when each customer is du
 2. Charge each one with a new `orderReference`.
 3. Record the result against the customer's subscription.
 
-### Plan for OTPs during scheduled charges
-
-A scheduled charge runs when the customer isn't using your app. If their bank asks for an OTP, the customer still has to enter it within 15 minutes (see <a href={`${props.base}/complete-otp`}>Complete an OTP challenge</a>), or the charge fails. To give it the best chance of succeeding:
-
-- Run scheduled charges during the day, when customers are likely to see a message.
-- When `otpRequired` is `true`, notify the customer straight away, by push notification, SMS or email, with a link to a page where they can enter the code.
+A scheduled charge runs when the customer isn't using your app. If their bank asks for an OTP, the customer still has to enter it within 15 minutes, or the charge fails. Run scheduled charges during the day, and when `otpRequired` is `true`, notify the customer straight away with a link to a page where they can enter the code.
 
 ## When a charge fails
 
@@ -138,14 +109,92 @@ A scheduled charge runs when the customer isn't using your app. If their bank as
 | `Card payment is not supported for this order. Please use a different payment method.` | Card payments aren't enabled for your account. |
 | `Customer email is invalid` | `customerEmail` is missing or isn't a valid email address. |
 
-**Declined by the bank (`code` `"00"`, `data.status` `false`).** The bank's reason is in `data.message`, for example `Insufficient funds.`, `Your card has expired. Please use a different card.`, or a general decline. The exact wording depends on the bank and card network.
+**Declined by the bank (`code` `"00"`, `data.status` `false`).** The bank's reason is in `data.message`, for example `Insufficient funds.` or `Your card has expired. Please use a different card.` The exact wording depends on the bank and card network.
 
 To retry safely:
 
-- **If you don't know whether a charge went through** (for example, your request timed out), send it again with the **same** `orderReference`. Nomba never charges the same `orderReference` twice. If the first request did reach Nomba, the retry is rejected with "An order already exists with this order reference". <a href={`${props.base}/confirm-the-charge`}>Verify</a> that `orderReference` to see the result.
+- **If you don't know whether a charge went through** (for example, your request timed out), send it again with the **same** `orderReference`. Nomba never charges the same `orderReference` twice. If the first request reached Nomba, the retry is rejected with "An order already exists with this order reference". <a href={`${base}/confirm-the-charge`}>Verify</a> that `orderReference` to see the result.
 - **If the bank declined the charge, don't retry straight away.** Wait, for example 24 hours, and stop after a few attempts. Use a new `orderReference` for each new attempt.
-- **Ask the customer to update their card** if the charge keeps failing, or if the card has expired. They can add a new card with a new <a href={`${props.base}/save-a-card`}>card-saving payment</a>.
+- **Ask the customer for a new card** if the charge keeps failing, or if the card has expired.
 
-<Card title="Next: Complete an OTP challenge" icon="arrow-right" href={`${props.base}/complete-otp`}>
-  Finish a charge when the customer's bank asks for an OTP.
-</Card>
+<RequestExample>
+```bash Request
+curl --request POST \
+  --url https://api.nomba.com/v1/checkout/tokenized-card-payment \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountId>' \
+  --data '{
+    "tokenKey": "1321595684",
+    "order": {
+      "orderReference": "sub-2026-11-0001",
+      "customerId": "cus_48213",
+      "customerEmail": "ada@example.com",
+      "amount": "5000.00",
+      "currency": "NGN"
+    }
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Approved
+{
+  "code": "00",
+  "description": "tokenized transaction completed successfully",
+  "status": true,
+  "data": {
+    "status": true,
+    "message": "SUCCESS",
+    "orderId": "ae550652-a61a-4309-ae8d-1a38f330b9f8",
+    "orderReference": "sub-2026-11-0001",
+    "otpRequired": false
+  }
+}
+```
+
+```json OTP required
+{
+  "code": "00",
+  "description": "tokenized transaction completed successfully",
+  "status": true,
+  "data": {
+    "status": false,
+    "message": "Please enter the OTP sent to the phone/email address registered with your bank.",
+    "orderId": "ae550652-a61a-4309-ae8d-1a38f330b9f8",
+    "orderReference": "sub-2026-11-0001",
+    "otpRequired": true,
+    "transactionId": "8cc28e81-9438-47ec-bf63-ad897210b427"
+  }
+}
+```
+
+```json Declined
+{
+  "code": "00",
+  "description": "tokenized transaction completed successfully",
+  "status": true,
+  "data": {
+    "status": false,
+    "message": "Insufficient funds.",
+    "orderId": "ae550652-a61a-4309-ae8d-1a38f330b9f8",
+    "orderReference": "sub-2026-11-0001",
+    "otpRequired": false
+  }
+}
+```
+
+```json Rejected
+{
+  "code": "400",
+  "description": "tokenized transaction failed",
+  "data": {
+    "status": false,
+    "message": "Email address doesn't match token key",
+    "orderId": null,
+    "orderReference": null,
+    "otpRequired": false
+  }
+}
+```
+</ResponseExample>

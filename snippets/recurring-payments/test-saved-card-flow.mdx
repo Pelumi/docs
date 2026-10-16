@@ -29,7 +29,7 @@ To test your OTP screen and request, call `/sandbox/checkout/checkout-card-otp` 
 
 ## Checklist before you go live
 
-- [ ] A card-saving payment stores the `tokenKey` against the right customer, and falls back to <a href={`${props.base}/manage-saved-cards#list-a-customers-saved-cards`}>listing saved cards</a> if the webhook has no token.
+- [ ] A card-saving payment stores the `tokenKey` against the right customer, and falls back to <a href={`${base}/list-saved-cards`}>listing saved cards</a> if the webhook has no token.
 - [ ] An approved charge gives value once, and only after you've verified it.
 - [ ] An OTP charge notifies the customer, accepts the code, and completes.
 - [ ] A timed-out or wrong OTP leaves the subscription unpaid and is retried with a new `orderReference`.

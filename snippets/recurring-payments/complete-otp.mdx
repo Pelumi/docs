@@ -1,56 +1,51 @@
-**Step 4 of 5.** You only need this step if <a href={`${props.base}/charge-a-saved-card`}>the charge</a> returned `otpRequired: true`. The customer's bank has sent them an OTP, and the charge stays pending until you submit it.
+The bank sends the OTP to the phone number or email address linked to the card. Show the customer a field to enter it. If the customer isn't using your app, for example during a scheduled charge, send them a link to that screen straight away.
+
+# `POST /v1/checkout/checkout-card-otp`
 
 <Warning>
   Submit the OTP within 15 minutes. After that, Nomba checks the charge with the bank and marks it as failed if it isn't complete. To try again, start a new charge with a new `orderReference`.
 </Warning>
 
-## Ask the customer for the OTP
+#### Headers
 
-The bank sends the OTP to the phone number or email address linked to the card. Show the customer a field to enter it. For example:
+This call doesn't need an `Authorization` or `accountId` header.
 
-> **Enter the code from your bank**
-> Your bank sent a one-time code to the phone number or email linked to your Visa card ending 1119.
+#### Request body
 
-If the customer isn't using your app, for example during a scheduled charge, send them a link to this screen straight away.
+<ParamField body="otp" type="string" required>
+  The code the customer received from their bank
+</ParamField>
 
-## Submit the OTP
+<ParamField body="orderReference" type="string" required>
+  The `orderReference` you sent with the charge
+</ParamField>
 
-Send the OTP with the `orderReference` and `transactionId` from the charge. This call doesn't need an `Authorization` or `accountId` header.
+<ParamField body="transactionId" type="string" required>
+  The `transactionId` returned by the charge
+</ParamField>
 
-```bash
-curl --request POST \
-  --url https://api.nomba.com/v1/checkout/checkout-card-otp \
-  --header 'Content-Type: application/json' \
-  --data '{
-    "otp": "123456",
-    "orderReference": "sub-2026-11-0001",
-    "transactionId": "a729d716-566f-4a47-986f-32b3fa39e075"
-  }'
-```
+#### Response body
 
-| Field | Required | Description |
-|---|---|---|
-| `otp` | Yes | The code the customer received from their bank. |
-| `orderReference` | Yes | The `orderReference` you sent with the charge. |
-| `transactionId` | Yes | The `transactionId` returned by the charge. |
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
 
-```json
-{
-  "code": "00",
-  "description": "checkout otp processed successfully",
-  "data": {
-    "status": true,
-    "message": "SUCCESS"
-  }
-}
-```
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
 
-| Field | Description |
-|---|---|
-| `data.status` | `true` when the bank accepted the OTP and completed the charge. |
-| `data.message` | More detail about the result. |
+<ResponseField name="data" type="object" required>
+  <Expandable title="object" defaultOpen="true">
+    <ResponseField name="status" type="boolean" required>
+      `true` when the bank accepted the OTP and completed the charge
+    </ResponseField>
+    <ResponseField name="message" type="string" required>
+      More detail about the result
+    </ResponseField>
+  </Expandable>
+</ResponseField>
 
-Even when `data.status` is `true`, <a href={`${props.base}/confirm-the-charge`}>confirm the charge</a> before you give value.
+Even when `data.status` is `true`, <a href={`${base}/confirm-the-charge`}>confirm the charge</a> before you give value.
 
 ## If the OTP is wrong
 
@@ -60,19 +55,40 @@ You can submit an OTP **3 times** for each charge. After that, Nomba refuses fur
 
 ## Resend the OTP
 
-If the customer didn't get the code, ask Nomba to resend it. Send the charge's `transactionId` in the `orderReference` field:
+If the customer didn't get the code, call `POST /v1/checkout/resend-otp`. Send the charge's `transactionId` in the `orderReference` field. Resending doesn't extend the 15-minute limit.
 
-```bash
+<RequestExample>
+```bash Submit OTP
+curl --request POST \
+  --url https://api.nomba.com/v1/checkout/checkout-card-otp \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "otp": "975005",
+    "orderReference": "sub-2026-11-0001",
+    "transactionId": "8cc28e81-9438-47ec-bf63-ad897210b427"
+  }'
+```
+
+```bash Resend OTP
 curl --request POST \
   --url https://api.nomba.com/v1/checkout/resend-otp \
   --header 'Content-Type: application/json' \
   --data '{
-    "orderReference": "a729d716-566f-4a47-986f-32b3fa39e075"
+    "orderReference": "8cc28e81-9438-47ec-bf63-ad897210b427"
   }'
 ```
+</RequestExample>
 
-Resending doesn't extend the 15-minute limit.
-
-<Card title="Next: Confirm the charge" icon="arrow-right" href={`${props.base}/confirm-the-charge`}>
-  Check the final status before you give the customer value.
-</Card>
+<ResponseExample>
+```json Success response (200)
+{
+  "code": "00",
+  "description": "checkout otp processed successfully",
+  "status": true,
+  "data": {
+    "status": true,
+    "message": "SUCCESS"
+  }
+}
+```
+</ResponseExample>

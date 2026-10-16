@@ -1,0 +1,121 @@
+The first payment does two things. It proves that the card is valid and can be charged, and the customer approves the payment with their bank. After that, you can charge the card without the customer re-entering their card details.
+
+# `POST /v1/checkout/order`
+
+<Warning>
+  `tokenizeCard` goes at the **top level** of the request body, next to `order`. Nomba ignores it if you put it inside `order`, and the card isn't saved.
+</Warning>
+
+#### Headers
+
+<ParamField header="Authorization" type="string" required>
+  `Bearer <access_token>`. See [Authenticate](/docs/getting-started/authentication).
+</ParamField>
+
+<ParamField header="accountId" type="string" required>
+  Your account ID
+</ParamField>
+
+#### Request body
+
+These are the fields that matter for saving a card. For the full list, see [Create a checkout order](/docs/products/accept-payment/create-checkout-order).
+
+<ParamField body="order" type="object" required>
+  Details of the first payment
+  <Expandable title="object" defaultOpen="true">
+    <ParamField body="amount" type="string" required>
+      The amount of the first payment, as a string with two decimal places, for example `"5000.00"`
+    </ParamField>
+    <ParamField body="currency" type="string" required>
+      The currency code, for example `NGN`
+    </ParamField>
+    <ParamField body="customerEmail" type="string" required>
+      The customer's email address. The card is saved against this email, and every later charge must use the same one.
+    </ParamField>
+    <ParamField body="orderReference" type="string">
+      Your unique reference for this order, up to 50 characters. Nomba generates one if you leave it out.
+    </ParamField>
+    <ParamField body="customerId" type="string">
+      Your own ID for the customer. Nomba returns it in the webhook, so you can match the card token to the customer.
+    </ParamField>
+    <ParamField body="callbackUrl" type="string">
+      Where Nomba sends the customer after they pay on the checkout page
+    </ParamField>
+    <ParamField body="allowedPaymentMethods" type="string[]">
+      Set it to `["Card"]`. Only a card payment can be saved, so if the customer pays by transfer, you won't get a card token.
+    </ParamField>
+  </Expandable>
+</ParamField>
+
+<ParamField body="tokenizeCard" type="boolean" required>
+  Set it to `true` to save the card when the payment succeeds
+</ParamField>
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  `"00"` when the order was created
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="status" type="boolean" required>
+  Request status
+</ResponseField>
+
+<ResponseField name="data" type="object" required>
+  <Expandable title="object" defaultOpen="true">
+    <ResponseField name="success" type="boolean" required>
+      `true` when the order was created
+    </ResponseField>
+    <ResponseField name="message" type="string" required>
+      Response message
+    </ResponseField>
+    <ResponseField name="checkoutLink" type="string" required>
+      The link to the Nomba checkout page for this order
+    </ResponseField>
+    <ResponseField name="orderReference" type="string" required>
+      Nomba's ID for the order, not the reference you sent. The webhook returns it as `order.orderId`.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash Request
+curl --request POST \
+  --url https://api.nomba.com/v1/checkout/order \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountId>' \
+  --data '{
+    "order": {
+      "orderReference": "sub-2026-10-0001",
+      "customerId": "cus_48213",
+      "customerEmail": "ada@example.com",
+      "amount": "5000.00",
+      "currency": "NGN",
+      "callbackUrl": "https://example.com/payments/callback",
+      "allowedPaymentMethods": ["Card"]
+    },
+    "tokenizeCard": true
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success response (200)
+{
+  "code": "00",
+  "description": "checkout order created successful",
+  "status": true,
+  "data": {
+    "success": true,
+    "message": "Success",
+    "checkoutLink": "https://pay.nomba.com/checkout/be727ded-aa6e-4b6e-beea-898d4428740a",
+    "orderReference": "be727ded-aa6e-4b6e-beea-898d4428740a"
+  }
+}
+```
+</ResponseExample>

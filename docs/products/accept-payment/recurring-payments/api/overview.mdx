@@ -45,13 +45,19 @@ sequenceDiagram
 ```
 
 <Steps>
-  <Step title="Save the card on the first payment">
-    Create a checkout order with `tokenizeCard: true`, then submit the customer's card details and OTP. [Save a card →](/docs/products/accept-payment/recurring-payments/api/save-a-card)
+  <Step title="Create a checkout order">
+    Create the first order with `tokenizeCard: true`. [Create a checkout order →](/docs/products/accept-payment/recurring-payments/api/create-checkout-order)
+  </Step>
+  <Step title="Submit card details">
+    Send the card details the customer entered on your page. [Submit card details →](/docs/products/accept-payment/recurring-payments/api/submit-card-details)
+  </Step>
+  <Step title="Submit card OTP">
+    Send the OTP from the customer's bank to complete the first payment. [Submit card OTP →](/docs/products/accept-payment/recurring-payments/api/submit-card-otp)
   </Step>
   <Step title="Store the card token">
     Read the `tokenKey` from the `payment_success` webhook and save it with your customer's record. [Store the card token →](/docs/products/accept-payment/recurring-payments/api/store-the-card-token)
   </Step>
-  <Step title="Charge the saved card">
+  <Step title="Charge a saved card">
     When a payment is due, send the `tokenKey` and the amount to Nomba. [Charge a saved card →](/docs/products/accept-payment/recurring-payments/api/charge-a-saved-card)
   </Step>
   <Step title="Complete an OTP challenge, if the bank asks for one">
@@ -91,6 +97,6 @@ sequenceDiagram
 | **Card token (`tokenKey`)** | The value you send to charge a saved card. It isn't the card number, and it only works with your API credentials and the email it was saved with. Keep it on your server and never expose it to the browser or app. |
 | **OTP challenge** | A step in which the customer's bank asks them to approve a charge with a one-time password sent to their phone or email. |
 
-<Card title="Next: Save a card on first payment" icon="arrow-right" href="/docs/products/accept-payment/recurring-payments/api/save-a-card">
-  Create the checkout order that saves the customer's card.
+<Card title="Next: Create a checkout order" icon="arrow-right" href="/docs/products/accept-payment/recurring-payments/api/create-checkout-order">
+  Create the order that saves the customer's card.
 </Card>

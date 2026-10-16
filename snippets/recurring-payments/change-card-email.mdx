@@ -1,0 +1,80 @@
+Change the email address linked to a saved card, for example when a customer changes their email in your app. This endpoint changes only the email. It can't change the card itself.
+
+After this call, use the new email address when you charge the card. Charges with the old address are rejected.
+
+# `POST /v1/checkout/tokenized-card-data`
+
+#### Headers
+
+<ParamField header="Authorization" type="string" required>
+  `Bearer <access_token>`
+</ParamField>
+
+<ParamField header="accountId" type="string" required>
+  Your account ID
+</ParamField>
+
+#### Request body
+
+<ParamField body="tokenKey" type="string" required>
+  The card token
+</ParamField>
+
+<ParamField body="currentEmailAddress" type="string" required>
+  The email address currently linked to the card
+</ParamField>
+
+<ParamField body="newEmailAddress" type="string" required>
+  The email address to link to the card instead
+</ParamField>
+
+#### Response body
+
+<ResponseField name="data" type="object" required>
+  <Expandable title="object" defaultOpen="true">
+    <ResponseField name="status" type="boolean" required>
+      `true` when the email was changed. `false` if `currentEmailAddress` isn't the email linked to the card.
+    </ResponseField>
+    <ResponseField name="message" type="string" required>
+      Response message
+    </ResponseField>
+    <ResponseField name="tokenizedCardData" type="object">
+      The saved card, with its new email
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash Request
+curl --request POST \
+  --url https://api.nomba.com/v1/checkout/tokenized-card-data \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountId>' \
+  --data '{
+    "tokenKey": "1321595684",
+    "currentEmailAddress": "ada@example.com",
+    "newEmailAddress": "ada.obi@example.com"
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success response (200)
+{
+  "code": "00",
+  "description": "Success",
+  "data": {
+    "status": true,
+    "message": "Email address updated successfully",
+    "tokenizedCardData": {
+      "tokenKey": "1321595684",
+      "cardType": "Verve",
+      "tokenExpiryDate": "3108",
+      "cardPan": "1913",
+      "customerEmail": "ada.obi@example.com"
+    }
+  }
+}
+```
+</ResponseExample>

@@ -60,12 +60,19 @@
                         "group": "Hosted checkout",
                         "pages": [
                           "docs/products/accept-payment/recurring-payments/hosted-checkout/overview",
-                          "docs/products/accept-payment/recurring-payments/hosted-checkout/save-a-card",
+                          "docs/products/accept-payment/recurring-payments/hosted-checkout/create-checkout-order",
                           "docs/products/accept-payment/recurring-payments/hosted-checkout/store-the-card-token",
                           "docs/products/accept-payment/recurring-payments/hosted-checkout/charge-a-saved-card",
                           "docs/products/accept-payment/recurring-payments/hosted-checkout/complete-otp",
                           "docs/products/accept-payment/recurring-payments/hosted-checkout/confirm-the-charge",
-                          "docs/products/accept-payment/recurring-payments/hosted-checkout/manage-saved-cards",
+                          {
+                            "group": "Manage saved cards",
+                            "pages": [
+                              "docs/products/accept-payment/recurring-payments/hosted-checkout/list-saved-cards",
+                              "docs/products/accept-payment/recurring-payments/hosted-checkout/change-card-email",
+                              "docs/products/accept-payment/recurring-payments/hosted-checkout/delete-saved-card"
+                            ]
+                          },
                           "docs/products/accept-payment/recurring-payments/hosted-checkout/test-in-sandbox"
                         ]
                       },
@@ -73,12 +80,21 @@
                         "group": "API",
                         "pages": [
                           "docs/products/accept-payment/recurring-payments/api/overview",
-                          "docs/products/accept-payment/recurring-payments/api/save-a-card",
+                          "docs/products/accept-payment/recurring-payments/api/create-checkout-order",
+                          "docs/products/accept-payment/recurring-payments/api/submit-card-details",
+                          "docs/products/accept-payment/recurring-payments/api/submit-card-otp",
                           "docs/products/accept-payment/recurring-payments/api/store-the-card-token",
                           "docs/products/accept-payment/recurring-payments/api/charge-a-saved-card",
                           "docs/products/accept-payment/recurring-payments/api/complete-otp",
                           "docs/products/accept-payment/recurring-payments/api/confirm-the-charge",
-                          "docs/products/accept-payment/recurring-payments/api/manage-saved-cards",
+                          {
+                            "group": "Manage saved cards",
+                            "pages": [
+                              "docs/products/accept-payment/recurring-payments/api/list-saved-cards",
+                              "docs/products/accept-payment/recurring-payments/api/change-card-email",
+                              "docs/products/accept-payment/recurring-payments/api/delete-saved-card"
+                            ]
+                          },
                           "docs/products/accept-payment/recurring-payments/api/test-in-sandbox"
                         ]
                       }
