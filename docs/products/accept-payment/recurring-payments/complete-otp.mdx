@@ -1,0 +1,84 @@
+---
+title: "Complete an OTP challenge"
+sidebarTitle: "Complete an OTP challenge"
+description: "Submit the OTP from the customer's bank to finish a charge that returned otpRequired: true."
+---
+
+**Step 4 of 5.** You only need this step if [the charge](/docs/products/accept-payment/recurring-payments/charge-a-saved-card) returned `otpRequired: true`. The customer's bank has sent them an OTP, and the charge stays pending until you submit it.
+
+<Warning>
+  Submit the OTP within 15 minutes. After that, Nomba checks the charge with the bank and marks it as failed if it isn't complete. To try again, start a new charge with a new `orderReference`.
+</Warning>
+
+## Ask the customer for the OTP
+
+The bank sends the OTP to the phone number or email address linked to the card. Show the customer a field to enter it. For example:
+
+> **Enter the code from your bank**
+> Your bank sent a one-time code to the phone number or email linked to your Visa card ending 1119.
+
+If the customer isn't using your app, for example during a scheduled charge, send them a link to this screen straight away.
+
+## Submit the OTP
+
+Send the OTP with the `orderReference` and `transactionId` from the charge. This call doesn't need an `Authorization` or `accountId` header.
+
+```bash
+curl --request POST \
+  --url https://api.nomba.com/v1/checkout/checkout-card-otp \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "otp": "123456",
+    "orderReference": "sub-2026-11-0001",
+    "transactionId": "a729d716-566f-4a47-986f-32b3fa39e075"
+  }'
+```
+
+| Field | Required | Description |
+|---|---|---|
+| `otp` | Yes | The code the customer received from their bank. |
+| `orderReference` | Yes | The `orderReference` you sent with the charge. |
+| `transactionId` | Yes | The `transactionId` returned by the charge. |
+
+```json
+{
+  "code": "00",
+  "description": "checkout otp processed successfully",
+  "data": {
+    "status": true,
+    "message": "SUCCESS"
+  }
+}
+```
+
+| Field | Description |
+|---|---|
+| `data.status` | `true` when the bank accepted the OTP and completed the charge. |
+| `data.message` | More detail about the result. |
+
+Even when `data.status` is `true`, [confirm the charge](/docs/products/accept-payment/recurring-payments/confirm-the-charge) before you give value.
+
+## If the OTP is wrong
+
+If the bank rejects the OTP, `data.status` is `false` and `data.message` says why, for example "Incorrect OTP. Please retry with the correct OTP that's sent to your phone". Let the customer try again.
+
+You can submit an OTP **3 times** for each charge. After that, Nomba refuses further OTPs with the message `TOO MANY OTP ATTEMPTS`. Start a new charge with a new `orderReference`.
+
+## Resend the OTP
+
+If the customer didn't get the code, ask Nomba to resend it. Send the charge's `transactionId` in the `orderReference` field:
+
+```bash
+curl --request POST \
+  --url https://api.nomba.com/v1/checkout/resend-otp \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "orderReference": "a729d716-566f-4a47-986f-32b3fa39e075"
+  }'
+```
+
+Resending doesn't extend the 15-minute limit.
+
+<Card title="Next: Confirm the charge" icon="arrow-right" href="/docs/products/accept-payment/recurring-payments/confirm-the-charge">
+  Check the final status before you give the customer value.
+</Card>

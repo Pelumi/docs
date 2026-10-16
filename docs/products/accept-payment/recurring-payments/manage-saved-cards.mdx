@@ -1,0 +1,134 @@
+---
+title: "Manage saved cards"
+sidebarTitle: "Manage saved cards"
+description: "List a customer's saved cards, change the email linked to a card, or delete a card."
+---
+
+Once a card is saved, you can look it up, change the email address linked to it, or delete it. You can only see and change cards saved through your own Nomba account.
+
+## List a customer's saved cards
+
+Use this to show a customer their saved cards, or to find a token if you missed the webhook.
+
+```bash
+curl --request GET \
+  --url 'https://api.nomba.com/v1/checkout/tokenized-card-data?customerEmail=ada@example.com' \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'accountId: <accountId>'
+```
+
+| Query parameter | Description |
+|---|---|
+| `customerEmail` | The email address the card was saved with. When you send it, Nomba returns all of that customer's cards in one response and ignores the other parameters. |
+| `dateFrom` | Without `customerEmail`: return cards saved on or after this date and time, for example `2026-10-01T00:00:00`. |
+| `dateTo` | Without `customerEmail`: return cards saved on or before this date and time, for example `2026-10-31T23:59:59`. Defaults to now. |
+| `limit` | Without `customerEmail`: the number of cards per page. The default is `50`. |
+| `page` | Without `customerEmail`: the page to return. Omit it, or send `0`, for the first page. |
+
+```json
+{
+  "code": "00",
+  "description": "Success",
+  "data": {
+    "hasNextPage": false,
+    "nextPage": 0,
+    "tokenizedCardDataList": [
+      {
+        "tokenKey": "7628788443",
+        "cardType": "Visa",
+        "tokenExpiryDate": "2808",
+        "cardPan": "1119",
+        "customerEmail": "ada@example.com"
+      }
+    ]
+  }
+}
+```
+
+| Field | Description |
+|---|---|
+| `hasNextPage` | `true` if there are more cards to fetch. Always `false` when you send `customerEmail`. |
+| `nextPage` | The page to request next. `0` on the last page. |
+| `cardPan` | The last four digits of the card. |
+| `tokenExpiryDate` | When the card expires, as `YYMM`. `"2808"` means August 2028, which the webhook shows as `tokenExpiryMonth: "08"` and `tokenExpiryYear: "2028"`. |
+
+To get the next page, send the value of `data.nextPage` as `page`, until `hasNextPage` is `false`.
+
+## Change the email on a saved card
+
+Use this when a customer changes their email address in your app. This endpoint changes only the email. It can't change the card itself.
+
+```bash
+curl --request POST \
+  --url https://api.nomba.com/v1/checkout/tokenized-card-data \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountId>' \
+  --data '{
+    "tokenKey": "7628788443",
+    "currentEmailAddress": "ada@example.com",
+    "newEmailAddress": "ada.obi@example.com"
+  }'
+```
+
+| Field | Required | Description |
+|---|---|---|
+| `tokenKey` | Yes | The card token. |
+| `currentEmailAddress` | Yes | The email address currently linked to the card. |
+| `newEmailAddress` | Yes | The email address to link to the card instead. |
+
+```json
+{
+  "code": "00",
+  "description": "Success",
+  "data": {
+    "status": true,
+    "message": "Email address updated successfully",
+    "tokenizedCardData": {
+      "tokenKey": "7628788443",
+      "cardType": "Visa",
+      "tokenExpiryDate": "2808",
+      "cardPan": "418745**** ****1119",
+      "customerEmail": "ada.obi@example.com"
+    }
+  }
+}
+```
+
+If `currentEmailAddress` isn't the email linked to the card, `data.status` is `false` and the email isn't changed.
+
+After this call, use the new email address when you charge the card. Charges with the old address are rejected.
+
+## Delete a saved card
+
+Delete a card when the customer removes it or cancels their subscription. A deleted card can't be charged again.
+
+```bash
+curl --request DELETE \
+  --url https://api.nomba.com/v1/checkout/tokenized-card-data \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountId>' \
+  --data '{
+    "tokenKey": "7628788443"
+  }'
+```
+
+```json
+{
+  "code": "00",
+  "description": "Success",
+  "data": {
+    "status": true,
+    "message": "success"
+  }
+}
+```
+
+<Note>
+  This request sends a body with `DELETE`. Some HTTP clients and proxies remove the body from DELETE requests. If you get an error saying `tokenKey` is missing, check that your client sends the body.
+</Note>
+
+Also delete the token from your own database, so your scheduled job doesn't try to charge it.
+
+To replace a card, ask the customer to make a new [card-saving payment](/docs/products/accept-payment/recurring-payments/save-a-card), then delete the old card.

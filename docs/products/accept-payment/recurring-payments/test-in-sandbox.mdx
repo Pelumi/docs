@@ -1,0 +1,76 @@
+---
+title: "Test recurring payments"
+sidebarTitle: "Test recurring payments"
+description: "Run the whole saved-card flow in sandbox before you go live."
+---
+
+Test your integration in sandbox before you charge real customers. Use your sandbox credentials with the base URL `https://sandbox.nomba.com`. For setup, see [Sandbox testing](/docs/products/accept-payment/sandbox-testing).
+
+Sandbox checkout endpoints start with `/sandbox/checkout/` instead of `/v1/checkout/`:
+
+| Step | Sandbox endpoint |
+|---|---|
+| Save a card | `POST /sandbox/checkout/order` |
+| Charge a saved card | `POST /sandbox/checkout/tokenized-card-payment` |
+| Submit an OTP | `POST /sandbox/checkout/checkout-card-otp` |
+| List saved cards | `GET /sandbox/checkout/tokenized-card-data` |
+| Change the email on a saved card | `POST /sandbox/checkout/tokenized-card-data` |
+| Delete a saved card | `DELETE /sandbox/checkout/tokenized-card-data` |
+
+<Warning>
+  Sandbox doesn't save real cards. The sandbox `payment_success` webhook has no `tokenizedCardData`, and the saved-card endpoints return fixed sample responses. Use sandbox to test your request handling and webhook code, then run one real end-to-end charge in production with a small amount before you go live.
+</Warning>
+
+## 1. Test the card-saving payment
+
+Create a sandbox checkout order with `"tokenizeCard": true`, open the `checkoutLink`, and pay with this card:
+
+| Card number | Network | What happens |
+|---|---|---|
+| `5434621074252808` | Mastercard | The checkout asks for an OTP. Enter `9999` to approve the payment. |
+
+Any expiry date, CVV and PIN work in sandbox. Only the card number decides the outcome.
+
+Check that your webhook handler receives `payment_success`. Because sandbox doesn't return a token, use any test value, such as `test-token-1`, as the `tokenKey` in the next steps.
+
+## 2. Test a charge
+
+Send a charge to `/sandbox/checkout/tokenized-card-payment` with any `tokenKey`:
+
+| `order.orderReference` | Outcome |
+|---|---|
+| `1234567890` | Code `404`, "Record not found" |
+| Anything else | Approved: `data.status` is `true` |
+
+Sandbox can't return `otpRequired: true` for a saved-card charge, so you can't trigger the OTP challenge from a charge.
+
+## 3. Test OTP submission
+
+To test your OTP screen and request, call `/sandbox/checkout/checkout-card-otp` with any `orderReference` and `transactionId`. The `otp` decides the outcome:
+
+| OTP | Outcome | Message |
+|---|---|---|
+| `9999` | Approved | "Approved by Financial Institution" |
+| `1234` | Timed out | "Your payment has exceeded the time required to pay" |
+| `5464` | Wrong OTP | "Invalid OTP" |
+
+## 4. Test managing saved cards
+
+| Request | Value that returns `404` "Record not found" | Any other value |
+|---|---|---|
+| List saved cards | `customerEmail=test@test.com` | A sample list of cards |
+| Change the email | `tokenKey` `123` | Success |
+| Delete a card | `tokenKey` `123` | Success |
+
+## Checklist before you go live
+
+- [ ] A card-saving payment stores the `tokenKey` against the right customer, and falls back to [listing saved cards](/docs/products/accept-payment/recurring-payments/manage-saved-cards#list-a-customers-saved-cards) if the webhook has no token.
+- [ ] An approved charge gives value once, and only after you've verified it.
+- [ ] An OTP charge notifies the customer, accepts the code, and completes.
+- [ ] A timed-out or wrong OTP leaves the subscription unpaid and is retried with a new `orderReference`.
+- [ ] A declined charge is retried later, not straight away.
+- [ ] A request that timed out is retried with the same `orderReference`, then verified.
+- [ ] A duplicate webhook doesn't give value twice.
+- [ ] Your webhook handler rejects payloads with an invalid signature.
+- [ ] A deleted card is removed from your database and isn't charged again.
+- [ ] You've switched to production credentials and `https://api.nomba.com`, and run one real charge with a small amount.

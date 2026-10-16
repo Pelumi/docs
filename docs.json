@@ -50,17 +50,22 @@
                       "docs/products/accept-payment/verify-transactions",
                       "docs/products/accept-payment/refund-checkout-order",
                       "docs/products/accept-payment/cancel-checkout-order",
-                      {
-                        "group": "Recurring Payments",
-                        "pages": [
-                          "docs/products/accept-payment/recurring-payments",
-                          "docs/products/accept-payment/charge-tokenized-card",
-                          "docs/products/accept-payment/submit-tokenized-card-otp"
-                        ]
-                      },
                       "docs/products/accept-payment/server-to-server",
                       "docs/products/accept-payment/payment-methods",
                       "docs/products/accept-payment/sandbox-testing"
+                    ]
+                  },
+                  {
+                    "group": "Recurring payments",
+                    "pages": [
+                      "docs/products/accept-payment/recurring-payments/overview",
+                      "docs/products/accept-payment/recurring-payments/save-a-card",
+                      "docs/products/accept-payment/recurring-payments/store-the-card-token",
+                      "docs/products/accept-payment/recurring-payments/charge-a-saved-card",
+                      "docs/products/accept-payment/recurring-payments/complete-otp",
+                      "docs/products/accept-payment/recurring-payments/confirm-the-charge",
+                      "docs/products/accept-payment/recurring-payments/manage-saved-cards",
+                      "docs/products/accept-payment/recurring-payments/test-in-sandbox"
                     ]
                   },
                   "docs/products/accept-payment/direct-debit",
@@ -513,6 +518,18 @@
     {
       "source": "/docs/api-basics/testing",
       "destination": "/docs/api-basics/testing/overview"
+    },
+    {
+      "source": "/docs/products/accept-payment/recurring-payments",
+      "destination": "/docs/products/accept-payment/recurring-payments/overview"
+    },
+    {
+      "source": "/docs/products/accept-payment/charge-tokenized-card",
+      "destination": "/docs/products/accept-payment/recurring-payments/charge-a-saved-card"
+    },
+    {
+      "source": "/docs/products/accept-payment/submit-tokenized-card-otp",
+      "destination": "/docs/products/accept-payment/recurring-payments/complete-otp"
     }
   ]
 }

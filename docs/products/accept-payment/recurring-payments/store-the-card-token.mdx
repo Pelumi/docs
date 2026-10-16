@@ -1,0 +1,92 @@
+---
+title: "Get and store the card token"
+sidebarTitle: "Store the card token"
+description: "Read the card token from the payment_success webhook and save it against your customer."
+---
+
+**Step 2 of 5.** When the first payment succeeds, Nomba sends you the card token. Save it so you can charge the card later.
+
+## Get the token from the webhook
+
+Nomba sends a `payment_success` webhook to your webhook URL. The card token is in `data.tokenizedCardData`. This sample shows only the fields you need here:
+
+```json
+{
+  "event_type": "payment_success",
+  "requestId": "1ef33774-6d95-411c-b5e2-7c1a9d0f4b21",
+  "data": {
+    "tokenizedCardData": {
+      "tokenKey": "7628788443",
+      "cardType": "Visa",
+      "cardPan": "418745**** ****1119",
+      "tokenExpiryMonth": "08",
+      "tokenExpiryYear": "2028"
+    },
+    "order": {
+      "orderId": "b6a3c0f2-6d2e-4c1a-9a41-3f2b7d0c9e15",
+      "orderReference": "sub-2026-10-0001",
+      "customerId": "cus_48213",
+      "customerEmail": "ada@example.com",
+      "cardType": "Visa",
+      "cardLast4Digits": "1119",
+      "isTokenizedCardPayment": "false",
+      "amount": 5000.00,
+      "currency": "NGN"
+    }
+  }
+}
+```
+
+For the full payload, see [Webhooks](/docs/api-basics/webhook).
+
+| Field | Description |
+|---|---|
+| `tokenizedCardData.tokenKey` | The card token. Send it to charge the card. |
+| `tokenizedCardData.cardType` | The card scheme, for example `Visa`, `Mastercard` or `Verve`. |
+| `tokenizedCardData.cardPan` | The masked card number. Use it to help the customer recognise the card. |
+| `tokenizedCardData.tokenExpiryMonth` | The month the card expires, as `MM`. |
+| `tokenizedCardData.tokenExpiryYear` | The year the card expires, as `YYYY`. |
+| `order.customerEmail` | The email the card was saved with. |
+| `order.customerId` | The customer ID you sent when you created the order. |
+| `order.orderReference` | Your reference for the first payment. |
+| `order.cardLast4Digits` | The last four digits of the card. |
+| `order.isTokenizedCardPayment` | `"false"` for the first payment, and `"true"` for a later [charge on the saved card](/docs/products/accept-payment/recurring-payments/charge-a-saved-card). It's a string, not a boolean. |
+
+<Note>
+  If the webhook has no `tokenizedCardData`, or `tokenKey` is `"N/A"`, the card token wasn't ready when Nomba sent the webhook. This can happen when the bank approves the payment without an OTP, because Nomba saves the card in the background. Wait a few seconds, then [list the customer's saved cards](/docs/products/accept-payment/recurring-payments/manage-saved-cards#list-a-customers-saved-cards) by email. If the card still isn't there, check that you set `tokenizeCard: true` at the top level of the order request and that the customer paid by card.
+</Note>
+
+<Warning>
+  Check the webhook signature before you trust the payload. See [Webhooks](/docs/api-basics/webhook).
+</Warning>
+
+## Store the token
+
+Save these details with the customer's record in your database:
+
+| Store | Why |
+|---|---|
+| `tokenKey` | You need it for every charge. |
+| `customerEmail` | The email the card was saved with. You must send the same email with each charge. |
+| `cardType` and last four digits | To show the customer which card you'll charge. |
+| Expiry month and year | To ask the customer for a new card before this one expires. A charge on an expired card fails. |
+| `orderReference` of the first payment | For your records and for support queries. |
+| Date saved | For your records. |
+
+A token works only with the email address it was saved with. If you charge it with a different `customerEmail`, Nomba rejects the charge with "Email address doesn't match token key". If the customer changes their email in your app, [change the email on the saved card](/docs/products/accept-payment/recurring-payments/manage-saved-cards#change-the-email-on-a-saved-card) too.
+
+### Avoid duplicate cards
+
+If the customer saves the same card again with the same email, Nomba returns the same `tokenKey` as before. Check whether you already have that `tokenKey` for the customer before you add a new record. If the customer saves the same card with a different email, Nomba creates a new token.
+
+### Show the saved card to the customer
+
+When a customer pays again, show them which card you'll charge, for example **Visa ending 1119**. Let them choose a different saved card, or add a new one with a new [card-saving payment](/docs/products/accept-payment/recurring-payments/save-a-card).
+
+### Keep the token safe
+
+Store `tokenKey` on your server only. Don't send it to the browser or your mobile app, and don't log it in plain text. A token can't be used without your API credentials, but treat it as sensitive data anyway.
+
+<Card title="Next: Charge a saved card" icon="arrow-right" href="/docs/products/accept-payment/recurring-payments/charge-a-saved-card">
+  Use the token to charge the customer when a payment is due.
+</Card>

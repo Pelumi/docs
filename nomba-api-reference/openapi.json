@@ -3770,7 +3770,7 @@
                     "description": {
                       "type": "string",
                       "example": "tokenized transaction completed successfully",
-                      "description": "payment successful"
+                      "description": "Response description. It says the transaction completed even when the charge was declined or needs an OTP, so read `data.status` and `data.otpRequired` instead."
                     },
                     "data": {
                       "$ref": "#/components/schemas/TokenizedCardPaymentResponse"
@@ -3896,7 +3896,7 @@
     },
     "/v1/checkout/tokenized-card-data": {
       "get": {
-        "description": "Fetch list of merchant's tokenized cards",
+        "description": "List the cards your customers have saved. Filter by customer email, or page through cards saved in a date range.",
         "operationId": "List all tokenized cards for merchant",
         "parameters": [
           {
@@ -3911,7 +3911,7 @@
             "required": true
           },
           {
-            "description": "Merchant's email address",
+            "description": "The email address the card was saved with. When you send it, Nomba returns all of that customer's cards in one response and ignores the other query parameters.",
             "example": "abcde@gmail.com",
             "in": "query",
             "name": "customerEmail",
@@ -3920,28 +3920,38 @@
             }
           },
           {
-            "description": "Start date, based on the date the token was created",
-            "example": "2023-08-08T23:59:59",
+            "description": "Start date and time, based on the date the card was saved. Ignored when `customerEmail` is sent.",
+            "example": "2023-08-08T00:00:00",
             "in": "query",
-            "name": "startDate",
+            "name": "dateFrom",
             "schema": {
               "type": "string"
             }
           },
           {
-            "description": "end date, based on the date the token was created",
+            "description": "End date and time, based on the date the card was saved. Defaults to now. Ignored when `customerEmail` is sent.",
             "example": "2023-08-08T23:59:59",
             "in": "query",
-            "name": "endDate",
+            "name": "dateTo",
             "schema": {
               "type": "string"
             }
           },
           {
-            "description": "Specifies the page number to start retriving data from. For first request, this can be ommited or set to 0",
+            "description": "Page number to return. Omit it, or send `0`, for the first page. Ignored when `customerEmail` is sent.",
             "example": 0,
             "in": "query",
             "name": "page",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "description": "Number of cards per page. Defaults to `50`. Ignored when `customerEmail` is sent.",
+            "example": 50,
+            "in": "query",
+            "name": "limit",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -3968,15 +3978,20 @@
                     "data": {
                       "type": "object",
                       "properties": {
+                        "hasNextPage": {
+                          "type": "boolean",
+                          "description": "`true` if there are more cards to fetch",
+                          "example": false
+                        },
                         "nextPage": {
-                          "type": "string",
+                          "type": "integer",
                           "format": "int32",
-                          "description": "The value of the next page for data retrieval. This value is zero if there are no more pages to retrieve",
-                          "example": "2"
+                          "description": "The page to request next. `0` if there are no more pages.",
+                          "example": 0
                         },
                         "tokenizedCardDataList": {
                           "type": "array",
-                          "description": "Contains all tokenized card data meeting the search criteria",
+                          "description": "The saved cards that match the request",
                           "items": {
                             "$ref": "#/components/schemas/TokenizedCardData"
                           }
@@ -4078,13 +4093,13 @@
             "BearerAuth": []
           }
         ],
-        "summary": "List tokenized cards",
+        "summary": "List saved cards",
         "tags": [
           "Online Checkout"
         ]
       },
       "post": {
-        "description": "Update a tokenized card details",
+        "description": "Change the email address linked to a saved card. This endpoint can't change the card itself.",
         "operationId": "Update tokenized card data",
         "requestBody": {
           "content": {
@@ -4094,7 +4109,7 @@
               }
             }
           },
-          "description": "The request payload required to update the tokenized card data",
+          "description": "The card to update, and the email addresses",
           "required": true
         },
         "responses": {
@@ -4126,7 +4141,7 @@
                 }
               }
             },
-            "description": "Data update successful.",
+            "description": "Email address changed.",
             "headers": {
               "X-Rate-Limit-Limit": {
                 "description": "The number of allowed requests in the current period",
@@ -4217,7 +4232,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Update tokenized card data",
+        "summary": "Change the email linked to a saved card",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -4236,7 +4251,7 @@
         ]
       },
       "delete": {
-        "description": "Delete a tokenized card details",
+        "description": "Delete a saved card. A deleted card can't be charged again. The request sends a JSON body with DELETE, so check that your HTTP client doesn't drop it.",
         "operationId": "Delete tokenized card data",
         "requestBody": {
           "content": {
@@ -4246,7 +4261,7 @@
               }
             }
           },
-          "description": "The request payload required to update the tokenized card data",
+          "description": "The card to delete",
           "required": true
         },
         "responses": {
@@ -4278,7 +4293,7 @@
                 }
               }
             },
-            "description": "Data update successful.",
+            "description": "Card deleted.",
             "headers": {
               "X-Rate-Limit-Limit": {
                 "description": "The number of allowed requests in the current period",
@@ -4369,7 +4384,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Delete tokenized card data",
+        "summary": "Delete a saved card",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -20553,8 +20568,8 @@
         "properties": {
           "status": {
             "type": "boolean",
-            "description": "status",
-            "example": "true"
+            "description": "`true` when the card was deleted",
+            "example": true
           },
           "message": {
             "type": "string",
@@ -20568,18 +20583,18 @@
         "properties": {
           "tokenKey": {
             "type": "string",
-            "description": "token key",
+            "description": "The card token",
             "example": "5844858382"
           },
           "currentEmailAddress": {
             "type": "string",
-            "description": "customer email currently associated with the key",
+            "description": "The email address currently linked to the card",
             "example": "email@email.com"
           },
           "newEmailAddress": {
             "type": "string",
-            "description": "new email to replace the old one",
-            "example": "email@email.com"
+            "description": "The email address to link to the card instead",
+            "example": "new.email@email.com"
           }
         },
         "required": [
@@ -20593,18 +20608,16 @@
         "properties": {
           "status": {
             "type": "boolean",
-            "description": "status",
-            "example": "true"
+            "description": "`true` when the email was changed. `false` if `currentEmailAddress` isn't the email linked to the card.",
+            "example": true
           },
           "message": {
             "type": "string",
-            "description": "customer email currently associated with the key",
-            "example": "email@email.com"
+            "description": "Response message",
+            "example": "Email address updated successfully"
           },
           "tokenizedCardData": {
-            "items": {
-              "$ref": "#/components/schemas/TokenizedCardData"
-            }
+            "$ref": "#/components/schemas/TokenizedCardData"
           }
         }
       },
@@ -20871,28 +20884,28 @@
         "properties": {
           "tokenKey": {
             "type": "string",
-            "description": "the key associated with the tokenzied card",
+            "description": "The card token (`tokenKey`) you charge the card with",
             "example": "e890bd1a9f0d"
           },
           "customerEmail": {
             "type": "string",
-            "description": "customer email",
+            "description": "The email address the card was saved with",
             "example": "email@email.com"
           },
           "cardType": {
             "type": "string",
-            "description": "Unique reference used to track an account from an external process. Would be auto-generated if not provided at the point of creation.",
+            "description": "The card scheme, for example `Visa`, `Mastercard` or `Verve`",
             "example": "Verve"
           },
           "cardPan": {
             "type": "string",
-            "description": "Card pan",
-            "example": "234818********7580"
+            "description": "The card number. List saved cards returns only the last four digits.",
+            "example": "7580"
           },
-          "tokenExpirationDate": {
+          "tokenExpiryDate": {
             "type": "string",
-            "description": "token expiration date",
-            "example": "20/20"
+            "description": "When the card expires, as `YYMM`. `2808` means August 2028.",
+            "example": "2808"
           }
         }
       },
@@ -24241,7 +24254,7 @@
     },
     "securitySchemes": {
       "BearerAuth": {
-        "description": "Nomba authenticates API calls with [OAuth2 HTTP bearer tokens](http://tools.ietf.org/html/rfc6750). There are two methods of authentication; [Client-Credentials method](https://www.rfc-editor.org/rfc/rfc6749) and [PKCE (Proof Key for Code Exchange)](https://www.rfc-editor.org/rfc/rfc7636) method. In each of the methods, You will get an `ACCESS_TOKEN`. You need to use an `\"Authorization\"` HTTP header to provide your `ACCESS_TOKEN`. For example: `Authorization: {ACCESS_TOKEN}`.",
+        "description": "Nomba authenticates API calls with [OAuth2 HTTP bearer tokens](http://tools.ietf.org/html/rfc6750). There are two methods of authentication; [Client-Credentials method](https://www.rfc-editor.org/rfc/rfc6749) and [PKCE (Proof Key for Code Exchange)](https://www.rfc-editor.org/rfc/rfc7636) method. Both methods return an access token. Send it in the `Authorization` header: `Authorization: Bearer <access_token>`.",
         "scheme": "bearer",
         "type": "http",
         "bearerFormat": "JWT"
