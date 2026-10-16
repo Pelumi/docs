@@ -50,7 +50,14 @@
                       "docs/products/accept-payment/verify-transactions",
                       "docs/products/accept-payment/refund-checkout-order",
                       "docs/products/accept-payment/cancel-checkout-order",
-                      "docs/products/accept-payment/recurring-payments",
+                      {
+                        "group": "Recurring Payments",
+                        "pages": [
+                          "docs/products/accept-payment/recurring-payments",
+                          "docs/products/accept-payment/charge-tokenized-card",
+                          "docs/products/accept-payment/submit-tokenized-card-otp"
+                        ]
+                      },
                       "docs/products/accept-payment/server-to-server",
                       "docs/products/accept-payment/payment-methods",
                       "docs/products/accept-payment/sandbox-testing"

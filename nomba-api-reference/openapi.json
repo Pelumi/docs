@@ -3769,7 +3769,7 @@
                     },
                     "description": {
                       "type": "string",
-                      "example": "Success",
+                      "example": "tokenized transaction completed successfully",
                       "description": "payment successful"
                     },
                     "data": {
@@ -5014,7 +5014,7 @@
                     },
                     "description": {
                       "type": "string",
-                      "example": "Success",
+                      "example": "checkout otp processed successfully",
                       "description": "Response description"
                     },
                     "data": {
@@ -20198,8 +20198,8 @@
           },
           "transactionId": {
             "type": "string",
-            "description": "transaction id returend when the card details were submitted",
-            "example": "c4307d58-2513-41d8-b7f7-dfecd5f9fdbe"
+            "description": "transaction id returned when the card details were submitted, or by a tokenized card charge that requires an OTP",
+            "example": "a729d716-566f-4a47-986f-32b3fa39e075"
           }
         },
         "required": [
@@ -20214,12 +20214,12 @@
           "status": {
             "type": "boolean",
             "description": "true is the transaction was successful",
-            "example": "true"
+            "example": true
           },
           "message": {
             "type": "string",
             "description": "details response message",
-            "example": "success"
+            "example": "SUCCESS"
           }
         },
         "required": [
@@ -20785,17 +20785,27 @@
           "status": {
             "type": "boolean",
             "description": "status of the transaction",
-            "example": "true"
+            "example": false
           },
           "message": {
             "type": "string",
             "description": "some details of the transaction response.",
-            "example": "success"
+            "example": "Please enter the OTP sent to the phone/email address registered with your bank."
+          },
+          "orderId": {
+            "type": "string",
+            "description": "The order ID",
+            "example": "b6a3c0f2-6d2e-4c1a-9a41-3f2b7d0c9e15"
+          },
+          "orderReference": {
+            "type": "string",
+            "description": "The order reference",
+            "example": "90e81e8a-bc14-4ebf-89c0-57da752cca58"
           },
           "otpRequired": {
             "type": "boolean",
             "description": "true when the customer's bank requires an OTP to complete the charge. The charge stays pending until the OTP is submitted with transactionId to /v1/checkout/checkout-card-otp.",
-            "example": false
+            "example": true
           },
           "transactionId": {
             "type": "string",
