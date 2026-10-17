@@ -524,6 +524,12 @@
   "scripts": [
     {
       "src": "/widget.js"
+    },
+    {
+      "src": "/sdk-playground-map.js"
+    },
+    {
+      "src": "/try-it-dropdown.js"
     }
   ],
   "footer": {
