@@ -1,0 +1,23 @@
+---
+title: "Charge a saved card"
+sidebarTitle: "Charge a saved card"
+description: "Charge a customer's saved card with its tokenKey whenever a payment is due."
+---
+
+import ChargeASavedCard from '/snippets/recurring-payments/charge-a-saved-card.mdx';
+
+<CardGroup cols={2}>
+  <Card
+    title="Charge a customer using tokenized card data"
+    icon="link-simple"
+    href="/nomba-api-reference/online-checkout/charge-a-customer-using-tokenized-card-data"
+  ></Card>
+</CardGroup>
+
+**Step 3 of 5.** When a payment is due, send the card token and the order details to Nomba. The customer doesn't need to be on your site, unless their bank asks for an OTP.
+
+<ChargeASavedCard base="/docs/products/accept-payment/recurring-payments/hosted-checkout" />
+
+<Card title="Next: Complete an OTP challenge" icon="arrow-right" href="/docs/products/accept-payment/recurring-payments/hosted-checkout/complete-otp">
+  Finish a charge when the customer's bank asks for an OTP.
+</Card>

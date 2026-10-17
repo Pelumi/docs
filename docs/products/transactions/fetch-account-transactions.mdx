@@ -1,0 +1,99 @@
+---
+title: 'Fetch Account Transactions'
+description: 'Fetch account transactions within a specific timeframe'
+---
+
+<CardGroup cols={2}>
+  <Card
+    title="Fetch transactions on the parent account"
+    icon="link-simple"
+    href="/nomba-api-reference/transactions/fetch-transactions-on-the-parent-account"
+  ></Card>
+</CardGroup>
+
+# `GET /v1/transactions/accounts`
+
+Fetch account transactions within a specific timeframe. You can pass query params to specify a timeframe using `dateFrom` and `dateTo`. You can also set a `limit` as it's a paginated endpoint.
+
+<Note>
+  Transaction APIs are paginated. We recommend reviewing the [pagination guide](/docs/api-basics/pagination) to understand how to work with paginated endpoints.
+</Note>
+
+#### Query parameters
+
+<ParamField query="limit" type="integer">
+  Number of results to return per page
+</ParamField>
+
+<ParamField query="dateFrom" type="string">
+  Start date for filtering transactions (ISO 8601 format)
+</ParamField>
+
+<ParamField query="dateTo" type="string">
+  End date for filtering transactions (ISO 8601 format)
+</ParamField>
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="object" defaultOpen="true">
+    <ResponseField name="results" type="object[]">
+      List of transactions
+    </ResponseField>
+    <ResponseField name="cursor" type="string">
+      Pagination cursor for next page
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash Request
+curl --request GET \
+  --url 'https://api.nomba.com/v1/transactions/accounts?limit=10&dateFrom=2023-01-01T00:00:00&dateTo=2025-01-01T00:00:00' \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountId>'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success response (200)
+{
+  "code": "00",
+  "description": "Success",
+  "data": {
+    "results": [
+      {
+        "id": "POS-WITHDRAW-DFC05-693cd007-cd1e-4ea6-8b79-5f5c4d7a83ea",
+        "status": "SUCCESS",
+        "amount": 4000,
+        "fixedCharge": 123,
+        "source": "pos",
+        "type": "withdrawal",
+        "gatewayMessage": "SUCCESS",
+        "customerBillerId": "539983 **** **** 5118",
+        "timeCreated": "2023-09-08T19:26:34.657000Z",
+        "posTid": "2KUD4AKB",
+        "terminalId": "2KUD4AKB",
+        "rrn": "230908202632",
+        "posSerialNumber": "91230309116826",
+        "posTerminalLabel": "KEB MUSA ABUBAKAR",
+        "stan": "556734",
+        "paymentVendorReference": "2KUD4AKB230908202632",
+        "userId": "dfc05ca1-4e75-41dd-8e41-2d362d565893",
+        "posRrn": "230908202632",
+        "merchantTxRef": "c90d-4b25-ad0f"
+      }
+    ],
+    "cursor": "xchbaVFsjdsbaADddd"
+  }
+}
+```
+</ResponseExample>

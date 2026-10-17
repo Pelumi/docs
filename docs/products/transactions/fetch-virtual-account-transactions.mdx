@@ -1,0 +1,101 @@
+---
+title: 'Fetch Virtual Account Transactions'
+description: 'Fetch transactions on a virtual account'
+---
+
+<CardGroup cols={2}>
+  <Card
+    title="Fetch virtual account transactions"
+    icon="link-simple"
+    href="/nomba-api-reference/transactions/fetch-transactions-on-the-parent-account"
+  ></Card>
+</CardGroup>
+
+# `GET /v1/transactions/virtual`
+
+Fetch transactions on a virtual account. Pass the `virtual_account` query parameter with the account number. You can also filter by `dateFrom` and `dateTo`.
+
+<Note>
+  Transaction APIs are paginated. We recommend reviewing the [pagination guide](/docs/api-basics/pagination) to understand how to work with paginated endpoints.
+</Note>
+
+#### Query parameters
+
+<ParamField query="virtual_account" type="string" required>
+  The virtual account number
+</ParamField>
+
+<ParamField query="dateFrom" type="string">
+  Start date for filtering transactions
+</ParamField>
+
+<ParamField query="dateTo" type="string">
+  End date for filtering transactions
+</ParamField>
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="object" defaultOpen="true">
+    <ResponseField name="results" type="object[]">
+      List of virtual account transactions
+    </ResponseField>
+    <ResponseField name="cursor" type="string">
+      Pagination cursor for next page
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash Request
+curl --request GET \
+  --url 'https://api.nomba.com/v1/transactions/virtual?virtual_account=8578228675&dateFrom=2025-06-24&dateTo=2025-06-25' \
+  --header 'accountId: <accountId>' \
+  --header 'Authorization: Bearer <token>'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success response (200)
+{
+  "code": "00",
+  "description": "SUCCESS",
+  "status": true,
+  "data": {
+    "cursor": "",
+    "results": [
+      {
+        "id": "API-VACT_TRA-FFCBE-9eb634eb-4dc5-46a9-bb65-7d03d6b88c1c",
+        "status": "SUCCESS",
+        "amount": "100.0",
+        "fixedCharge": "0.5",
+        "source": "api",
+        "type": "vact_transfer",
+        "customerBillerId": "8065219824",
+        "timeCreated": "2025-06-24T11:31:35.017Z",
+        "timeUpdated": "2025-06-24T11:31:35.107Z",
+        "walletCurrency": "NGN",
+        "walletBalance": "457.0",
+        "senderName": "John Doe",
+        "recipientAccountNumber": "8578228675",
+        "recipientAccountType": "VIRTUAL",
+        "recipientAccountName": "Clean/Agboola Oyenike",
+        "sessionId": "100004250624113131135397696024",
+        "bankName": "Paycom (Opay)",
+        "entryType": "CREDIT",
+        "transactionCategory": "Income",
+        "narration": "Transfer from John Doe"
+      }
+    ]
+  }
+}
+```
+</ResponseExample>

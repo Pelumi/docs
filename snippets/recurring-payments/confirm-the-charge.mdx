@@ -1,0 +1,91 @@
+## Listen for the webhook
+
+When a charge succeeds, Nomba sends a `payment_success` webhook to your webhook URL, with the same structure as the <a href={`${base}/store-the-card-token`}>first payment</a>. When a charge fails, Nomba sends `payment_failed`. Match the webhook to the charge by `data.order.orderReference`.
+
+`data.order.isTokenizedCardPayment` is `"true"` (a string) for a charge on a saved card, and `"false"` for the first, card-saving payment. Use it to tell renewals apart from first payments in your webhook handler.
+
+Nomba retries a webhook if your server doesn't respond with a `2xx` status, so the same event can arrive more than once. Give value only once for each `orderReference`.
+
+# `GET /v1/transactions/accounts/single`
+
+Look up the charge by your `orderReference`. For other ways to look up a transaction, see [Verify transactions](/docs/products/accept-payment/verify-transactions).
+
+#### Headers
+
+<ParamField header="Authorization" type="string" required>
+  `Bearer <access_token>`
+</ParamField>
+
+<ParamField header="accountId" type="string" required>
+  Your account ID
+</ParamField>
+
+#### Query parameters
+
+<ParamField query="orderReference" type="string" required>
+  The `orderReference` you sent with the charge
+</ParamField>
+
+#### Response body
+
+<ResponseField name="data.status" type="string" required>
+  `"SUCCESS"` when the charge succeeded
+</ResponseField>
+
+<ResponseField name="data.amount" type="string" required>
+  The transaction amount
+</ResponseField>
+
+<ResponseField name="data.onlineCheckoutOrderReference" type="string" required>
+  Your `orderReference`
+</ResponseField>
+
+The charge succeeded only if **all** of these are true:
+
+- `data.status` is `"SUCCESS"`.
+- `data.onlineCheckoutOrderReference` matches the `orderReference` you charged.
+- The amount matches the amount you charged.
+
+If the status is anything else, don't give value yet. Check again later, or wait for the webhook.
+
+<RequestExample>
+```bash Request
+curl --request GET \
+  --url 'https://api.nomba.com/v1/transactions/accounts/single?orderReference=sub-2026-11-0001' \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'accountId: <accountId>'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success response (200)
+{
+  "code": "00",
+  "description": "SUCCESS",
+  "data": {
+    "id": "WEB-ONLINE_C-613BB-783e42db-1bac-438a-b671-62614e721aea",
+    "status": "SUCCESS",
+    "amount": "5000.00",
+    "source": "web",
+    "type": "online_checkout",
+    "gatewayMessage": "PAYMENT SUCCESSFUL",
+    "onlineCheckoutOrderId": "ae550652-a61a-4309-ae8d-1a38f330b9f8",
+    "onlineCheckoutOrderReference": "sub-2026-11-0001",
+    "onlineCheckoutCurrency": "NGN",
+    "onlineCheckoutCustomerEmail": "ada@example.com",
+    "onlineCheckoutAmount": "5000.00",
+    "onlineCheckoutPaymentMethod": "card_payment",
+    "currency": "NGN",
+    "entryType": "CREDIT"
+  }
+}
+```
+
+```json Not found
+{
+  "code": "01",
+  "description": "Transaction not found",
+  "data": null
+}
+```
+</ResponseExample>

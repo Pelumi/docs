@@ -1,0 +1,101 @@
+Look up the cards your customers have saved. Use this to show a customer their saved cards, or to find a card token if you missed the webhook. You can only see cards saved through your own Nomba account.
+
+# `GET /v1/checkout/tokenized-card-data`
+
+#### Headers
+
+<ParamField header="Authorization" type="string" required>
+  `Bearer <access_token>`
+</ParamField>
+
+<ParamField header="accountId" type="string" required>
+  Your account ID
+</ParamField>
+
+#### Query parameters
+
+<ParamField query="customerEmail" type="string">
+  The email address the card was saved with. When you send it, Nomba returns all of that customer's cards in one response and ignores the other parameters.
+</ParamField>
+
+<ParamField query="dateFrom" type="string">
+  Without `customerEmail`: return cards saved on or after this date and time, for example `2026-10-01T00:00:00`
+</ParamField>
+
+<ParamField query="dateTo" type="string">
+  Without `customerEmail`: return cards saved on or before this date and time. Defaults to now.
+</ParamField>
+
+<ParamField query="limit" type="integer" default="50">
+  Without `customerEmail`: the number of cards per page
+</ParamField>
+
+<ParamField query="page" type="integer">
+  Without `customerEmail`: the page to return. Omit it, or send `0`, for the first page.
+</ParamField>
+
+#### Response body
+
+<ResponseField name="data" type="object" required>
+  <Expandable title="object" defaultOpen="true">
+    <ResponseField name="hasNextPage" type="boolean" required>
+      `true` if there are more cards to fetch. Always `false` when you send `customerEmail`.
+    </ResponseField>
+    <ResponseField name="nextPage" type="integer" required>
+      The page to request next. `0` on the last page.
+    </ResponseField>
+    <ResponseField name="tokenizedCardDataList" type="object[]" required>
+      The saved cards
+      <Expandable title="object">
+        <ResponseField name="tokenKey" type="string" required>
+          The card token
+        </ResponseField>
+        <ResponseField name="customerEmail" type="string" required>
+          The email the card was saved with
+        </ResponseField>
+        <ResponseField name="cardType" type="string" required>
+          The card scheme, for example `Visa`
+        </ResponseField>
+        <ResponseField name="cardPan" type="string" required>
+          The last four digits of the card
+        </ResponseField>
+        <ResponseField name="tokenExpiryDate" type="string" required>
+          When the card expires, as `YYMM`. `"2808"` means August 2028.
+        </ResponseField>
+      </Expandable>
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+To get the next page, send the value of `data.nextPage` as `page`, until `hasNextPage` is `false`.
+
+<RequestExample>
+```bash Request
+curl --request GET \
+  --url 'https://api.nomba.com/v1/checkout/tokenized-card-data?customerEmail=ada@example.com' \
+  --header 'Authorization: Bearer <access_token>' \
+  --header 'accountId: <accountId>'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success response (200)
+{
+  "code": "00",
+  "description": "Success",
+  "data": {
+    "hasNextPage": false,
+    "nextPage": 0,
+    "tokenizedCardDataList": [
+      {
+        "tokenKey": "1321595684",
+        "cardType": "Verve",
+        "tokenExpiryDate": "3108",
+        "cardPan": "1913",
+        "customerEmail": "ada@example.com"
+      }
+    ]
+  }
+}
+```
+</ResponseExample>

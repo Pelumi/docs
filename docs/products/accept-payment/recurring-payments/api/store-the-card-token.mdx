@@ -1,0 +1,15 @@
+---
+title: "Get and store the card token"
+sidebarTitle: "Store the card token"
+description: "Read the card token from the payment_success webhook and save it against your customer."
+---
+
+import StoreTheCardToken from '/snippets/recurring-payments/store-the-card-token.mdx';
+
+**Step 4 of 7.** When the first payment succeeds, Nomba sends you the card token in a `payment_success` webhook. Save it so you can charge the card later.
+
+<StoreTheCardToken base="/docs/products/accept-payment/recurring-payments/api" />
+
+<Card title="Next: Charge a saved card" icon="arrow-right" href="/docs/products/accept-payment/recurring-payments/api/charge-a-saved-card">
+  Use the token to charge the customer when a payment is due.
+</Card>

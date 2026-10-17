@@ -1,0 +1,143 @@
+# `payment_success` webhook
+
+Nomba sends the webhook to your webhook URL. The card token is in `data.tokenizedCardData`. For the full payload, see [Webhooks](/docs/api-basics/webhook).
+
+<Warning>
+  Check the webhook signature before you trust the payload. See [Webhooks](/docs/api-basics/webhook).
+</Warning>
+
+#### Webhook body
+
+<ResponseField name="event_type" type="string" required>
+  `payment_success`
+</ResponseField>
+
+<ResponseField name="data.tokenizedCardData" type="object">
+  The saved card
+  <Expandable title="object" defaultOpen="true">
+    <ResponseField name="tokenKey" type="string" required>
+      The card token. Send it to charge the card.
+    </ResponseField>
+    <ResponseField name="cardType" type="string" required>
+      The card scheme, for example `Visa`, `Mastercard` or `Verve`
+    </ResponseField>
+    <ResponseField name="cardPan" type="string" required>
+      The masked card number. Use it to help the customer recognise the card.
+    </ResponseField>
+    <ResponseField name="tokenExpiryMonth" type="string" required>
+      The month the card expires, as `MM`
+    </ResponseField>
+    <ResponseField name="tokenExpiryYear" type="string" required>
+      The year the card expires, as `YYYY`
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<ResponseField name="data.order" type="object" required>
+  The order the customer paid
+  <Expandable title="object">
+    <ResponseField name="customerEmail" type="string" required>
+      The email the card was saved with
+    </ResponseField>
+    <ResponseField name="customerId" type="string">
+      The customer ID you sent when you created the order
+    </ResponseField>
+    <ResponseField name="orderReference" type="string" required>
+      Your reference for the first payment
+    </ResponseField>
+    <ResponseField name="orderId" type="string" required>
+      Nomba's ID for the order, returned as `data.orderReference` when you created it
+    </ResponseField>
+    <ResponseField name="cardLast4Digits" type="string">
+      The last four digits of the card
+    </ResponseField>
+    <ResponseField name="isTokenizedCardPayment" type="string" required>
+      `"false"` for the first payment, and `"true"` for a later charge on the saved card. It's a string, not a boolean.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<Note>
+  If the webhook has no `tokenizedCardData`, or `tokenKey` is `"N/A"`, the card token wasn't ready when Nomba sent the webhook. This can happen when the bank approves the payment without an OTP, because Nomba saves the card in the background. Wait a few seconds, then <a href={`${base}/list-saved-cards`}>list the customer's saved cards</a> by email.
+</Note>
+
+## Store the token
+
+Save these details with the customer's record in your database:
+
+| Store | Why |
+|---|---|
+| `tokenKey` | You need it for every charge. |
+| `customerEmail` | The email the card was saved with. You must send the same email with each charge. |
+| `cardType` and last four digits | To show the customer which card you'll charge. |
+| Expiry month and year | To ask the customer for a new card before this one expires. A charge on an expired card fails. |
+| `orderReference` of the first payment | For your records and for support queries. |
+
+A token works only with the email address it was saved with. If you charge it with a different `customerEmail`, Nomba rejects the charge with "Email address doesn't match token key". If the customer changes their email in your app, <a href={`${base}/change-card-email`}>change the email on the saved card</a> too.
+
+### Avoid duplicate cards
+
+If the customer saves the same card again with the same email, Nomba returns the same `tokenKey` as before. Check whether you already have that `tokenKey` for the customer before you add a new record. If the customer saves the same card with a different email, Nomba creates a new token.
+
+### Show the saved card to the customer
+
+When a customer pays again, show them which card you'll charge, for example **Visa ending 1119**. Let them choose a different saved card, or add a new one with a new card-saving payment.
+
+### Keep the token safe
+
+Store `tokenKey` on your server only. Don't send it to the browser or your mobile app, and don't log it in plain text.
+
+<ResponseExample>
+```json Webhook payload
+{
+  "event_type": "payment_success",
+  "requestId": "b974e36b-5c17-4b90-bcdb-fa24d1ec3a5d",
+  "data": {
+    "merchant": {
+      "walletId": "<walletId>",
+      "walletBalance": 4197.08,
+      "userId": "<userId>"
+    },
+    "terminal": {},
+    "tokenizedCardData": {
+      "tokenKey": "1321595684",
+      "cardType": "Verve",
+      "tokenExpiryYear": "2031",
+      "tokenExpiryMonth": "08",
+      "cardPan": "507872**** ****1913"
+    },
+    "transaction": {
+      "fee": 1.4,
+      "type": "online_checkout",
+      "transactionId": "WEB-ONLINE_C-613BB-783e42db-1bac-438a-b671-62614e721aea",
+      "cardIssuer": "Verve",
+      "responseCode": "",
+      "originatingFrom": "web",
+      "merchantTxRef": "<merchantTxRef>",
+      "transactionAmount": 101.4,
+      "time": "2026-10-16T15:00:06Z"
+    },
+    "customer": {
+      "billerId": "507872**** ****1913",
+      "productId": "507872"
+    },
+    "order": {
+      "amount": 101.4,
+      "orderId": "be727ded-aa6e-4b6e-beea-898d4428740a",
+      "cardType": "Verve",
+      "orderMetaData": { "region": "NG" },
+      "accountId": "<accountId>",
+      "cardLast4Digits": "1913",
+      "cardCurrency": "NGN",
+      "customerEmail": "ada@example.com",
+      "customerId": "cus_48213",
+      "isTokenizedCardPayment": "false",
+      "orderReference": "sub-2026-10-0001",
+      "paymentMethod": "card_payment",
+      "callbackUrl": "https://example.com/payments/callback",
+      "currency": "NGN"
+    }
+  }
+}
+```
+</ResponseExample>

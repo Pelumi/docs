@@ -1,0 +1,100 @@
+---
+title: 'Fetch Bank Transactions'
+description: 'Fetch debit or credit transactions associated with an account'
+---
+
+<CardGroup cols={2}>
+  <Card
+    title="Fetch credit/debit transactions"
+    icon="link-simple"
+    href="/nomba-api-reference/transactions/fetch-creditdebit-transactions-on-the-parent-account"
+  ></Card>
+</CardGroup>
+
+# `GET /v1/transactions/bank`
+
+Fetch debit or credit transactions associated with an account.
+
+<Note>
+  Transaction APIs are paginated. We recommend reviewing the [pagination guide](/docs/api-basics/pagination) to understand how to work with paginated endpoints.
+</Note>
+
+#### Query parameters
+
+<ParamField query="limit" type="integer">
+  Number of results to return per page
+</ParamField>
+
+<ParamField query="cursor" type="string">
+  Pagination cursor for scrolling to the next page. Only use when returned by a previous request.
+</ParamField>
+
+<ParamField query="dateFrom" type="string">
+  Start date for filtering transactions (UTC). Example: `2023-01-01T00:00:00`
+</ParamField>
+
+<ParamField query="dateTo" type="string">
+  End date for filtering transactions (UTC). Example: `2024-09-30T23:59:59`
+</ParamField>
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="object" defaultOpen="true">
+    <ResponseField name="results" type="object[]">
+      List of bank transactions
+    </ResponseField>
+    <ResponseField name="cursor" type="string">
+      Pagination cursor for next page
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash Request
+curl --request GET \
+  --url https://api.nomba.com/v1/transactions/bank \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountId>'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success response (200)
+{
+  "code": "00",
+  "description": "Success",
+  "data": {
+    "results": [
+      {
+        "amount": 7000,
+        "currency": "NGN",
+        "meta": {
+          "billerId": "API_FCIR5UQFMYS",
+          "productId": "p2p",
+          "fee": 0,
+          "type": "p2p",
+          "transactionId": "API-P2P-84026-d8a4d658-6747-418d-a7e2-37bc6290310d",
+          "parentAccountId": "01a10aeb-d989-460a-bbde-9842f2b4320f",
+          "accountId": "890022ce-bae0-45c1-9b9d-ee7872e6ca27",
+          "transactionAmount": 7000
+        },
+        "status": "SUCCESS",
+        "timeUpdated": "2023-09-08T19:05:21.000Z",
+        "walletBalance": 285951,
+        "transactionType": "DEBIT"
+      }
+    ],
+    "cursor": "xchbaVFsjdsbaADddd"
+  }
+}
+```
+</ResponseExample>

@@ -50,12 +50,58 @@
                       "docs/products/accept-payment/verify-transactions",
                       "docs/products/accept-payment/refund-checkout-order",
                       "docs/products/accept-payment/cancel-checkout-order",
-                      "docs/products/accept-payment/recurring-payments",
-                      "docs/products/accept-payment/server-to-server",
-                      "docs/products/accept-payment/payment-methods",
                       "docs/products/accept-payment/sandbox-testing"
                     ]
                   },
+                  {
+                    "group": "Recurring payments",
+                    "pages": [
+                      {
+                        "group": "Hosted checkout",
+                        "pages": [
+                          "docs/products/accept-payment/recurring-payments/hosted-checkout/overview",
+                          "docs/products/accept-payment/recurring-payments/hosted-checkout/create-checkout-order",
+                          "docs/products/accept-payment/recurring-payments/hosted-checkout/store-the-card-token",
+                          "docs/products/accept-payment/recurring-payments/hosted-checkout/charge-a-saved-card",
+                          "docs/products/accept-payment/recurring-payments/hosted-checkout/complete-otp",
+                          "docs/products/accept-payment/recurring-payments/hosted-checkout/confirm-the-charge",
+                          {
+                            "group": "Manage saved cards",
+                            "pages": [
+                              "docs/products/accept-payment/recurring-payments/hosted-checkout/list-saved-cards",
+                              "docs/products/accept-payment/recurring-payments/hosted-checkout/change-card-email",
+                              "docs/products/accept-payment/recurring-payments/hosted-checkout/delete-saved-card"
+                            ]
+                          },
+                          "docs/products/accept-payment/recurring-payments/hosted-checkout/test-in-sandbox"
+                        ]
+                      },
+                      {
+                        "group": "API",
+                        "pages": [
+                          "docs/products/accept-payment/recurring-payments/api/overview",
+                          "docs/products/accept-payment/recurring-payments/api/create-checkout-order",
+                          "docs/products/accept-payment/recurring-payments/api/submit-card-details",
+                          "docs/products/accept-payment/recurring-payments/api/submit-card-otp",
+                          "docs/products/accept-payment/recurring-payments/api/store-the-card-token",
+                          "docs/products/accept-payment/recurring-payments/api/charge-a-saved-card",
+                          "docs/products/accept-payment/recurring-payments/api/complete-otp",
+                          "docs/products/accept-payment/recurring-payments/api/confirm-the-charge",
+                          {
+                            "group": "Manage saved cards",
+                            "pages": [
+                              "docs/products/accept-payment/recurring-payments/api/list-saved-cards",
+                              "docs/products/accept-payment/recurring-payments/api/change-card-email",
+                              "docs/products/accept-payment/recurring-payments/api/delete-saved-card"
+                            ]
+                          },
+                          "docs/products/accept-payment/recurring-payments/api/test-in-sandbox"
+                        ]
+                      }
+                    ]
+                  },
+                  "docs/products/accept-payment/server-to-server",
+                  "docs/products/accept-payment/payment-methods",
                   "docs/products/accept-payment/direct-debit",
                   {
                     "group": "DRC Collection",
@@ -136,7 +182,10 @@
                 "icon": "receipt",
                 "pages": [
                   "docs/products/transactions/introduction",
-                  "docs/products/transactions/fetch-transactions"
+                  "docs/products/transactions/fetch-account-transactions",
+                  "docs/products/transactions/fetch-bank-transactions",
+                  "docs/products/transactions/fetch-virtual-account-transactions",
+                  "docs/products/transactions/transaction-requery"
                 ]
               },
               {
@@ -382,11 +431,13 @@
               "nomba-api-reference/bills/pay-for-electricity-via-parent-account",
               "nomba-api-reference/bills/pay-for-electricity-via-sub-account-v2",
               "nomba-api-reference/bills/pay-for-electricity-via-sub-account",
+              "nomba-api-reference/bills/fetch-cable-tv-plans",
               "nomba-api-reference/bills/subscribe-to-cabletv-via-parent-account-v2",
               "nomba-api-reference/bills/subscribe-to-cabletv-via-parent-account",
               "nomba-api-reference/bills/subscribe-to-cabletv-via-sub-account-v2",
               "nomba-api-reference/bills/subscribe-to-cabletv-via-sub-account",
               "nomba-api-reference/bills/name-lookup-for-cabletv",
+              "nomba-api-reference/bills/name-lookup-for-electricity-v2",
               "nomba-api-reference/bills/name-lookup-for-electricity"
             ]
           },
@@ -501,6 +552,18 @@
     {
       "source": "/docs/api-basics/testing",
       "destination": "/docs/api-basics/testing/overview"
+    },
+    {
+      "source": "/docs/products/accept-payment/recurring-payments",
+      "destination": "/docs/products/accept-payment/recurring-payments/hosted-checkout/overview"
+    },
+    {
+      "source": "/docs/products/accept-payment/charge-tokenized-card",
+      "destination": "/docs/products/accept-payment/recurring-payments/hosted-checkout/charge-a-saved-card"
+    },
+    {
+      "source": "/docs/products/accept-payment/submit-tokenized-card-otp",
+      "destination": "/docs/products/accept-payment/recurring-payments/hosted-checkout/complete-otp"
     }
   ]
 }

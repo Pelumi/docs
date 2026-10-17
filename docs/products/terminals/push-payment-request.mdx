@@ -5,16 +5,98 @@ description: How to initiate and process payments using the Nomba payment termin
 
 This integration enables you to initiate payments directly on a Nomba physical payment terminal from your backend system. It allows seamless coordination between your client, server, and a Nomba terminal for in-person payments.
 
-## API Docs
-
 <CardGroup cols={2}>
   <Card
     title="Push payment to terminal"
     icon="link-simple"
     href="/nomba-api-reference/terminals/push-payment-request"
-  >
-  </Card>
+  ></Card>
 </CardGroup>
+
+# `POST /v1/terminals/payment-request/{terminalId}`
+
+#### Path parameters
+
+<ParamField path="terminalId" type="string" required>
+  The unique identifier of the terminal to send the payment request to.
+</ParamField>
+
+#### Request body
+
+<ParamField body="merchantTxRef" type="string" required>
+  The unique identifier for the order associated with the payment.
+</ParamField>
+
+<ParamField body="amount" type="number" required>
+  The total amount to be charged on the terminal, in the smallest currency unit (e.g., kobo).
+</ParamField>
+
+<ParamField body="currency" type="string" required>
+  Currency code based on the ISO4217 standard. Allowed values: `NGN`, `USD`, `CDF`.
+</ParamField>
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  <Expandable title="object" defaultOpen="true">
+    <ResponseField name="paymentId" type="string" required>
+      Unique identifier for the payment.
+    </ResponseField>
+    <ResponseField name="status" type="string" required>
+      Current status of the payment. Possible values: `pending`, `completed`, `failed`.
+    </ResponseField>
+    <ResponseField name="amount" type="number" required>
+      Amount of the payment.
+    </ResponseField>
+    <ResponseField name="currency" type="string" required>
+      Currency code for the payment.
+    </ResponseField>
+    <ResponseField name="createdAt" type="string" required>
+      Timestamp when the payment was created.
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+<RequestExample>
+```bash Request
+curl --request POST \
+  --url https://api.nomba.com/v1/terminals/payment-request/<terminalId> \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountId>' \
+  --data '{
+    "merchantTxRef": "55555555",
+    "amount": 1000,
+    "currency": "NGN"
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success response (200)
+{
+  "code": "00",
+  "description": "Success",
+  "data": {
+    "paymentId": "890022ce-bae0-45c1-9b9d-ee7872e6ca27",
+    "status": "pending",
+    "amount": 1000,
+    "currency": "NGN",
+    "createdAt": "2023-08-30T14:56:59.000Z"
+  }
+}
+```
+</ResponseExample>
+
+---
 
 ## How It Works
 
@@ -22,37 +104,24 @@ This integration enables you to initiate payments directly on a Nomba physical p
     <img src="/images/payment-request-flow.png" style={{ borderRadius: '0.5rem' }} loading="lazy" />
 </Frame>
 
-
 ### Flow Description
 
-1. **Customer Orders an Item**  
+1. **Customer Orders an Item**
    The customer initiates a purchase through your client application.
 
-2. **Client Sends Order to Server**  
+2. **Client Sends Order to Server**
    Your frontend sends the order details (including `orderId`, `amount`, and `currency`) to your backend.
 
-3. **Server Sends Payment Request to Nomba**  
+3. **Server Sends Payment Request to Nomba**
    Your backend uses the `POST /v1/terminals/payment-request/{terminalId}` endpoint to trigger a payment on the specific terminal.
 
-   #### Endpoint: `POST /v1/terminals/payment-request/{terminalId}`
-
-   **Request Body Schema**: `TerminalPaymentRequest`
-
-   ```json
-   {
-     "merchantTxRef": "55555555",
-     "amount": 1000,
-     "currency": "NGN"
-   }
-   ```
-
-4. **Nomba Pushes Payment to Terminal**  
+4. **Nomba Pushes Payment to Terminal**
    The terminal receives a payment prompt and displays the amount to the customer.
 
-5. **Customer Makes Payment on Terminal**  
+5. **Customer Makes Payment on Terminal**
    The customer completes the payment using a supported payment method.
 
-6. **Nomba Sends Webhook to Your Server**  
+6. **Nomba Sends Webhook to Your Server**
    Upon successful payment, Nomba sends a webhook to your server with the payment confirmation and metadata.
 
 ## Webhook Notification

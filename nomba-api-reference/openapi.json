@@ -3769,8 +3769,8 @@
                     },
                     "description": {
                       "type": "string",
-                      "example": "Success",
-                      "description": "payment successful"
+                      "example": "tokenized transaction completed successfully",
+                      "description": "Response description. It says the transaction completed even when the charge was declined or needs an OTP, so read `data.status` and `data.otpRequired` instead."
                     },
                     "data": {
                       "$ref": "#/components/schemas/TokenizedCardPaymentResponse"
@@ -3896,7 +3896,7 @@
     },
     "/v1/checkout/tokenized-card-data": {
       "get": {
-        "description": "Fetch list of merchant's tokenized cards",
+        "description": "List the cards your customers have saved. Filter by customer email, or page through cards saved in a date range.",
         "operationId": "List all tokenized cards for merchant",
         "parameters": [
           {
@@ -3911,7 +3911,7 @@
             "required": true
           },
           {
-            "description": "Merchant's email address",
+            "description": "The email address the card was saved with. When you send it, Nomba returns all of that customer's cards in one response and ignores the other query parameters.",
             "example": "abcde@gmail.com",
             "in": "query",
             "name": "customerEmail",
@@ -3920,28 +3920,38 @@
             }
           },
           {
-            "description": "Start date, based on the date the token was created",
-            "example": "2023-08-08T23:59:59",
+            "description": "Start date and time, based on the date the card was saved. Ignored when `customerEmail` is sent.",
+            "example": "2023-08-08T00:00:00",
             "in": "query",
-            "name": "startDate",
+            "name": "dateFrom",
             "schema": {
               "type": "string"
             }
           },
           {
-            "description": "end date, based on the date the token was created",
+            "description": "End date and time, based on the date the card was saved. Defaults to now. Ignored when `customerEmail` is sent.",
             "example": "2023-08-08T23:59:59",
             "in": "query",
-            "name": "endDate",
+            "name": "dateTo",
             "schema": {
               "type": "string"
             }
           },
           {
-            "description": "Specifies the page number to start retriving data from. For first request, this can be ommited or set to 0",
+            "description": "Page number to return. Omit it, or send `0`, for the first page. Ignored when `customerEmail` is sent.",
             "example": 0,
             "in": "query",
             "name": "page",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "description": "Number of cards per page. Defaults to `50`. Ignored when `customerEmail` is sent.",
+            "example": 50,
+            "in": "query",
+            "name": "limit",
             "schema": {
               "type": "integer",
               "format": "int32"
@@ -3968,15 +3978,20 @@
                     "data": {
                       "type": "object",
                       "properties": {
+                        "hasNextPage": {
+                          "type": "boolean",
+                          "description": "`true` if there are more cards to fetch",
+                          "example": false
+                        },
                         "nextPage": {
-                          "type": "string",
+                          "type": "integer",
                           "format": "int32",
-                          "description": "The value of the next page for data retrieval. This value is zero if there are no more pages to retrieve",
-                          "example": "2"
+                          "description": "The page to request next. `0` if there are no more pages.",
+                          "example": 0
                         },
                         "tokenizedCardDataList": {
                           "type": "array",
-                          "description": "Contains all tokenized card data meeting the search criteria",
+                          "description": "The saved cards that match the request",
                           "items": {
                             "$ref": "#/components/schemas/TokenizedCardData"
                           }
@@ -4078,13 +4093,13 @@
             "BearerAuth": []
           }
         ],
-        "summary": "List tokenized cards",
+        "summary": "List saved cards",
         "tags": [
           "Online Checkout"
         ]
       },
       "post": {
-        "description": "Update a tokenized card details",
+        "description": "Change the email address linked to a saved card. This endpoint can't change the card itself.",
         "operationId": "Update tokenized card data",
         "requestBody": {
           "content": {
@@ -4094,7 +4109,7 @@
               }
             }
           },
-          "description": "The request payload required to update the tokenized card data",
+          "description": "The card to update, and the email addresses",
           "required": true
         },
         "responses": {
@@ -4126,7 +4141,7 @@
                 }
               }
             },
-            "description": "Data update successful.",
+            "description": "Email address changed.",
             "headers": {
               "X-Rate-Limit-Limit": {
                 "description": "The number of allowed requests in the current period",
@@ -4217,7 +4232,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Update tokenized card data",
+        "summary": "Change the email linked to a saved card",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -4236,7 +4251,7 @@
         ]
       },
       "delete": {
-        "description": "Delete a tokenized card details",
+        "description": "Delete a saved card. A deleted card can't be charged again. The request sends a JSON body with DELETE, so check that your HTTP client doesn't drop it.",
         "operationId": "Delete tokenized card data",
         "requestBody": {
           "content": {
@@ -4246,7 +4261,7 @@
               }
             }
           },
-          "description": "The request payload required to update the tokenized card data",
+          "description": "The card to delete",
           "required": true
         },
         "responses": {
@@ -4278,7 +4293,7 @@
                 }
               }
             },
-            "description": "Data update successful.",
+            "description": "Card deleted.",
             "headers": {
               "X-Rate-Limit-Limit": {
                 "description": "The number of allowed requests in the current period",
@@ -4369,7 +4384,7 @@
             "BearerAuth": []
           }
         ],
-        "summary": "Delete tokenized card data",
+        "summary": "Delete a saved card",
         "parameters": [
           {
             "description": "The parent accountId of the business.",
@@ -5014,7 +5029,7 @@
                     },
                     "description": {
                       "type": "string",
-                      "example": "Success",
+                      "example": "checkout otp processed successfully",
                       "description": "Response description"
                     },
                     "data": {
@@ -9961,8 +9976,18 @@
                     },
                     "description": {
                       "type": "string",
-                      "example": "Success",
+                      "example": "SUCCESS",
                       "description": "Response description"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "SUCCESS",
+                      "description": "Response message"
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "example": true,
+                      "description": "Request status"
                     },
                     "data": {
                       "$ref": "#/components/schemas/DataPlanList"
@@ -9971,7 +9996,22 @@
                   "required": [
                     "code",
                     "description",
+                    "message",
+                    "status",
                     "data"
+                  ]
+                },
+                "example": {
+                  "code": "00",
+                  "description": "SUCCESS",
+                  "message": "SUCCESS",
+                  "status": true,
+                  "data": [
+                    {"plan": "110MB Daily Plan", "amount": 100, "productId": "mtn1"},
+                    {"plan": "1GB + 1.5mins 1 day Plan", "amount": 500, "productId": "mtn16"},
+                    {"plan": "2.7GB+5mins Monthly Plan", "amount": 2000, "productId": "mtn6"},
+                    {"plan": "7GB Monthly Plan", "amount": 3500, "productId": "mtn30"},
+                    {"plan": "20GB Monthly Plan - 30days", "amount": 7500, "productId": "mtn5"}
                   ]
                 }
               }
@@ -12251,6 +12291,189 @@
         ]
       }
     },
+    "/v1/bill/cableTvProduct": {
+      "get": {
+        "description": "You can use this endpoint to fetch available cable TV subscription plans for a specific provider (DSTV, GOTV, Startimes, ShowMax)",
+        "operationId": "Fetch cable TV plans",
+        "parameters": [
+          {
+            "description": "The cable TV provider type",
+            "example": "dstv",
+            "in": "query",
+            "name": "cableTvType",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": ["dstv", "gotv", "startimes", "showmax"]
+            }
+          },
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00",
+                      "description": "Response Code"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "SUCCESS",
+                      "description": "Response description"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "SUCCESS",
+                      "description": "Response message"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/CableTvPlanList"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "description",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": "00",
+                  "description": "SUCCESS",
+                  "message": "SUCCESS",
+                  "data": [
+                    {"subScriptionType": "PADI", "amount": 4400.0},
+                    {"subScriptionType": "YANGA", "amount": 6000.0},
+                    {"subScriptionType": "CONFAM", "amount": 11000.0},
+                    {"subScriptionType": "COMPACT", "amount": 19000.0},
+                    {"subScriptionType": "COMPACT_PLUS", "amount": 30000.0},
+                    {"subScriptionType": "PREMIUM", "amount": 44500.0}
+                  ]
+                }
+              }
+            },
+            "description": "OK - your request was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "Resource not available"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Fetch cable TV plans",
+        "tags": [
+          "Cable & Bill Payments"
+        ]
+      }
+    },
     "/v1/bill/cabletv/lookup": {
       "get": {
         "description": "This endpoint is for fetching customer information data",
@@ -13497,8 +13720,18 @@
                     },
                     "description": {
                       "type": "string",
-                      "example": "Success",
+                      "example": "SUCCESS",
                       "description": "Response description"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "SUCCESS",
+                      "description": "Response message"
+                    },
+                    "status": {
+                      "type": "boolean",
+                      "example": true,
+                      "description": "Request status"
                     },
                     "data": {
                       "$ref": "#/components/schemas/DiscoList"
@@ -13507,7 +13740,27 @@
                   "required": [
                     "code",
                     "description",
+                    "message",
+                    "status",
                     "data"
+                  ]
+                },
+                "example": {
+                  "code": "00",
+                  "description": "SUCCESS",
+                  "message": "SUCCESS",
+                  "status": true,
+                  "data": [
+                    {"id": "phed", "name": "Port Harcourt (PHED)"},
+                    {"id": "jed", "name": "Jos Electric (JEDC)"},
+                    {"id": "kaduna", "name": "Kaduna Electric (KAEDCO)"},
+                    {"id": "ibedc", "name": "Ibadan Electric (IBEDC)"},
+                    {"id": "eko", "name": "Eko Electric (EKEDC)"},
+                    {"id": "benin", "name": "Benin Electric (BEDC)"},
+                    {"id": "abuja", "name": "Abuja Electric (AEDC)"},
+                    {"id": "kano", "name": "Kano Electric (KEDCO)"},
+                    {"id": "ikeja", "name": "Ikeja Electric (IKEDC)"},
+                    {"id": "enugu", "name": "Enugu Electric (EEDC)"}
                   ]
                 }
               }
@@ -13621,7 +13874,8 @@
     },
     "/v1/bill/electricity/lookup": {
       "get": {
-        "description": "This endpoint is for fetching customer information data from an electricity vending provider",
+        "description": "**Deprecated.** This endpoint is deprecated and will be removed in a future release. Use `GET /v2/bill/electricity/lookup` instead, which also returns the customer's address.",
+        "deprecated": true,
         "operationId": "ELECTRICITY_CUSTOMER_LOOKUP",
         "parameters": [
           {
@@ -13777,6 +14031,184 @@
           }
         ],
         "summary": "Fetch customer information from an electricity provider",
+        "tags": [
+          "Electricity Vending"
+        ]
+      }
+    },
+    "/v2/bill/electricity/lookup": {
+      "get": {
+        "description": "This endpoint is for fetching the customer's name and address from an electricity vending provider. Use it to confirm the customer's details before vending electricity.",
+        "operationId": "ELECTRICITY_CUSTOMER_LOOKUP_V2",
+        "parameters": [
+          {
+            "description": "disco",
+            "example": "phed",
+            "in": "query",
+            "name": "disco",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          },
+          {
+            "description": "customerId",
+            "example": "12347899",
+            "in": "query",
+            "name": "customerId",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00",
+                      "description": "Response Code"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "Success",
+                      "description": "Response description"
+                    },
+                    "data": {
+                      "type": "object",
+                      "description": "The customer's details as returned by the electricity provider",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "example": "John Doe",
+                          "description": "The name of the customer"
+                        },
+                        "address": {
+                          "type": "string",
+                          "example": "12 Adeola Odeku Street, Victoria Island, Lagos",
+                          "description": "The address of the customer. Returns `unknown` when the provider does not supply an address."
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "address"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
+                }
+              }
+            },
+            "description": "OK - your request was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Fetch customer information from an electricity provider (v2)",
         "tags": [
           "Electricity Vending"
         ]
@@ -19781,8 +20213,8 @@
           },
           "transactionId": {
             "type": "string",
-            "description": "transaction id returend when the card details were submitted",
-            "example": "c4307d58-2513-41d8-b7f7-dfecd5f9fdbe"
+            "description": "transaction id returned when the card details were submitted, or by a tokenized card charge that requires an OTP",
+            "example": "a729d716-566f-4a47-986f-32b3fa39e075"
           }
         },
         "required": [
@@ -19797,12 +20229,12 @@
           "status": {
             "type": "boolean",
             "description": "true is the transaction was successful",
-            "example": "true"
+            "example": true
           },
           "message": {
             "type": "string",
             "description": "details response message",
-            "example": "success"
+            "example": "SUCCESS"
           }
         },
         "required": [
@@ -20136,8 +20568,8 @@
         "properties": {
           "status": {
             "type": "boolean",
-            "description": "status",
-            "example": "true"
+            "description": "`true` when the card was deleted",
+            "example": true
           },
           "message": {
             "type": "string",
@@ -20151,18 +20583,18 @@
         "properties": {
           "tokenKey": {
             "type": "string",
-            "description": "token key",
+            "description": "The card token",
             "example": "5844858382"
           },
           "currentEmailAddress": {
             "type": "string",
-            "description": "customer email currently associated with the key",
+            "description": "The email address currently linked to the card",
             "example": "email@email.com"
           },
           "newEmailAddress": {
             "type": "string",
-            "description": "new email to replace the old one",
-            "example": "email@email.com"
+            "description": "The email address to link to the card instead",
+            "example": "new.email@email.com"
           }
         },
         "required": [
@@ -20176,18 +20608,16 @@
         "properties": {
           "status": {
             "type": "boolean",
-            "description": "status",
-            "example": "true"
+            "description": "`true` when the email was changed. `false` if `currentEmailAddress` isn't the email linked to the card.",
+            "example": true
           },
           "message": {
             "type": "string",
-            "description": "customer email currently associated with the key",
-            "example": "email@email.com"
+            "description": "Response message",
+            "example": "Email address updated successfully"
           },
           "tokenizedCardData": {
-            "items": {
-              "$ref": "#/components/schemas/TokenizedCardData"
-            }
+            "$ref": "#/components/schemas/TokenizedCardData"
           }
         }
       },
@@ -20368,12 +20798,32 @@
           "status": {
             "type": "boolean",
             "description": "status of the transaction",
-            "example": "true"
+            "example": false
           },
           "message": {
             "type": "string",
             "description": "some details of the transaction response.",
-            "example": "success"
+            "example": "Please enter the OTP sent to the phone/email address registered with your bank."
+          },
+          "orderId": {
+            "type": "string",
+            "description": "The order ID",
+            "example": "b6a3c0f2-6d2e-4c1a-9a41-3f2b7d0c9e15"
+          },
+          "orderReference": {
+            "type": "string",
+            "description": "The order reference",
+            "example": "90e81e8a-bc14-4ebf-89c0-57da752cca58"
+          },
+          "otpRequired": {
+            "type": "boolean",
+            "description": "true when the customer's bank requires an OTP to complete the charge. The charge stays pending until the OTP is submitted with transactionId to /v1/checkout/checkout-card-otp.",
+            "example": true
+          },
+          "transactionId": {
+            "type": "string",
+            "description": "Returned only when otpRequired is true. Send it with the customer's OTP to /v1/checkout/checkout-card-otp.",
+            "example": "a729d716-566f-4a47-986f-32b3fa39e075"
           }
         }
       },
@@ -20434,28 +20884,28 @@
         "properties": {
           "tokenKey": {
             "type": "string",
-            "description": "the key associated with the tokenzied card",
+            "description": "The card token (`tokenKey`) you charge the card with",
             "example": "e890bd1a9f0d"
           },
           "customerEmail": {
             "type": "string",
-            "description": "customer email",
+            "description": "The email address the card was saved with",
             "example": "email@email.com"
           },
           "cardType": {
             "type": "string",
-            "description": "Unique reference used to track an account from an external process. Would be auto-generated if not provided at the point of creation.",
+            "description": "The card scheme, for example `Visa`, `Mastercard` or `Verve`",
             "example": "Verve"
           },
           "cardPan": {
             "type": "string",
-            "description": "Card pan",
-            "example": "234818********7580"
+            "description": "The card number. List saved cards returns only the last four digits.",
+            "example": "7580"
           },
-          "tokenExpirationDate": {
+          "tokenExpiryDate": {
             "type": "string",
-            "description": "token expiration date",
-            "example": "20/20"
+            "description": "When the card expires, as `YYMM`. `2808` means August 2028.",
+            "example": "2808"
           }
         }
       },
@@ -21030,6 +21480,12 @@
             "type": "boolean",
             "description": "When set to true, Nomba will reject any inflow to the virtual account whose sender name does not match the virtual account name. The order of names does not matter—for example, a VA name of 'John Doe Naomi' would match sender names like 'Doe John Naomi' or 'Naomi Doe John', since different banks may arrange names differently. A `payment_failed` webhook event is sent to notify the merchant that the inflow was rejected. The rejected inflow is reversed back to the sender according to the sending bank's policy. Optional.",
             "example": true
+          },
+          "callbackUrl": {
+            "type": "string",
+            "format": "uri",
+            "description": "URL to receive `payment_success` and `payment_failed` webhook events for inflows into this virtual account. Optional.",
+            "example": "https://merchant.example.com/webhooks/nomba"
           }
         },
         "required": [
@@ -22528,25 +22984,33 @@
           "message"
         ]
       },
-      "DataPlanList": {
+      "DataPlan": {
         "type": "object",
         "properties": {
-          "amount": {
-            "type": "integer",
-            "format": "int64"
-          },
           "plan": {
             "type": "string",
-            "example": "40GB -> 30Days (N15,000)"
+            "example": "1GB + 1.5mins 1 day Plan"
+          },
+          "amount": {
+            "type": "integer",
+            "format": "int64",
+            "example": 500
           },
           "productId": {
             "type": "string",
             "description": "The unique identifier for this data plan. Pass this value as `productId` when purchasing to select this exact bundle.",
-            "example": "mtn47"
+            "example": "mtn16"
           }
         }
       },
-      "DiscoList": {
+      "DataPlanList": {
+        "type": "array",
+        "description": "List of available data plans for the telco",
+        "items": {
+          "$ref": "#/components/schemas/DataPlan"
+        }
+      },
+      "Disco": {
         "type": "object",
         "properties": {
           "id": {
@@ -22557,6 +23021,40 @@
             "type": "string",
             "example": "Jos Electric (JEDC)"
           }
+        }
+      },
+      "DiscoList": {
+        "type": "array",
+        "description": "List of all electricity providers/discos",
+        "items": {
+          "$ref": "#/components/schemas/Disco"
+        }
+      },
+      "CableTvPlan": {
+        "type": "object",
+        "properties": {
+          "subScriptionType": {
+            "type": "string",
+            "description": "The subscription plan type (e.g., COMPACT, PREMIUM, YANGA)",
+            "example": "COMPACT"
+          },
+          "amount": {
+            "type": "number",
+            "format": "double",
+            "description": "The amount for the subscription plan",
+            "example": 19000.0
+          }
+        },
+        "required": [
+          "subScriptionType",
+          "amount"
+        ]
+      },
+      "CableTvPlanList": {
+        "type": "array",
+        "description": "List of available cable TV subscription plans",
+        "items": {
+          "$ref": "#/components/schemas/CableTvPlan"
         }
       },
       "BettingProvider": {
@@ -23771,7 +24269,7 @@
     },
     "securitySchemes": {
       "BearerAuth": {
-        "description": "Nomba authenticates API calls with [OAuth2 HTTP bearer tokens](http://tools.ietf.org/html/rfc6750). There are two methods of authentication; [Client-Credentials method](https://www.rfc-editor.org/rfc/rfc6749) and [PKCE (Proof Key for Code Exchange)](https://www.rfc-editor.org/rfc/rfc7636) method. In each of the methods, You will get an `ACCESS_TOKEN`. You need to use an `\"Authorization\"` HTTP header to provide your `ACCESS_TOKEN`. For example: `Authorization: {ACCESS_TOKEN}`.",
+        "description": "Nomba authenticates API calls with [OAuth2 HTTP bearer tokens](http://tools.ietf.org/html/rfc6750). There are two methods of authentication; [Client-Credentials method](https://www.rfc-editor.org/rfc/rfc6749) and [PKCE (Proof Key for Code Exchange)](https://www.rfc-editor.org/rfc/rfc7636) method. Both methods return an access token. Send it in the `Authorization` header: `Authorization: Bearer <access_token>`.",
         "scheme": "bearer",
         "type": "http",
         "bearerFormat": "JWT"

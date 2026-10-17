@@ -120,7 +120,7 @@ Use one of these three cards to simulate different payment outcomes:
 
 </Frame>
 
-### Step 3 - Submit Card Pin (if required)
+### Step 3 — Submit card PIN (if required)
 Enter any 4-digit PIN. The examples on this page use `9999`.
 <Frame caption="Submit Card Detail Form">
 
@@ -163,11 +163,11 @@ After submitting the successful Mastercard (`5434621074252808`), the customer is
 
 </Frame>
 
-On a successful OTP submission, Nomba **immediately fires a webhook** to your configured `callbackUrl` with a `payment_success` event. See [Webhook payload](#webhook-payload) below.
+On a successful OTP submission, Nomba **immediately fires a webhook** to your webhook URL with a `payment_success` event. See [Webhook payload](#webhook-payload) below.
 
 ---
 
-### Step 4 — Verify the transaction
+### Step 5 — Verify the transaction
 
 Use the sandbox-specific fetch endpoint to confirm the transaction result:
 

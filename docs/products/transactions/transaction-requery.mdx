@@ -1,0 +1,72 @@
+---
+title: 'Transaction Requery'
+description: 'Confirm the status of a transaction using its sessionId'
+---
+
+<CardGroup cols={2}>
+  <Card
+    title="Transaction Requery"
+    icon="link-simple"
+    href="/nomba-api-reference/requery/transaction-requery"
+  ></Card>
+</CardGroup>
+
+# `GET /v1/transactions/requery/{sessionId}`
+
+Use this endpoint to confirm the status of a transaction using its `sessionId`. To obtain a session ID, first filter through virtual account transactions to locate the transaction you want to requery.
+
+#### Path parameters
+
+<ParamField path="sessionId" type="string" required>
+  The session ID of the transaction to requery
+</ParamField>
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="data" type="object">
+  Transaction details
+</ResponseField>
+
+<RequestExample>
+```bash Request
+curl --request GET \
+  --url https://api.nomba.com/v1/transactions/requery/<sessionId> \
+  --header 'Authorization: Bearer <token>' \
+  --header 'accountId: <accountId>'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success response (200)
+{
+  "code": "00",
+  "description": "Requery Successful",
+  "data": {
+    "id": "API-VACT_TRA-185C7-01964b64-5c0a-4c91-81b6-zxv7a421862b",
+    "status": "SUCCESS",
+    "amount": "200.0",
+    "fixedCharge": "1.0",
+    "source": "api",
+    "type": "vact_transfer",
+    "customerBillerId": "0122408496",
+    "timeCreated": "2024-07-11T16:12:49.656Z",
+    "walletBalance": "1648.79",
+    "senderName": "Smart Hamzat",
+    "recipientAccountNumber": "0014701211",
+    "recipientAccountType": "VIRTUAL",
+    "recipientAccountName": "John Amazing Doe",
+    "sessionId": "000132891359184717316165338085",
+    "accountNumber": "0122408496",
+    "bankName": "Amucha (Nomba)"
+  }
+}
+```
+</ResponseExample>

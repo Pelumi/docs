@@ -1,0 +1,28 @@
+---
+title: "Complete an OTP challenge"
+sidebarTitle: "Complete an OTP challenge"
+description: "Submit the OTP from the customer's bank to finish a charge that returned otpRequired: true."
+---
+
+import CompleteOtp from '/snippets/recurring-payments/complete-otp.mdx';
+
+<CardGroup cols={2}>
+  <Card
+    title="Submit customer card OTP"
+    icon="link-simple"
+    href="/nomba-api-reference/charge/submit-customer-card-otp"
+  ></Card>
+  <Card
+    title="Resend OTP"
+    icon="link-simple"
+    href="/nomba-api-reference/charge/resend-otp-to-customers-phone"
+  ></Card>
+</CardGroup>
+
+**Step 4 of 5.** You only need this step if [the charge](/docs/products/accept-payment/recurring-payments/hosted-checkout/charge-a-saved-card) returned `otpRequired: true`. The customer's bank has sent them an OTP, and the charge stays pending until you submit it.
+
+<CompleteOtp base="/docs/products/accept-payment/recurring-payments/hosted-checkout" />
+
+<Card title="Next: Confirm the charge" icon="arrow-right" href="/docs/products/accept-payment/recurring-payments/hosted-checkout/confirm-the-charge">
+  Check the final status before you give the customer value.
+</Card>

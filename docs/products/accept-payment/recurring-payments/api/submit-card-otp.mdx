@@ -1,0 +1,91 @@
+---
+title: "Submit card OTP"
+sidebarTitle: "Submit card OTP"
+description: "Send the OTP from the customer's bank to complete the card-saving payment."
+---
+
+<CardGroup cols={2}>
+  <Card
+    title="Submit customer card OTP"
+    icon="link-simple"
+    href="/nomba-api-reference/charge/submit-customer-card-otp"
+  ></Card>
+</CardGroup>
+
+**Step 3 of 7.** Send the OTP the customer received from their bank, with the `orderReference` from [Create a checkout order](/docs/products/accept-payment/recurring-payments/api/create-checkout-order) and the `transactionId` from [Submit card details](/docs/products/accept-payment/recurring-payments/api/submit-card-details).
+
+When the payment succeeds, Nomba saves the card and sends you its token in the [next step](/docs/products/accept-payment/recurring-payments/api/store-the-card-token).
+
+# `POST /v1/checkout/checkout-card-otp`
+
+#### Headers
+
+This call doesn't need an `Authorization` or `accountId` header.
+
+#### Request body
+
+<ParamField body="otp" type="string" required>
+  The OTP the customer received from their bank
+</ParamField>
+
+<ParamField body="orderReference" type="string" required>
+  `data.orderReference` from the create-order response
+</ParamField>
+
+<ParamField body="transactionId" type="string" required>
+  `data.transactionId` from Submit card details
+</ParamField>
+
+#### Response body
+
+<ResponseField name="code" type="string" required>
+  Response code
+</ResponseField>
+
+<ResponseField name="description" type="string" required>
+  Response description
+</ResponseField>
+
+<ResponseField name="data" type="object" required>
+  <Expandable title="object" defaultOpen="true">
+    <ResponseField name="status" type="boolean" required>
+      `true` when the payment was completed
+    </ResponseField>
+    <ResponseField name="message" type="string" required>
+      More detail about the result
+    </ResponseField>
+  </Expandable>
+</ResponseField>
+
+If the OTP is wrong, `data.status` is `false`. The customer can try 3 times.
+
+<RequestExample>
+```bash Request
+curl --request POST \
+  --url https://api.nomba.com/v1/checkout/checkout-card-otp \
+  --header 'Content-Type: application/json' \
+  --data '{
+    "otp": "975005",
+    "orderReference": "be727ded-aa6e-4b6e-beea-898d4428740a",
+    "transactionId": "0b572789-0770-44f8-b400-99164ef2712b"
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success response (200)
+{
+  "code": "00",
+  "description": "checkout otp processed successfully",
+  "status": true,
+  "data": {
+    "status": true,
+    "message": "SUCCESS"
+  }
+}
+```
+</ResponseExample>
+
+<Card title="Next: Store the card token" icon="arrow-right" href="/docs/products/accept-payment/recurring-payments/api/store-the-card-token">
+  Read the token from the webhook and save it with your customer.
+</Card>

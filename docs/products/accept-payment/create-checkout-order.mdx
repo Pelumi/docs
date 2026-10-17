@@ -9,11 +9,11 @@ href="/nomba-api-reference/online-checkout/create-an-online-checkout-order">
   Create an online checkout order to accept payments from your customers
 </Card>
 <Card
-    title="Charge Tokenized card"
+    title="Charge a saved card"
     icon="pen-to-square"
-    href="/nomba-api-reference/online-checkout/charge-a-customer-using-tokenized-card-data"
+    href="/docs/products/accept-payment/recurring-payments/hosted-checkout/charge-a-saved-card"
   >
-    Charge customer tokenize card with a token key.
+    Charge a customer's saved card with its `tokenKey`.
   </Card>
 </CardGroup>
 
@@ -25,7 +25,7 @@ To generate a [checkout order link](/nomba-api-reference/online-checkout/create-
 
 Here are a few things to take note of when creating a checkout order.
 
-- Kindly be aware that the optional boolean value `tokenizeCard` should be included or set to true only if you intend to tokenize your customer's card for the purpose of attempting card payments at a later time.
+- Set `tokenizeCard` to `true` only if you plan to charge the customer's card again later.
 
 - Please pass the `accountId` inside the order request object if you wish to generate a checkout link for a subaccount.
 
@@ -261,7 +261,7 @@ For Pay by Bank specifically:
 - `Intl Transfer` is the value used to request or restrict Pay by Bank
 - The customer pays in `GBP` or `EUR` from a supported UK or European bank account
 - It must be enabled on your account — contact support. It is not available to Nigerian `NGN`-only checkout flows
-- It does not support recurring payments, so it is ignored on recurring payment links
+- It does not support recurring payments, so it is ignored on [recurring payment links](/docs/guides/accept-payment-with-payment-links)
 
 See [Pay by Bank](/docs/products/accept-payment/payment-methods#pay-by-bank) for the full customer flow and supported institutions.
 
@@ -343,70 +343,64 @@ You can also create a DRC USD checkout order with all three supported methods en
 }
 ```
 
-## Tokenize Card
+## Save the card for later charges
 
-If you need to support recurring or subscription payments, set the optional parameter `tokenizeCard` to true when creating the order.
-Include and set the `tokenizeCard` field to true.
-
-```json
-"tokenizeCard": true
-```
-
-When the payment is successfully completed, Nomba will send a webhook with the event type `payment_success`.
-This webhook includes a `tokenizedCardData` object containing the tokenKey and other card details.
-
-You should save the `tokenKey`, as it is required to charge the card for future recurring payments.
+To charge the customer's card again later, set `tokenizeCard` to `true` at the top level of the request. Nomba sends the card token (`tokenKey`) in the `payment_success` webhook, and you use it to charge the card. For the full flow, see recurring payments with [hosted checkout](/docs/products/accept-payment/recurring-payments/hosted-checkout/overview) or with [the API](/docs/products/accept-payment/recurring-payments/api/overview).
 
 ## Sample Webhook Payload
 
-```bash expandable
+When the payment succeeds, Nomba sends a `payment_success` webhook. `tokenizedCardData` is only included when you set `tokenizeCard` to `true`.
+
+```json expandable
 {
-  event_type: 'payment_success',
-  requestId: '1ef33774-6d95-411c-b5*************',
-  data: {
-    merchant: {
-      walletId: '1ef33774-6d95-411c-b5*************',
-      walletBalance: 259.47,
-      userId: '1ef33774-6d95-411c-b5*************'
+  "event_type": "payment_success",
+  "requestId": "1ef33774-6d95-411c-b5e2-7c1a9d0f4b21",
+  "data": {
+    "merchant": {
+      "walletId": "<walletId>",
+      "walletBalance": 259.47,
+      "userId": "<userId>"
     },
-    terminal: {},
-    tokenizedCardData: {
-      tokenKey: 'N/A',
-      cardType: 'Visa',
-      tokenExpiryYear: 'N/A',
-      tokenExpiryMonth: 'N/A',
-      cardPan: '4***45**** ****111*'
+    "terminal": {},
+    "tokenizedCardData": {
+      "tokenKey": "7628788443",
+      "cardType": "Visa",
+      "tokenExpiryYear": "2028",
+      "tokenExpiryMonth": "08",
+      "cardPan": "418745**** ****1119"
     },
-    transaction: {
-      fee: 2.8,
-      type: 'online_checkout',
-      transactionId: 'WEB-ONLINE_C-69923-2e102708-ee34-4a29-b713-a826ca928a********',
-      cardIssuer: 'Visa',
-      responseCode: '',
-      originatingFrom: 'web',
-      merchantTxRef: '18********',
-      transactionAmount: 202.8,
-      time: '2025-09-11T11:50:05Z'
+    "transaction": {
+      "fee": 2.8,
+      "type": "online_checkout",
+      "transactionId": "WEB-ONLINE_C-69923-2e102708-ee34-4a29-b713-a826ca928a41",
+      "cardIssuer": "Visa",
+      "responseCode": "",
+      "originatingFrom": "web",
+      "merchantTxRef": "<merchantTxRef>",
+      "transactionAmount": 202.8,
+      "time": "2025-09-11T11:50:05Z"
     },
-    customer: { billerId: '418745**** ****1119', productId: '418***' },
-    order: {
-      amount: 202.8,
-      orderId: '1ef33774-6d95-411c-b5*************',
-      cardType: 'Visa',
-      accountId: '1ef33774-6d95-411c-b5*************',
-      cardLast4Digits: '111*',
-      cardCurrency: 'NGN',
-      customerEmail: 'makurseme@gmail.com',
-      customerId: '7628783*******',
-      isTokenizedCardPayment: 'false',
-      orderReference: '1ef33774-6d95-411c-b5*************',
-      paymentMethod: 'card_payment',
-      callbackUrl: 'https://nomba.com',
-      currency: 'NGN'
+    "customer": {
+      "billerId": "418745**** ****1119",
+      "productId": "418745"
+    },
+    "order": {
+      "amount": 202.8,
+      "orderId": "b6a3c0f2-6d2e-4c1a-9a41-3f2b7d0c9e15",
+      "cardType": "Visa",
+      "accountId": "<accountId>",
+      "cardLast4Digits": "1119",
+      "cardCurrency": "NGN",
+      "customerEmail": "ada@example.com",
+      "customerId": "cus_48213",
+      "isTokenizedCardPayment": "false",
+      "orderReference": "sub-2026-10-0001",
+      "paymentMethod": "card_payment",
+      "callbackUrl": "https://example.com/payments/callback",
+      "currency": "NGN"
     }
   }
 }
-
 ```
 
 ## Verify Transaction

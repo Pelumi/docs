@@ -8,42 +8,10 @@ description: 'Learn how to assign terminals to accounts'
     title="Assign terminals to the parent account"
     icon="link-simple"
     href="/nomba-api-reference/terminals/assign-a-terminal-to-the-parent-account"
-  >
-  </Card>
+  ></Card>
 </CardGroup>
 
 # `POST /v1/terminals/assign`
-
-<CodeGroup>
-```bash Request
-  curl --request POST \
-    --url https://api.nomba.com/v1/terminals/assign \
-    --header 'Authorization: Bearer <token>' \
-    --header 'Content-Type: application/json' \
-    --header 'accountId: <accountId>' \
-    --data '{
-    "serialNumber": "55555555",
-    "terminalLabel": "Testing"
-  }'
-```
-
-```json Success response
-{
-  "code": "00",
-  "description": "Success",
-  "data": {
-    "terminalId": "201124LM",
-    "serialNumber": "55555555",
-    "accountId": "01a10aeb-d989-460a-bbde-9842f2b4320f",
-    "parentAccountId": "<string>",
-    "merchantName": "trident and rees",
-    "terminalLabel": "Testing",
-    "createdAt": "2020-09-23T10:21:48.789Z",
-    "updatedAt": "2023-09-04T15:23:55.173Z"
-  }
-}
-```
-</CodeGroup>
 
 #### Request body
 
@@ -66,7 +34,7 @@ description: 'Learn how to assign terminals to accounts'
 </ResponseField>
 
 <ResponseField name="data" type="object">
-  <Expandable title="object"  defaultOpen="true">
+  <Expandable title="object" defaultOpen="true">
     <ResponseField name="terminalId" type="string" required>
       Terminal ID.
     </ResponseField>
@@ -91,6 +59,38 @@ description: 'Learn how to assign terminals to accounts'
     <ResponseField name="updatedAt" type="string" required>
       Update timestamp.
     </ResponseField>
-    
   </Expandable>
 </ResponseField>
+
+<RequestExample>
+```bash Request
+curl --request POST \
+  --url https://api.nomba.com/v1/terminals/assign \
+  --header 'Authorization: Bearer <token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <accountId>' \
+  --data '{
+    "serialNumber": "55555555",
+    "terminalLabel": "Testing"
+  }'
+```
+</RequestExample>
+
+<ResponseExample>
+```json Success response (200)
+{
+  "code": "00",
+  "description": "Success",
+  "data": {
+    "terminalId": "201124LM",
+    "serialNumber": "55555555",
+    "accountId": "01a10aeb-d989-460a-bbde-9842f2b4320f",
+    "parentAccountId": "01a10aeb-d989-460a-bbde-9842f2b4320f",
+    "merchantName": "trident and rees",
+    "terminalLabel": "Testing",
+    "createdAt": "2020-09-23T10:21:48.789Z",
+    "updatedAt": "2023-09-04T15:23:55.173Z"
+  }
+}
+```
+</ResponseExample>
