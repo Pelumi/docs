@@ -20686,7 +20686,7 @@
           },
           "allowedPaymentMethods": {
             "type": "array",
-            "description": "Optional list of payment methods to display on the checkout page. If not provided, all supported methods for your account and region will be shown. Supported values: Card, Transfer, Nomba QR, USSD, Buy Now Pay Later (Nigerian checkout); MOMO, Intl Card, Apple Pay (DRC checkout); Intl Transfer, which is Pay by Bank, for supported GBP and EUR checkout flows.",
+            "description": "Optional list of payment methods to display on the checkout page. If not provided, all supported methods for your account and region will be shown. Supported values: Card, Transfer, Nomba QR, USSD (Nigerian checkout); MOMO, Intl Card, Apple Pay (DRC checkout); Intl Transfer, which is Pay by Bank, for supported GBP and EUR checkout flows.",
             "items": {
               "type": "string",
               "enum": [
@@ -20694,7 +20694,6 @@
                 "Transfer",
                 "Nomba QR",
                 "USSD",
-                "Buy Now Pay Later",
                 "MOMO",
                 "Intl Card",
                 "Apple Pay",
