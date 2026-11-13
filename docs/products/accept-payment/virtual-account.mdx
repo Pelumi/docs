@@ -79,15 +79,24 @@ Dynamic virtual accounts are temporary, purpose-specific account numbers.
 
 We recommend testing virtual account creation in the Sandbox environment before going live.
 
+In the Sandbox, a virtual account is created in one of two modes, set with the optional `mode` field:
+
 <Note>
-  - Each user can create a maximum of **2 virtual accounts** you can expire old accounts to create more.
-  - Each account is created with an `expectedAmount` of ₦100 and accepts only that exact amount
-  - Transfers can be made from any Nigerian bank. 
-  - You can update the expected amount (up to ₦150) using the `expectedAmount` field.
+  **`SIMULATED` (default for `NGN`)**
+  - Gets a sandbox-only account number that starts with `0`. No bank is involved and no real money moves.
+  - You fund it with [Simulate an inflow](/nomba-api-reference/virtual-accounts/simulate-inflow), or with a sandbox transfer to bank code `090645`.
+  - There's no limit on how many you create, and it accepts any amount.
+  - `expiryDate` and [expiring the account](/nomba-api-reference/virtual-accounts/expire-a-virtual-account) work as in production.
+
+  **`LIVE` (`"mode": "LIVE"`)**
+  - Each user can create a maximum of **2** live accounts; you can expire old accounts to create more.
+  - Each account is created with an `expectedAmount` of ₦100 and accepts only that exact amount. You can update it (up to ₦150) using the `expectedAmount` field.
+  - Transfers can be made from any Nigerian bank.
+  - Virtual account expiration is not supported.
 </Note>
 
-- All transfers will trigger webhooks to the Sandbox webhook URL.
-- Virtual account expiration is not supported in Sandbox.
+- All inflows trigger webhooks to the Sandbox webhook URL.
+- The `mode` field is ignored in production.
 
 To create a virtual account, please take note of the optional and required fields:
 
@@ -110,6 +119,8 @@ If a sender transfers an amount different from the expectedAmount:
 <Warning>
   Be cautious when setting the `expectedAmount`. Once set, the account will **only** accept that exact amount. Payments with any other amount will be rejected.
 </Warning>
+
+- `mode` (optional, Sandbox only): `SIMULATED` (the default for `NGN`) or `LIVE`. See [Test the account in the Sandbox](#test-the-account-in-the-sandbox).
 
 - `expiryDate` (optional): Sets how long the virtual account remains valid, this is useful if you intend to create a dynamic virtual account purposely for time-based transactions. If omitted, the virtual account functions as a static (permanent) account.
 
@@ -156,16 +167,28 @@ curl --request POST \
 
 ### Test the account in the Sandbox
 
-To confirm the account works, send ₦100 to the `bankAccountNumber` returned above, from any Nigerian bank.
+For a `SIMULATED` account (the default), fund it with [Simulate an inflow](/nomba-api-reference/virtual-accounts/simulate-inflow). It sends the same `payment_success` webhook as a real transfer, and the returned `transactionRef` can be used with [Transaction requery](/nomba-api-reference/requery/transaction-requery).
 
-To test expected amount usecase, update the account with an `expectedAmount` between ₦100 and ₦150, then transfer exactly that amount.
+```bash
+curl --request POST \
+  --url https://sandbox.nomba.com/v1/accounts/virtual/{identifier}/simulate-inflow \
+  --header 'Authorization: Bearer <sandbox-token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <parent accountId>' \
+  --data '{
+    "amount": "5000.00",
+    "senderAccountName": "Daniel Scorsese"
+  }'
+```
+
+For a `LIVE` account, send ₦100 to the `bankAccountNumber` returned above, from any Nigerian bank. To test the expected amount use case, update the account with an `expectedAmount` between ₦100 and ₦150, then transfer exactly that amount.
 
 <Card
   title="Testing virtual accounts"
   icon="flask"
   href="/docs/api-basics/testing/virtual-accounts"
 >
-  Full sandbox walkthrough — create an account, simulate an inflow, and test the expected amount.
+  Full sandbox walkthrough: create a simulated or live account, simulate an inflow, and test rejected inflows.
 </Card>
 
 ## Expire a virtual account

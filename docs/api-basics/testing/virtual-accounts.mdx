@@ -4,9 +4,20 @@ description: 'Create virtual accounts in the sandbox and simulate an inflow'
 icon: building-columns
 ---
 
+Sandbox virtual accounts come in two modes. You choose the mode per account when you create it.
 
+| Mode | What it is | How you fund it |
+|------|------------|-----------------|
+| `SIMULATED` (default) | A test account with a sandbox-only account number. No bank is involved and no real money moves. | Call [Simulate an inflow](/nomba-api-reference/virtual-accounts/simulate-inflow), or send a sandbox transfer to it. |
+| `LIVE` | A real Nombank account number. | Send a real transfer from any bank app. |
 
-## Create a virtual account
+<Note>
+  Use `SIMULATED` for day-to-day testing. It's free, instant and repeatable, and you can test failure cases such as an expired account or a sender name mismatch. Use `LIVE` only when you need to see a transfer arrive from a real bank. You can have at most 2 active `LIVE` accounts; `SIMULATED` accounts don't count toward that limit.
+</Note>
+
+## Create a simulated virtual account
+
+Send the normal create request to the sandbox base URL. Leave out `mode`, or set it to `SIMULATED`.
 
 <CodeGroup>
 ```bash Request
@@ -19,33 +30,105 @@ curl --request POST \
     "accountRef": "sandbox-va-001",
     "accountName": "Daniel Scorsese",
     "currency": "NGN",
-    "bvn": "12345678901"
+    "callbackUrl": "https://merchant.example.com/webhooks/nomba",
+    "restrictInflowToAccountName": true
   }'
 ```
 
 ```json Response (200)
 {
   "code": "00",
-  "description": "success",
+  "description": "SUCCESS",
   "status": true,
   "data": {
-    "createdAt": "2024-02-20T09:20:25.015Z",
+    "createdAt": "2026-11-13T10:25:19.036Z",
     "accountRef": "sandbox-va-001",
     "accountHolderId": "<your parent accountId>",
-    "accountName": "Ifeoluwa Adeboye",
+    "accountName": "Acme/Daniel Scorsese",
     "currency": "NGN",
-    "bankAccountNumber": "7121630466",
-    "bankAccountName": "Daniel Scorsese",
-    "bankName": "Nombank(Amucha) MFB",
-    "bvn": "22444208509",
-    "expired": false
+    "bankAccountNumber": "0216409640",
+    "bankAccountName": "Acme/Daniel Scorsese",
+    "bankName": "Nombank MFB",
+    "callbackUrl": "https://merchant.example.com/webhooks/nomba",
+    "expired": false,
+    "restrictInflowToAccountName": true,
+    "mode": "SIMULATED"
   }
 }
 ```
 </CodeGroup>
 
+- Simulated account numbers always start with `0`. Real Nombank account numbers never do, so no bank can send money to a simulated account.
+- `SIMULATED` supports `NGN` only. Accounts in other currencies are created as `LIVE`.
+- Sandbox fetch, list, update and expire calls work the same for both modes. Their responses include `mode`, so you can tell the two apart.
 
 ## Simulate an inflow
+
+Call [Simulate an inflow](/nomba-api-reference/virtual-accounts/simulate-inflow) with the account's `accountRef` or account number. It applies the same checks as a real transfer and sends the same webhooks.
+
+<CodeGroup>
+```bash Request
+curl --request POST \
+  --url https://sandbox.nomba.com/v1/accounts/virtual/sandbox-va-001/simulate-inflow \
+  --header 'Authorization: Bearer <sandbox-token>' \
+  --header 'Content-Type: application/json' \
+  --header 'accountId: <parent accountId>' \
+  --data '{
+    "amount": "5000.00",
+    "senderAccountName": "Scorsese Daniel",
+    "senderAccountNumber": "0011223344",
+    "senderBankCode": "058",
+    "narration": "Invoice 1042"
+  }'
+```
+
+```json Response (200)
+{
+  "code": "00",
+  "description": "SUCCESS",
+  "status": true,
+  "data": {
+    "status": "SUCCESS",
+    "responseCode": "00",
+    "transactionRef": "SANDBOX-VA-92eb15fb-56c3-4678-8dd2-faed8529f236",
+    "sessionId": "999999261113102524068408167198",
+    "accountNumber": "0216409640",
+    "accountRef": "sandbox-va-001",
+    "amount": "5000.00"
+  }
+}
+```
+</CodeGroup>
+
+On success:
+- a `payment_success` webhook is sent to your webhook URL, and to the account's `callbackUrl` if it has one;
+- the `transactionRef` can be used with [Transaction requery](/nomba-api-reference/requery/transaction-requery), which returns the recorded inflow.
+
+A rejected inflow still returns HTTP 200. Check `data.status` and `data.responseCode`:
+
+| Scenario | `status` | `responseCode` | Webhook |
+|----------|----------|----------------|---------|
+| Inflow accepted | `SUCCESS` | `00` | `payment_success` |
+| Account expired | `REJECTED` | `07` | None |
+| `restrictInflowToAccountName` is `true` and the sender name doesn't match the account name | `REJECTED` | `08` | `payment_failed` |
+
+Name matching ignores word order, the same as in production: `Scorsese Daniel` matches `Daniel Scorsese`.
+
+<Note>
+  Simulated accounts accept any amount. The `expectedAmount` rule only applies to `LIVE` accounts.
+</Note>
+
+## Pay a simulated account with a sandbox transfer
+
+You can also fund a simulated account through the [sandbox bank transfer flow](/docs/api-basics/testing/bank-transfer), using Nombank's bank code `090645`:
+
+- **Account lookup** returns the simulated account's real name, instead of a random test name.
+- **Transfer** credits the account, which sends the `payment_success` webhook and makes the inflow requeryable, the same as calling Simulate an inflow. If the inflow is rejected (for example, the account has expired), the transfer fails with `payout_failed`.
+
+## Test with a live account
+
+To create a `LIVE` sandbox account, set `"mode": "LIVE"` in the create request.
+
 - Transfer to the virtual account from any bank.
 - Note that the Sandbox account name will only show the business name during account lookup on your bank app.
 - The amount will be deposited on your account.
