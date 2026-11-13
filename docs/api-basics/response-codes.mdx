@@ -70,6 +70,10 @@ These appear in `data.status` on outflow responses (transfers, airtime, data, bi
 | `PENDING_BILLING` | Still processing | Wait for webhook |
 | `PROCESSING` | Still processing (v1 endpoints) | Wait for webhook |
 
+<Warning>
+  Compare `data.status` values case-insensitively. The same status may be returned in different casing (for example, `SUCCESS`, `Success`, or `success`), so normalize the value (e.g., convert to uppercase) before checking it against the statuses above.
+</Warning>
+
 <Note>
   Nomba-to-Nomba wallet transfers (`/v2/transfers/wallet`) do not return a `sessionId`. Use the parent or sub-account requery endpoints instead.
 </Note>
@@ -96,7 +100,8 @@ async function makeTransfer(payload) {
     // Handle error based on result.code
   }
 
-  const { status } = result.data;
+  // Normalize case — status values should be compared case-insensitively
+  const status = result.data.status?.toUpperCase();
 
   if (status === 'SUCCESS') {
     // Service delivered to destination — no refund needed
@@ -120,6 +125,10 @@ async function makeTransfer(payload) {
 
   if (status === 'PENDING_BILLING') {
     // Still processing — wait for webhook
+  }
+
+  if (status === 'PROCESSING') {
+    // Still processing (v1 endpoints) — wait for webhook
   }
 }
 ```
@@ -145,7 +154,8 @@ def make_transfer(payload, access_token, account_id):
         # Handle error based on result['code']
         pass
 
-    status = result['data']['status']
+    # Normalize case — status values should be compared case-insensitively
+    status = (result['data'].get('status') or '').upper()
 
     if status == 'SUCCESS':
         # Service delivered to destination — no refund needed
@@ -169,6 +179,10 @@ def make_transfer(payload, access_token, account_id):
 
     if status == 'PENDING_BILLING':
         # Still processing — wait for webhook
+        pass
+
+    if status == 'PROCESSING':
+        # Still processing (v1 endpoints) — wait for webhook
         pass
 ```
 </CodeGroup>
