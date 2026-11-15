@@ -3586,6 +3586,153 @@
         ]
       }
     },
+    "/v1/accounts/virtual/{identifier}/simulate-inflow": {
+      "post": {
+        "description": "Sandbox only. Simulates a bank transfer into a `SIMULATED` sandbox virtual account. It applies the same checks as a real inflow (account expiry, and sender name when `restrictInflowToAccountName` is `true`), sends the `payment_success` or `payment_failed` webhook, and records a successful inflow so [Transaction requery](/nomba-api-reference/requery/transaction-requery) can return it by `transactionRef`. A rejected inflow returns HTTP 200 with `data.status` set to `REJECTED`. Calling it on a `LIVE` account returns 400.",
+        "operationId": "Simulate an inflow",
+        "servers": [
+          {
+            "description": "Sandbox",
+            "url": "https://sandbox.nomba.com"
+          }
+        ],
+        "parameters": [
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          },
+          {
+            "description": "The account reference or account number of the `SIMULATED` virtual account.",
+            "example": "sandbox-va-001",
+            "in": "path",
+            "name": "identifier",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "example": "sandbox-va-001"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SimulateInflowRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The inflow was processed. Check `data.status` to see whether it was accepted.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00",
+                      "description": "Response Code"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "SUCCESS",
+                      "description": "Response description"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/SimulateInflowResponse"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "description",
+                    "data"
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Simulate an inflow",
+        "tags": [
+          "Virtual Accounts"
+        ]
+      }
+    },
     "/v1/checkout/order": {
       "post": {
         "description": "You can use this endpoint to create an online checkout order. Load the URL returned in 'checkoutLink' property in a browser to allow your customer initiate payment.",
@@ -21437,6 +21584,15 @@
       "CreateVirtualAccountRequest": {
         "type": "object",
         "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "SIMULATED",
+              "LIVE"
+            ],
+            "description": "Sandbox only. `SIMULATED` (default for `NGN`) creates a test account with a sandbox-only account number that you fund with [Simulate an inflow](/nomba-api-reference/virtual-accounts/simulate-inflow). `LIVE` creates a real Nombank account that receives real bank transfers (at most 2 active per business). `SIMULATED` supports `NGN` only. Ignored in production. Optional.",
+            "example": "SIMULATED"
+          },
           "accountRef": {
             "type": "string",
             "description": "Account reference",
@@ -21495,6 +21651,15 @@
       "CreateVirtualAccountResponse": {
         "type": "object",
         "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "SIMULATED",
+              "LIVE"
+            ],
+            "description": "Sandbox only: `SIMULATED` or `LIVE`. Not returned in production.",
+            "example": "SIMULATED"
+          },
           "createdAt": {
             "type": "string",
             "description": "Creation timestamp",
@@ -21700,6 +21865,15 @@
       "VirtualAccountObject": {
         "type": "object",
         "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "SIMULATED",
+              "LIVE"
+            ],
+            "description": "Sandbox only: `SIMULATED` or `LIVE`. Not returned in production.",
+            "example": "SIMULATED"
+          },
           "createdAt": {
             "type": "string",
             "description": "Creation timestamp",
@@ -21784,6 +21958,89 @@
           "callbackUrl",
           "expired"
         ]
+      },
+      "SimulateInflowRequest": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "string",
+            "description": "Amount to send, in naira. Must be greater than zero. Simulated accounts accept any amount.",
+            "example": "5000.00"
+          },
+          "senderAccountName": {
+            "type": "string",
+            "description": "The sender's account name. Checked against the virtual account name when `restrictInflowToAccountName` is `true`; word order doesn't matter.",
+            "example": "Scorsese Daniel"
+          },
+          "senderAccountNumber": {
+            "type": "string",
+            "description": "The sender's account number. Optional.",
+            "example": "0011223344"
+          },
+          "senderBankCode": {
+            "type": "string",
+            "description": "The sender's bank code. Optional.",
+            "example": "058"
+          },
+          "narration": {
+            "type": "string",
+            "description": "Transfer narration. Optional.",
+            "example": "Invoice 1042"
+          }
+        },
+        "required": [
+          "amount",
+          "senderAccountName"
+        ]
+      },
+      "SimulateInflowResponse": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "SUCCESS",
+              "REJECTED"
+            ],
+            "description": "Whether the inflow was accepted.",
+            "example": "SUCCESS"
+          },
+          "responseCode": {
+            "type": "string",
+            "description": "NIP response code: `00` accepted, `07` account expired, `08` sender name does not match.",
+            "example": "00"
+          },
+          "reason": {
+            "type": "string",
+            "description": "Why the inflow was rejected: `EXPIRED` or `NAME_MISMATCH`. Only present when `status` is `REJECTED`.",
+            "example": "NAME_MISMATCH"
+          },
+          "transactionRef": {
+            "type": "string",
+            "description": "Reference of the recorded inflow. Use it with Transaction requery. Only present when `status` is `SUCCESS`.",
+            "example": "SANDBOX-VA-92eb15fb-56c3-4678-8dd2-faed8529f236"
+          },
+          "sessionId": {
+            "type": "string",
+            "description": "NIP-style session ID for the simulated transfer.",
+            "example": "999999261113102524068408167198"
+          },
+          "accountNumber": {
+            "type": "string",
+            "description": "The virtual account number.",
+            "example": "0216409640"
+          },
+          "accountRef": {
+            "type": "string",
+            "description": "The virtual account reference.",
+            "example": "sandbox-va-001"
+          },
+          "amount": {
+            "type": "string",
+            "description": "The amount sent.",
+            "example": "5000.00"
+          }
+        }
       },
       "RateLimitError": {
         "type": "object",

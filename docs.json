@@ -304,7 +304,8 @@
               "nomba-api-reference/virtual-accounts/filter-virtual-accounts",
               "nomba-api-reference/virtual-accounts/fetch-a-virtual-account",
               "nomba-api-reference/virtual-accounts/update-a-virtual-account",
-              "nomba-api-reference/virtual-accounts/expire-a-virtual-account"
+              "nomba-api-reference/virtual-accounts/expire-a-virtual-account",
+              "nomba-api-reference/virtual-accounts/simulate-inflow"
             ]
           },
           {
