@@ -1,17 +1,17 @@
 ---
-title: 'Demo bank'
+title: 'Demo inflow'
 description: 'Pay into a simulated sandbox virtual account from a demo banking app'
 icon: mobile-screen-button
 ---
 
-The Nomba Demo Bank is a sandbox banking app. Use it to play a customer who pays into one of your [simulated virtual accounts](/docs/api-basics/testing/virtual-accounts), the same way they would from their bank app. No real money moves.
+The Nomba Demo Inflow is a sandbox banking app. Use it to play a customer who pays into one of your [simulated virtual accounts](/docs/api-basics/testing/virtual-accounts), the same way they would from their bank app. No real money moves.
 
 <Steps>
   <Step title="Create a simulated virtual account">
     [Create a virtual account](/docs/api-basics/testing/virtual-accounts#create-a-simulated-virtual-account) on the sandbox base URL and copy its `bankAccountNumber`. Simulated account numbers start with `0`.
   </Step>
   <Step title="Send a transfer">
-    In the demo bank below, tap **Transfer**, enter the account number, then enter an amount and any 4-digit PIN. The account name is looked up on Nombank MFB, as it would be in a real bank app.
+    In Demo Inflow below, tap **Transfer**, enter the account number, then enter an amount and any 4-digit PIN. The account name is looked up on Nombank MFB, as it would be in a real bank app.
   </Step>
   <Step title="Check your webhook">
     Your webhook URL, and the account's `callbackUrl` if it has one, get a `payment_success` webhook. The receipt shows the transaction ref to use with [Transaction requery](/nomba-api-reference/requery/transaction-requery).
@@ -19,16 +19,16 @@ The Nomba Demo Bank is a sandbox banking app. Use it to play a customer who pays
 </Steps>
 
 <iframe
-  src="/demo-bank/index.html"
-  title="Nomba Demo Bank"
+  src="/demo-inflow/index.html"
+  title="Nomba Demo Inflow"
   style={{ width: '100%', height: '860px', border: '1px solid rgba(0,0,0,0.1)', borderRadius: '16px' }}
 />
 
-<Card title="Open the demo bank in a new tab" icon="arrow-up-right-from-square" href="/demo-bank/index.html">
+<Card title="Open Demo Inflow in a new tab" icon="arrow-up-right-from-square" href="/demo-inflow/index.html">
   Full-screen view, handy on a phone.
 </Card>
 
-## What the demo bank can do
+## What Demo Inflow can do
 
 - Pay **SIMULATED** sandbox virtual accounts only. LIVE accounts and production accounts can't be found.
 - The sender is the account's own name, the usual case of a customer paying from their own bank. Transfers to accounts with `restrictInflowToAccountName` set to `true` are accepted.

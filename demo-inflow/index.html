@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Nomba Demo Bank</title>
+<title>Nomba Demo Inflow</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
@@ -330,7 +330,7 @@
       <div class="home-body">
         <div class="banner">
           <div class="emoji"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0D0D0D" stroke-width="2.2" stroke-linecap="round"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.8 3h10.4a2 2 0 0 0 1.8-3l-5-9V3"/></svg></div>
-          <div><b>You're in the demo bank</b><p>Test mode. Transfers here move no real money.</p></div>
+          <div><b>You're in Demo Inflow</b><p>Test mode. Transfers here move no real money.</p></div>
         </div>
         <div class="card">
           <h3>Suggestion</h3>
@@ -425,7 +425,7 @@
           <div><small>You're sending to:</small><b data-f="name"></b></div>
           <div class="r"><small data-f="bank"></small><b data-f="acct"></b></div>
         </div>
-        <div class="note" id="amt-note">You can send up to ₦1,000,000.00 per transfer in the demo bank.</div>
+        <div class="note" id="amt-note">You can send up to ₦1,000,000.00 per transfer in Demo Inflow.</div>
       </div>
       <div class="note-input"><input class="input" id="narration" maxlength="60" placeholder="Add note" autocomplete="off" style="padding-right:16px"></div>
       <div class="toggle-row">Schedule transfer <button class="switch" id="sched" role="switch" aria-checked="false" aria-label="Schedule transfer"></button></div>
@@ -548,7 +548,7 @@
 
 <aside class="notes">
   <span class="tag">Test mode</span>
-  <h2>Nomba Demo Bank</h2>
+  <h2>Nomba Demo Inflow</h2>
   <p>A sandbox banking app that mirrors the Nomba app's transfer flow. Use it to play a customer paying into one of your SIMULATED sandbox virtual accounts.</p>
   <ol>
     <li><a href="/docs/api-basics/testing/virtual-accounts" target="_top">Create a simulated virtual account</a> in the sandbox and copy its number (it starts with 0)</li>
@@ -594,7 +594,7 @@
   };
   const BANK = 'Nombank MFB';
   // Recents are the simulated accounts this browser has paid, so every one can be paid again.
-  const RECENTS_KEY = 'nomba-demo-bank-recents';
+  const RECENTS_KEY = 'nomba-demo-inflow-recents';
   const RECENTS = (() => {
     try { const v = JSON.parse(localStorage.getItem(RECENTS_KEY) || '[]'); return Array.isArray(v) ? v.slice(0, 8) : []; } catch (_) { return []; }
   })();
@@ -706,7 +706,7 @@
     if (acct[0] !== '0') { fail('Only SIMULATED sandbox accounts can be paid here. Their numbers start with 0.'); return; }
     r.className = 'resolved show'; r.innerHTML = 'You are sending to:<b><span class="spin"></span> Verifying account…</b>';
     lookupT = setTimeout(async () => {
-      const res = await api('/demo-bank/lookup', { accountNumber: acct });
+      const res = await api('/demo-inflow/lookup', { accountNumber: acct });
       if (seq !== lookupSeq) return; // the number changed while we waited
       if (!res.ok) { fail(res.message); return; }
       resolved = res.data.accountName;
@@ -727,7 +727,7 @@
     setTimeout(() => $('amt').focus(), 60);
   }
   const amtVal = () => parseFloat($('amt').value.replace(/,/g, '')) || 0;
-  function resetNote() { const n = $('amt-note'); n.className = 'note'; n.textContent = `You can send up to ${naira(MAX)} per transfer in the demo bank.`; }
+  function resetNote() { const n = $('amt-note'); n.className = 'note'; n.textContent = `You can send up to ${naira(MAX)} per transfer in Demo Inflow.`; }
   $('amt').addEventListener('input', e => {
     const raw = e.target.value.replace(/[^\d.]/g, ''); const [i, d] = raw.split('.');
     e.target.value = raw ? (i ? (+i).toLocaleString('en-NG') : '0') + (d !== undefined ? '.' + d.slice(0, 2) : '') : '';
@@ -783,7 +783,7 @@
   }
   async function submit() {
     openSheet('sh-loading');
-    const res = await api('/demo-bank/transfer', { accountNumber: tx.acct, amount: tx.value, narration: tx.note === '—' ? '' : tx.note });
+    const res = await api('/demo-inflow/transfer', { accountNumber: tx.acct, amount: tx.value, narration: tx.note === '—' ? '' : tx.note });
     if (!res.ok) { failed(res.message); return; }
     if (res.data.status !== 'SUCCESS') {
       failed(REJECTIONS[res.data.responseCode] || `The transfer was rejected (code ${res.data.responseCode}).`);
@@ -812,7 +812,7 @@
   $('copy-session').addEventListener('click', () => { navigator.clipboard?.writeText(tx.session).catch(() => {}); toast('Session ID copied'); });
   $('copy-ref').addEventListener('click', () => { navigator.clipboard?.writeText(tx.ref).catch(() => {}); toast('Transaction ref copied'); });
   $('share').addEventListener('click', async () => {
-    const text = `Nomba Demo Bank receipt\n${tx.amount} to ${tx.name} (${tx.bank} ${tx.acct})\n${tx.date}\nSession ID: ${tx.session}\nTransaction ref: ${tx.ref}`;
+    const text = `Nomba Demo Inflow receipt\n${tx.amount} to ${tx.name} (${tx.bank} ${tx.acct})\n${tx.date}\nSession ID: ${tx.session}\nTransaction ref: ${tx.ref}`;
     try { if (navigator.share) await navigator.share({ text }); else { await navigator.clipboard.writeText(text); toast('Receipt copied'); } } catch (_) {}
   });
 

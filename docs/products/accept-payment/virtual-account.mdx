@@ -84,7 +84,7 @@ In the Sandbox, a virtual account is created in one of two modes, set with the o
 <Note>
   **`SIMULATED` (default for `NGN`)**
   - Gets a sandbox-only account number that starts with `0`. No bank is involved and no real money moves.
-  - You fund it from the [Demo bank](/docs/api-basics/testing/demo-bank), with [Simulate an inflow](/nomba-api-reference/virtual-accounts/simulate-inflow), or with a sandbox transfer to bank code `090645`.
+  - You fund it from [Demo inflow](/docs/api-basics/testing/demo-inflow), with [Simulate an inflow](/nomba-api-reference/virtual-accounts/simulate-inflow), or with a sandbox transfer to bank code `090645`.
   - There's no limit on how many you create, and it accepts any amount.
   - `expiryDate` and [expiring the account](/nomba-api-reference/virtual-accounts/expire-a-virtual-account) work as in production.
 
@@ -167,7 +167,7 @@ curl --request POST \
 
 ### Test the account in the Sandbox
 
-For a `SIMULATED` account (the default), pay it from the [Demo bank](/docs/api-basics/testing/demo-bank) the way a customer would, or fund it with [Simulate an inflow](/nomba-api-reference/virtual-accounts/simulate-inflow). It sends the same `payment_success` webhook as a real transfer, and the returned `transactionRef` can be used with [Transaction requery](/nomba-api-reference/requery/transaction-requery).
+For a `SIMULATED` account (the default), pay it from [Demo inflow](/docs/api-basics/testing/demo-inflow) the way a customer would, or fund it with [Simulate an inflow](/nomba-api-reference/virtual-accounts/simulate-inflow). It sends the same `payment_success` webhook as a real transfer, and the returned `transactionRef` can be used with [Transaction requery](/nomba-api-reference/requery/transaction-requery).
 
 ```bash
 curl --request POST \
