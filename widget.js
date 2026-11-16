@@ -9,6 +9,7 @@
     'nomba-90.mintlify.app': 'https://mintlify-docs.kudi.ai'
   };
   var BACKEND = backendMap[window.location.hostname] || 'https://mintlify-docs.kudi.ai';
+  var DISCORD_URL = 'https://discord.gg/pn376weF8';
 
   /* ── Load marked.js for markdown rendering ───────────────────── */
   var markedReady = new Promise(function (resolve) {
@@ -29,6 +30,21 @@
     'box-shadow:0 4px 20px rgba(204,163,0,.45);transition:transform .2s,box-shadow .2s}',
     '#nai-btn:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(204,163,0,.55)}',
     '#nai-btn svg{flex-shrink:0}',
+
+    /* Launcher menu */
+    '#nai-menu{display:none;position:fixed;bottom:92px;right:28px;z-index:9998;width:290px;max-width:calc(100vw - 32px);',
+    'background:#fff;border-radius:16px;box-shadow:0 12px 40px rgba(0,0,0,.18);overflow:hidden;font-family:inherit;',
+    'animation:nai-slide-up .2s cubic-bezier(.22,.68,0,1.2)}',
+    '#nai-menu.open{display:block}',
+    '.nai-menu-item{display:flex;align-items:flex-start;gap:12px;width:100%;padding:14px 16px;background:none;border:none;',
+    'text-align:left;cursor:pointer;font-family:inherit;text-decoration:none;color:#1a1a1a;transition:background .15s}',
+    '.nai-menu-item:hover{background:#FAF6E6}',
+    '.nai-menu-item+.nai-menu-item{border-top:1px solid #EFEFEF}',
+    '.nai-menu-icon{width:34px;height:34px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;color:#fff}',
+    '.nai-menu-icon.ai{background:linear-gradient(135deg,#CCA300,#A38200)}',
+    '.nai-menu-icon.human{background:#5865F2}',
+    '.nai-menu-title{font-size:14px;font-weight:700;line-height:1.3}',
+    '.nai-menu-sub{font-size:12px;color:#777;margin-top:2px;line-height:1.4}',
 
     /* Overlay */
     '#nai-overlay{display:none;position:fixed;inset:0;z-index:9999;',
@@ -61,6 +77,10 @@
     'font-size:18px;line-height:1;cursor:pointer;color:#fff;display:flex;align-items:center;justify-content:center;',
     'transition:background .15s}',
     '#nai-close:hover{background:rgba(255,255,255,.3)}',
+    '#nai-head-right{display:flex;align-items:center;gap:8px}',
+    '#nai-human{font-size:12px;font-weight:600;color:#fff;text-decoration:none;white-space:nowrap;',
+    'background:rgba(255,255,255,.15);padding:6px 11px;border-radius:14px;transition:background .15s}',
+    '#nai-human:hover{background:rgba(255,255,255,.3)}',
 
     /* Messages */
     '#nai-msgs{flex:1;overflow-y:auto;padding:20px 18px;display:flex;flex-direction:column;gap:14px;',
@@ -83,6 +103,7 @@
     '.nai-msg.bot{background:#fff;color:#1a1a1a;border-radius:4px 16px 16px 16px;',
     'border:1px solid #EAEAEA;box-shadow:0 1px 4px rgba(0,0,0,.06)}',
     '.nai-msg.error{background:#fff1f1;color:#c0392b;border:1px solid #fdd;border-radius:12px}',
+    '.nai-msg.error a{color:#c0392b;font-weight:600;text-decoration:underline}',
 
     /* Markdown inside bot bubbles */
     '.nai-msg.bot p{margin:0 0 8px}.nai-msg.bot p:last-child{margin:0}',
@@ -128,6 +149,8 @@
     '#nai-charcount{font-size:11px;color:#bbb;text-align:right;padding:2px 14px 0}',
     '#nai-charcount.over{color:#c0392b;font-weight:600}',
     '#nai-disclaimer{font-size:11px;color:#bbb;text-align:center;padding:4px 16px 10px;line-height:1.5}',
+    '#nai-disclaimer a{color:#A38200;font-weight:600;text-decoration:none;white-space:nowrap}',
+    '#nai-disclaimer a:hover{text-decoration:underline}',
 
     /* Quota badge */
     '.nai-quota{font-size:11px;color:#999;text-align:center;padding:2px 0;',
@@ -158,6 +181,31 @@
     '  </span>',
     '</button>',
 
+    '<div id="nai-menu" role="menu">',
+    '  <button id="nai-menu-ai" class="nai-menu-item" role="menuitem">',
+    '    <span class="nai-menu-icon ai">',
+    '      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">',
+    '        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
+    '      </svg>',
+    '    </span>',
+    '    <span>',
+    '      <span class="nai-menu-title">Ask Nomba AI</span>',
+    '      <span class="nai-menu-sub" style="display:block">Instant answers from the docs</span>',
+    '    </span>',
+    '  </button>',
+    '  <a id="nai-menu-human" class="nai-menu-item" role="menuitem" href="' + DISCORD_URL + '" target="_blank" rel="noopener noreferrer">',
+    '    <span class="nai-menu-icon human">',
+    '      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">',
+    '        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>',
+    '      </svg>',
+    '    </span>',
+    '    <span>',
+    '      <span class="nai-menu-title">Talk to a human</span>',
+    '      <span class="nai-menu-sub" style="display:block">Join our Discord community. Someone from Nomba is always there to help.</span>',
+    '    </span>',
+    '  </a>',
+    '</div>',
+
     '<div id="nai-overlay" role="dialog" aria-modal="true" aria-label="Ask AI about Nomba Docs">',
     '  <div id="nai-modal">',
 
@@ -176,7 +224,10 @@
     '          </div>',
     '        </div>',
     '      </div>',
-    '      <button id="nai-close" aria-label="Close">&times;</button>',
+    '      <div id="nai-head-right">',
+    '        <a id="nai-human" href="' + DISCORD_URL + '" target="_blank" rel="noopener noreferrer">Talk to a human</a>',
+    '        <button id="nai-close" aria-label="Close">&times;</button>',
+    '      </div>',
     '    </div>',
 
     '    <div id="nai-msgs">',
@@ -201,7 +252,8 @@
     '      </button>',
     '    </div>',
     '    <div id="nai-charcount">0 / 100</div>',
-    '    <div id="nai-disclaimer">Answers are AI-generated based on Nomba documentation. You can ask up to 10 questions per day.</div>',
+    '    <div id="nai-disclaimer"><span id="nai-disclaimer-txt">Answers are AI-generated based on Nomba documentation. You can ask up to 10 questions per day.</span>',
+    '      Need a person? <a href="' + DISCORD_URL + '" target="_blank" rel="noopener noreferrer">Ask on Discord</a></div>',
     '  </div>',
     '</div>',
   ].join(''));
@@ -212,16 +264,24 @@
   var input      = document.getElementById('nai-input');
   var sendBtn    = document.getElementById('nai-send');
   var charCount  = document.getElementById('nai-charcount');
-  var disclaimer = document.getElementById('nai-disclaimer');
+  var disclaimer = document.getElementById('nai-disclaimer-txt');
+  var launcher   = document.getElementById('nai-btn');
+  var menu       = document.getElementById('nai-menu');
 
   /* ── Open / close ────────────────────────────────────────────── */
-  document.getElementById('nai-btn').addEventListener('click', open);
+  launcher.addEventListener('click', function () { menu.classList.toggle('open'); });
+  document.getElementById('nai-menu-ai').addEventListener('click', function () { closeMenu(); open(); });
+  document.getElementById('nai-menu-human').addEventListener('click', closeMenu);
   document.getElementById('nai-close').addEventListener('click', close);
   overlay.addEventListener('click', function (e) { if (e.target === overlay) close(); });
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  document.addEventListener('click', function (e) {
+    if (!menu.contains(e.target) && !launcher.contains(e.target)) closeMenu();
+  });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') { close(); closeMenu(); } });
 
-  function open()  { overlay.classList.add('open'); input.focus(); }
-  function close() { overlay.classList.remove('open'); }
+  function open()      { overlay.classList.add('open'); input.focus(); }
+  function close()     { overlay.classList.remove('open'); }
+  function closeMenu() { menu.classList.remove('open'); }
 
   /* ── Suggestion chips ───────────────────────────────────────── */
   function hideSuggestions() {
@@ -288,6 +348,18 @@
     return el;
   }
 
+  function addDiscordError(text) {
+    var el = addMsg(text, 'bot error');
+    var link = document.createElement('a');
+    link.href = DISCORD_URL;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    link.textContent = 'Ask the Nomba team on Discord →';
+    el.appendChild(document.createTextNode(' '));
+    el.appendChild(link);
+    return el;
+  }
+
   function addQuotaBadge(n) {
     var el = document.createElement('div');
     el.className = 'nai-quota' + (n <= 2 ? ' critical' : n <= 5 ? ' low' : '');
@@ -341,7 +413,7 @@
           }
           if (res.status === 429) {
             typingEl.remove();
-            addMsg('You have reached your 10 questions per day limit. Please try again tomorrow.', 'bot error');
+            addDiscordError('You have reached your 10 questions per day limit. Please try again tomorrow, or');
             sendBtn.disabled = false;
             input.focus();
             return Promise.reject(null);
@@ -387,7 +459,7 @@
         .catch(function (err) {
           if (err === null) return;
           typingEl.remove();
-          addMsg('Something went wrong. Please try again.', 'bot error');
+          addDiscordError('Something went wrong. Please try again, or');
           sendBtn.disabled = false;
           input.focus();
         });
