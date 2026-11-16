@@ -1,0 +1,822 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nomba Demo Bank</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --yellow: #FFCC00; --yellow-hover: #E6B000; --yellow-light: #FFF8DB; --cream: #FFFCF0;
+    --black: #0D0D0D; --white: #FFFFFF; --bg: #F3F3F3; --grey: #F5F5F5; --grey-2: #EBEBEB;
+    --muted: #8A8A8A; --text-2: #5C5C5C; --border: #E6E6E6;
+    --green: #189144; --green-bg: #E8F5EC; --red: #E5484D;
+    --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+    --ease: cubic-bezier(.25,.46,.45,.94);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
+  input, select { font: inherit; color: inherit; }
+  body {
+    font-family: var(--font); background: #1A1A1A; color: var(--black);
+    min-height: 100vh; display: flex; align-items: center; justify-content: center; gap: 48px;
+    padding: 24px 16px; -webkit-font-smoothing: antialiased;
+  }
+
+  /* ---------- Phone shell ---------- */
+  .phone {
+    position: relative; width: 390px; height: 844px; background: var(--bg); border-radius: 44px; overflow: hidden;
+    box-shadow: 0 0 0 10px #000, 0 30px 80px rgba(0,0,0,.5); flex: none;
+  }
+  .statusbar {
+    position: absolute; top: 0; left: 0; right: 0; height: 47px; z-index: 30; display: flex; align-items: center;
+    justify-content: space-between; padding: 6px 30px 0 34px; font-size: 15px; font-weight: 600; pointer-events: none;
+  }
+  .statusbar .icons { display: flex; gap: 6px; align-items: center; }
+  .home-indicator { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); width: 134px; height: 5px; border-radius: 3px; background: var(--black); z-index: 60; pointer-events: none; }
+
+  .screen { position: absolute; inset: 0; display: none; flex-direction: column; background: var(--bg); }
+  .screen.active { display: flex; animation: slide .28s var(--ease); }
+  @keyframes slide { from { transform: translateX(24px); opacity: .4; } to { transform: none; opacity: 1; } }
+  .scroll { flex: 1; overflow-y: auto; scrollbar-width: none; }
+  .scroll::-webkit-scrollbar { display: none; }
+
+  /* Nav header */
+  .nav { padding: 52px 16px 12px; display: grid; grid-template-columns: 40px 1fr 40px; align-items: center; background: var(--white); }
+  .nav h1 { font-size: 17px; font-weight: 600; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; }
+  .icon-btn { width: 40px; height: 40px; display: grid; place-items: center; border-radius: 50%; }
+  .country { display: inline-flex; align-items: center; gap: 6px; background: var(--grey); border-radius: 999px; padding: 5px 10px 5px 6px; font-size: 13px; font-weight: 500; }
+  .flag-ng { width: 20px; height: 20px; border-radius: 50%; background: linear-gradient(90deg,#008751 33%,#fff 33% 66%,#008751 66%); box-shadow: inset 0 0 0 1px rgba(0,0,0,.06); }
+
+  /* Buttons */
+  .btn { height: 52px; width: 100%; border-radius: 12px; font-weight: 600; font-size: 15px; transition: background .15s var(--ease), opacity .15s; }
+  .btn-primary { background: var(--yellow); color: var(--black); }
+  .btn-primary:hover { background: var(--yellow-hover); }
+  .btn-primary:disabled { background: #FFE88A; color: rgba(13,13,13,.4); cursor: not-allowed; }
+  .btn-outline { background: var(--white); border: 1px solid var(--border); }
+  .footer { padding: 12px 16px 34px; background: var(--white); }
+
+  /* ---------- Home ---------- */
+  .hero {
+    position: relative; overflow: hidden; padding: 56px 16px 20px;
+    background: linear-gradient(180deg, #FFCC00 0%, #FFCC00 55%, #FFE57A 82%, var(--bg) 100%);
+  }
+  .hero .swirl { position: absolute; border-radius: 50%; border: 56px solid rgba(255,255,255,.14); pointer-events: none; }
+  .hero .swirl.s1 { width: 420px; height: 420px; right: -230px; top: 30px; }
+  .hero .swirl.s2 { width: 300px; height: 300px; left: -190px; top: 210px; }
+  .hero-top { position: relative; display: flex; justify-content: space-between; align-items: center; }
+  .avatar { width: 40px; height: 40px; border-radius: 50%; background: rgba(13,13,13,.32); color: var(--white); display: grid; place-items: center; font-size: 14px; font-weight: 600; }
+  .round-dark { width: 40px; height: 40px; border-radius: 50%; background: rgba(13,13,13,.32); display: grid; place-items: center; }
+  .bal { position: relative; text-align: center; margin-top: 40px; }
+  .bal .acct-type { font-size: 14px; font-weight: 500; color: rgba(13,13,13,.75); display: inline-flex; align-items: center; gap: 6px; }
+  .bal .amount { display: flex; align-items: baseline; justify-content: center; gap: 8px; margin-top: 10px; }
+  .bal .amount strong { font-size: 38px; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+  .bal .amount strong small { font-size: 22px; font-weight: 600; letter-spacing: 0; }
+  .bal .eye { width: 22px; height: 22px; border-radius: 50%; background: rgba(13,13,13,.15); display: grid; place-items: center; align-self: center; }
+  .acct-chip { display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; background: rgba(255,255,255,.35); border-radius: 999px; padding: 7px 14px; font-size: 15px; font-weight: 500; }
+  .dots { display: flex; justify-content: center; gap: 4px; margin-top: 26px; }
+  .dots i { width: 6px; height: 6px; border-radius: 3px; background: rgba(13,13,13,.25); }
+  .dots i:first-child { width: 14px; background: rgba(13,13,13,.6); }
+  .actions { position: relative; display: grid; grid-template-columns: repeat(4,1fr); margin-top: 22px; }
+  .action { display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 14px; font-weight: 500; }
+  .action .circle { width: 50px; height: 50px; border-radius: 50%; background: rgba(110,92,18,.62); display: grid; place-items: center; transition: transform .15s; }
+  .action:active .circle { transform: scale(.94); }
+
+  .home-body { padding: 0 12px 110px; display: flex; flex-direction: column; gap: 12px; margin-top: -6px; position: relative; }
+  .banner { background: var(--cream); border-radius: 14px; padding: 14px 14px 18px; display: flex; gap: 12px; align-items: flex-start; position: relative; }
+  .banner .emoji { width: 36px; height: 36px; border-radius: 10px; background: var(--yellow); display: grid; place-items: center; flex: none; }
+  .banner b { font-size: 14px; font-weight: 600; display: block; }
+  .banner p { font-size: 13px; color: var(--text-2); margin-top: 3px; line-height: 18px; }
+  .card { background: var(--white); border-radius: 16px; padding: 16px; }
+  .card h3 { font-size: 16px; font-weight: 600; margin-bottom: 14px; }
+  .sugg { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; }
+  .sugg button { background: var(--grey); border-radius: 12px; padding: 12px 4px 10px; display: flex; flex-direction: column; align-items: center; gap: 8px; font-size: 12px; font-weight: 500; }
+  .activity-item { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--grey-2); width: 100%; text-align: left; }
+  .activity-item:last-child { border-bottom: 0; padding-bottom: 0; }
+  .activity-item .meta { flex: 1; min-width: 0; }
+  .activity-item b { font-size: 14px; font-weight: 600; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .activity-item small { font-size: 12px; color: var(--muted); }
+  .activity-item .amt { font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
+  .activity-item .amt.in { color: var(--green); }
+
+  .tabbar {
+    position: absolute; bottom: 0; left: 0; right: 0; height: 88px; padding: 10px 8px 0; z-index: 5;
+    background: rgba(255,255,255,.88); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+    display: grid; grid-template-columns: repeat(5,1fr); border-top: 1px solid var(--grey-2);
+  }
+  .tabbar button { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 12px; color: #9A9A9A; font-weight: 500; }
+  .tabbar button.on { color: var(--black); }
+
+  /* Bank avatars */
+  .bank-av { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; flex: none; color: #fff; font-weight: 700; font-size: 13px; box-shadow: 0 0 0 3px var(--ring, #eee); }
+  .mark { background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPAAAAA4CAYAAADD7nVLAAANp0lEQVR4Aezcj51uvRAH8KUBVIAKUAEqQAWoABWgAlSAClABKkAFqIAOyHffnfdms0lOcs7Z3ec5m/t55iYnmcxkfjOTP+d57v3iw/qzEFgI3C0C957AX75b5NfEFwInIHCvCfzNZPufE/000fosBAKB76TKrxL9NtHfEv0z0f8SiZVUXO9zbwlsx+UgzuGs63lkWXQEATFhUf9REmKR/1oqL/25pwT+SfKEFZWDUvXwZwlYCNw9AveQwFZVifvrhLYdOBXrsxBYCEDglhPY8cfdBamb76KFwEIgQ0ACu/DfUoLYZd1z7bp232y6q7oQWAjkCEhgF367nDLve4/6uue+DepLy0UQkMBMsQPbie1675HIdlpvltc9lzcWLQQGEYgEDvZIZMmsHu2vVdJh90de+7+WniV3IXBJBMoEDiPtwnZjd1FJFu1nle65P0/C7Lp231Rdn4XAQmAWgVYChxzfudodJXS0HS3jnvuLJEgip2L351+7R15nIAwtsug6Vr2eJS3JcESt/pts30pgkxYYjtR25CO7pbEWgzPuuX9JE/tuot8leq3P95NgC1dObEjNzz7anFTg42d7Qf9JXOw1PlVP+9Dn9EI2HYhuRLfyD0kbvXyXqlMfQWxsSdpzQWSbh1OUOdCN1OmHX85fq7Olhh2ZYk5/bdwZbWTTTVfM29zVtbEBBmfoChkwtCmSzU90BdHNp3TCNsZEqU3fMxpJ4FwABYAlLNq3SrwmbCzQtvh7/XbcHyQGySuJU/XVPk4KbM0J+KGQLWxC2tkZfUrOwmM8ZwFe+14iiy7k9OKZjlKeeUie0KvUVvK1nsk0piQyjdEv8NlkHt5daNOH1PHyOZ6abm3sQDXsyISXfvPAT/YZBDdyEd10lXK1sYFuNlioSp6ZZ/MnS5LCjmxtuQy4mRs+OvFpCx5j9D2jmQQOQYClgFG5gujPS0BYzSjP22fr/00DfpnoW4n+mOi9Pt9+Uiy5BQDAn5q6BWcBHmZdxkonjCXDjL5cDH/xgWDN22frfMmOGVn4zVsZ+sghYxQ78y9lhKzZEv5kjeom39wtVGJeXdsMiRX2smNmHH8ZFzq/URu8J4FDDqMo6E1M8KEYs6d0TJa49EnkPTLOGsMWiegasEcmGzhmdCznwfjoAmjeVnQBPKq75LN4CX5zKvt6z/iNM4e83htT9hlnESvbZ57ZDv+ZMTmvOfCFBShv79XpFCts7/G1+nKd6i/4JhP4xXhCBbTVacawF4IqDY7Ijso/Tn2Ozqm4iU9vwRqZIKeOOBS2Al85IneERwBL5BHekod/987FOHazZ8T2Urdn+s1ffZbsuHvH5rrMnQ3sydtrdfaeqZP9L/RI4DMShEFWJ8ms/kLRRINkNSfJK4knhr4Lqzn+Jml2xEdbR3xBMLILbwWK04jTyc+Sbngh+v+ennsfulGPZ6Qv7A69nnvj6CxjwxjYjcpwHIVfT89MH/05furaejLo3zoNjCwY/Be2sx95Fv+lfjpR2f4ggQXB11MP56fi0MfuZDe2+swKYpA5OC6b0+z4t+aXKBYZJDittshLNnj2AkEg9uYLvzLYc3440cHpjmjwQvTDz5xqgRAytuQHX6sU6HSwO/R6ppsfW+OiHQ9+VMogO/jKUhBXd6KScePZIgs/+nP81LXp+31HhjnAusViI2v1sZ2NX0kMYTsMkWe6+bXnvzT0s48E/qz28GBCBvcm/jD4hyyJ/L1BfoByvnEMHBz2bmzA5ehWkka/JK9NsheIEhcOtXGwoVe/eo1Hm3n1fEm/JMY7S4JPoNfGsdcCVuvL2/CYY94WdbLpiOeyPPo+wOJHPx+VsuNZn80Ib7SVpUUYjmW7cXxYtnsmV5yz0XOLJDM/w7PF89ieJ7AGCkyA89W17SVGWFF64znRRLcA7cl4o75nasy5l0DB3AtEq3jw5WUvsazMMMv5e3W+bPHrqwVgT56Y2Ao++lBLjuDs9RtHRwtfcYVnD0lIi9/oWLyOtTV+2MGw7Pth2ZA9ixsYZk3NKr5N/jKBQ5rBkljAqEf7WSXnkG2CW848S+dZcqyKo5iwja013QKg1v6dWmNqE/hOKqk69YFza0AtAFu82lvBrC+nP+UPRb3Xl7O2ToJfypkm6nwmISeGPLIa0/JhecK0uLT8Z1Eyh0ehg3/R2/Pf4x24J0vQ2PKtXD2+0T4TIsviQPbouFvi++vkZFpOqyWwXVkQ1FSMJk85ln4LSdnuuRVs+mpk8aq1l210lm3x3JpL9EfZkxE8M6W4m+EPXjHbwp6/gk9ZPmsLasmI/lYJL1Ttb+3AOTMDrEKSrrUq5vytuklYDMgis8V36+2zc5/hbyWUYB5Nnhp+Lb9VfxxQE/DU5r3GU7Vb9Gzu9eVCR/nyMb36ntNLyGuNtQh/NZhS2fKf2OfDxLLr0zy1jCRwaDQBRy7HXvVo3ypN3hg0M25L7nv1v6YNAqJm1z9qjRNtfFBjb+32Be/dP1r8jiwIxrdAsLFF32v5rxlzMwkckxQMJu1s3hT8xAw0q78xT02r6CDQCgC/oe0MW10bCIjDDZbN7q1YJyDfjT0HHdXfXED2JHBMyh3Wrto72wtI34mhj7LaBz6rvB0ExOHR2YzE778bSo7qb+o+ksDmalXyVZEd2U6rrUaO3u5PfsbXnExt4Adrg2fN5N7LkRp/2dbC/OjOUOq51eeW/aPz7SXgCIZ735zH/Jr6jyZwKBB4knTrWC3Z/UQQb4xd5ScE4Pjp6VNNADad+ImtWWv9+KF5NGtKus8O2LVeMG1Y9Njdwk9n7rMWnr3xZGxR+XXV5/xnJXAIdKy2G/sBQ25Y9CsFoyO1HfkIqGRdjVrvCgTgkUWvFQBHX47dE/69H1hs2dEaK2HzHdhzTRb/7Y11+dJcAM5O4Ji8L63dj1uv3/GZmN1YMqtr++gkGFpJ3Prp3hZmftnVwteCuzX+Kv0WwD1XEcnTSr7yNwESmA9rmLk+1tq32vjPAlDle60EplDAMb6qOGsErN24O9GM/+rV1rsESWixm7FfwPrevTZGsKFa31Xb/CsiOI7ah7eXeDaqXJbkbfmPL3qycjlRl0PyI55flK+RwJRKSPfdFwo7DQLNP0nsTrgz/ipddsXW9cOC6NQisLbs5Qe8Lb69v0xqybuHdrjBRLk1X7tuj7flpzKpcz1yQhKP6MfXk/Uo98wEZrAEpNQO/PDwqGLqL4bZZSwAVqypwRdi9jKwZQ6cBRacSozgbgHU3/OD4Otdb1q6r9AuxsQX/GAJs7BLXZs+GOKNvrJsLYAW395Xq5KYbH4q/UeffvNTljpfPJ+RwJSaECon9ELhYAOZFgNAqg8Ouwybe3ArQBgJEwEAI/+rIYcjP/iAmSDEVyMB5iVjre8jtcFPzMIMdkhdm74eFnwDxxaP02Svn//4if/oDN1KO6/+luxn7UcS2Grl3moSvYB5pnDyAZCMomdy6N2zCwKBMmIIh6MtXkHl5aK72hbvlfrtiGxv2QQ71OrP2/mEb/K2sg5fOPd0xhh5RLcy2sqSzqqsvQnsfiWxGNJT7CVJ61JfTrL3TA99ErrHd7U+dnPeGXbZ1f1jkmognKHghmW4LowmVM8MvuCTHk/0wflMnXIpZH9eziawndYRo3e/+lx4qliJJN0ZgWOVimOHehJ/w5/zpiZgfLcuIPZI5QNHZsGkvkfGvY8R/PCDwZ4NJcbyxQwWxol9J4CZcXj5it9CZ/VnmqMJLGG8gpe8kpiCGQKgIPRyhlEzY0te92y7sWQ2r7L/rGeAmWtJgJ3RcYYcc4Cf/7nEbjKi344rAIyz4I6MCR76ahT9WyWMauO1bY2N/pYM7cFTlvroyEnsacer3YYikUdwhKGYhaE6GbNEtxdSZFg8zKEnA7+dHn/uN/qNfUZbCex47P7pnusrjJ7ikT5vP4FngiP8PR6OQD2eI31kA7GkEcfneltycufk/L063ZL4C4kJjhIUllZ45Fm//zBNPx0CIrEPfwRIaXM8W4xGBEmaGFOWI+PxsLUc65l9+mvEXjw52QFLXslATuAENzgi9bxPzJbj9zzDNWKBbywM9AV5NldzsuuWfqvi0Utgyux0hEnkPZOujWEImUC2ItV4Vts2AoJQwMLSCo88c3Tp/G1pH5MDTjmOsHwLDOm0MNAX5NnCN+WJWgI7IjsqO6IeTVzJ2pqQPouE1U69xbfa7w2BNd83QyBPYPdJSSt5JfGRSUhIielYsCXHjmE3xmvcFv/qXwgsBJ4QkMB22bjn2hGfunYVjiTO9M7yEnNGiCOEu4G73My4xbsQ+LAISGAvqJzDJfIRICSgxCVLIu+RZQd2l7Mjr/vxHgTXmA+FgAR2dD5itAu5nfPMI7BEdho4U+YRG9fYhcAYAm/MJYH3qrTLSjDJK4n3yumNs6vbjemR1D3e1bcQ+HAI7ElgieueK7Ek2FuARo+FYh2r3wLtpeNuEJhNYDvt0XvuXnDswI7VFo6VyHtRXOMuhcBoAktcOyCSSO8JAv0SeR2r39MLS/dNILCVwI7LflomcSXxq056UrhjNZocttgXAtdBoJfAcc/107LrWLwsWQhcCIFaAttp3TOPfJ97IYiWKQuB20UgT2A/pHZURu6ZtzvrNbOFwELgEQEJHPdcb5ftvo8d66+3RWBpWwjsQeD/AAAA//+daM8sAAAABklEQVQDAMyluO4+5E6UAAAAAElFTkSuQmCC") 0 50% / auto 100% no-repeat; }
+
+  /* ---------- Sending to ---------- */
+  .send-top { background: var(--white); padding: 4px 16px 20px; display: flex; flex-direction: column; gap: 16px; }
+  .segment { background: var(--grey); border-radius: 14px; padding: 4px; display: grid; grid-template-columns: 1fr 1fr; }
+  .segment button { height: 42px; border-radius: 11px; font-size: 15px; font-weight: 500; color: #A3A3A3; }
+  .segment button.on { background: var(--white); color: var(--black); box-shadow: 0 1px 2px rgba(0,0,0,.06); }
+  .label { font-size: 14px; font-weight: 500; margin-bottom: 8px; display: block; }
+  .input-wrap { position: relative; }
+  .input {
+    width: 100%; height: 52px; border: 1px solid var(--border); border-radius: 12px; background: var(--white);
+    padding: 0 48px 0 16px; font-size: 15px; outline: none; transition: border-color .15s, box-shadow .15s;
+  }
+  .input::placeholder { color: #B0B0B0; }
+  .input:focus { border-color: var(--yellow); box-shadow: 0 0 0 3px rgba(255,204,0,.2); }
+  .input-wrap .trail { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); pointer-events: none; }
+  .row-btn { display: flex; align-items: center; gap: 12px; width: 100%; border: 1px solid var(--border); border-radius: 14px; padding: 12px 14px; font-size: 16px; font-weight: 500; text-align: left; }
+  .row-btn .ic { width: 40px; height: 40px; border-radius: 50%; background: var(--grey); display: grid; place-items: center; }
+  .row-btn > span:not(.ic) { flex: 1; }
+  .row-btn .ic { flex: none; }
+  .list-card { margin: 20px 16px 40px; background: var(--white); border-radius: 16px; border: 1px solid var(--grey-2); overflow: hidden; }
+  .tabs { display: flex; gap: 16px; padding: 18px 18px 14px; font-size: 16px; font-weight: 600; background: var(--grey); }
+  .tabs button { color: #B5B5B5; } .tabs button.on { color: var(--black); }
+  .person { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--grey-2); width: 100%; text-align: left; }
+  .person:last-child { border-bottom: 0; }
+  .person .meta { flex: 1; }
+  .person b { font-size: 15px; font-weight: 600; display: block; }
+  .person small { font-size: 12px; color: var(--muted); display: flex; align-items: center; gap: 6px; margin-top: 3px; }
+  .person small i { width: 3px; height: 3px; border-radius: 50%; background: var(--muted); }
+  .empty { padding: 28px 16px; text-align: center; color: var(--muted); font-size: 14px; }
+
+  /* ---------- Lookup ---------- */
+  .pad { padding: 16px; }
+  .grey-card { background: var(--grey); border-radius: 16px; padding: 16px; display: flex; flex-direction: column; gap: 6px; }
+  .grey-card .label { font-size: 13px; color: var(--text-2); margin: 8px 0 6px; }
+  .grey-card .label:first-child { margin-top: 0; }
+  .grey-card .input { border-color: transparent; }
+  select.input { appearance: none; cursor: pointer; }
+  .resolved { margin-top: 10px; font-size: 13px; color: var(--text-2); display: none; }
+  .resolved.show { display: block; }
+  .resolved b { display: flex; align-items: center; gap: 6px; font-size: 15px; color: var(--black); font-weight: 600; margin-top: 6px; }
+  .resolved.err b { color: var(--red); font-weight: 500; font-size: 14px; }
+  .spin { width: 16px; height: 16px; border: 2px solid rgba(13,13,13,.15); border-top-color: var(--black); border-radius: 50%; animation: spin .7s linear infinite; display: inline-block; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ---------- Enter amount ---------- */
+  .bal-pill { align-self: center; margin: 4px auto 14px; display: flex; align-items: center; gap: 6px; background: var(--grey); border-radius: 999px; padding: 8px 14px; font-size: 13px; font-weight: 500; width: fit-content; }
+  .amt-card { background: var(--cream); border: 1px solid #FBEFC0; border-radius: 16px; padding: 14px 16px 16px; }
+  .amt-card .top { display: flex; justify-content: space-between; font-size: 13px; color: var(--text-2); }
+  .amt-card .top span:last-child { color: var(--muted); }
+  .amt-input { display: flex; align-items: baseline; margin-top: 10px; }
+  .amt-input span { font-size: 28px; font-weight: 600; color: var(--black); }
+  .amt-input input { border: 0; outline: 0; background: transparent; font-size: 32px; font-weight: 700; letter-spacing: -.02em; width: 100%; font-variant-numeric: tabular-nums; }
+  .amt-input input::placeholder { color: #C9C2A4; }
+  .connector { width: 30px; height: 30px; border-radius: 50%; background: var(--white); border: 1px solid var(--border); display: grid; place-items: center; margin: -10px auto; position: relative; z-index: 1; }
+  .to-card { background: var(--grey); border-radius: 16px; overflow: hidden; }
+  .to-card .inner { padding: 18px 16px 14px; display: flex; justify-content: space-between; gap: 12px; font-size: 13px; }
+  .to-card .inner small { color: var(--muted); display: block; margin-bottom: 6px; font-size: 12px; }
+  .to-card .inner b { font-weight: 600; font-size: 14px; }
+  .to-card .inner .r { text-align: right; }
+  .to-card .note { background: var(--grey-2); padding: 10px 16px; font-size: 12px; color: var(--text-2); }
+  .to-card .note.err { background: #FDECEC; color: var(--red); }
+  .note-input { margin-top: 14px; }
+  .toggle-row { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; font-size: 14px; font-weight: 500; }
+  .switch { width: 44px; height: 26px; border-radius: 13px; background: var(--grey-2); position: relative; transition: background .2s; }
+  .switch::after { content: ""; position: absolute; top: 3px; left: 3px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.2); transition: transform .2s var(--ease); }
+  .switch.on { background: var(--yellow); } .switch.on::after { transform: translateX(18px); }
+
+  /* ---------- Sheets ---------- */
+  .scrim { position: absolute; inset: 0; background: rgba(0,0,0,.4); z-index: 40; opacity: 0; pointer-events: none; transition: opacity .25s; }
+  .scrim.show { opacity: 1; pointer-events: auto; }
+  .sheet {
+    position: absolute; left: 0; right: 0; bottom: 0; z-index: 50; background: var(--white); border-radius: 24px 24px 0 0;
+    transform: translateY(105%); transition: transform .32s var(--ease); padding: 10px 16px 34px; max-height: 92%; display: flex; flex-direction: column;
+  }
+  .sheet.show { transform: none; }
+  .sheet .grab { width: 36px; height: 4px; border-radius: 2px; background: var(--grey-2); margin: 0 auto 18px; flex: none; }
+  .sheet h2 { font-size: 18px; font-weight: 600; }
+
+  .loader { align-items: center; text-align: center; padding-top: 80px; padding-bottom: 120px; }
+  .loader .ring { width: 64px; height: 64px; border-radius: 50%; border: 3px solid #FFF1B3; border-top-color: var(--yellow); animation: spin .9s linear infinite; position: relative; }
+  .loader .ring-wrap { position: relative; width: 64px; height: 64px; }
+  .loader .ring-wrap .mark { position: absolute; inset: 21px 19px; }
+  .loader p { color: var(--muted); font-size: 15px; margin-top: 14px; }
+  .loader small { display: block; font-size: 13px; color: var(--text-2); margin-top: 8px; max-width: 260px; line-height: 19px; }
+
+  .send-to { display: flex; align-items: center; gap: 10px; margin: 16px 0 20px; }
+  .send-to small { font-size: 12px; color: var(--muted); display: block; }
+  .send-to b { font-size: 14px; font-weight: 600; }
+  .sec-label { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+  .details { background: var(--grey); border-radius: 14px; margin-bottom: 20px; }
+  .details .r { display: flex; justify-content: space-between; align-items: center; padding: 15px 14px; font-size: 14px; border-bottom: 1px solid var(--white); }
+  .details .r:last-child { border-bottom: 0; }
+  .details .r span:first-child { color: var(--muted); display: flex; align-items: center; gap: 6px; }
+  .details .r span:last-child { font-weight: 500; font-variant-numeric: tabular-nums; }
+  .new-badge { font-style: normal; background: var(--yellow); color: var(--black); font-size: 10px; font-weight: 600; padding: 2px 5px; border-radius: 4px; }
+  .details select { border: 0; background: transparent; font-weight: 500; font-size: 14px; outline: none; cursor: pointer; text-align: right; }
+
+  .pin-sheet { padding-left: 0; padding-right: 0; padding-bottom: 28px; background: #D1D3D9; }
+  .pin-top { background: var(--white); margin-top: -10px; padding: 10px 16px 28px; border-radius: 24px 24px 0 0; text-align: center; }
+  .pin-top .grab { margin-bottom: 26px; }
+  .pin-top small { display: inline-flex; align-items: center; gap: 6px; color: var(--text-2); font-size: 13px; margin-top: 18px; }
+  .pin-boxes { display: flex; justify-content: center; gap: 12px; margin-top: 18px; }
+  .pin-boxes span { width: 48px; height: 48px; border-radius: 10px; border: 1px solid var(--border); display: grid; place-items: center; }
+  .pin-boxes span.on { border-color: var(--yellow); border-width: 2px; }
+  .pin-boxes span.filled::after { content: ""; width: 10px; height: 10px; border-radius: 50%; background: var(--black); }
+  .pin-boxes.shake { animation: shake .35s; }
+  @keyframes shake { 25% { transform: translateX(-6px); } 75% { transform: translateX(6px); } }
+  .keypad { display: grid; grid-template-columns: repeat(3,1fr); gap: 7px; padding: 8px 7px 0; }
+  .keypad button { height: 46px; border-radius: 6px; background: var(--white); box-shadow: 0 1px 0 rgba(0,0,0,.3); display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 24px; font-weight: 400; line-height: 1; }
+  .keypad button small { font-size: 9px; font-weight: 600; letter-spacing: .15em; margin-top: 1px; }
+  .keypad button.ghost { background: transparent; box-shadow: none; }
+  .keypad button:active { background: #BCC0C7; }
+
+  .success { top: 54px; max-height: none; border-radius: 24px 24px 0 0; align-items: center; text-align: center; padding-top: 16px; }
+  .success .close { align-self: flex-end; }
+  .success .art { margin-top: 70px; }
+  .success h2 { font-size: 24px; font-weight: 600; margin-top: 22px; letter-spacing: -.01em; }
+  .success p { font-size: 14px; color: var(--text-2); margin-top: 10px; line-height: 21px; max-width: 300px; }
+  .success .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; margin-top: auto; }
+
+  /* ---------- Transaction details ---------- */
+  .td-bg { background: linear-gradient(180deg, #FFE680 0%, #FFF4C2 30%, var(--bg) 62%); }
+  .td-bg .nav { background: transparent; }
+  .td { padding: 4px 12px 40px; display: flex; flex-direction: column; gap: 12px; }
+  .td .card { padding: 16px; }
+  .td-head { display: flex; justify-content: space-between; align-items: flex-start; }
+  .td-head .amt { text-align: right; }
+  .td-head .amt b { font-size: 22px; font-weight: 700; letter-spacing: -.01em; font-variant-numeric: tabular-nums; }
+  .td-head .amt small { display: block; color: var(--green); font-size: 12px; font-weight: 500; margin-top: 2px; }
+  .td-name { margin-top: 12px; font-size: 15px; font-weight: 600; }
+  .td-sub { font-size: 12px; color: var(--muted); margin-top: 3px; }
+  .cat-row { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; }
+  .cat-chip { display: inline-flex; align-items: center; gap: 6px; background: var(--grey); border-radius: 6px; padding: 5px 8px; font-size: 12px; font-weight: 500; }
+  .track { margin-top: 18px; padding-top: 14px; border-top: 1px dashed var(--border); }
+  .track p { font-size: 13px; color: var(--green); font-weight: 500; }
+  .bar { height: 6px; border-radius: 3px; background: var(--green); margin: 12px 0 8px; position: relative; }
+  .bar::after { content: ""; position: absolute; right: -2px; top: -4px; width: 14px; height: 14px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 3px #fff; }
+  .steps { display: grid; grid-template-columns: repeat(3,1fr); font-size: 12px; font-weight: 500; }
+  .steps span:nth-child(2) { text-align: center; } .steps span:nth-child(3) { text-align: right; }
+  .steps small { display: block; color: var(--muted); font-weight: 400; font-size: 11px; margin-top: 2px; }
+  .td-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+  .td-actions button { height: 42px; border: 1px solid var(--border); border-radius: 10px; font-size: 13px; font-weight: 500; display: flex; align-items: center; justify-content: center; gap: 6px; }
+  .link-row { display: flex; align-items: center; gap: 12px; width: 100%; text-align: left; }
+  .link-row .ic { width: 36px; height: 36px; border-radius: 50%; background: var(--cream); display: grid; place-items: center; flex: none; }
+  .link-row b { font-size: 14px; font-weight: 600; display: block; } .link-row small { font-size: 12px; color: var(--muted); }
+  .link-row div { flex: 1; }
+  .kv { padding: 12px 0; border-bottom: 1px solid var(--grey-2); }
+  .kv:first-child { padding-top: 0; } .kv:last-child { border-bottom: 0; padding-bottom: 0; }
+  .kv small { font-size: 12px; color: var(--muted); display: block; margin-bottom: 4px; }
+  .kv div { font-size: 14px; font-weight: 500; display: flex; justify-content: space-between; align-items: center; gap: 8px; word-break: break-all; }
+
+  .toast { position: absolute; left: 50%; bottom: 110px; transform: translate(-50%, 20px); background: var(--black); color: #fff; font-size: 13px; padding: 10px 16px; border-radius: 10px; opacity: 0; transition: .25s var(--ease); z-index: 80; white-space: nowrap; pointer-events: none; }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+
+  /* Side notes (desktop) */
+  .notes { width: 280px; color: #CFCFCF; font-size: 14px; line-height: 21px; }
+  .notes h2 { color: #fff; font-size: 22px; font-weight: 700; letter-spacing: -.01em; margin-bottom: 8px; }
+  .notes .tag { display: inline-block; background: var(--yellow); color: var(--black); font-size: 12px; font-weight: 600; border-radius: 999px; padding: 3px 10px; margin-bottom: 14px; }
+  .notes ol { padding-left: 18px; margin-top: 14px; } .notes li { margin-bottom: 6px; }
+  .notes code { background: #2A2A2A; padding: 1px 6px; border-radius: 4px; color: #fff; font-size: 13px; }
+  @media (max-width: 900px) { .notes { display: none; } }
+
+  /* Real phones: full-bleed, no fake chrome */
+  @media (max-width: 480px) {
+    body { padding: 0; display: block; background: var(--bg); }
+    .phone { width: 100%; height: 100dvh; border-radius: 0; box-shadow: none; }
+    .statusbar, .home-indicator { display: none; }
+    .nav { padding-top: 16px; } .hero { padding-top: 20px; }
+    .success { top: 12px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="phone" id="phone">
+  <div class="statusbar">
+    <span>9:41</span>
+    <span class="icons">
+      <svg width="18" height="12" viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx="1" fill="#0D0D0D"/><rect x="5" y="5.5" width="3" height="6.5" rx="1" fill="#0D0D0D"/><rect x="10" y="3" width="3" height="9" rx="1" fill="#0D0D0D"/><rect x="15" y="0" width="3" height="12" rx="1" fill="#0D0D0D"/></svg>
+      <svg width="16" height="12" viewBox="0 0 16 12" fill="none"><path d="M8 11.5l2.2-2.6a3.2 3.2 0 0 0-4.4 0L8 11.5zM3.6 6.8a6.3 6.3 0 0 1 8.8 0l1.5-1.7a8.6 8.6 0 0 0-11.8 0l1.5 1.7zM.6 3.4a10.7 10.7 0 0 1 14.8 0L16 2.6A12 12 0 0 0 0 2.6l.6.8z" fill="#0D0D0D"/></svg>
+      <svg width="27" height="13" viewBox="0 0 27 13" fill="none"><rect x=".5" y=".5" width="23" height="12" rx="3.5" stroke="#0D0D0D" opacity=".4"/><rect x="2" y="2" width="17" height="9" rx="2" fill="#0D0D0D"/><path d="M25 4.5v4a2 2 0 0 0 0-4z" fill="#0D0D0D" opacity=".4"/></svg>
+    </span>
+  </div>
+
+  <!-- =============== HOME =============== -->
+  <section class="screen active" id="home">
+    <div class="scroll">
+      <div class="hero">
+        <div class="swirl s1"></div><div class="swirl s2"></div>
+        <div class="hero-top">
+          <div class="avatar">SA</div>
+          <button class="round-dark" data-soon="Scan to pay" aria-label="Scan QR">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><path d="M14 14h3v3M21 14v.01M14 21h3M21 17v4h-1"/></svg>
+          </button>
+        </div>
+        <div class="bal">
+          <div class="acct-type">Personal - NGN <span class="flag-ng" style="width:14px;height:14px"></span></div>
+          <div class="amount">
+            <strong id="home-bal"></strong>
+            <button class="eye" id="eye" aria-label="Hide balance">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#0D0D0D" stroke-width="2.4"><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+            </button>
+          </div>
+          <button class="acct-chip" id="copy-acct">0089234553
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="#0D0D0D"><rect x="8" y="8" width="13" height="13" rx="2.5"/><path d="M5 16H4.5A1.5 1.5 0 0 1 3 14.5v-10A1.5 1.5 0 0 1 4.5 3h10A1.5 1.5 0 0 1 16 4.5V5" stroke="#0D0D0D" stroke-width="2" fill="none"/></svg>
+          </button>
+          <div class="dots"><i></i><i></i><i></i></div>
+        </div>
+        <div class="actions">
+          <button class="action" data-soon="Add money"><span class="circle"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>Add money</button>
+          <button class="action" id="go-transfer"><span class="circle"><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M21.4 2.6a1 1 0 0 0-1.1-.2l-17 7a1 1 0 0 0 .1 1.9l7 2.3 2.3 7a1 1 0 0 0 1.9.1l7-17a1 1 0 0 0-.2-1.1zM13.6 17.3l-1.5-4.6 3.6-3.6-1.4-1.4-3.6 3.6-4.6-1.5 11.2-4.6-3.7 12.1z"/></svg></span>Transfer</button>
+          <button class="action" data-soon="Pay Bills"><span class="circle"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3h14v18l-3-2-2 2-2-2-2 2-2-2-3 2V3z"/><path d="M9 15l6-6M9.5 9.5h.01M14.5 14.5h.01"/></svg></span>Pay Bills</button>
+          <button class="action" data-soon="More"><span class="circle"><svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><circle cx="5" cy="12" r="2"/><circle cx="12" cy="12" r="2"/><circle cx="19" cy="12" r="2"/></svg></span>More</button>
+        </div>
+      </div>
+
+      <div class="home-body">
+        <div class="banner">
+          <div class="emoji"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0D0D0D" stroke-width="2.2" stroke-linecap="round"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.8 3h10.4a2 2 0 0 0 1.8-3l-5-9V3"/></svg></div>
+          <div><b>You're in the demo bank</b><p>Test mode. Transfers here move no real money.</p></div>
+        </div>
+        <div class="card">
+          <h3>Suggestion</h3>
+          <div class="sugg">
+            <button data-soon="Airtime"><svg width="22" height="22" viewBox="0 0 24 24" fill="#E5484D"><path d="M6.6 10.8a15.5 15.5 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.57a1 1 0 0 1-.25 1L6.6 10.8z"/></svg>Airtime</button>
+            <button data-soon="Data"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#189144" stroke-width="2.4" stroke-linecap="round"><path d="M2 8.8a15 15 0 0 1 20 0M5 12.6a10 10 0 0 1 14 0M8.5 16.4a5 5 0 0 1 7 0"/><circle cx="12" cy="20" r="1" fill="#189144"/></svg>Data</button>
+            <button data-soon="Savings"><svg width="22" height="22" viewBox="0 0 24 24" fill="#0E9384"><path d="M19 9.5c-.5-2.8-3.4-5-7-5-1.4 0-2.7.3-3.8.9L6 4v3.3A6.2 6.2 0 0 0 4.4 10H3v4h1.7c.5 1.2 1.3 2.2 2.3 3V20h3v-1.7c.6.1 1.3.2 2 .2s1.4-.1 2-.2V20h3v-3c1.4-1.1 2.3-2.6 2.5-4.3H21v-3.2h-2zM15 10a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/></svg>Savings</button>
+            <button data-soon="Rewards"><svg width="22" height="22" viewBox="0 0 24 24" fill="#F76808"><path d="M20 7h-2.2A3 3 0 0 0 12 3.8 3 3 0 0 0 6.2 7H4a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h7V7h2v5h7a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1zM9 7a1 1 0 1 1 1-1v1H9zm6 0h-1V6a1 1 0 1 1 1 1zM4 13v7a1 1 0 0 0 1 1h6v-8H4zm9 8h6a1 1 0 0 0 1-1v-7h-7v8z"/></svg>Rewards</button>
+          </div>
+        </div>
+        <div class="card">
+          <h3 style="margin-bottom:2px">Activity</h3>
+          <div id="activity"></div>
+        </div>
+      </div>
+    </div>
+    <nav class="tabbar">
+      <button class="on"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M10.6 3.5a2 2 0 0 1 2.8 0l7 6.6c.4.4.6.9.6 1.5V19a2 2 0 0 1-2 2h-3.5v-5.5h-7V21H5a2 2 0 0 1-2-2v-7.4c0-.6.2-1.1.6-1.5l7-6.6z"/></svg>Home</button>
+      <button data-soon="Spending"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M11 3.1A9 9 0 1 0 20.9 13H11V3.1z"/><path d="M13 2v9h9a9 9 0 0 0-9-9z" opacity=".6"/></svg>Spending</button>
+      <button data-soon="Black"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z"/></svg>Black</button>
+      <button data-soon="Payment"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3l4 4-4 4M21 7H8M7 21l-4-4 4-4M3 17h13"/></svg>Payment</button>
+      <button data-soon="More"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="3" width="8" height="8" rx="2.5"/><rect x="13" y="3" width="8" height="8" rx="2.5"/><rect x="3" y="13" width="8" height="8" rx="2.5"/><rect x="13" y="13" width="8" height="8" rx="2.5"/></svg>More</button>
+    </nav>
+  </section>
+
+  <!-- =============== SENDING TO =============== -->
+  <section class="screen" id="sendto">
+    <div class="nav">
+      <button class="icon-btn" data-back="home" aria-label="Back"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0D0D0D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></button>
+      <h1>Sending to <span class="country"><span class="flag-ng"></span>Nigeria<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5C5C5C" stroke-width="2.4" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></span></h1>
+      <span></span>
+    </div>
+    <div class="scroll">
+      <div class="send-top">
+        <div class="segment"><button class="on">Single transfer</button><button data-soon="Bulk transfer">Bulk transfer</button></div>
+        <div>
+          <label class="label" for="search">Enter receiver's details (NGN)</label>
+          <div class="input-wrap">
+            <input class="input" id="search" placeholder="Name, phone or account number" autocomplete="off" inputmode="text">
+            <span class="trail"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8A8A8A" stroke-width="1.8" stroke-linejoin="round"><path d="M3 8.5A2.5 2.5 0 0 1 5.5 6h1.8l1.5-2h6.4l1.5 2h1.8A2.5 2.5 0 0 1 21 8.5v9a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5v-9z"/><circle cx="12" cy="13" r="3.5"/></svg></span>
+          </div>
+        </div>
+        <button class="row-btn" data-soon="Transfer between accounts">
+          <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#E6B000" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7H9a5 5 0 0 0 0 10h1M17 4l3 3-3 3M4 17h11a5 5 0 0 0 0-10h-1M7 20l-3-3 3-3"/></svg></span>
+          <span>Transfer between accounts</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A3A3A3" stroke-width="2" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg>
+        </button>
+      </div>
+      <div class="list-card">
+        <div class="tabs"><button class="on" data-tab="recents">Recents</button><button data-tab="benef">Beneficiaries</button></div>
+        <div id="people"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============== LOOKUP =============== -->
+  <section class="screen" id="lookup">
+    <div class="nav">
+      <button class="icon-btn" data-back="sendto" aria-label="Back"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0D0D0D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></button>
+      <h1>Transfer</h1><span></span>
+    </div>
+    <div class="scroll pad" style="background:var(--white)">
+      <div class="grey-card">
+        <label class="label" for="acct">Enter account number</label>
+        <input class="input" id="acct" inputmode="numeric" maxlength="10" placeholder="10-digit account number" autocomplete="off">
+        <label class="label" for="bank">Select bank</label>
+        <div class="input-wrap">
+          <select class="input" id="bank"></select>
+          <span class="trail"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#8A8A8A" stroke-width="2.2" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></span>
+        </div>
+        <div class="resolved" id="resolved"></div>
+      </div>
+    </div>
+    <div class="footer"><button class="btn btn-primary" id="lookup-next" disabled>Proceed</button></div>
+  </section>
+
+  <!-- =============== ENTER AMOUNT =============== -->
+  <section class="screen" id="amount">
+    <div class="nav">
+      <button class="icon-btn" data-back="sendto" aria-label="Back"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0D0D0D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></button>
+      <h1>Enter Amount</h1><span></span>
+    </div>
+    <div class="scroll pad" style="background:var(--white);padding-top:4px">
+      <div class="bal-pill">Balance <span id="amt-bal"></span><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#5C5C5C" stroke-width="2.6" stroke-linecap="round"><path d="m6 9 6 6 6-6"/></svg></div>
+      <div class="amt-card">
+        <div class="top"><span>Amount you're sending</span><span>Fee: ₦10.00</span></div>
+        <label class="amt-input"><span>₦</span><input id="amt" inputmode="decimal" placeholder="0.00" autocomplete="off" aria-label="Amount"></label>
+      </div>
+      <div class="connector"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#5C5C5C" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M6 13l6 6 6-6"/></svg></div>
+      <div class="to-card">
+        <div class="inner">
+          <div><small>You're sending to:</small><b data-f="name"></b></div>
+          <div class="r"><small data-f="bank"></small><b data-f="acct"></b></div>
+        </div>
+        <div class="note" id="amt-note">You can send up to ₦1,000,000.00 per transfer in the demo bank.</div>
+      </div>
+      <div class="note-input"><input class="input" id="narration" maxlength="60" placeholder="Add note" autocomplete="off" style="padding-right:16px"></div>
+      <div class="toggle-row">Schedule transfer <button class="switch" id="sched" role="switch" aria-checked="false" aria-label="Schedule transfer"></button></div>
+    </div>
+    <div class="footer"><button class="btn btn-primary" id="amt-next" disabled>Proceed</button></div>
+  </section>
+
+  <!-- =============== TRANSACTION DETAILS =============== -->
+  <section class="screen td-bg" id="txn">
+    <div class="nav">
+      <button class="icon-btn" data-back="home" aria-label="Back"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0D0D0D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M11 18l-6-6 6-6"/></svg></button>
+      <h1>Transaction details</h1><span></span>
+    </div>
+    <div class="scroll">
+      <div class="td">
+        <div class="card">
+          <div class="td-head">
+            <div class="bank-av" id="td-av"></div>
+            <div class="amt"><b data-f="debit"></b><small>Successful</small></div>
+          </div>
+          <div class="td-name" data-f="name"></div>
+          <div class="td-sub"><span data-f="acct"></span> • <span data-f="date"></span></div>
+          <div class="cat-row">
+            <span class="cat-chip"><svg width="12" height="12" viewBox="0 0 24 24" fill="#E6B000"><circle cx="12" cy="12" r="10"/></svg><span data-f="category"></span></span>
+          </div>
+          <div class="track">
+            <p>Transfer completed. The recipient has been credited.</p>
+            <div class="bar"></div>
+            <div class="steps"><span>Sent<small data-f="time"></small></span><span>Processing<small data-f="time"></small></span><span>Received<small data-f="time"></small></span></div>
+          </div>
+          <div class="td-actions">
+            <button id="share"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0D0D0D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7M16 6l-4-4-4 4M12 2v14"/></svg>Share receipt</button>
+            <button id="repeat"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0D0D0D" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 2l4 4-4 4M3 11V9a3 3 0 0 1 3-3h15M7 22l-4-4 4-4M21 13v2a3 3 0 0 1-3 3H3"/></svg>Repeat transfer</button>
+          </div>
+        </div>
+        <div class="card">
+          <button class="link-row" data-soon="Report transaction">
+            <span class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#E6B000" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 22V4s1.5-1 4-1 4 2 7 2 5-1 5-1v11s-2 1-5 1-4.5-2-7-2-4 1-4 1"/></svg></span>
+            <div><b>Report Transaction</b><small>Report an issue with this payment</small></div>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A3A3A3" stroke-width="2" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg>
+          </button>
+        </div>
+        <div class="card">
+          <div class="kv"><small>Recipient</small><div data-f="name"></div></div>
+          <div class="kv"><small>Bank</small><div><span data-f="bank"></span></div></div>
+          <div class="kv"><small>Amount · Fee</small><div><span><span data-f="amount"></span> · <span data-f="fee"></span></span></div></div>
+          <div class="kv"><small>Note</small><div data-f="note"></div></div>
+          <div class="kv"><small>Transaction Type</small><div>Bank Transfer</div></div>
+          <div class="kv"><small>Session ID</small><div><span data-f="session"></span>
+            <button id="copy-session" aria-label="Copy session ID"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8A8A8A" stroke-width="2"><rect x="8" y="8" width="13" height="13" rx="2.5"/><path d="M5 16H4.5A1.5 1.5 0 0 1 3 14.5v-10A1.5 1.5 0 0 1 4.5 3h10A1.5 1.5 0 0 1 16 4.5V5"/></svg></button></div></div>
+          <div class="kv"><small>Transaction ref (use it to requery)</small><div><span data-f="ref" style="word-break:break-all"></span>
+            <button id="copy-ref" aria-label="Copy transaction ref"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8A8A8A" stroke-width="2"><rect x="8" y="8" width="13" height="13" rx="2.5"/><path d="M5 16H4.5A1.5 1.5 0 0 1 3 14.5v-10A1.5 1.5 0 0 1 4.5 3h10A1.5 1.5 0 0 1 16 4.5V5"/></svg></button></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============== SHEETS =============== -->
+  <div class="scrim" id="scrim"></div>
+
+  <div class="sheet loader" id="sh-loading" aria-live="polite">
+    <div class="ring-wrap"><div class="ring"></div><div class="mark"></div></div>
+    <p>Loading...</p>
+    <small>Thank you for your transfer! Together, we're building a cashless Africa.</small>
+  </div>
+
+  <div class="sheet" id="sh-confirm" role="dialog" aria-label="Confirm transaction">
+    <div class="grab"></div>
+    <h2>Confirm Transaction</h2>
+    <div class="send-to"><div class="bank-av" id="cf-av" style="width:34px;height:34px;font-size:12px"></div><div><small>Sending to</small><b data-f="name"></b></div></div>
+    <div class="sec-label">Transaction Details</div>
+    <div class="details">
+      <div class="r"><span>Amount</span><span data-f="amount"></span></div>
+      <div class="r"><span>Fee</span><span data-f="fee"></span></div>
+      <div class="r"><span>Note</span><span data-f="note"></span></div>
+      <div class="r"><span>Category <em class="new-badge">New</em></span>
+        <span><select id="category" aria-label="Category"><option>General</option><option>Rent &amp; Housing</option><option>Food and Dining</option><option>Family &amp; Kids</option><option>Bills &amp; Utility</option><option>Shopping</option><option>Education</option></select></span></div>
+    </div>
+    <button class="btn btn-primary" id="confirm-pay">Confirm payment</button>
+  </div>
+
+  <div class="sheet pin-sheet" id="sh-pin" role="dialog" aria-label="Enter PIN">
+    <div class="pin-top">
+      <div class="grab"></div>
+      <h2>Enter your 4-digit PIN</h2>
+      <small><svg width="13" height="13" viewBox="0 0 24 24" fill="#E6B000"><path d="M17 9V7A5 5 0 0 0 7 7v2a3 3 0 0 0-3 3v7a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-7a3 3 0 0 0-3-3zM9 7a3 3 0 0 1 6 0v2H9V7z"/></svg>Transaction PIN · any 4 digits in test mode</small>
+      <div class="pin-boxes" id="pin-boxes"><span></span><span></span><span></span><span></span></div>
+    </div>
+    <div class="keypad" id="keypad"></div>
+  </div>
+
+  <div class="sheet success" id="sh-success" role="dialog" aria-label="Transaction success">
+    <button class="icon-btn close" id="success-close" aria-label="Close"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#8A8A8A" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg></button>
+    <svg class="art" width="120" height="88" viewBox="0 0 120 88" fill="none" aria-hidden="true">
+      <rect x="10" y="18" width="84" height="56" rx="10" fill="#FFCC00"/>
+      <rect x="10" y="30" width="84" height="10" fill="#E6B000"/>
+      <path d="M86 18h14a10 10 0 0 1 10 10v36a10 10 0 0 1-10 10H86z" fill="#0D0D0D"/>
+      <path d="M96 30c6 4 6 24 0 28" stroke="#FFCC00" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="62" cy="38" r="20" fill="#189144" stroke="#fff" stroke-width="4"/>
+      <path d="M53 38.5l6 6 11-12" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <h2>Transaction Success</h2>
+    <p>You have successfully sent <b data-f="amount"></b> to <b data-f="name"></b>.</p>
+    <div class="two"><button class="btn btn-outline" id="view-receipt">View receipt</button><button class="btn btn-primary" id="okay">Okay</button></div>
+  </div>
+
+  <div class="sheet success" id="sh-failed" role="dialog" aria-label="Transaction failed">
+    <svg class="art" width="88" height="88" viewBox="0 0 88 88" fill="none" aria-hidden="true">
+      <circle cx="44" cy="44" r="36" fill="#E5484D"/>
+      <path d="M32 32l24 24M56 32L32 56" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+    </svg>
+    <h2>Transfer Failed</h2>
+    <p id="fail-msg"></p>
+    <button class="btn btn-primary" id="fail-okay">Okay</button>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <div class="home-indicator"></div>
+</div>
+
+<aside class="notes">
+  <span class="tag">Test mode</span>
+  <h2>Nomba Demo Bank</h2>
+  <p>A sandbox banking app that mirrors the Nomba app's transfer flow. Use it to play a customer paying into one of your SIMULATED sandbox virtual accounts.</p>
+  <ol>
+    <li><a href="/docs/api-basics/testing/virtual-accounts" target="_top">Create a simulated virtual account</a> in the sandbox and copy its number (it starts with 0)</li>
+    <li>Tap <b>Transfer</b> on the home screen</li>
+    <li>Type the account number. The name is looked up on Nombank MFB</li>
+    <li>Enter an amount and confirm</li>
+    <li>Enter any 4-digit PIN</li>
+  </ol>
+  <p style="margin-top:14px">Your webhook URL gets <code>payment_success</code>, the same as a real transfer. Use the transaction ref on the receipt to requery it.</p>
+  <p style="margin-top:8px">No real money moves.</p>
+</aside>
+
+<script>
+  const $ = id => document.getElementById(id);
+  const fmt = n => n.toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const naira = n => '₦' + fmt(n);
+  const FEE = 10, MAX = 1000000;
+
+  // Sandbox API. Add ?api=<base> to the page URL to point it elsewhere, e.g. ?api=http://localhost:8080/v1/sandbox
+  const API = (() => {
+    try { const v = new URLSearchParams(location.search).get('api'); if (v) return v.replace(/\/+$/, ''); } catch (_) {}
+    return 'https://sandbox.nomba.com/v1';
+  })();
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+  async function api(path, body) {
+    let res, json = {};
+    try {
+      res = await fetch(API + path, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) });
+    } catch (_) {
+      return { ok: false, message: 'We couldn’t reach the Nomba sandbox. Check your connection and try again.' };
+    }
+    try { json = await res.json(); } catch (_) {}
+    if (res.status === 429) return { ok: false, message: 'Too many attempts. Wait a minute and try again.' };
+    if (res.status === 404) return { ok: false, notFound: true, message: 'We couldn’t find this account. Check the account number.' };
+    if (!res.ok || !json.data) return { ok: false, message: json.description || 'Something went wrong. Try again.' };
+    return { ok: true, data: json.data };
+  }
+
+  // Simulated sandbox virtual accounts all live on Nombank MFB.
+  const BANKS = {
+    'Nombank MFB':        ['#0D0D0D', '#FFCC00'],
+  };
+  const BANK = 'Nombank MFB';
+  // Recents are the simulated accounts this browser has paid, so every one can be paid again.
+  const RECENTS_KEY = 'nomba-demo-bank-recents';
+  const RECENTS = (() => {
+    try { const v = JSON.parse(localStorage.getItem(RECENTS_KEY) || '[]'); return Array.isArray(v) ? v.slice(0, 8) : []; } catch (_) { return []; }
+  })();
+  const BENEFICIARIES = RECENTS;
+  function rememberRecent(p) {
+    const i = RECENTS.findIndex(r => r.acct === p.acct);
+    if (i >= 0) RECENTS.splice(i, 1);
+    RECENTS.unshift(p); RECENTS.length = Math.min(RECENTS.length, 8);
+    try { localStorage.setItem(RECENTS_KEY, JSON.stringify(RECENTS)); } catch (_) {}
+  }
+
+  let balance = 121271.67, hidden = false;
+  const activity = [
+    { name: 'Abodunrin Abdullahi', sub: 'Inflow • 3:45pm', amt: 2000, dir: 'in', bank: 'Nombank MFB' },
+    { name: 'Chinonso Okafor', sub: 'Outflow • Yesterday', amt: 15000, dir: 'out', bank: 'Carbon MFB' },
+    { name: 'MTN Airtime', sub: 'Bills • 12 Nov', amt: 1000, dir: 'out', bank: 'Sterling Bank' },
+  ];
+  const tx = {};
+
+  const initials = n => n.split(/\s+/).slice(0, 2).map(w => w[0]).join('').toUpperCase();
+  function avatar(el, bank, name) {
+    const [c, ring] = BANKS[bank] || ['#555', '#ddd'];
+    el.style.background = c; el.style.setProperty('--ring', ring);
+    el.style.color = bank === 'Nombank MFB' ? '#FFCC00' : '#fff';
+    el.textContent = initials(name);
+  }
+  function avatarHTML(bank, name, size = 40) {
+    const [c, ring] = BANKS[bank] || ['#555', '#ddd'];
+    const col = bank === 'Nombank MFB' ? '#FFCC00' : '#fff';
+    return `<span class="bank-av" style="width:${size}px;height:${size}px;background:${c};--ring:${ring};color:${col}">${esc(initials(name))}</span>`;
+  }
+
+  // ---------- Navigation ----------
+  function go(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.toggle('active', s.id === id));
+    const sc = $(id).querySelector('.scroll'); if (sc) sc.scrollTop = 0;
+    if (id === 'home') renderHome();
+  }
+  document.querySelectorAll('[data-back]').forEach(b => b.addEventListener('click', () => go(b.dataset.back)));
+
+  let toastT;
+  function toast(msg) { const t = $('toast'); t.textContent = msg; t.classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove('show'), 1800); }
+  document.querySelectorAll('[data-soon]').forEach(b => b.addEventListener('click', () => toast(b.dataset.soon + ' isn’t part of the demo')));
+
+  function openSheet(id) {
+    document.querySelectorAll('.sheet').forEach(s => s.classList.toggle('show', s.id === id));
+    $('scrim').classList.toggle('show', !!id);
+  }
+  $('scrim').addEventListener('click', () => {
+    if ($('sh-confirm').classList.contains('show') || $('sh-pin').classList.contains('show')) openSheet(null);
+  });
+
+  function fill() { document.querySelectorAll('[data-f]').forEach(el => { el.textContent = tx[el.dataset.f] ?? ''; }); }
+
+  // ---------- Home ----------
+  function renderHome() {
+    const [i, d] = fmt(balance).split('.');
+    $('home-bal').innerHTML = hidden ? '₦ ••••••' : `₦${i}<small>.${d}</small>`;
+    $('activity').innerHTML = activity.slice(0, 4).map(a => `
+      <div class="activity-item">${avatarHTML(a.bank, a.name, 36)}
+        <div class="meta"><b>${esc(a.name)}</b><small>${esc(a.sub)}</small></div>
+        <span class="amt ${a.dir}">${a.dir === 'in' ? '+ ' : '- '}${naira(a.amt)}</span></div>`).join('');
+  }
+  $('eye').addEventListener('click', () => { hidden = !hidden; renderHome(); });
+  $('copy-acct').addEventListener('click', () => { navigator.clipboard?.writeText('0089234553').catch(() => {}); toast('Account number copied'); });
+  $('go-transfer').addEventListener('click', () => { $('search').value = ''; renderPeople(); go('sendto'); });
+
+  // ---------- Sending to ----------
+  let tab = 'recents';
+  function renderPeople(filter = '') {
+    const list = (tab === 'recents' ? RECENTS : BENEFICIARIES)
+      .filter(p => !filter || p.name.toLowerCase().includes(filter) || p.acct.includes(filter));
+    $('people').innerHTML = list.length ? list.map((p, i) => `
+      <button class="person" data-i="${RECENTS.indexOf(p)}">${avatarHTML(p.bank, p.name)}
+        <span class="meta"><b>${esc(p.name)}</b><small>${esc(p.acct)}<i></i>${esc(p.bank)}</small></span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#A3A3A3" stroke-width="2" stroke-linecap="round"><path d="m9 18 6-6-6-6"/></svg>
+      </button>`).join('') : `<div class="empty">${RECENTS.length
+        ? 'No match. Type a 10-digit account number to send to someone new.'
+        : 'Type the 10-digit number of a SIMULATED sandbox virtual account. Simulated account numbers start with 0.'}</div>`;
+    $('people').querySelectorAll('.person').forEach(b => b.addEventListener('click', () => {
+      const p = RECENTS[+b.dataset.i]; startAmount(p.name, p.bank, p.acct);
+    }));
+  }
+  document.querySelectorAll('[data-tab]').forEach(b => b.addEventListener('click', () => {
+    tab = b.dataset.tab; document.querySelectorAll('[data-tab]').forEach(x => x.classList.toggle('on', x === b));
+    renderPeople($('search').value.trim().toLowerCase());
+  }));
+  $('search').addEventListener('input', e => {
+    const v = e.target.value.trim();
+    if (/^\d{10}$/.test(v)) { openLookup(v); return; }
+    renderPeople(v.toLowerCase());
+  });
+
+  // ---------- Lookup ----------
+  $('bank').innerHTML = `<option>${BANK}</option>`;
+  $('bank').value = BANK;
+  let resolved = '', lookupT, lookupSeq = 0;
+  function openLookup(acct = '') {
+    $('acct').value = acct; $('bank').value = BANK; resolved = '';
+    $('resolved').className = 'resolved'; $('lookup-next').disabled = true;
+    go('lookup'); setTimeout(() => $('acct').focus(), 60);
+    if (acct) lookup();
+  }
+  function lookup() {
+    const acct = $('acct').value, r = $('resolved'), seq = ++lookupSeq;
+    resolved = ''; $('lookup-next').disabled = true; clearTimeout(lookupT);
+    if (acct.length !== 10) { r.className = 'resolved'; return; }
+    const fail = msg => { r.className = 'resolved show err'; r.innerHTML = `You are sending to:<b>${esc(msg)}</b>`; };
+    if (acct[0] !== '0') { fail('Only SIMULATED sandbox accounts can be paid here. Their numbers start with 0.'); return; }
+    r.className = 'resolved show'; r.innerHTML = 'You are sending to:<b><span class="spin"></span> Verifying account…</b>';
+    lookupT = setTimeout(async () => {
+      const res = await api('/demo-bank/lookup', { accountNumber: acct });
+      if (seq !== lookupSeq) return; // the number changed while we waited
+      if (!res.ok) { fail(res.message); return; }
+      resolved = res.data.accountName;
+      r.className = 'resolved show'; r.innerHTML = `You are sending to:<b>${esc(resolved)}</b>`;
+      $('lookup-next').disabled = false;
+    }, 300);
+  }
+  $('acct').addEventListener('input', e => { e.target.value = e.target.value.replace(/\D/g, '').slice(0, 10); lookup(); });
+  $('bank').addEventListener('change', lookup);
+  $('lookup-next').addEventListener('click', () => startAmount(resolved, $('bank').value, $('acct').value));
+
+  // ---------- Amount ----------
+  function startAmount(name, bank, acct) {
+    Object.assign(tx, { name, bank, acct });
+    $('amt').value = ''; $('narration').value = ''; $('sched').classList.remove('on');
+    $('amt-bal').textContent = naira(balance);
+    resetNote(); $('amt-next').disabled = true; fill(); go('amount');
+    setTimeout(() => $('amt').focus(), 60);
+  }
+  const amtVal = () => parseFloat($('amt').value.replace(/,/g, '')) || 0;
+  function resetNote() { const n = $('amt-note'); n.className = 'note'; n.textContent = `You can send up to ${naira(MAX)} per transfer in the demo bank.`; }
+  $('amt').addEventListener('input', e => {
+    const raw = e.target.value.replace(/[^\d.]/g, ''); const [i, d] = raw.split('.');
+    e.target.value = raw ? (i ? (+i).toLocaleString('en-NG') : '0') + (d !== undefined ? '.' + d.slice(0, 2) : '') : '';
+    const v = amtVal(), n = $('amt-note');
+    let err = '';
+    if (v && v < 100) err = 'The minimum you can send is ₦100.00.';
+    else if (v + FEE > balance) err = `Insufficient balance. You have ${naira(balance)} (₦10.00 fee applies).`;
+    else if (v > MAX) err = `The maximum per transfer is ${naira(MAX)}.`;
+    if (err) { n.className = 'note err'; n.textContent = err; } else resetNote();
+    $('amt-next').disabled = !v || !!err;
+  });
+  $('sched').addEventListener('click', e => { toast('Scheduling isn’t part of the demo'); });
+  $('amt-next').addEventListener('click', () => {
+    const v = amtVal();
+    Object.assign(tx, { amount: naira(v), fee: naira(FEE), debit: '- ' + naira(v + FEE), value: v, note: $('narration').value.trim() || '—' });
+    fill(); avatar($('cf-av'), tx.bank, tx.name);
+    $('amt').blur(); openSheet('sh-loading');
+    setTimeout(() => openSheet('sh-confirm'), 1100);
+  });
+
+  // ---------- Confirm + PIN ----------
+  $('confirm-pay').addEventListener('click', () => { tx.category = $('category').value; pin = ''; renderPin(); openSheet('sh-pin'); });
+  const KEYS = [['1',''],['2','ABC'],['3','DEF'],['4','GHI'],['5','JKL'],['6','MNO'],['7','PQRS'],['8','TUV'],['9','WXYZ'],['bio',''],['0',''],['del','']];
+  $('keypad').innerHTML = KEYS.map(([k, l]) => k === 'bio'
+    ? `<button class="ghost" data-k="bio" aria-label="Use biometrics"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0D0D0D" stroke-width="1.6" stroke-linecap="round"><path d="M12 11v3a8 8 0 0 0 1.5 4.7M8.5 13a3.5 3.5 0 0 1 7 0v1M5.5 16.5A13 13 0 0 1 5 13a7 7 0 0 1 12-4.9M19 13v.5M17.5 17.5c.3-1 .5-2 .5-3"/></svg></button>`
+    : k === 'del'
+    ? `<button class="ghost" data-k="del" aria-label="Delete"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0D0D0D" stroke-width="1.6" stroke-linejoin="round"><path d="M9 5h11a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H9l-6-7 6-7z"/><path d="M12 9.5l5 5M17 9.5l-5 5" stroke-linecap="round"/></svg></button>`
+    : `<button data-k="${k}">${k}${l ? `<small>${l}</small>` : ''}</button>`).join('');
+  let pin = '';
+  function renderPin() {
+    [...$('pin-boxes').children].forEach((b, i) => { b.classList.toggle('filled', i < pin.length); b.classList.toggle('on', i === pin.length); });
+  }
+  function pressKey(k) {
+    if (k === 'bio') { toast('Biometrics aren’t available in the demo'); return; }
+    if (k === 'del') pin = pin.slice(0, -1);
+    else if (pin.length < 4) pin += k;
+    renderPin();
+    if (pin.length === 4) setTimeout(submit, 220);
+  }
+  $('keypad').addEventListener('click', e => { const b = e.target.closest('[data-k]'); if (b) pressKey(b.dataset.k); });
+  document.addEventListener('keydown', e => {
+    if (!$('sh-pin').classList.contains('show')) return;
+    if (/^\d$/.test(e.key)) pressKey(e.key); else if (e.key === 'Backspace') pressKey('del');
+  });
+
+  const REJECTIONS = {
+    '07': 'This virtual account has expired, so it can’t receive transfers.',
+    '08': 'The sender name doesn’t match the account name.',
+  };
+  function failed(msg) {
+    $('fail-msg').textContent = msg;
+    openSheet('sh-failed');
+  }
+  async function submit() {
+    openSheet('sh-loading');
+    const res = await api('/demo-bank/transfer', { accountNumber: tx.acct, amount: tx.value, narration: tx.note === '—' ? '' : tx.note });
+    if (!res.ok) { failed(res.message); return; }
+    if (res.data.status !== 'SUCCESS') {
+      failed(REJECTIONS[res.data.responseCode] || `The transfer was rejected (code ${res.data.responseCode}).`);
+      return;
+    }
+    balance = Math.round((balance - tx.value - FEE) * 100) / 100;
+    const now = new Date();
+    Object.assign(tx, {
+      date: now.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) + ', ' + now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }),
+      time: now.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit' }),
+      session: res.data.sessionId || '',
+      ref: res.data.transactionRef || '',
+    });
+    activity.unshift({ name: tx.name, sub: 'Outflow • ' + tx.time, amt: tx.value + FEE, dir: 'out', bank: tx.bank });
+    rememberRecent({ name: tx.name, acct: tx.acct, bank: tx.bank });
+    fill(); avatar($('td-av'), tx.bank, tx.name);
+    openSheet('sh-success');
+  }
+  $('fail-okay').addEventListener('click', () => { openSheet(null); go('home'); });
+
+  // ---------- Success + details ----------
+  $('okay').addEventListener('click', () => { openSheet(null); go('home'); });
+  $('success-close').addEventListener('click', () => { openSheet(null); go('home'); });
+  $('view-receipt').addEventListener('click', () => { openSheet(null); go('txn'); });
+  $('repeat').addEventListener('click', () => startAmount(tx.name, tx.bank, tx.acct));
+  $('copy-session').addEventListener('click', () => { navigator.clipboard?.writeText(tx.session).catch(() => {}); toast('Session ID copied'); });
+  $('copy-ref').addEventListener('click', () => { navigator.clipboard?.writeText(tx.ref).catch(() => {}); toast('Transaction ref copied'); });
+  $('share').addEventListener('click', async () => {
+    const text = `Nomba Demo Bank receipt\n${tx.amount} to ${tx.name} (${tx.bank} ${tx.acct})\n${tx.date}\nSession ID: ${tx.session}\nTransaction ref: ${tx.ref}`;
+    try { if (navigator.share) await navigator.share({ text }); else { await navigator.clipboard.writeText(text); toast('Receipt copied'); } } catch (_) {}
+  });
+
+  renderHome();
+</script>
+</body>
+</html>
