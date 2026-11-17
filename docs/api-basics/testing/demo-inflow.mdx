@@ -4,6 +4,8 @@ description: 'Pay into a simulated sandbox virtual account from a demo banking a
 icon: mobile-screen-button
 ---
 
+import { DemoInflow } from '/snippets/demo-inflow.jsx';
+
 The Nomba Demo Inflow is a sandbox banking app. Use it to play a customer who pays into one of your [simulated virtual accounts](/docs/api-basics/testing/virtual-accounts), the same way they would from their bank app. No real money moves.
 
 <Steps>
@@ -18,14 +20,10 @@ The Nomba Demo Inflow is a sandbox banking app. Use it to play a customer who pa
   </Step>
 </Steps>
 
-<iframe
-  src="/demo-inflow/index.html"
-  title="Nomba Demo Inflow"
-  style={{ width: '100%', height: '860px', border: '1px solid rgba(0,0,0,0.1)', borderRadius: '16px' }}
-/>
+<DemoInflow />
 
-<Card title="Open Demo Inflow in a new tab" icon="arrow-up-right-from-square" href="/demo-inflow/index.html">
-  Full-screen view, handy on a phone.
+<Card title="Open Demo Inflow full screen" icon="arrow-up-right-from-square" href="/demo-inflow">
+  The full page, handy on a phone.
 </Card>
 
 ## What Demo Inflow can do
