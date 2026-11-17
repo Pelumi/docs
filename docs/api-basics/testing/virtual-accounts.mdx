@@ -8,7 +8,7 @@ Sandbox virtual accounts come in two modes. You choose the mode per account when
 
 | Mode | What it is | How you fund it |
 |------|------------|-----------------|
-| `SIMULATED` (default) | A test account with a sandbox-only account number. No bank is involved and no real money moves. | Call [Simulate an inflow](/nomba-api-reference/virtual-accounts/simulate-inflow), or send a sandbox transfer to it. |
+| `SIMULATED` (default) | A test account with a sandbox-only account number. No bank is involved and no real money moves. | Pay it from [Demo inflow](/docs/api-basics/testing/demo-inflow), call [Simulate an inflow](/nomba-api-reference/virtual-accounts/simulate-inflow), or send a sandbox transfer to it. |
 | `LIVE` | A real Nombank account number. | Send a real transfer from any bank app. |
 
 <Note>
@@ -63,6 +63,10 @@ curl --request POST \
 - Sandbox fetch, list, update and expire calls work the same for both modes. Their responses include `mode`, so you can tell the two apart.
 
 ## Simulate an inflow
+
+<Tip>
+  To pay the account the way a customer would, without writing any code, use [Demo inflow](/docs/api-basics/testing/demo-inflow). It sends the same webhooks.
+</Tip>
 
 Call [Simulate an inflow](/nomba-api-reference/virtual-accounts/simulate-inflow) with the account's `accountRef` or account number. It applies the same checks as a real transfer and sends the same webhooks.
 

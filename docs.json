@@ -242,7 +242,8 @@
                   "docs/api-basics/testing/overview",
                   "docs/api-basics/testing/cards",
                   "docs/api-basics/testing/bank-transfer",
-                  "docs/api-basics/testing/virtual-accounts"
+                  "docs/api-basics/testing/virtual-accounts",
+                  "docs/api-basics/testing/demo-inflow"
                 ]
               },
               "docs/api-basics/response-codes",
