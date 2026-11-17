@@ -1,7 +1,8 @@
-export const DemoInflow = () => {
+export const DemoInflow = ({ fullPage = false }) => {
   const CSS = `:where(.dmi-root), :where(.dmi-root) * { box-sizing: border-box; margin: 0; padding: 0; }
 :where(.dmi-root) button { font: inherit; color: inherit; background: none; border: 0; cursor: pointer; }
 :where(.dmi-root) input, :where(.dmi-root) select { font: inherit; color: inherit; }
+.dmi-root option { color: #0D0D0D; background: #FFFFFF; }
 .dmi-root {
   --yellow: #FFCC00; --yellow-hover: #E6B000; --cream: #FFFCF0;
   --black: #0D0D0D; --white: #FFFFFF; --bg: #F3F3F3; --grey: #F5F5F5; --grey-2: #EBEBEB;
@@ -56,7 +57,7 @@ export const DemoInflow = () => {
 .dmi-bal { position: relative; text-align: center; margin-top: 40px; }
 .dmi-acct-type { font-size: 14px; font-weight: 500; color: rgba(13,13,13,.75); display: inline-flex; align-items: center; gap: 6px; }
 .dmi-amount { display: flex; align-items: baseline; justify-content: center; gap: 8px; margin-top: 10px; }
-.dmi-amount strong { font-size: 38px; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
+.dmi-amount strong { color: var(--black); font-size: 38px; font-weight: 700; letter-spacing: -.03em; font-variant-numeric: tabular-nums; }
 .dmi-amount strong small { font-size: 22px; font-weight: 600; letter-spacing: 0; }
 .dmi-eye { width: 22px; height: 22px; border-radius: 50%; background: rgba(13,13,13,.15); display: grid; place-items: center; align-self: center; }
 .dmi-acct-chip { display: inline-flex; align-items: center; gap: 8px; margin-top: 12px; background: rgba(255,255,255,.35); border-radius: 999px; padding: 7px 14px; font-size: 15px; font-weight: 500; }
@@ -212,6 +213,7 @@ export const DemoInflow = () => {
 .dmi-art { margin-top: 70px; }
 .dmi-success h2 { font-size: 24px; font-weight: 600; margin-top: 22px; letter-spacing: -.01em; }
 .dmi-success p { font-size: 14px; color: var(--text-2); margin-top: 10px; line-height: 21px; max-width: 300px; }
+.dmi-success p b { font-weight: 700; }
 .dmi-two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; width: 100%; margin-top: auto; }
 .dmi-success > .dmi-btn { margin-top: auto; }
 
@@ -246,6 +248,19 @@ export const DemoInflow = () => {
 
 .dmi-toast { position: absolute; left: 50%; bottom: 110px; transform: translate(-50%, 20px); background: var(--black); color: #fff; font-size: 13px; padding: 10px 16px; border-radius: 10px; opacity: 0; transition: .25s var(--ease); z-index: 80; white-space: nowrap; pointer-events: none; }
 .dmi-toast-on { opacity: 1; transform: translate(-50%, 0); }
+
+/* Full page: dark canvas with the notes beside the phone */
+.dmi-full { margin: 0; border-radius: 0; min-height: calc(100vh - 120px); align-items: center; gap: 48px; padding: 32px 16px; }
+.dmi-notes { display: none; width: 280px; color: #CFCFCF; font-size: 14px; line-height: 21px; }
+.dmi-full .dmi-notes { display: block; }
+.dmi-notes h2 { color: #fff; font-size: 22px; font-weight: 700; letter-spacing: -.01em; margin-bottom: 8px; }
+.dmi-notes .dmi-tag { display: inline-block; background: var(--yellow); color: var(--black); font-size: 12px; font-weight: 600; border-radius: 999px; padding: 3px 10px; margin-bottom: 14px; }
+.dmi-notes ol { padding-left: 18px; margin-top: 14px; list-style: decimal; } .dmi-notes li { margin-bottom: 6px; }
+.dmi-notes b { color: #fff; }
+.dmi-notes a { color: var(--yellow); text-decoration: underline; }
+.dmi-notes code { background: #2A2A2A; padding: 1px 6px; border-radius: 4px; color: #fff; font-size: 13px; }
+.dmi-notes p + p { margin-top: 8px; }
+@container (max-width: 760px) { .dmi-full .dmi-notes { display: none; } }
 
 @container (max-width: 440px) {
   .dmi-phone { width: 100%; height: 760px; border-radius: 20px; box-shadow: none; }
@@ -727,7 +742,7 @@ export const DemoInflow = () => {
   const sheetClass = (id, extra) => k('sheet ' + extra + (sheet === id ? ' show' : ''));
 
   return (
-    <div className={'not-prose ' + k('root')}>
+    <div className={'not-prose ' + k('root' + (fullPage ? ' full' : ''))}>
       <style>{CSS}</style>
       <div className={k('phone')}>
         <div className={k('statusbar')}>
@@ -817,6 +832,22 @@ export const DemoInflow = () => {
         <div className={k('toast' + (toastOn ? ' toast-on' : ''))}>{toastMsg}</div>
         <div className={k('home-indicator')} />
       </div>
+      {fullPage && (
+        <aside className={k('notes')}>
+          <span className={k('tag')}>Test mode</span>
+          <h2>Nomba Demo Inflow</h2>
+          <p>A sandbox banking app that mirrors the Nomba app's transfer flow. Use it to play a customer paying into one of your SIMULATED sandbox virtual accounts.</p>
+          <ol>
+            <li><a href="/docs/api-basics/testing/virtual-accounts">Create a simulated virtual account</a> in the sandbox and copy its number (it starts with 0)</li>
+            <li>Tap <b>Transfer</b> on the home screen</li>
+            <li>Type the account number. The name is looked up on Nombank MFB</li>
+            <li>Enter an amount and confirm</li>
+            <li>Enter any 4-digit PIN</li>
+          </ol>
+          <p style={{ marginTop: 14 }}>Your webhook URL gets <code>payment_success</code>, the same as a real transfer. Use the transaction ref on the receipt to requery it.</p>
+          <p>No real money moves.</p>
+        </aside>
+      )}
     </div>
   );
 };
