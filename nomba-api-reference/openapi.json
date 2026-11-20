@@ -12440,6 +12440,7 @@
     },
     "/v1/bill/cableTvProduct": {
       "get": {
+        "deprecated": true,
         "description": "You can use this endpoint to fetch available cable TV subscription plans for a specific provider (DSTV, GOTV, Startimes, ShowMax)",
         "operationId": "Fetch cable TV plans",
         "parameters": [
@@ -12616,6 +12617,213 @@
           }
         ],
         "summary": "Fetch cable TV plans",
+        "tags": [
+          "Cable & Bill Payments"
+        ]
+      }
+    },
+    "/v2/bill/cableTvProduct": {
+      "get": {
+        "description": "You can use this endpoint to fetch the cable TV subscription plans available for a provider (DSTV, GOTV, Startimes, ShowMax). Each plan carries a `productId`. Pass that `productId` when subscribing to buy exactly that plan; some plans share the same price, so the amount alone may not identify one.",
+        "operationId": "Fetch cable TV plans v2",
+        "parameters": [
+          {
+            "description": "The cable TV provider type",
+            "example": "dstv",
+            "in": "query",
+            "name": "cableTvType",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "dstv",
+                "gotv",
+                "startimes",
+                "showmax"
+              ]
+            }
+          },
+          {
+            "description": "The parent accountId of the business.",
+            "in": "header",
+            "name": "accountId",
+            "schema": {
+              "type": "string",
+              "format": "uuid",
+              "example": "890022ce-bae0-45c1-9b9d-ee7872e6ca27"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "code": {
+                      "type": "string",
+                      "example": "00",
+                      "description": "Response Code"
+                    },
+                    "description": {
+                      "type": "string",
+                      "example": "SUCCESS",
+                      "description": "Response description"
+                    },
+                    "message": {
+                      "type": "string",
+                      "example": "SUCCESS",
+                      "description": "Response message"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/CableTvPlanListV2"
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "description",
+                    "message",
+                    "data"
+                  ]
+                },
+                "example": {
+                  "code": "00",
+                  "description": "SUCCESS",
+                  "message": "SUCCESS",
+                  "data": [
+                    {
+                      "productId": "1",
+                      "subScriptionType": "DSTV_STARTER_E36",
+                      "amount": 6000.0
+                    },
+                    {
+                      "productId": "2",
+                      "subScriptionType": "DSTV_SELECT_E36",
+                      "amount": 11000.0
+                    },
+                    {
+                      "productId": "3",
+                      "subScriptionType": "DSTV_SPORTS_E36",
+                      "amount": 21000.0
+                    },
+                    {
+                      "productId": "4",
+                      "subScriptionType": "DSTV_PREMIUM",
+                      "amount": 44500.0
+                    },
+                    {
+                      "productId": "13",
+                      "subScriptionType": "DSTV_STARTER_STREAMING_OTT",
+                      "amount": 6000.0
+                    }
+                  ]
+                }
+              }
+            },
+            "description": "OK - your request was successful.",
+            "headers": {
+              "X-Rate-Limit-Limit": {
+                "description": "The number of allowed requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "40"
+                }
+              },
+              "X-Rate-Limit-Remaining": {
+                "description": "The number of remaining requests in the current period",
+                "schema": {
+                  "type": "string",
+                  "example": "39"
+                }
+              },
+              "X-Rate-Limit-Window": {
+                "description": "The specified rate limit window",
+                "schema": {
+                  "type": "string",
+                  "example": "1s"
+                }
+              }
+            }
+          },
+          "400": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "The request body sent by merchant did not pass the validation checks"
+          },
+          "401": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthenticationError"
+                }
+              }
+            },
+            "description": "The access_token provided to access the resource is missing or invalid."
+          },
+          "403": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AuthorizationError"
+                }
+              }
+            },
+            "description": "The client does not have the permissions to access this resource"
+          },
+          "404": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RecordNotFoundError"
+                }
+              }
+            },
+            "description": "The record that the client is trying to access does not exist."
+          },
+          "429": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RateLimitError"
+                }
+              }
+            },
+            "description": "The client has maxed out the number of calls within a time period on this resource."
+          },
+          "500": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ServerError"
+                }
+              }
+            },
+            "description": "Downstream system error."
+          },
+          "default": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RequestError"
+                }
+              }
+            },
+            "description": "Resource not available"
+          }
+        },
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "summary": "Fetch cable TV plans (v2)",
         "tags": [
           "Cable & Bill Payments"
         ]
@@ -12957,7 +13165,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CableTvSubscriptionRequest"
+                "$ref": "#/components/schemas/CableTvSubscriptionRequestV2"
               }
             }
           },
@@ -13019,11 +13227,11 @@
                     "id": "API-DSTV-C1073-5b2e8f4a-3c71-4d9e-8a60-2f1b7c9d4e13",
                     "status": "SUCCESS",
                     "type": "dstv",
-                    "amount": 2000,
+                    "amount": 6000,
                     "source": "api",
                     "sourceUserId": null,
                     "customerBillerId": "1234567890",
-                    "productId": "dstv",
+                    "productId": "1",
                     "meta": {
                       "api_rrn": "260927101512",
                       "rrn": "260927101512",
@@ -13048,7 +13256,7 @@
                       "transactionCategory": "Bills & Utility",
                       "cableTvType": "dstv",
                       "customerId": "1234567890",
-                      "amount_charged": "2000.0",
+                      "amount_charged": "6000.0",
                       "paymentVendor": "wallet",
                       "wallet_balance": "955.85",
                       "wallet_currency": "NGN",
@@ -13140,11 +13348,11 @@
                     "id": "API-DSTV-C1073-5b2e8f4a-3c71-4d9e-8a60-2f1b7c9d4e13",
                     "status": "PENDING_BILLING",
                     "type": "dstv",
-                    "amount": 2000,
+                    "amount": 6000,
                     "source": "api",
                     "sourceUserId": null,
                     "customerBillerId": "1234567890",
-                    "productId": "dstv",
+                    "productId": "1",
                     "meta": {
                       "api_rrn": "260927101512",
                       "rrn": "260927101512",
@@ -13169,7 +13377,7 @@
                       "transactionCategory": "Bills & Utility",
                       "cableTvType": "dstv",
                       "customerId": "1234567890",
-                      "amount_charged": "2000.0",
+                      "amount_charged": "6000.0",
                       "paymentVendor": "wallet",
                       "wallet_balance": "955.85",
                       "wallet_currency": "NGN"
@@ -13213,7 +13421,7 @@
                 }
               }
             },
-            "description": "The request body sent by merchant did not pass the validation checks"
+            "description": "The request body sent by merchant did not pass the validation checks. On this endpoint it is also returned with one of these messages: `Bad request: no subscription matches the provided productId OR invalid cableTvType`, `Bad request: no subscription matches the provided amount OR invalid cableTvType`, or `Bad request: more than one subscription costs this amount. Provide the productId of the plan`."
           },
           "401": {
             "content": {
@@ -13483,7 +13691,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CableTvSubscriptionRequest"
+                "$ref": "#/components/schemas/CableTvSubscriptionRequestV2"
               }
             }
           },
@@ -13545,11 +13753,11 @@
                     "id": "API-DSTV-C1073-5b2e8f4a-3c71-4d9e-8a60-2f1b7c9d4e13",
                     "status": "SUCCESS",
                     "type": "dstv",
-                    "amount": 2000,
+                    "amount": 6000,
                     "source": "api",
                     "sourceUserId": null,
                     "customerBillerId": "1234567890",
-                    "productId": "dstv",
+                    "productId": "1",
                     "meta": {
                       "api_rrn": "260927101512",
                       "rrn": "260927101512",
@@ -13574,7 +13782,7 @@
                       "transactionCategory": "Bills & Utility",
                       "cableTvType": "dstv",
                       "customerId": "1234567890",
-                      "amount_charged": "2000.0",
+                      "amount_charged": "6000.0",
                       "paymentVendor": "wallet",
                       "wallet_balance": "955.85",
                       "wallet_currency": "NGN",
@@ -13666,11 +13874,11 @@
                     "id": "API-DSTV-C1073-5b2e8f4a-3c71-4d9e-8a60-2f1b7c9d4e13",
                     "status": "PENDING_BILLING",
                     "type": "dstv",
-                    "amount": 2000,
+                    "amount": 6000,
                     "source": "api",
                     "sourceUserId": null,
                     "customerBillerId": "1234567890",
-                    "productId": "dstv",
+                    "productId": "1",
                     "meta": {
                       "api_rrn": "260927101512",
                       "rrn": "260927101512",
@@ -13695,7 +13903,7 @@
                       "transactionCategory": "Bills & Utility",
                       "cableTvType": "dstv",
                       "customerId": "1234567890",
-                      "amount_charged": "2000.0",
+                      "amount_charged": "6000.0",
                       "paymentVendor": "wallet",
                       "wallet_balance": "955.85",
                       "wallet_currency": "NGN"
@@ -13739,7 +13947,7 @@
                 }
               }
             },
-            "description": "The request body sent by merchant did not pass the validation checks"
+            "description": "The request body sent by merchant did not pass the validation checks. On this endpoint it is also returned with one of these messages: `Bad request: no subscription matches the provided productId OR invalid cableTvType`, `Bad request: no subscription matches the provided amount OR invalid cableTvType`, or `Bad request: more than one subscription costs this amount. Provide the productId of the plan`."
           },
           "401": {
             "content": {
@@ -23306,6 +23514,39 @@
           "amount"
         ]
       },
+      "CableTvPlanV2": {
+        "type": "object",
+        "description": "A cable TV subscription plan",
+        "properties": {
+          "productId": {
+            "type": "string",
+            "description": "Identifier of the plan. Send it as `productId` when subscribing to select this exact plan.",
+            "example": "1"
+          },
+          "subScriptionType": {
+            "type": "string",
+            "description": "The subscription plan type",
+            "example": "DSTV_STARTER_E36"
+          },
+          "amount": {
+            "type": "number",
+            "description": "The price of the subscription plan",
+            "example": 6000.0
+          }
+        },
+        "required": [
+          "productId",
+          "subScriptionType",
+          "amount"
+        ]
+      },
+      "CableTvPlanListV2": {
+        "type": "array",
+        "description": "List of available cable TV subscription plans, each with its productId",
+        "items": {
+          "$ref": "#/components/schemas/CableTvPlanV2"
+        }
+      },
       "CableTvPlanList": {
         "type": "array",
         "description": "List of available cable TV subscription plans",
@@ -23582,6 +23823,38 @@
           }
         }
       },
+      "CableTvSubscriptionRequestV2": {
+        "type": "object",
+        "properties": {
+          "cableTvType": {
+            "type": "string",
+            "example": "dstv"
+          },
+          "merchantTxRef": {
+            "type": "string",
+            "description": "This is an idempotency key and must be unique per transaction.",
+            "example": "12345"
+          },
+          "payerName": {
+            "type": "string",
+            "example": "John Doe"
+          },
+          "amount": {
+            "description": "The price of the plan. Used to select the plan only when `productId` is not sent. If more than one plan costs this amount the request is rejected and you must send `productId`.",
+            "type": "integer",
+            "example": 1000
+          },
+          "productId": {
+            "type": "string",
+            "description": "The `productId` of the plan to buy, as returned by Fetch cable TV plans (v2). When sent, it selects the plan and the plan's price is charged; `amount` is ignored. Send it whenever the plan's price is shared by another plan. A `productId` is unique only within its `cableTvType`, so send it with the same `cableTvType` the plans were fetched for.",
+            "example": "1"
+          },
+          "customerId": {
+            "type": "string",
+            "example": "customer123"
+          }
+        }
+      },
       "CableTvSubscriptionV2Response": {
         "type": "object",
         "properties": {
@@ -23623,8 +23896,8 @@
           },
           "productId": {
             "type": "string",
-            "description": "The cable TV provider",
-            "example": "dstv"
+            "description": "The `productId` of the plan that was bought, as returned by `GET /v2/bill/cableTvProduct`. It is unique only within its `cableTvType`.",
+            "example": "1"
           },
           "meta": {
             "type": "object",

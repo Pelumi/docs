@@ -15,8 +15,16 @@ description: "This describes the process of subscribing to a Cable TV network"
 
 #### Request body
 
-<ParamField body="amount" type="integer" required>
-  Amount
+<ParamField body="productId" type="string">
+  The `productId` of the plan, from [Fetch Cable TV Plans](/docs/products/bills/fetch-cable-tv-plans).
+  When sent, that plan is bought at its price and `amount` is ignored. Always send it for plans
+  that share a price with another plan. A `productId` is unique only within its `cableTvType`, so send
+  it with the same `cableTvType` the plans were fetched for
+</ParamField>
+
+<ParamField body="amount" type="integer">
+  The price of the plan. Required when `productId` is not sent; the plan is then chosen by this
+  amount. If more than one plan costs this amount the request is rejected and nothing is charged
 </ParamField>
 
 <ParamField body="cableTvType" type="string" required>
@@ -73,6 +81,14 @@ description: "This describes the process of subscribing to a Cable TV network"
   </Expandable>
 </ResponseField>
 
+#### Errors
+
+The request is rejected with HTTP `400` and nothing is charged when:
+
+- `Bad request: no subscription matches the provided productId OR invalid cableTvType` — the `productId` is not a plan of that `cableTvType`, or the `cableTvType` is invalid
+- `Bad request: no subscription matches the provided amount OR invalid cableTvType` — no plan of that `cableTvType` costs `amount`, or the `cableTvType` is invalid
+- `Bad request: more than one subscription costs this amount. Provide the productId of the plan` — several plans cost `amount`; send `productId` instead
+
 <RequestExample>
 ```bash Request
 curl --location 'https://api.nomba.com/v2/bill/cabletv' \
@@ -82,7 +98,7 @@ curl --location 'https://api.nomba.com/v2/bill/cabletv' \
     "cableTvType": "dstv",
     "merchantTxRef": "{{$guid}}",
     "payerName": "{{$randomFullName}}",
-    "amount": 2000,
+    "productId": "1",
     "customerId": "123909200"
 }'
 ```
@@ -99,7 +115,7 @@ curl --location 'https://api.nomba.com/v2/bill/cabletv' \
         "id": "API-DSTV-C1073-5b2e8f4a-3c71-4d9e-8a60-2f1b7c9d4e13",
         "status": "SUCCESS",
         "type": "dstv",
-        "amount": 2000,
+        "amount": 6000,
         "source": "api",
         "sourceUserId": null,
         "customerBillerId": "1234567890",
@@ -128,7 +144,7 @@ curl --location 'https://api.nomba.com/v2/bill/cabletv' \
             "transactionCategory": "Bills & Utility",
             "cableTvType": "dstv",
             "customerId": "1234567890",
-            "amount_charged": "2000.0",
+            "amount_charged": "6000.0",
             "paymentVendor": "wallet",
             "wallet_balance": "955.85",
             "wallet_currency": "NGN"
@@ -149,7 +165,7 @@ curl --location 'https://api.nomba.com/v2/bill/cabletv' \
         "id": "API-DSTV-C1073-5b2e8f4a-3c71-4d9e-8a60-2f1b7c9d4e13",
         "status": "PENDING_BILLING",
         "type": "dstv",
-        "amount": 2000,
+        "amount": 6000,
         "source": "api",
         "sourceUserId": null,
         "customerBillerId": "1234567890",
@@ -178,7 +194,7 @@ curl --location 'https://api.nomba.com/v2/bill/cabletv' \
             "transactionCategory": "Bills & Utility",
             "cableTvType": "dstv",
             "customerId": "1234567890",
-            "amount_charged": "2000.0",
+            "amount_charged": "6000.0",
             "paymentVendor": "wallet",
             "wallet_balance": "955.85",
             "wallet_currency": "NGN"
