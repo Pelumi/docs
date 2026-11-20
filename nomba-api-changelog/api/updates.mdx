@@ -7,6 +7,9 @@ icon: pen-nib
 <Note>
    We are constantly making changes to the Nomba API. We recommend reviewing this changelog to stay updated on what’s new, improved, or deprecated. This ensures you remain aligned with our product.
 </Note>
+### November 2026
+- **Cable TV** `added` – New endpoint [`GET /v2/bill/cableTvProduct`](/nomba-api-reference/bills/fetch-cable-tv-plans-v2) returns a `productId` for every plan. [Subscribe to Cable TV](/docs/products/bills/subscribe-to-cable-tv) on v2 (`POST /v2/bill/cabletv` and `POST /v2/bill/cabletv/{subAccountId}`) now accepts an optional `productId`: when sent, that exact plan is bought at its price and `amount` is ignored. Without `productId` the plan is still chosen by `amount`, but an `amount` shared by more than one plan is now **rejected** so the wrong plan is never bought; send `productId` for those plans. The v1 subscription endpoints are unchanged. `GET /v1/bill/cableTvProduct` is now **deprecated**; it keeps working unchanged until it is removed in a future release.
+
 ### October 2026
 - **Electricity Lookup** `added` – New endpoint [`GET /v2/bill/electricity/lookup`](/nomba-api-reference/bills/name-lookup-for-electricity-v2) returns the customer's `name` and `address` in `data`, so you can confirm the meter owner's details before vending electricity. `GET /v1/bill/electricity/lookup`, which returns only the name, is now **deprecated** and will be removed in a future release; it keeps working unchanged until then. See [Get customer information for an electricity payment](/docs/products/bills/name-lookup-for-electricity).
 

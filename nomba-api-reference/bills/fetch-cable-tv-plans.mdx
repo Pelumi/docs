@@ -1,6 +1,12 @@
 ---
 openapi: get /v1/bill/cableTvProduct
+title: "Fetch cable TV plans (v1)"
+deprecated: true
 ---
+
+<Warning>
+This endpoint is deprecated. Use [Fetch cable TV plans (v2)](/nomba-api-reference/bills/fetch-cable-tv-plans-v2) at `GET /v2/bill/cableTvProduct` instead. It returns a `productId` for every plan, which you need to subscribe to plans that share a price.
+</Warning>
 
 <Tip>
 For a complete guide on response codes and transaction statuses, see [Response Codes](/docs/api-basics/response-codes).

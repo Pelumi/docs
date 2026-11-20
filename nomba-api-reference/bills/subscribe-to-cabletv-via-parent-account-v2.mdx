@@ -8,6 +8,10 @@ Always requery the transaction using [Fetch a single transaction on the parent a
 </Warning>
 
 
+<Note>
+Send the plan's `productId` from [Fetch cable TV plans (v2)](/nomba-api-reference/bills/fetch-cable-tv-plans-v2) to choose the plan. When `productId` is sent, that plan is bought at its price and `amount` is ignored. Without `productId` the plan is chosen by `amount`; if more than one plan costs that amount the request is rejected and nothing is charged. A `productId` is unique only within its `cableTvType`, so send it with the same `cableTvType` the plans were fetched for.
+</Note>
+
 <Tip>
 For a complete guide on response codes and transaction statuses, see [Response Codes](/docs/api-basics/response-codes).
 </Tip>
