@@ -11,7 +11,11 @@ description: "Get a list of the available plans from a provider."
   ></Card>
 </CardGroup>
 
-## `GET /v1/bill/cableTvProduct?cableTvType=dstv`
+## `GET /v2/bill/cableTvProduct?cableTvType=dstv`
+
+<Note>
+`GET /v1/bill/cableTvProduct` is deprecated. It returns the same plans without `productId` and keeps working for now. Use the v2 endpoint so you can subscribe by `productId`.
+</Note>
 
 Available Cable TV type:  
 1. dstv  
@@ -36,8 +40,11 @@ Available Cable TV type:
 <ResponseField name="data" type="object[]">
   List of available subscription plans
   <Expandable title="object" defaultOpen="true">
+    <ResponseField name="productId" type="string" required>
+      Identifier of the plan. Send it as `productId` when subscribing to buy this exact plan
+    </ResponseField>
     <ResponseField name="subScriptionType" type="string" required>
-      The subscription plan type (e.g., COMPACT, PREMIUM)
+      The subscription plan type (e.g., DSTV_STARTER_E36, DSTV_PREMIUM)
     </ResponseField>
     <ResponseField name="amount" type="number" required>
       The amount for the subscription plan
@@ -47,7 +54,7 @@ Available Cable TV type:
 
 <RequestExample>
 ```bash Request
-curl --location 'https://api.nomba.com/v1/bill/cableTvProduct?cableTvType=dstv' \
+curl --location 'https://api.nomba.com/v2/bill/cableTvProduct?cableTvType=dstv' \
 --header 'Authorization: Bearer <token>' \
 --header 'accountId: <accountId>'
 ```
@@ -58,57 +65,44 @@ curl --location 'https://api.nomba.com/v1/bill/cableTvProduct?cableTvType=dstv' 
 {
     "code": "00",
     "description": "SUCCESS",
+    "message": "SUCCESS",
     "data": [
         {
-            "subScriptionType": "COMPACT",
-            "amount": 19000.0
-        },
-        {
-            "subScriptionType": "COMPACT_PLUS",
-            "amount": 30000.0
-        },
-        {
-            "subScriptionType": "PREMIUM",
-            "amount": 44500.0
-        },
-        {
-            "subScriptionType": "COMPACT_PLUS_EXTRA_VIEW",
-            "amount": 36000.0
-        },
-        {
-            "subScriptionType": "PREMIUM_EXTRA_VIEW",
-            "amount": 50500.0
-        },
-        {
-            "subScriptionType": "COMPACT_EXTRA_VIEW",
-            "amount": 25000.0
-        },
-        {
-            "subScriptionType": "YANGA",
+            "productId": "1",
+            "subScriptionType": "DSTV_STARTER_E36",
             "amount": 6000.0
         },
         {
-            "subScriptionType": "CONFAM",
+            "productId": "2",
+            "subScriptionType": "DSTV_SELECT_E36",
             "amount": 11000.0
         },
         {
-            "subScriptionType": "PADI",
-            "amount": 4400.0
+            "productId": "3",
+            "subScriptionType": "DSTV_SPORTS_E36",
+            "amount": 21000.0
         },
         {
-            "subScriptionType": "CONFAM_PLUS_EXTRA_VIEW",
-            "amount": 17000.0
+            "productId": "4",
+            "subScriptionType": "DSTV_PREMIUM",
+            "amount": 44500.0
         },
         {
-            "subScriptionType": "YANGA_PLUS_EXTRA_VIEW",
-            "amount": 12000.0
+            "productId": "5",
+            "subScriptionType": "DSTV_PREMIUM_FRENCH",
+            "amount": 69000.0
         },
         {
-            "subScriptionType": "PADI_PLUS_EXTRA_VIEW",
-            "amount": 10400.0
+            "productId": "11",
+            "subScriptionType": "DSTV_HDPVR_ACCESS_SERVICE",
+            "amount": 6000.0
+        },
+        {
+            "productId": "13",
+            "subScriptionType": "DSTV_STARTER_STREAMING_OTT",
+            "amount": 6000.0
         }
-    ],
-    "message": "SUCCESS"
+    ]
 }
 ```
 </ResponseExample>

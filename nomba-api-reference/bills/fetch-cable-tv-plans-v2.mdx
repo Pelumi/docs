@@ -1,0 +1,12 @@
+---
+openapi: get /v2/bill/cableTvProduct
+title: "Fetch cable TV plans (v2)"
+---
+
+<Note>
+Each plan carries a `productId`. Send it as `productId` when you subscribe so the exact plan is bought. Some plans share the same price, and a subscription request that sends only such an `amount` is rejected.
+</Note>
+
+<Tip>
+For a complete guide on response codes and transaction statuses, see [Response Codes](/docs/api-basics/response-codes).
+</Tip>
